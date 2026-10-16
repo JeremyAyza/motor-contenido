@@ -1,0 +1,28 @@
+{
+  "id": "negocios",
+  "name": "Jeremy Ayza",
+  "handle": "@pendiente",
+  "tagline": "Soluciones con IA para negocios",
+  "colors": {
+    "bg": "#F7F5F0",
+    "surface": "#FFFFFF",
+    "line": "#E3DED3",
+    "text": "#121826",
+    "muted": "#5B6474",
+    "accent": "#0F9D6B",
+    "warning": "#C9741A"
+  },
+  "fonts": {
+    "sans": "Geist",
+    "mono": "Geist Mono"
+  },
+  "glyph": "=>",
+  "avatar": {
+    "manifest": "assets/avatar/manifest.json"
+  },
+  "voice": {
+    "provider": null,
+    "voiceId": null,
+    "style": null
+  }
+}

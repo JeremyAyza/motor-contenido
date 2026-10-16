@@ -1,0 +1,55 @@
+{
+  "topic": "Mods de Claude Code",
+  "checkedAt": "2026-10-16",
+  "facts": [
+    {
+      "claim": "Anthropic anunció los mods de Claude Code el 1 de octubre de 2026.",
+      "source": "https://claude.com/blog/claude-code-mods",
+      "primary": true
+    },
+    {
+      "claim": "Un mod es una función pequeña en TypeScript que se engancha a un evento (llamada a herramienta, solicitud de permiso, actualización de pantalla) y corre antes, después o en lugar de él.",
+      "source": "https://claude.com/blog/claude-code-mods",
+      "primary": true
+    },
+    {
+      "claim": "Los mods vienen dentro de plugins y funcionan en la CLI y en la app de escritorio.",
+      "source": "https://claude.com/blog/claude-code-mods",
+      "primary": true
+    },
+    {
+      "claim": "Pueden reescribir un prompt antes de que lo vea el modelo; bloquear, reescribir o reintentar llamadas a herramientas; aprobar o negar permisos; ocultar secretos en la salida; agregar botones o elementos de interfaz; y reemplazar funciones nativas.",
+      "source": "https://claude.com/blog/claude-code-mods",
+      "primary": true
+    },
+    {
+      "claim": "La función /diff ahora es un mod que se puede desactivar o cambiar.",
+      "source": "https://claude.com/blog/claude-code-mods",
+      "primary": true
+    },
+    {
+      "claim": "Ejemplos para equipos: estado de CI/CD en un panel lateral, confirmación antes de cambiar configuración de producción, registro de cada llamada a herramienta.",
+      "source": "https://claude.com/blog/claude-code-mods",
+      "primary": true
+    },
+    {
+      "claim": "Se instalan desde el directorio de Claude o con /plugin en la CLI; se pueden escribir a mano o pedir a Claude Code que los escriba, instale y recargue en caliente; se comparten empaquetados en un plugin.",
+      "source": "https://claude.com/blog/claude-code-mods",
+      "primary": true
+    },
+    {
+      "claim": "Los mods tienen el mismo acceso a la máquina que Claude Code y no están aislados; hay que instalarlos solo de fuentes confiables. Si varios enganchan el mismo evento, corren en orden de carga.",
+      "source": "https://claude.com/blog/claude-code-mods",
+      "primary": true
+    },
+    {
+      "claim": "Están activados por defecto desde la versión 2.1.287 y existe el comando `claude plugin validate`.",
+      "source": "https://www.dsebastien.net/2026-10-04-claude-code-mods-claude-code-is-now-programmable-and-mods-arent-sandboxed/",
+      "primary": false,
+      "note": "Fuente secundaria; no se usa en la pieza hasta confirmarlo en la documentación oficial."
+    }
+  ],
+  "pendingToVerify": [
+    "Probar en una sesión real: instalar un mod con /plugin y capturar la pantalla para una próxima pieza."
+  ]
+}

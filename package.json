@@ -1,0 +1,27 @@
+{
+  "name": "motor-contenido",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Motor de contenido: carruseles y videos con IA, agnóstico al agente",
+  "type": "module",
+  "packageManager": "pnpm@10.0.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "carrusel:validar": "tsx packages/carousel/src/cli.ts validar",
+    "carrusel:render": "tsx packages/carousel/src/cli.ts render",
+    "carrusel:esquema": "tsx packages/carousel/src/cli.ts esquema",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  },
+  "dependencies": {
+    "geist": "^1.8.1",
+    "playwright-core": "1.56.0",
+    "zod": "^4.1.0"
+  }
+}

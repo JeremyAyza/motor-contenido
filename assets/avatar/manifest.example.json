@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "canvas": { "width": 1024, "height": 1024 },
+  "anchor": { "x": 512, "y": 980 },
+  "poses": {
+    "neutral": "poses/neutral.png",
+    "explicando": "poses/explicando.png",
+    "senalando": "poses/senalando.png",
+    "pensando": "poses/pensando.png",
+    "sorprendido": "poses/sorprendido.png",
+    "celebrando": "poses/celebrando.png"
+  },
+  "expressions": {
+    "neutral": "expressions/neutral.png",
+    "feliz": "expressions/feliz.png",
+    "sorprendido": "expressions/sorprendido.png",
+    "escéptico": "expressions/esceptico.png"
+  },
+  "mouths": {
+    "A": "mouths/A.png",
+    "B": "mouths/B.png",
+    "C": "mouths/C.png",
+    "D": "mouths/D.png",
+    "E": "mouths/E.png",
+    "F": "mouths/F.png",
+    "G": "mouths/G.png",
+    "H": "mouths/H.png",
+    "X": "mouths/X.png"
+  },
+  "mouthOffset": { "x": 0, "y": 0 },
+  "blink": { "everySeconds": [2.5, 5], "durationFrames": 4 }
+}
