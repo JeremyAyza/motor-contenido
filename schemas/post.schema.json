@@ -23,6 +23,209 @@
       "minLength": 10,
       "description": "La idea propia de esta pieza: 'En este carrusel, [algo del tema] se vuelve [recurso visual]'"
     },
+    "art": {
+      "type": "object",
+      "properties": {
+        "direction": {
+          "type": "string",
+          "enum": [
+            "titular-gigante",
+            "terminal",
+            "captura-anotada",
+            "antes-despues",
+            "linea-continua",
+            "capa-por-capa",
+            "ficha-tecnica",
+            "diario-de-prueba",
+            "chat",
+            "collage",
+            "elige-tu-camino",
+            "personaje"
+          ],
+          "description": "Dirección de arte base, elegida de la mano que repartió `npm run carrusel:baraja`"
+        },
+        "dealt": {
+          "description": "Las direcciones que te tocaron en la baraja",
+          "minItems": 1,
+          "maxItems": 5,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "titular-gigante",
+              "terminal",
+              "captura-anotada",
+              "antes-despues",
+              "linea-continua",
+              "capa-por-capa",
+              "ficha-tecnica",
+              "diario-de-prueba",
+              "chat",
+              "collage",
+              "elige-tu-camino",
+              "personaje"
+            ]
+          }
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 20,
+          "description": "Por qué esta dirección sirve a este tema mejor que las otras que te tocaron"
+        },
+        "borrowed": {
+          "default": [],
+          "description": "Direcciones de las que alguna lámina interior toma la forma (con la misma paleta y tipografías)",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "titular-gigante",
+              "terminal",
+              "captura-anotada",
+              "antes-despues",
+              "linea-continua",
+              "capa-por-capa",
+              "ficha-tecnica",
+              "diario-de-prueba",
+              "chat",
+              "collage",
+              "elige-tu-camino",
+              "personaje"
+            ]
+          }
+        },
+        "palette": {
+          "type": "object",
+          "properties": {
+            "bg": {
+              "type": "string",
+              "pattern": "^#[0-9A-Fa-f]{6}$",
+              "description": "Fondo base"
+            },
+            "ink": {
+              "type": "string",
+              "pattern": "^#[0-9A-Fa-f]{6}$",
+              "description": "Texto sobre el fondo base"
+            },
+            "accent": {
+              "type": "string",
+              "pattern": "^#[0-9A-Fa-f]{6}$",
+              "description": "Color de acento; suele salir del ancla visual"
+            },
+            "accentInk": {
+              "type": "string",
+              "pattern": "^#[0-9A-Fa-f]{6}$",
+              "description": "Texto sobre el acento"
+            },
+            "surface": {
+              "description": "Fondo de bloques y tarjetas; si falta, se mezcla tinta y fondo",
+              "type": "string",
+              "pattern": "^#[0-9A-Fa-f]{6}$"
+            },
+            "muted": {
+              "description": "Notas secundarias; si falta, se mezcla tinta y fondo",
+              "type": "string",
+              "pattern": "^#[0-9A-Fa-f]{6}$"
+            }
+          },
+          "required": [
+            "bg",
+            "ink",
+            "accent",
+            "accentInk"
+          ]
+        },
+        "fonts": {
+          "type": "object",
+          "properties": {
+            "display": {
+              "type": "string",
+              "enum": [
+                "geist",
+                "archivo",
+                "instrument-serif",
+                "fraunces",
+                "bricolage",
+                "caveat"
+              ],
+              "description": "Titulares"
+            },
+            "text": {
+              "default": "geist",
+              "description": "Texto corrido",
+              "type": "string",
+              "enum": [
+                "geist",
+                "archivo",
+                "instrument-serif",
+                "fraunces",
+                "bricolage",
+                "caveat"
+              ]
+            },
+            "notes": {
+              "description": "Anotaciones a mano (caveat), solo si la dirección las usa",
+              "type": "string",
+              "enum": [
+                "geist",
+                "archivo",
+                "instrument-serif",
+                "fraunces",
+                "bricolage",
+                "caveat"
+              ]
+            }
+          },
+          "required": [
+            "display"
+          ]
+        },
+        "anchor": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "logo",
+                "captura",
+                "icono",
+                "imagen"
+              ],
+              "description": "logo: ícono oficial de una marca; captura: pantalla real; icono: objeto genérico (Lucide); imagen: foto o recurso de prensa con licencia"
+            },
+            "ref": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Slug de Simple Icons, nombre del ícono de Lucide o archivo de la pieza"
+            },
+            "source": {
+              "type": "string",
+              "minLength": 1,
+              "description": "De dónde sale y con qué licencia o permiso"
+            }
+          },
+          "required": [
+            "kind",
+            "ref",
+            "source"
+          ],
+          "description": "El elemento que dice el tema sin leer; va grande en la portada"
+        },
+        "tab": {
+          "description": "Texto de la pestaña del marco; por defecto, el tema de la carpeta + .md",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        }
+      },
+      "required": [
+        "direction",
+        "reason",
+        "palette",
+        "fonts",
+        "anchor"
+      ]
+    },
     "caption": {
       "type": "string",
       "minLength": 1,
@@ -72,6 +275,7 @@
     "topic",
     "infoDate",
     "idea",
+    "art",
     "caption",
     "sources"
   ]

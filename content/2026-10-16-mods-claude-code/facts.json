@@ -47,6 +47,12 @@
       "source": "https://www.dsebastien.net/2026-10-04-claude-code-mods-claude-code-is-now-programmable-and-mods-arent-sandboxed/",
       "primary": false,
       "note": "Fuente secundaria; no se usa en la pieza hasta confirmarlo en la documentación oficial."
+    },
+    {
+      "claim": "Captura del párrafo oficial: '/diff es ahora un mod, así que puedes desactivarla (en /plugin) o reemplazarla por tu propia versión'.",
+      "source": "https://claude.com/es/resources/articles/claude-code-mods",
+      "primary": true,
+      "note": "Captura guardada como captura-diff.png el 16 de octubre de 2026."
     }
   ],
   "pendingToVerify": [

@@ -3,19 +3,6 @@
   "name": "Jeremy Ayza",
   "handle": "@jeremyayza.dev",
   "tagline": "IA y código, probado de verdad",
-  "colors": {
-    "bg": "#0A111E",
-    "surface": "#111B2E",
-    "line": "#1E2A40",
-    "text": "#EEF2F7",
-    "muted": "#A3B0C2",
-    "accent": "#34D399",
-    "warning": "#F5B544"
-  },
-  "fonts": {
-    "sans": "Geist",
-    "mono": "Geist Mono"
-  },
   "glyph": "</>",
   "avatar": {
     "manifest": "assets/avatar/manifest.json"

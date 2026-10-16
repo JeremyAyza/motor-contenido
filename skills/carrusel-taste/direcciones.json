@@ -1,0 +1,135 @@
+[
+  {
+    "id": "titular-gigante",
+    "nombre": "Titular gigante",
+    "idea": "Una frase o un número enorme ocupa la portada. Todo el carrusel mantiene la escala grande: una afirmación por lámina.",
+    "cuando": "Noticias con una idea fuerte que cabe en pocas palabras; un dato que sorprende.",
+    "portada": "Ancla arriba; titular abajo, a sangre, entre 90 y 170px. Un kicker corto opcional arriba del titular.",
+    "interior": "Afirmaciones grandes alternando tonos (base, accent, invert). Las pruebas (código, tabla, captura) entran como láminas prestadas de otras direcciones.",
+    "tipografias": ["archivo", "fraunces", "geist"],
+    "paleta": "Dos colores de alto contraste; el acento sale del color de la marca del ancla.",
+    "evitar": "Más de 12 palabras en la portada; titulares que no dicen nada sin el texto de abajo."
+  },
+  {
+    "id": "terminal",
+    "nombre": "Terminal",
+    "idea": "La consola es el escenario: comandos y salidas reales, con resaltado.",
+    "cuando": "CLIs, flags, scripts, configuraciones, resultados de benchmarks de terminal.",
+    "portada": "Titular corto arriba y un bloque de terminal grande con 2 a 5 líneas reales (<Code> o un bloque propio con data-mono-ok).",
+    "interior": "Un comando por lámina con su salida real; la explicación va fuera del bloque, en la tipografía de texto.",
+    "tipografias": ["geist"],
+    "paleta": "Fondo casi negro; acento del color de la marca del tema.",
+    "evitar": "Comandos inventados o salidas que no corriste. Si el tema no tiene comandos reales, esta dirección no aplica."
+  },
+  {
+    "id": "captura-anotada",
+    "nombre": "Captura anotada",
+    "idea": "La fuente oficial como prueba: una captura real, subrayada o encerrada, con una nota a mano.",
+    "cuando": "Anuncios, cambios de política, tablas de benchmarks, documentación, changelogs.",
+    "portada": "Titular corto, captura grande (a sangre si es ancha), una marca a mano (subrayado, círculo o flecha en SVG) y el crédito con la fecha de captura.",
+    "interior": "Cada lámina amplía otra parte de la fuente o la explica con una lámina prestada (ficha, antes y después).",
+    "tipografias": ["geist"],
+    "paleta": "Fondo papel claro; el color de la anotación sale del ancla. Las notas van en fonts.notes = caveat.",
+    "evitar": "Capturas ilegibles: recorta hasta que el texto se lea en la hoja de revisión. Nunca retoques el contenido de la captura; solo recortes y anotaciones encima."
+  },
+  {
+    "id": "antes-despues",
+    "nombre": "Antes y después",
+    "idea": "Pantalla partida a sangre: dos campos de color que se oponen.",
+    "cuando": "Cambios de comportamiento, de precio o de versión; comparaciones A contra B.",
+    "portada": "Dos mitades a sangre (underlay en <Slide>), cada una con su etiqueta corta y su frase; el ancla en una o en las dos mitades.",
+    "interior": "Pares comparables, uno por lámina; la última dice qué hacer con el cambio.",
+    "tipografias": ["archivo", "geist"],
+    "paleta": "El fondo base para el antes y el acento para el después, o el color de cada marca si comparas dos.",
+    "evitar": "Comparar cosas que no se comparan; mitades con distinto peso de texto sin razón."
+  },
+  {
+    "id": "linea-continua",
+    "nombre": "Línea continua",
+    "idea": "Un trazo atraviesa la lámina, sale por el borde y sigue en la siguiente: une todo el carrusel.",
+    "cuando": "Procesos, flujos, cronologías, el camino de una petición o de un evento.",
+    "portada": "Titular arriba; el trazo (SVG) cruza la lámina con 2 o 3 hitos etiquetados y sale por el borde derecho.",
+    "interior": "El trazo entra por la izquierda a la altura en que salió en la lámina anterior; cada lámina es un tramo con un hito.",
+    "tipografias": ["geist", "bricolage"],
+    "paleta": "Fondo claro y el trazo en el acento; los hitos en tinta.",
+    "evitar": "Trazos decorativos que no representan nada; más de 4 hitos por lámina."
+  },
+  {
+    "id": "capa-por-capa",
+    "nombre": "Capa por capa",
+    "idea": "Bloques apilados o en filas que muestran cómo se arma algo, o quién gana en qué.",
+    "cuando": "Arquitecturas, stacks, comparaciones por área, prioridades.",
+    "portada": "Titular y 3 o 4 bloques de tono distinto; el ancla dentro de cada bloque cuando identifica a quién pertenece.",
+    "interior": "Una capa por lámina, ampliada con su prueba.",
+    "tipografias": ["geist"],
+    "paleta": "Fondo oscuro y bloques en tonos derivados; cada marca conserva su color en su bloque.",
+    "evitar": "Filas idénticas con íconos genéricos; más de 5 capas."
+  },
+  {
+    "id": "ficha-tecnica",
+    "nombre": "Ficha técnica",
+    "idea": "Un nombre enorme y una tabla con un dato por fila, sin adornos.",
+    "cuando": "Lanzamientos con muchos datos: fechas, precios, límites, versiones, disponibilidad.",
+    "portada": "Ancla junto al nombre gigante y condensado; tabla de 4 a 6 filas con fondo alterno.",
+    "interior": "Cada fila importante se vuelve una lámina con su contexto y su fuente.",
+    "tipografias": ["archivo", "geist"],
+    "paleta": "Papel claro y tinta negra; el acento solo para el dato que importa (un riesgo, un precio).",
+    "evitar": "Datos sin fuente; más de 6 filas en una lámina."
+  },
+  {
+    "id": "diario-de-prueba",
+    "nombre": "Diario de prueba",
+    "idea": "Primera persona: lo que voy a probar o lo que probé, como una libreta.",
+    "cuando": "Temas recién salidos que vas a probar; resultados de una prueba propia con capturas.",
+    "portada": "Fecha, titular en serif, lista con casillas y una promesa concreta de seguimiento.",
+    "interior": "Un hallazgo por lámina, con la captura real de la prueba.",
+    "tipografias": ["instrument-serif", "fraunces"],
+    "paleta": "Papel cálido (crema o amarillo pálido) y tinta café oscura; acento terroso.",
+    "evitar": "Inventar resultados. Si no lo probaste, es un plan y se dice así."
+  },
+  {
+    "id": "chat",
+    "nombre": "Chat",
+    "idea": "La pregunta del público y una respuesta corta, en burbujas.",
+    "cuando": "Dudas frecuentes, comparaciones con respuesta matizada, mitos.",
+    "portada": "Ancla arriba, burbuja de pregunta y burbuja de respuesta con la frase clave grande.",
+    "interior": "Repreguntas; cada lámina responde una.",
+    "tipografias": ["geist", "bricolage"],
+    "paleta": "Fondo claro frío; la burbuja de pregunta en el acento.",
+    "evitar": "Atribuir la respuesta a una IA o a una persona real; imitar la interfaz de una app de mensajería."
+  },
+  {
+    "id": "collage",
+    "nombre": "Collage",
+    "idea": "Stickers sobre un color plano saturado: anclas en fichas blancas y etiquetas giradas.",
+    "cuando": "Temas ligeros, rivalidades, noticias con humor, listas cortas.",
+    "portada": "Una o dos anclas como stickers grandes (Logo con chip), titular corto y dos etiquetas giradas.",
+    "interior": "Un sticker protagonista por lámina; el fondo puede rotar entre los tonos de la paleta.",
+    "tipografias": ["bricolage"],
+    "paleta": "Un fondo saturado (amarillo, lima, coral) y tinta negra.",
+    "evitar": "Más de 4 stickers por lámina; rotaciones de más de 10 grados; sombras."
+  },
+  {
+    "id": "elige-tu-camino",
+    "nombre": "Elige tu camino",
+    "idea": "Un índice con atajos a láminas, para que cada quien vaya a lo suyo.",
+    "cuando": "Carruseles de 8 o más láminas con partes para públicos distintos.",
+    "portada": "Pregunta grande y 3 opciones, cada una con la lámina a la que lleva.",
+    "interior": "Cada sección abre con su título y recuerda en qué parte del mapa estás.",
+    "tipografias": ["bricolage", "geist"],
+    "paleta": "Fondo oscuro, opciones en bloques de superficie y el acento para el número de lámina.",
+    "evitar": "Usarla en carruseles cortos; opciones que llevan a la misma respuesta."
+  },
+  {
+    "id": "personaje",
+    "nombre": "Personaje",
+    "idea": "El avatar de la cuenta reacciona al tema y une los carruseles con los videos.",
+    "cuando": "Opiniones, reacciones, temas que también tendrán video.",
+    "portada": "Burbuja con la duda o la reacción, avatar grande y el ancla cerca del avatar.",
+    "interior": "El avatar cambia de pose o de expresión según la afirmación.",
+    "tipografias": ["geist", "bricolage"],
+    "paleta": "La del ancla, con el avatar sobre un campo liso.",
+    "evitar": "Elegirla sin sprites reales del avatar.",
+    "requiere": "avatar"
+  }
+]

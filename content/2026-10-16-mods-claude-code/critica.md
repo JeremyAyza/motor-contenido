@@ -1,23 +1,27 @@
-# Crítica final (ronda 3)
+# Crítica final (ronda 2)
+
+Dirección base: **línea continua** (de la mano captura anotada, línea continua, titular gigante). Préstamos: captura anotada en la lámina 4 y terminal en la 6.
 
 | Punto | Puntaje | Por qué |
 |---|---|---|
-| Gancho | 5 | `/diff` gigante más "ya no viene de fábrica" es concreto y sorprende a quien usa Claude Code |
-| Idea propia | 4 | El mod que reescribe aparece en las láminas 3 y 4; la 2 y la 5 son más explicativas |
-| Dominancia | 4 | Cada lámina tiene un elemento principal claro |
-| Variedad | 4 | Cambian el campo de color y la composición; las láminas 5 y 6 comparten el título arriba |
-| Legibilidad | 4 | Todo se lee en la hoja de revisión; la fuente de la lámina 6 es pequeña a propósito |
-| Artefactos | 4 | `/plugin` y el prompt son reales; falta una captura real de Claude Code |
-| Densidad | 4 | La portada deja una pausa deliberada entre `/diff` y el título |
-| Precisión | 5 | Todo sale del anuncio oficial; el ejemplo de prompt está marcado como ilustrativo |
-| Cierre | 4 | Advertencia útil, más guardar y una pregunta |
-| Voz | 4 | Directa; podría sonar más a experiencia propia si se prueba un mod real |
+| Gancho | 4 | "Claude Code ya se puede reprogramar." es concreto y corto; nombrar `/diff` en la portada lo haría más específico |
+| Ancla | 5 | En `pulgar.png` el cangrejo oficial de Claude Code se reconoce sin leer |
+| Dirección | 4 | La línea cruza las 7 láminas sin cortes (470, 330, 330, 330, 470, 470 y fin); en la 4 queda detrás de la captura y solo se ve en los bordes |
+| Idea propia | 4 | El camino del evento con sus paradas (antes, en lugar de, después) es el mecanismo real de los mods; el cangrejo y `/diff` lo atan al tema |
+| Dominancia | 5 | Cada lámina tiene una cosa que se ve primero: el titular, la palabra Antes o Después, la captura, el comando |
+| Variedad | 4 | Cambian tono y composición en cada lámina; la 3 y la 5 comparten la idea de palabra gigante más lista, pero invertida y en otro tono |
+| Legibilidad | 4 | Todo se lee en la hoja de revisión; lo más chico son los créditos de 13px |
+| Artefactos | 4 | Captura oficial real y comandos reales; falta una captura de un mod funcionando |
+| Densidad | 4 | La lámina 3 deja una franja de aire entre el subtítulo y la línea; se mantiene como pausa |
+| Precisión | 4 | Todo sale del anuncio oficial. Agrupar las capacidades en antes y después es una lectura propia: el anuncio las lista sin decir en qué momento corre cada una |
+| Cierre | 5 | El riesgo real, la pregunta al final del camino y la fuente con fecha |
+| Voz | 4 | Directa; sonará más propia cuando se pruebe un mod de verdad |
 
-Arreglos hechos en las rondas 1 y 2:
-1. Las burbujas verdes eran ilegibles por un conflicto de clases (texto oscuro sobre fondo oscuro). Se corrigió en la primitiva y se agregó la medición de contraste al inspector.
-2. Se recortaron las láminas con más de 55 palabras.
-3. Se agrandó el contenido de las láminas 3 y 6 para que no quedaran vacías.
+Arreglos hechos en la ronda 1:
+1. La palabra "Después" se salía 21px por abajo (el área de los rasgos descendentes de Bricolage); se le dio aire abajo.
+2. Se agrandaron los titulares y textos de las láminas 2, 3, 5 y 7, que quedaban con mucho vacío.
+3. La lámina 7 tenía 58 palabras; se acortaron la fuente y la nota del orden de carga.
 
-Avisos del inspector que quedan: las láminas 2 y 3 tienen 56 y 54 palabras. Se mantienen porque explican tres momentos y un antes y después, y se leen bien en la hoja de revisión.
+Arreglo de la ronda 2: la pregunta final pasó a estar junto al punto donde termina la línea, para que el camino acabe en "tu primer mod".
 
-Para subir a 5: instalar un mod real con `/plugin`, capturar la pantalla y usarla en la lámina 5.
+Para subir a 5: instalar un mod real con `/plugin`, capturarlo y usarlo en la lámina 6; mencionar `/diff` en la portada.

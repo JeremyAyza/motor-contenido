@@ -2,30 +2,23 @@ import { readFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { z } from "zod";
+import { fontStack, FontIdSchema, type FontId } from "./fonts.ts";
+
+export { FONTS, FONT_IDS, FontIdSchema, fontFaceCss, type FontId } from "./fonts.ts";
 
 /** Raíz del repo, para resolver rutas de cuentas y assets sin depender del cwd. */
 export const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../../..");
 
-const hex = z.string().regex(/^#[0-9A-Fa-f]{6}$/, "Color en formato #RRGGBB");
-
-/** Marca de una cuenta. Es la única fuente de colores, tipografías y firma visual. */
+/**
+ * Lo único constante de una cuenta: su firma. Los colores y las tipografías
+ * los elige cada pieza en `post.json → art`, según su dirección de arte.
+ */
 export const AccountBrandSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1),
   handle: z.string().min(1),
   tagline: z.string().min(1),
-  colors: z.object({
-    bg: hex,
-    surface: hex,
-    line: hex,
-    text: hex,
-    muted: hex,
-    accent: hex,
-    warning: hex,
-    paper: hex.optional().describe("Campo claro; si falta, se usa el color de texto"),
-  }),
-  fonts: z.object({ sans: z.string(), mono: z.string() }),
-  glyph: z.string().min(1),
+  glyph: z.string().min(1).describe("Glifo de la firma, junto al usuario"),
   avatar: z.object({ manifest: z.string() }),
   voice: z.object({
     provider: z.string().nullable(),
@@ -41,52 +34,47 @@ export function loadAccount(id: string): AccountBrand {
   return AccountBrandSchema.parse(raw);
 }
 
-function fontDataUrl(relative: string): string {
-  // El paquete geist no exporta su package.json, así que se ubica desde la raíz del repo.
-  const file = readFileSync(join(REPO_ROOT, "node_modules/geist/dist/fonts", relative));
-  return `data:font/woff2;base64,${file.toString("base64")}`;
+const hex = z.string().regex(/^#[0-9A-Fa-f]{6}$/, "Color en formato #RRGGBB");
+
+/** Paleta de una pieza. Todas las láminas la comparten. */
+export const PaletteSchema = z.object({
+  bg: hex.describe("Fondo base"),
+  ink: hex.describe("Texto sobre el fondo base"),
+  accent: hex.describe("Color de acento; suele salir del ancla visual"),
+  accentInk: hex.describe("Texto sobre el acento"),
+  surface: hex.optional().describe("Fondo de bloques y tarjetas; si falta, se mezcla tinta y fondo"),
+  muted: hex.optional().describe("Notas secundarias; si falta, se mezcla tinta y fondo"),
+});
+export type Palette = z.infer<typeof PaletteSchema>;
+
+export const PieceFontsSchema = z.object({
+  display: FontIdSchema.describe("Titulares"),
+  text: FontIdSchema.default("geist").describe("Texto corrido"),
+  notes: FontIdSchema.optional().describe("Anotaciones a mano (caveat), solo si la dirección las usa"),
+});
+export type PieceFonts = z.infer<typeof PieceFontsSchema>;
+
+export function pieceFontIds(f: PieceFonts): FontId[] {
+  return [f.display, f.text, ...(f.notes ? [f.notes] : [])];
 }
 
 /**
- * Tipografías embebidas como data URL: el render no depende de internet
- * ni de que la fuente esté instalada en la máquina.
+ * Tema de Tailwind v4 de una pieza. Las láminas usan bg-bg, text-ink, bg-accent,
+ * text-accent-ink, bg-surface, text-muted, font-display, font-sans, font-notes
+ * y font-mono. Un color fuera de la paleta solo se justifica si viene del ancla.
  */
-export function fontFaceCss(): string {
-  const faces: Array<[string, string, number]> = [
-    ["Geist", "geist-sans/Geist-Regular.woff2", 400],
-    ["Geist", "geist-sans/Geist-Medium.woff2", 500],
-    ["Geist", "geist-sans/Geist-SemiBold.woff2", 600],
-    ["Geist", "geist-sans/Geist-Bold.woff2", 700],
-    ["Geist", "geist-sans/Geist-Black.woff2", 800],
-    ["Geist Mono", "geist-mono/GeistMono-Regular.woff2", 400],
-    ["Geist Mono", "geist-mono/GeistMono-Medium.woff2", 500],
-    ["Geist Mono", "geist-mono/GeistMono-SemiBold.woff2", 600],
-  ];
-  return faces
-    .map(
-      ([family, file, weight]) =>
-        `@font-face{font-family:"${family}";src:url(${fontDataUrl(file)}) format("woff2");font-weight:${weight};font-style:normal;font-display:block;}`,
-    )
-    .join("\n");
-}
-
-/**
- * Tema de Tailwind v4 con los colores y tipografías de la marca.
- * Las láminas usan bg-bg, text-ink, bg-accent, text-muted, bg-surface, etc.,
- * y nunca escriben un color a mano.
- */
-export function tailwindTheme(brand: AccountBrand): string {
-  const c = brand.colors;
+export function tailwindTheme(p: Palette, f: PieceFonts): string {
+  const mix = (pct: number) => `color-mix(in srgb, ${p.ink} ${pct}%, ${p.bg})`;
   return `@theme {
-  --color-bg: ${c.bg};
-  --color-surface: ${c.surface};
-  --color-line: ${c.line};
-  --color-ink: ${c.text};
-  --color-muted: ${c.muted};
-  --color-accent: ${c.accent};
-  --color-warning: ${c.warning};
-  --color-paper: ${c.paper ?? c.text};
-  --font-sans: "${brand.fonts.sans}", system-ui, sans-serif;
-  --font-mono: "${brand.fonts.mono}", ui-monospace, monospace;
+  --color-bg: ${p.bg};
+  --color-ink: ${p.ink};
+  --color-accent: ${p.accent};
+  --color-accent-ink: ${p.accentInk};
+  --color-surface: ${p.surface ?? mix(8)};
+  --color-muted: ${p.muted ?? mix(68)};
+  --font-sans: ${fontStack(f.text)};
+  --font-display: ${fontStack(f.display)};
+  --font-notes: ${fontStack(f.notes ?? f.display)};
+  --font-mono: "Geist Mono", ui-monospace, monospace;
 }`;
 }

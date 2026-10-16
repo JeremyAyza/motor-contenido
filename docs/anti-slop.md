@@ -15,11 +15,13 @@ Estas reglas adaptan al formato carrusel los principios de [Taste Skill](https:/
 | Líneas finas y cajas con borde de 1px | Espacio o un cambio de tono de fondo |
 | Degradados, sombras y brillos | Color plano y cambios de tono |
 | Una palabra del título en color, cursiva o subrayada | Un solo color de título; las palabras hacen el énfasis. Excepción: el código real |
-| Emoji como viñetas o íconos | Palabras o un artefacto real |
+| Emoji o íconos como viñetas | Palabras o un artefacto real. Un ícono grande como ancla del tema sí vale |
 | Filas de tarjetas iguales con ícono | Una composición pensada para ese contenido |
 | La misma composición en dos láminas seguidas | Cambia escala, alineación, campo de color o recurso |
 | Una lista con flechas en cada lámina | Como mucho una lista por carrusel |
 | Dashboards falsos de barras grises o interfaces inventadas | Una captura real, código real o nada |
+| Logos, mascotas o personajes de marcas dibujados o imitados | El archivo oficial (`<Logo>`) o una captura real |
+| La misma dirección de arte que el carrusel anterior | La baraja (`npm run carrusel:baraja`) deja fuera las dos últimas |
 
 ## Hacer
 
@@ -27,7 +29,8 @@ Estas reglas adaptan al formato carrusel los principios de [Taste Skill](https:/
 - **Texto en tinta completa.** El gris es solo para notas secundarias.
 - **Una cosa dominante por lámina,** con su contenido completo. Una lámina mayormente vacía está sin terminar, salvo una pausa deliberada por carrusel.
 - **Artefactos del tema:** el comando, el código, la captura, el prompt, el número con su fuente.
-- **Campos de color de la marca** (`dark`, `paper`, `accent`) para dar ritmo entre láminas.
+- **Ancla visual en la portada:** el logo oficial, la captura o el objeto que dice el tema sin leer.
+- **Tonos de la paleta** (`base`, `accent`, `invert`, `surface`) para dar ritmo entre láminas.
 
 ## Texto
 

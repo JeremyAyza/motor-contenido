@@ -1,6 +1,6 @@
 # Crítica de un carrusel
 
-Mira las imágenes, no el código. Si un problema se ve en `revision.png` o en un PNG, es real, diga lo que diga el código. `revision.png` muestra las láminas a un tamaño parecido al de un celular: juzga la legibilidad ahí.
+Mira las imágenes, no el código. Si un problema se ve en `revision.png` o en un PNG, es real, diga lo que diga el código. `revision.png` muestra las láminas a un tamaño parecido al de un celular: juzga la legibilidad ahí. `pulgar.png` muestra la portada como miniatura del perfil: juzga el ancla ahí.
 
 ## Puntaje
 
@@ -9,6 +9,8 @@ Califica cada punto de 1 a 5 y escribe una línea de por qué.
 | Punto | 5 significa |
 |---|---|
 | Gancho | La portada detiene el scroll con algo concreto del tema, en 10 palabras o menos |
+| Ancla | En `pulgar.png` se sabe el tema sin leer: el logo, la captura o el objeto se ve y es el correcto |
+| Dirección | La dirección elegida se nota en todas las láminas; los préstamos de otras conservan la paleta y las tipografías |
 | Idea propia | La idea pasa la prueba del competidor: no serviría para otro tema |
 | Dominancia | Cada lámina tiene una sola cosa que se ve primero |
 | Variedad | Ninguna lámina repite la composición de la anterior |
