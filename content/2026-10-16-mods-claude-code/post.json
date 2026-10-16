@@ -1,0 +1,22 @@
+{
+  "account": "dev",
+  "topic": "Mods de Claude Code",
+  "infoDate": "2026-10-16",
+  "idea": "En este carrusel, el propio /diff de Claude Code se vuelve la prueba: lo que venía de fábrica ahora es una pieza intercambiable, y cada lámina muestra a un mod reescribiendo algo.",
+  "caption": "/diff ya no viene de fábrica en Claude Code. Ahora es un mod, y tú puedes escribir el tuyo.\n\nAnthropic anunció los mods el 1 de octubre de 2026. Un mod es una función de TypeScript que se mete en un evento (una llamada a herramienta, una solicitud de permiso o un cambio en pantalla) y corre antes, después o en lugar de él.\n\nLo que ya puedes hacer con uno:\n1. Reescribir tu prompt antes de que lo lea el modelo.\n2. Bloquear, reescribir o reintentar llamadas a herramientas.\n3. Aprobar o negar permisos.\n4. Ocultar secretos en la salida.\n5. Agregar botones y paneles.\n6. Reemplazar funciones nativas, como /diff.\n\nEn equipo: mostrar el estado del CI/CD en un panel, pedir confirmación antes de tocar producción o registrar cada llamada a herramienta.\n\nOjo: no corren aislados. Tienen el mismo acceso a tu máquina que Claude Code, así que instala solo los de fuentes confiables.\n\n¿Cuál sería tu primer mod? Guárdalo para cuando lo escribas.\n\nInfo al 16 de octubre de 2026. Fuente: blog oficial de Claude.\n\n#claudecode #ia #programacion #desarrolladores #anthropic",
+  "slideCaptions": [
+    "/diff ahora es un mod: Claude Code se puede reprogramar desde el 1 de octubre de 2026.",
+    "Un mod corre antes, en lugar de o después de un evento de Claude Code.",
+    "Ejemplo: un mod que reescribe tu prompt con tus reglas antes de que lo lea el modelo.",
+    "Seis cosas que un mod ya puede hacer, según el anuncio oficial.",
+    "Para empezar: /plugin o pedirle a Claude Code que escriba el mod por ti.",
+    "Los mods no corren aislados: instala solo los de fuentes confiables."
+  ],
+  "sources": [
+    {
+      "title": "Customize Claude Code with mods (blog de Claude, 1 de octubre de 2026)",
+      "url": "https://claude.com/blog/claude-code-mods",
+      "checkedAt": "2026-10-16"
+    }
+  ]
+}

@@ -9,19 +9,27 @@
     "node": ">=20"
   },
   "scripts": {
-    "carrusel:validar": "tsx packages/carousel/src/cli.ts validar",
+    "carrusel:nuevo": "tsx packages/carousel/src/cli.ts nuevo",
     "carrusel:render": "tsx packages/carousel/src/cli.ts render",
     "carrusel:esquema": "tsx packages/carousel/src/cli.ts esquema",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "devDependencies": {
     "@types/node": "^22.10.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
     "tsx": "^4.19.0",
     "typescript": "^5.6.0"
   },
   "dependencies": {
+    "@tailwindcss/cli": "^4.3.3",
     "geist": "^1.8.1",
     "playwright-core": "1.56.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "shiki": "^4.5.0",
+    "tailwind-merge": "^3.7.0",
+    "tailwindcss": "^4.3.3",
     "zod": "^4.1.0"
   }
 }

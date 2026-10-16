@@ -3,13 +3,18 @@
     "target": "ES2022",
     "module": "ESNext",
     "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "noEmit": true,
     "allowImportingTsExtensions": true,
-    "types": ["node"]
+    "types": ["node"],
+    "baseUrl": ".",
+    "paths": {
+      "@motor/ui": ["packages/carousel/src/ui/index.tsx"]
+    }
   },
-  "include": ["packages/**/*.ts"]
+  "include": ["packages/**/*.ts", "packages/**/*.tsx", "content/**/*.tsx"]
 }

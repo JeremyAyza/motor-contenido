@@ -22,6 +22,7 @@ export const AccountBrandSchema = z.object({
     muted: hex,
     accent: hex,
     warning: hex,
+    paper: hex.optional().describe("Campo claro; si falta, se usa el color de texto"),
   }),
   fonts: z.object({ sans: z.string(), mono: z.string() }),
   glyph: z.string().min(1),
@@ -69,8 +70,23 @@ export function fontFaceCss(): string {
     .join("\n");
 }
 
-/** Variables CSS de la marca, para que ninguna plantilla escriba colores a mano. */
-export function brandCssVars(brand: AccountBrand): string {
+/**
+ * Tema de Tailwind v4 con los colores y tipografías de la marca.
+ * Las láminas usan bg-bg, text-ink, bg-accent, text-muted, bg-surface, etc.,
+ * y nunca escriben un color a mano.
+ */
+export function tailwindTheme(brand: AccountBrand): string {
   const c = brand.colors;
-  return `:root{--bg:${c.bg};--surface:${c.surface};--line:${c.line};--text:${c.text};--muted:${c.muted};--accent:${c.accent};--warning:${c.warning};--sans:"${brand.fonts.sans}",system-ui,sans-serif;--mono:"${brand.fonts.mono}",ui-monospace,monospace;}`;
+  return `@theme {
+  --color-bg: ${c.bg};
+  --color-surface: ${c.surface};
+  --color-line: ${c.line};
+  --color-ink: ${c.text};
+  --color-muted: ${c.muted};
+  --color-accent: ${c.accent};
+  --color-warning: ${c.warning};
+  --color-paper: ${c.paper ?? c.text};
+  --font-sans: "${brand.fonts.sans}", system-ui, sans-serif;
+  --font-mono: "${brand.fonts.mono}", ui-monospace, monospace;
+}`;
 }
