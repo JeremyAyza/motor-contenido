@@ -1,0 +1,37 @@
+{
+  "topic": "Top 3 comandos de Claude Code",
+  "checkedAt": "2026-10-17",
+  "facts": [
+    {
+      "claim": "El comando `/init` en Claude Code escanea el repositorio y genera automáticamente un archivo CLAUDE.md con la arquitectura, comandos de compilación y pruebas.",
+      "source": "https://code.claude.com/docs/en/memory.md",
+      "primary": true
+    },
+    {
+      "claim": "CLAUDE.md se inyecta en el contexto al inicio de cada sesión y actúa como memoria persistente para evitar que el modelo olvide reglas o rompa convenciones del proyecto.",
+      "source": "https://code.claude.com/docs/en/memory.md",
+      "primary": true
+    },
+    {
+      "claim": "El comando `/compact` condensa el historial largo de la conversación en un resumen conciso para liberar tokens en la ventana de contexto sin cerrar la sesión.",
+      "source": "https://code.claude.com/docs/en/prompt-caching.md",
+      "primary": true
+    },
+    {
+      "claim": "`/compact` acepta instrucciones opcionales para preservar fragmentos críticos (por ejemplo, `/compact conserva los tests fallidos y el plan`).",
+      "source": "https://code.claude.com/docs/en/prompt-caching.md",
+      "primary": true
+    },
+    {
+      "claim": "El comando `/cost` desglosa el consumo de tokens (entrada, salida y caché) y el costo monetario en dólares de la sesión activa en tiempo real.",
+      "source": "https://code.claude.com/docs/en/overview.md",
+      "primary": true
+    },
+    {
+      "claim": "Escribir `/` en el prompt de la terminal abre un menú interactivo con todos los comandos nativos y personalizados disponibles.",
+      "source": "https://code.claude.com/docs/en/overview.md",
+      "primary": true
+    }
+  ],
+  "pendingToVerify": []
+}

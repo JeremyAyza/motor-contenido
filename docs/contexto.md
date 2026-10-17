@@ -114,7 +114,8 @@ Tamaños en px reales del PNG (el celular lo muestra a un 36%).
 - texto de cuerpo de menos de 28px, código de menos de 26px, notas (`data-nota`) de menos de 24px;
 - más de 50 palabras en una lámina o más de 20 en la portada (sin contar código ni notas);
 - portada sin ancla visual;
-- con brief: brief inválido, puerta A sin aprobar, última lámina sin `data-cta`;
+- última lámina sin `data-cta` (también en piezas sin brief);
+- con brief: brief inválido o puerta A sin aprobar;
 - texto del post: más de 5 hashtags o más de 2200 caracteres.
 
 **Avisos:**

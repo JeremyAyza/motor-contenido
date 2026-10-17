@@ -342,11 +342,12 @@ export async function renderPiece(dir: string): Promise<{ files: string[]; issue
     await browser.close();
   }
 
-  // Cierre: despedida dinámica con un solo CTA, marcado con data-cta.
+  // Cierre: despedida dinámica con un solo CTA, marcado con data-cta. Es error
+  // también en las piezas sin brief: sin CTA no hay carrusel terminado.
   const lastWhere = `lámina ${slides.length}`;
   if (lastCta === null) {
     issues.push({
-      level: brief ? "error" : "aviso",
+      level: "error",
       where: lastWhere,
       message: "La última lámina no tiene CTA: marca el llamado a la acción con data-cta (workflows/carrusel.md, el cierre)",
     });

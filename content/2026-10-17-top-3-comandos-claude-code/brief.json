@@ -1,0 +1,93 @@
+{
+  "formato": "herramienta",
+  "tesis": "Tratar a Claude Code como un simple chat quema tokens y satura el contexto; estos 3 comandos evitan perder el hilo de tu repo.",
+  "palanca": "que-cambia",
+  "porQueAhora": "Cada vez más programadores adoptan agentes de terminal y ven cómo el contexto se degrada tras pocos turnos.",
+  "paraQuien": "Devs que usan Claude Code en terminal y necesitan evitar alucinaciones y costos descontrolados.",
+  "queGana": "Aprende a fijar la arquitectura de su repo, compactar el contexto sin reiniciar y auditar el costo de cada sesión.",
+  "objetivo": "guardar",
+  "compartirCon": "Al colega del equipo que se queja de que Claude Code se olvida de las convenciones del proyecto.",
+  "toma": "Un agente de terminal sin memoria estructurada es una máquina de quemar dinero.",
+  "ganchos": [
+    {
+      "texto": "Deja de tratar a Claude Code como chat",
+      "promesa": "3 comandos nativos para controlar contexto y tokens",
+      "formula": 2
+    },
+    {
+      "texto": "Lo que nadie te dice de Claude Code",
+      "promesa": "3 comandos para no quemar tokens a lo loco",
+      "formula": 3
+    },
+    {
+      "texto": "Este comando reemplaza explicarle todo tu repo",
+      "promesa": "La forma correcta de darle memoria a Claude Code",
+      "formula": 4
+    },
+    {
+      "texto": "Lo estás usando mal en Claude Code",
+      "promesa": "3 comandos para que no olvide tus archivos",
+      "formula": 7
+    },
+    {
+      "texto": "Si programas con Claude Code, usa esto",
+      "promesa": "3 comandos que salvan sesiones largas",
+      "formula": 10
+    },
+    {
+      "texto": "3 comandos de Claude Code que salvan sesiones",
+      "promesa": "El segundo casi nadie lo ejecuta a tiempo",
+      "formula": 11
+    },
+    {
+      "texto": "¿Por qué Claude Code olvida tus reglas?",
+      "promesa": "La solución oficial para fijar contexto",
+      "formula": 16
+    },
+    {
+      "texto": "No necesitas reiniciar tu sesión en Claude Code",
+      "promesa": "El comando que compacta el contexto sin perder avances",
+      "formula": 20
+    },
+    {
+      "texto": "/compact",
+      "promesa": "El comando de Claude Code que salva tu sesión",
+      "formula": 27
+    }
+  ],
+  "esqueleto": [
+    {
+      "afirmacion": "La portada plantea el control de contexto en Claude Code",
+      "prueba": "El gancho elegido junto al ancla de terminal y Claude."
+    },
+    {
+      "afirmacion": "/init fija la arquitectura y comandos de tu proyecto",
+      "prueba": "Escanea el repo y genera el archivo CLAUDE.md para que Claude nunca olvide reglas entre sesiones."
+    },
+    {
+      "afirmacion": "/compact libera contexto sin perder el hilo de trabajo",
+      "prueba": "Resume el historial previo sin reiniciar la sesión y permite indicarle qué preservar."
+    },
+    {
+      "afirmacion": "/cost audita el gasto real de tokens en la sesión activa",
+      "prueba": "Muestra los tokens de entrada, salida y dólares consumidos en tiempo real."
+    },
+    {
+      "afirmacion": "Tres comandos para pasar de un chat caótico a un agente en control",
+      "prueba": "Resumen práctico: /init para memoria, /compact para contexto y /cost para presupuesto."
+    },
+    {
+      "afirmacion": "Cierre con recordatorio para la próxima sesión en terminal",
+      "prueba": "CTA temático específico de guardado."
+    }
+  ],
+  "cta": {
+    "tipo": "guardar",
+    "texto": "Guárdalo para la próxima vez que abras una sesión de Claude Code"
+  },
+  "ganchoElegido": "Deja de tratar a Claude Code como chat",
+  "puertaA": {
+    "aprobado": true,
+    "fecha": "2026-10-17"
+  }
+}

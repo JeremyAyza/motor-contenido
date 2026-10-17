@@ -1,9 +1,10 @@
 import type { ReactNode } from "react";
-import { Code, Img, Logo, Slide, cx } from "@motor/ui";
+import { Code, Img, Logo, Nota, Slide, cx } from "@motor/ui";
 
 // Dirección base: línea continua. El camino de un evento dentro de Claude Code
 // cruza todas las láminas: sale por el borde derecho a la altura en que entra
-// en la siguiente (470 → 330 → 330 → 330 → 470 → 470).
+// en la siguiente (470 → 330 → 330 → 330 → 470 → 470 → 470). En la despedida
+// el camino vuelve al logo de la portada: el mod ya es parte de Claude Code.
 // Préstamos: captura anotada (lámina 4) y terminal (lámina 6).
 
 /** El trazo, en coordenadas del área de contenido (540 × 560). */
@@ -136,16 +137,27 @@ export default [
     </Etiqueta>
   </Slide>,
 
-  // 7. Fin del camino: el riesgo y la pregunta.
+  // 7. El riesgo, antes de despedirse.
   <Slide tone="accent">
     <h1 className="font-display text-[66px] font-extrabold leading-[0.92] tracking-[-0.04em]">Ojo: no corren aislados.</h1>
-    <p className="mt-6 text-[24px] font-medium leading-snug">
+    <p className="mt-6 text-[26px] font-medium leading-snug">
       Un mod tiene el mismo acceso a tu máquina que Claude Code. Instala solo los de fuentes confiables.
     </p>
-    <p className="mt-4 text-[20px] leading-snug">Si varios usan el mismo evento, corren en orden de carga.</p>
-    <Linea d="M0 470 L 180 470" className="stroke-accent-ink" />
-    <span aria-hidden className="pointer-events-none absolute size-[34px] rounded-full bg-accent-ink" style={{ left: 176, top: 453 }} />
-    <p className="absolute left-[230px] top-[428px] w-[270px] font-display text-[34px] font-extrabold leading-[1.02]">¿Cuál sería tu primer mod?</p>
-    <p className="mt-auto text-[13px] opacity-80">Fuente: blog de Claude, 1 oct 2026. Info al 16 oct 2026.</p>
+    <Linea d="M0 470 C 140 470, 180 430, 270 430 S 400 470, 540 470" className="stroke-accent-ink" />
+    <Parada x={270} y={430} className="border-accent-ink bg-accent" />
+  </Slide>,
+
+  // 8. Despedida: el camino vuelve al logo de la portada, ahora con tu mod en él.
+  <Slide>
+    <h1 className="font-display text-[56px] font-extrabold leading-[0.92] tracking-[-0.035em]">¿Cuál sería tu primer mod?</h1>
+    <p data-cta className="mt-5 text-[26px] font-bold leading-tight">
+      Guárdalo para cuando lo escribas.
+    </p>
+    <Linea d="M0 470 L 150 470 C 240 470, 250 357, 340 357" />
+    <Parada x={96} y={470} />
+    <div className="absolute left-[340px] top-[275px]">
+      <Logo slug="claudecode" size={164} />
+    </div>
+    <Nota className="mt-auto">Fuente: blog de Claude, 1 oct 2026. Info al 16 oct 2026.</Nota>
   </Slide>,
 ];

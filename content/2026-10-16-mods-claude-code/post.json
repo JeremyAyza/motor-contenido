@@ -40,7 +40,8 @@
     "En lugar del evento: /diff ya es un mod que puedes desactivar o reemplazar.",
     "Después del evento, un mod puede ocultar secretos en la salida o registrar cada llamada a herramienta.",
     "Para empezar: /plugin en la CLI o pídele a Claude Code que escriba el mod.",
-    "Ojo: los mods no corren aislados. Instala solo los de fuentes confiables."
+    "Ojo: los mods no corren aislados. Instala solo los de fuentes confiables.",
+    "¿Cuál sería tu primer mod? Guárdalo para cuando lo escribas."
   ],
   "sources": [
     {

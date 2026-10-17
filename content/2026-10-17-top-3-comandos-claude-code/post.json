@@ -1,0 +1,63 @@
+{
+  "account": "dev",
+  "topic": "Top 3 comandos de Claude Code",
+  "infoDate": "2026-10-17",
+  "idea": "En este carrusel, los 3 comandos de control de Claude Code se vuelven capas apiladas de memoria, contexto y presupuesto con sus salidas de terminal.",
+  "art": {
+    "direction": "capa-por-capa",
+    "dealt": [
+      "chat",
+      "capa-por-capa",
+      "diario-de-prueba"
+    ],
+    "reason": "Capa por capa permite apilar los 3 niveles de control de Claude Code (memoria, contexto y presupuesto) en bloques visuales contrastados con código y comandos reales.",
+    "borrowed": [
+      "terminal"
+    ],
+    "palette": {
+      "bg": "#0D0D0D",
+      "ink": "#F3F3EE",
+      "accent": "#D97757",
+      "accentInk": "#FFFFFF",
+      "surface": "#1C1C1C",
+      "muted": "#9A9A94"
+    },
+    "fonts": {
+      "display": "geist",
+      "text": "geist"
+    },
+    "anchor": {
+      "kind": "logo",
+      "ref": "claudecode",
+      "source": "Ícono oficial de Claude Code en Simple Icons (CC0), tomado de code.claude.com; se usa sin modificar para identificar el tema"
+    },
+    "tab": "comandos-claude-code.md"
+  },
+  "caption": "Deja de tratar a Claude Code como chat. En proyectos reales, estos 3 comandos nativos evitan quemar tokens:\n\nPasa siempre.\nAbres la terminal, lanzas prompts y a los diez minutos tu sesión empieza a alucinar.\nSi quieres controlar contexto en Claude Code y de verdad ahorrar tokens en terminal, necesitas dominar estos 3 comandos de Claude Code:\n\n1. /init\nEscanea tu repositorio completo. Te genera el archivo CLAUDE.md con tus reglas, comandos de test y arquitectura para que el agente nunca olvide tus convenciones al abrir una sesión.\n\n2. /compact\n¿Tu conversación ya se alargó demasiado? No mates el proceso.\nEste atajo condensa todo el historial previo en un resumen y además te permite indicarle qué piezas de código o planes debe conservar intactos.\n\n3. /cost\nMide el impacto directo en tu bolsillo.\nTe muestra en vivo cuántos tokens llevas consumidos de entrada, salida y caché, junto con el costo exacto en dólares de la sesión activa.\n\nGuárdalo para la próxima vez que abras una sesión de Claude Code.\n\nInformación al 17 de octubre de 2026. Fuente: documentación oficial de Claude Code en code.claude.com.\n\n#claudecode #terminal #programacion #ia #desarrolladores",
+  "busqueda": [
+    "comandos de Claude Code",
+    "controlar contexto en Claude Code",
+    "ahorrar tokens en terminal"
+  ],
+  "alt": "Portada del carrusel con el logo de Claude Code y el titular: Deja de tratar a Claude Code como chat.",
+  "slideCaptions": [
+    "Deja de tratar a Claude Code como chat: 3 comandos clave.",
+    "Capa 1: /init crea el archivo CLAUDE.md con las reglas de tu proyecto.",
+    "Capa 2: /compact resume el historial y libera tokens sin reiniciar.",
+    "Capa 3: /cost desglosa el gasto de tokens y dólares en tiempo real.",
+    "Resumen: las 3 capas para tener a tu agente bajo control.",
+    "Guárdalo para la próxima vez que abras una sesión de Claude Code."
+  ],
+  "sources": [
+    {
+      "title": "Claude Code Memory Documentation",
+      "url": "https://code.claude.com/docs/en/memory.md",
+      "checkedAt": "2026-10-17"
+    },
+    {
+      "title": "Claude Code Prompt Caching",
+      "url": "https://code.claude.com/docs/en/prompt-caching.md",
+      "checkedAt": "2026-10-17"
+    }
+  ]
+}
