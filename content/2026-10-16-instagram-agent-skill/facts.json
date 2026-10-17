@@ -1,0 +1,59 @@
+{
+  "topic": "Skills de Claude para Instagram",
+  "checkedAt": "2026-10-16",
+  "facts": [
+    {
+      "claim": "Jake Schincariol publicó instagram-agent-skill, una colección de 13 skills para Claude bajo licencia MIT, gratuita y sin requerir API keys ni registro.",
+      "source": "https://github.com/Jakeschincariol/instagram-agent-skill",
+      "primary": true
+    },
+    {
+      "claim": "No publica ni hace scraping de forma automática para evitar violar los Términos de Uso de Instagram y proteger las cuentas de bloqueos.",
+      "source": "https://github.com/Jakeschincariol/instagram-agent-skill",
+      "primary": true
+    },
+    {
+      "claim": "Incluye 5 herramientas locales en Python sin dependencias externas: hookscore.py, beats.py, caption.py, humanize.py (con detect.py) y swipe.py.",
+      "source": "https://github.com/Jakeschincariol/instagram-agent-skill",
+      "primary": true
+    },
+    {
+      "claim": "hookscore.py puntúa ganchos según 26 fórmulas y 5 criterios estructurales como especificidad y apertura sin rodeos.",
+      "source": "https://github.com/Jakeschincariol/instagram-agent-skill",
+      "primary": true
+    },
+    {
+      "claim": "beats.py calcula la duración de cada frase a un ritmo de ~165 palabras por minuto y alerta si una toma excede 4 segundos sin cambios en pantalla.",
+      "source": "https://github.com/Jakeschincariol/instagram-agent-skill",
+      "primary": true
+    },
+    {
+      "claim": "caption.py previsualiza el corte de 125 caracteres que muestra el feed de Instagram antes del botón de ver más y controla el tope de 5 hashtags fijado en diciembre de 2025.",
+      "source": "https://github.com/Jakeschincariol/instagram-agent-skill",
+      "primary": true
+    },
+    {
+      "claim": "humanize.py elimina guiones largos, 18 clases de caracteres invisibles y 154 términos cliché frecuentes en textos generados por IA.",
+      "source": "https://github.com/Jakeschincariol/instagram-agent-skill",
+      "primary": true
+    },
+    {
+      "claim": "swipe.py clasifica reels virales comparándolos con la mediana de reproducciones de su propia cuenta en vez de vistas absolutas.",
+      "source": "https://github.com/Jakeschincariol/instagram-agent-skill",
+      "primary": true
+    },
+    {
+      "claim": "El autor evaluó el clasificador contra 74 ganchos reales: detecta ganchos débiles con AUC 0.83, pero no predice ganadores (AUC 0.56, cercano al azar).",
+      "source": "https://github.com/Jakeschincariol/instagram-agent-skill",
+      "primary": true
+    },
+    {
+      "claim": "Se puede instalar como plugin de Claude con `/plugin install instagram-agent` o copiando las carpetas a `~/.claude/skills/`.",
+      "source": "https://github.com/Jakeschincariol/instagram-agent-skill",
+      "primary": true
+    }
+  ],
+  "pendingToVerify": [
+    "Medir el rendimiento del comando /ig-carousel con plantillas locales de renderizado en futuras pruebas."
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "topic": "Gemini 4 Argon",
+  "checkedAt": "2026-10-16",
+  "facts": [
+    {
+      "claim": "Google lanzó la familia Gemini 4 encabezada por Gemini 4 Argon (identificador 'gemini-4-argon'), su modelo insignia de razonamiento para tareas complejas y agentes autónomos.",
+      "source": "https://blog.google/technology/ai/gemini-4-argon",
+      "primary": true
+    },
+    {
+      "claim": "Soporta una ventana de contexto unificada de 1.048.576 tokens (1M de tokens) para entrada y salida, y puede decodificar respuestas extendidas de hasta 1M de tokens en una sola llamada.",
+      "source": "https://ai.google.dev/gemini-api/docs/models/gemini-4-argon",
+      "primary": true
+    },
+    {
+      "claim": "Tarifa introductoria hasta el 30 de noviembre de 2026: $2.00 por millón de tokens de entrada y $10.00 por millón de salida. Desde el 1 de diciembre de 2026: $4.00 entrada y $20.00 salida.",
+      "source": "https://ai.google.dev/gemini-api/docs/pricing",
+      "primary": true
+    },
+    {
+      "claim": "El context caching ofrece un 95% de descuento sobre el precio de los tokens de entrada cacheados.",
+      "source": "https://ai.google.dev/gemini-api/docs/pricing",
+      "primary": true
+    },
+    {
+      "claim": "Incluye niveles de pensamiento configurables (thinking levels): 'low', 'medium' (por defecto) y 'high'.",
+      "source": "https://ai.google.dev/gemini-api/docs/models/gemini-4-argon",
+      "primary": true
+    },
+    {
+      "claim": "Ocupa el puesto #1 en el Vals Index, evaluación independiente que mide precisión en código, finanzas, legal e impuestos.",
+      "source": "https://blog.google/technology/ai/gemini-4-argon",
+      "primary": true
+    },
+    {
+      "claim": "Está disponible para desarrolladores en la Gemini API vía Google AI Studio, Google Cloud Vertex AI y la plataforma Google Antigravity.",
+      "source": "https://ai.google.dev/gemini-api/docs/models/gemini-4-argon",
+      "primary": true
+    },
+    {
+      "claim": "Lidera la evaluación de Gray Swan contra inyecciones indirectas de prompts (IPI), reduciendo riesgos en ejecución de herramientas y agentes.",
+      "source": "https://blog.google/technology/ai/gemini-4-argon",
+      "primary": true
+    }
+  ],
+  "pendingToVerify": []
+}

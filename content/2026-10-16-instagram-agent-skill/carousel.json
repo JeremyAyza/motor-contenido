@@ -1,0 +1,105 @@
+{
+  "account": "dev",
+  "topic": "Skills de Claude para Instagram",
+  "infoDate": "2026-10-16",
+  "slides": [
+    {
+      "type": "cover",
+      "kicker": "Código abierto",
+      "title": "13 skills de Claude para dominar Instagram",
+      "highlight": "dominar Instagram",
+      "terminal": [
+        "$ git clone instagram-agent-skill",
+        "> /ig-reel",
+        "# 26 formulas de ganchos"
+      ]
+    },
+    {
+      "type": "concept",
+      "eyebrow": "Filosofía",
+      "title": "Ellas redactan, tú publicas",
+      "body": "Gratis, MIT y sin API keys. No publica ni hace scraping para evitar bloqueos por violar las normas de Instagram.",
+      "flow": [
+        { "label": "Claude redacta", "note": "guion y ganchos" },
+        { "label": "Scripts evalúan", "note": "tiempo y clichés" },
+        { "label": "Tú publicas", "note": "control total" }
+      ]
+    },
+    {
+      "type": "list",
+      "eyebrow": "Herramientas locales",
+      "title": "5 scripts que corren en tu máquina",
+      "items": [
+        { "label": "hookscore.py", "detail": "califica ganchos con 26 fórmulas" },
+        { "label": "beats.py", "detail": "cronometra tomas a ~165 ppm" },
+        { "label": "caption.py", "detail": "corte a 125 letras y 5 hashtags" },
+        { "label": "humanize.py", "detail": "elimina 154 clichés de IA" },
+        { "label": "swipe.py", "detail": "múltiplo sobre la mediana propia" }
+      ]
+    },
+    {
+      "type": "list",
+      "eyebrow": "Flujo de trabajo",
+      "title": "Los comandos principales en la terminal",
+      "items": [
+        { "label": "/ig-reel", "detail": "idea convertida en guion cronometrado" },
+        { "label": "/ig-viral", "detail": "fórmulas que funcionan en tu nicho" },
+        { "label": "/ig-caption", "detail": "texto listo para el feed con linter" },
+        { "label": "/ig-profile", "detail": "auditoría del perfil en 12 puntos" }
+      ]
+    },
+    {
+      "type": "steps",
+      "eyebrow": "Instalación",
+      "title": "Cómo empezar en tres pasos",
+      "steps": [
+        {
+          "title": "Como plugin",
+          "detail": "instala el agente directamente:",
+          "code": "/plugin install instagram-agent"
+        },
+        {
+          "title": "En Claude Code",
+          "detail": "clona el repositorio y copia las skills:",
+          "code": "cp -r skills/ig-* ~/.claude/skills/"
+        },
+        {
+          "title": "Define tu voz",
+          "detail": "completa templates/voice.md con tu tono"
+        }
+      ]
+    },
+    {
+      "type": "closing",
+      "eyebrow": "Honestidad técnica",
+      "title": "Lo que realmente midieron",
+      "warning": {
+        "title": "Dato clave",
+        "text": "En 74 ganchos: descarta ideas malas (AUC 0.83), pero no predice éxitos (AUC 0.56)."
+      },
+      "points": [
+        "Poda borradores flojos antes de gastar tiempo grabando."
+      ],
+      "cta": {
+        "save": "Guárdalo para Claude Code",
+        "question": "¿Medirías tus ganchos con código?"
+      }
+    }
+  ],
+  "caption": "13 skills para Claude que te ayudan a crear contenido en Instagram con código abierto y sin inventar datos.\n\nEl desarrollador Jake Schincariol publicó instagram-agent-skill bajo licencia MIT, gratis y sin API keys. Su enfoque es directo: la IA redacta y evalúa, pero tú publicas. No automatiza publicaciones ni hace scraping para evitar bloqueos por violar los términos de Instagram.\n\nIncluye 5 herramientas en Python que corren en local:\n1. hookscore.py: clasifica y puntúa ganchos según 26 fórmulas.\n2. beats.py: cronometra frases a ~165 ppm y marca pausas lentas.\n3. caption.py: previsualiza el corte a 125 caracteres y cuida el límite de 5 hashtags.\n4. humanize.py: elimina 154 términos cliché y marcas invisibles de IA.\n5. swipe.py: compara piezas virales contra la mediana de su propia cuenta.\n\nUn detalle honesto: en pruebas con 74 ganchos reales, el sistema detecta ganchos débiles con un AUC de 0.83, pero no predice ganadores (AUC 0.56, cercano al azar). La retención real sigue dependiendo de tu cara, tu edición y tu audio.\n\n¿Medirías tus ganchos con código antes de grabar? Guárdalo para cuando lo instales en tu terminal.\n\nInfo al 16 de octubre de 2026. Fuente: repositorio oficial Jakeschincariol/instagram-agent-skill en GitHub.\n\n#claudecode #instagramtips #desarrolladores #ia #python",
+  "slideCaptions": [
+    "13 skills de Claude para Instagram: código abierto y scripts locales.",
+    "Filosofía: ellas redactan, tú publicas sin riesgo de baneo.",
+    "Cinco herramientas en Python que corren en local sin dependencias.",
+    "Comandos clave en la terminal: reels, virales, copys y perfil.",
+    "Instalación en Claude Code como plugin o carpetas de skills.",
+    "Honestidad técnica: descarta ganchos malos, pero no predice éxitos."
+  ],
+  "sources": [
+    {
+      "title": "The Instagram agent skill (repositorio oficial en GitHub)",
+      "url": "https://github.com/Jakeschincariol/instagram-agent-skill",
+      "checkedAt": "2026-10-16"
+    }
+  ]
+}
