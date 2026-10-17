@@ -2,19 +2,31 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { z } from "zod";
 import { REPO_ROOT } from "../../brand/src/index.ts";
+import { BriefSchema, loadBrief } from "./brief.ts";
+import { prepararCritica } from "./critica.ts";
 import { DIRECCIONES, historial, repartir, type Direccion } from "./direcciones.ts";
+import { puertaA } from "./editorial.ts";
+import { informeMetricas, MetricasSchema } from "./metricas.ts";
 import { PostSchema } from "./post.ts";
+import { runPython } from "./python.ts";
 import { renderPiece, type Issue } from "./render.tsx";
+import { revisarTextos } from "./texto.ts";
 
 /**
  * CLI del flujo de carrusel. Igual para cualquier agente o persona:
- *   carrusel nuevo <slug> [--cuenta dev]       crea la carpeta de la pieza
+ *   carrusel nuevo <slug> [--cuenta dev]       crea la carpeta de la pieza (con brief.json)
+ *   carrusel brief <carpeta>                   valida el brief, filtra los ganchos y arma la puerta A
  *   carrusel baraja [--cuenta dev] [--todas]   reparte 3 direcciones de arte
  *   carrusel logo <marca>                      busca el slug y el color oficial en Simple Icons
- *   carrusel render <carpeta>                  valida, renderiza e inspecciona
- *   carrusel esquema                           exporta el JSON Schema de post.json
+ *   carrusel render <carpeta>                  valida, renderiza e inspecciona (láminas y textos)
+ *   carrusel texto <carpeta>                   vuelve a revisar solo los textos, sin renderizar
+ *   carrusel critica <carpeta>                 prepara la carpeta del crítico ciego
+ *   carrusel metricas                          informe de métricas de todas las piezas
+ *   carrusel swipe <archivo.tsv>               ordena carruseles de referencia (docs/swipe.md)
+ *   carrusel esquema                           exporta los JSON Schema
  */
-const [command, arg, ...rest] = process.argv.slice(2);
+// pnpm pasa el "--" literal; npm no. Se ignora para que los dos funcionen igual.
+const [command, arg, ...rest] = process.argv.slice(2).filter((a) => a !== "--");
 
 function printIssues(issues: Issue[]): void {
   if (!issues.length) return console.log("✓ Sin problemas");
@@ -55,6 +67,26 @@ async function main(): Promise<number> {
         JSON.stringify({ topic: arg, checkedAt: today(), facts: [], pendingToVerify: [] }, null, 2) + "\n",
       );
       writeFileSync(
+        join(dir, "brief.json"),
+        JSON.stringify(
+          {
+            formato: "",
+            tesis: "",
+            porQueAhora: "",
+            paraQuien: "",
+            queGana: "",
+            objetivo: "",
+            compartirCon: "",
+            ganchos: [],
+            esqueleto: [],
+            cta: { tipo: "", texto: "" },
+            puertaA: { aprobado: false },
+          },
+          null,
+          2,
+        ) + "\n",
+      );
+      writeFileSync(
         join(dir, "post.json"),
         JSON.stringify(
           {
@@ -72,6 +104,8 @@ async function main(): Promise<number> {
               anchor: { kind: "logo", ref: "", source: "" },
             },
             caption: "",
+            busqueda: [],
+            alt: "",
             slideCaptions: [],
             sources: [],
           },
@@ -81,20 +115,74 @@ async function main(): Promise<number> {
       );
       writeFileSync(
         join(dir, "slides.tsx"),
-        `import { Logo, Slide } from "@motor/ui";
+        `import { Logo, Nota, Slide } from "@motor/ui";
 
+// No escribas este archivo hasta que la puerta A esté aprobada (brief.json).
 // Lee workflows/carrusel.md y skills/carrusel-taste/SKILL.md antes de diseñar.
 // La portada lleva el ancla visual grande (Logo, Icono o Img con ancla).
+// La última lámina es una despedida que cierra la portada, con un solo CTA marcado con data-cta.
 export default [
   <Slide swipe className="justify-between">
     <Logo slug="slug-de-simple-icons" size={160} />
-    <h1 className="font-display text-7xl font-black leading-[0.9]">Título</h1>
+    <h1 className="font-display text-7xl font-black leading-[0.9]">Gancho elegido</h1>
+  </Slide>,
+  <Slide>
+    <p data-cta className="font-display text-5xl font-black">El CTA de brief.json</p>
+    <Nota className="mt-auto">Info al ${today()} · Fuentes: ...</Nota>
   </Slide>,
 ];
 `,
       );
-      console.log(`Pieza creada en ${dir}`);
+      console.log(`Pieza creada en ${dir}\nSigue con el paso 0: completa brief.json y corre carrusel:brief.`);
       return 0;
+    }
+    case "brief": {
+      if (!arg) throw new Error("Uso: carrusel brief <carpeta-de-la-pieza>");
+      const { file, text } = puertaA(resolve(arg));
+      console.log(text);
+      console.log(`Puerta A escrita en ${file}`);
+      console.log(`Crítico ciego de ganchos: ${join(resolve(arg), "out", "critica-ganchos", "LEEME.md")}`);
+      return 0;
+    }
+    case "texto": {
+      if (!arg) throw new Error("Uso: carrusel texto <carpeta-de-la-pieza>");
+      const dir = resolve(arg);
+      const post = PostSchema.parse(JSON.parse(readFileSync(join(dir, "post.json"), "utf8")));
+      const outDir = join(dir, "out");
+      mkdirSync(join(outDir, ".build"), { recursive: true });
+      const captionFile = join(outDir, "texto-del-post.txt");
+      writeFileSync(captionFile, post.caption + "\n");
+      const laminas = join(outDir, "texto-de-laminas.txt");
+      const slideTexts = existsSync(laminas)
+        ? readFileSync(laminas, "utf8").split(/^--- Lámina .*$/m).map((s) => s.trim()).filter(Boolean)
+        : [];
+      if (!slideTexts.length) console.log("! Sin texto de láminas: renderiza primero para revisarlas también.");
+      const load = loadBrief(dir);
+      const issues = revisarTextos({ outDir, captionFile, slideTexts, brief: load.status === "ok" ? load.brief : null, busqueda: post.busqueda });
+      printIssues(issues);
+      console.log(`\nDetalle: ${join(outDir, "revision-texto.txt")}`);
+      return issues.some((i) => i.level === "error") ? 1 : 0;
+    }
+    case "critica": {
+      if (!arg) throw new Error("Uso: carrusel critica <carpeta-de-la-pieza>");
+      const { folder, files } = prepararCritica(resolve(arg));
+      console.log(`Carpeta del crítico ciego: ${folder}`);
+      console.log(`Archivos: ${files.join(", ")}`);
+      console.log("\nAbre un contexto nuevo (subagente o sesión nueva) y dale solo esta carpeta: que lea LEEME.md y escriba informe.md.");
+      return 0;
+    }
+    case "metricas": {
+      const { text, file, errores } = informeMetricas();
+      console.log(text);
+      console.log(`Informe escrito en ${file}`);
+      return errores.length ? 1 : 0;
+    }
+    case "swipe": {
+      if (!arg) throw new Error("Uso: carrusel swipe <archivo.tsv> (encabezados: cuenta, seguidores, mediana, megusta, portada)");
+      const r = runPython("skills/ig-es/swipe_es.py", [resolve(arg), "--out", join(REPO_ROOT, "docs", "swipe.md")]);
+      process.stdout.write(r.stdout);
+      process.stderr.write(r.stderr);
+      return r.ok ? 0 : 1;
     }
     case "baraja": {
       const account = arg && !arg.startsWith("--") ? arg : flag("--cuenta", "dev");
@@ -132,15 +220,19 @@ export default [
       return issues.some((i) => i.level === "error") ? 1 : 0;
     }
     case "esquema": {
-      const schema = z.toJSONSchema(PostSchema, { io: "input", unrepresentable: "any" });
-      const out = join(REPO_ROOT, "schemas", "post.schema.json");
       mkdirSync(join(REPO_ROOT, "schemas"), { recursive: true });
-      writeFileSync(out, JSON.stringify(schema, null, 2) + "\n");
-      console.log(`Esquema exportado en ${out}`);
+      const schemas = { post: PostSchema, brief: BriefSchema, metricas: MetricasSchema };
+      for (const [name, schema] of Object.entries(schemas)) {
+        const out = join(REPO_ROOT, "schemas", `${name}.schema.json`);
+        writeFileSync(out, JSON.stringify(z.toJSONSchema(schema, { io: "input", unrepresentable: "any" }), null, 2) + "\n");
+        console.log(`Esquema exportado en ${out}`);
+      }
       return 0;
     }
     default:
-      console.log("Comandos: nuevo <slug> [--cuenta dev] | baraja [--cuenta dev] [--todas] | logo <marca> | render <carpeta> | esquema");
+      console.log(
+        "Comandos: nuevo <slug> [--cuenta dev] | brief <carpeta> | baraja [--cuenta dev] [--todas] | logo <marca> | render <carpeta> | texto <carpeta> | critica <carpeta> | metricas | swipe <tsv> | esquema",
+      );
       return command ? 1 : 0;
   }
 }

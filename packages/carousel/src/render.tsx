@@ -1,13 +1,16 @@
 import { execFileSync } from "node:child_process";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { homedir } from "node:os";
 import { basename, join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import type { ReactElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { chromium, type Page } from "playwright-core";
+import { chromium, type Browser, type Page } from "playwright-core";
 import { createHighlighter } from "shiki";
 import { fontFaceCss, loadAccount, pieceFontIds, REPO_ROOT, tailwindTheme } from "../../brand/src/index.ts";
+import { loadBrief, type Brief } from "./brief.ts";
 import { PostSchema, type Post } from "./post.ts";
+import { revisarTextos } from "./texto.ts";
 import { SlideContext } from "./ui/index.tsx";
 
 /** Se diseña en 540×675 y se fotografía a 2x: salen PNG de 1080×1350. */
@@ -19,22 +22,22 @@ export type Issue = { level: "error" | "aviso"; where: string; message: string }
 const UI_DIR = resolve(REPO_ROOT, "packages/carousel/src/ui");
 const TAILWIND_CLI = join(REPO_ROOT, "node_modules/@tailwindcss/cli/dist/index.mjs");
 
-/** Frases de relleno que delatan texto de IA en español. Se amplía con el uso. */
-const SLOP = [
-  "potenciar",
-  "potencia tu",
-  "sumérgete",
-  "en el dinámico mundo",
-  "soluciones innovadoras",
-  "sin precedentes",
-  "revolucionari",
-  "desbloquea",
-  "al siguiente nivel",
-  "game changer",
-  "en la era de",
-  "te lo explico todo",
-  "no vas a creer",
-];
+/**
+ * Frases de relleno que delatan texto de IA en español. Salen del mismo léxico
+ * que usa el humanizador (skills/ig-es/slop-es.json), para que haya una sola lista.
+ */
+const SLOP: { find: string; re: RegExp }[] = (() => {
+  const lex = JSON.parse(readFileSync(join(REPO_ROOT, "skills/ig-es/slop-es.json"), "utf8")) as {
+    words: { find: string }[];
+    phrases: { find: string }[];
+    solo_marcar: string[];
+  };
+  const finds = [...lex.words.map((w) => w.find), ...lex.phrases.map((p) => p.find), ...lex.solo_marcar];
+  return [...new Set(finds)].map((find) => ({
+    find,
+    re: new RegExp(`(?<![\\p{L}\\p{N}])${find.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/ /g, "\\s+")}(?![\\p{L}\\p{N}])`, "iu"),
+  }));
+})();
 
 export async function loadPiece(dir: string): Promise<{ post: Post; slides: ReactElement[] }> {
   const postPath = join(dir, "post.json");
@@ -90,14 +93,26 @@ async function highlightCode(html: string): Promise<string> {
   return out;
 }
 
-/** Medición en el navegador: lo que un juez vería y el código no dice. */
-const INSPECT = `((isCover) => {
+/**
+ * Medición en el navegador: lo que un juez vería y el código no dice.
+ *
+ * Tamaños en px de diseño (el PNG sale a 2x; el celular muestra la lámina a
+ * ~390px de ancho, un 36% del PNG). Tres clases de texto:
+ * - texto: error bajo 14px (28 reales), aviso bajo 16px (32 reales, ~11.5px en el celular);
+ * - código (<Code>, <pre>): error bajo 13px, aviso bajo 14px;
+ * - marco y notas (data-ui, data-nota, figcaption: fuente, fecha, créditos): error bajo 12px.
+ * Contraste: 4.5:1 para texto de menos de 24px de diseño, 3:1 para el más grande,
+ * el marco y las notas. El código no se mide (lo colorea Shiki sobre fondo oscuro).
+ */
+const INSPECT = `((isCover, isLast) => {
   const issues = [];
   const slide = document.querySelector('[data-slide]');
   const content = document.querySelector('[data-content]');
   const box = slide.getBoundingClientRect();
   if (content.scrollHeight > content.clientHeight + 1) issues.push(['error', 'El contenido no entra: sobran ' + (content.scrollHeight - content.clientHeight) + 'px de alto']);
-  const inCode = (el) => el.closest('pre,code,[data-code],[data-mono-ok],[data-ui]');
+  const isCode = (el) => !!el.closest('pre,code,[data-code]');
+  const isChrome = (el) => !!el.closest('[data-ui],[data-nota],figcaption');
+  const monoOk = (el) => !!el.closest('pre,code,[data-code],[data-mono-ok],[data-ui]');
   const parse = (c) => {
     const m = c.match(/rgba?\\(([^)]+)\\)/) || c.match(/color\\(srgb ([^)]+)\\)/);
     if (!m) return null;
@@ -130,38 +145,48 @@ const INSPECT = `((isCover) => {
   };
   const contrastOf = (el, cs) => {
     const fg = parse(cs.color);
-    if (!fg || inCode(el)) return null;
+    if (!fg || isCode(el)) return null;
     const bg = bgOf(el);
     if (!bg) return null;
     const a = lum(fg), b = lum(bg);
     return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
   };
-  let lowContrast = [];
+  const lowContrast = [];
   const families = new Set();
-  let gradients = 0, shadows = 0, monoLabels = 0, capsLabels = 0, small = 0, tiny = 0;
+  const sizes = new Set();
+  const tiny = [], small = [];
+  let gradients = 0, shadows = 0, monoLabels = 0, capsLabels = 0;
+  const sample = (el) => (el.textContent || '').trim().replace(/\\s+/g, ' ').slice(0, 30);
   for (const el of content.querySelectorAll('*')) {
     const cs = getComputedStyle(el);
     const r = el.getBoundingClientRect();
     if (r.width === 0 || r.height === 0 || cs.visibility === 'hidden' || cs.display === 'none') continue;
-    if (r.right > box.right + 1 || r.left < box.left - 1 || r.bottom > box.bottom + 1) issues.push(['error', 'Un elemento se sale de la lámina: <' + el.tagName.toLowerCase() + '> ' + (el.textContent || '').trim().slice(0, 40)]);
-    if (el.scrollWidth > el.clientWidth + 1 && cs.overflowX !== 'visible') issues.push(['error', 'Texto cortado a la derecha: ' + (el.textContent || '').trim().slice(0, 40)]);
+    if (r.right > box.right + 1 || r.left < box.left - 1 || r.bottom > box.bottom + 1) issues.push(['error', 'Un elemento se sale de la lámina: <' + el.tagName.toLowerCase() + '> ' + sample(el)]);
+    if (el.scrollWidth > el.clientWidth + 1 && cs.overflowX !== 'visible') issues.push(['error', 'Texto cortado a la derecha: ' + sample(el)]);
     const ownText = [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim());
-    if (cs.backgroundImage.includes('gradient') && !inCode(el)) gradients++;
-    if (cs.boxShadow !== 'none' && !inCode(el)) shadows++;
+    if (cs.backgroundImage.includes('gradient') && !isCode(el)) gradients++;
+    if (cs.boxShadow !== 'none' && !isCode(el)) shadows++;
     if (!ownText) continue;
     const size = parseFloat(cs.fontSize);
-    if (!inCode(el)) families.add(cs.fontFamily.split(',')[0].trim().replaceAll('"', ''));
-    if (size < 11) tiny++; else if (size < 13) small++;
-    if (/mono/i.test(cs.fontFamily) && !inCode(el)) monoLabels++;
+    const code = isCode(el), chrome = !code && isChrome(el), prose = !code && !chrome;
+    if (prose) {
+      families.add(cs.fontFamily.split(',')[0].trim().replaceAll('"', ''));
+      sizes.add(Math.round(size));
+      if (size < 14) tiny.push(sample(el) + ' (' + size * 2 + 'px)'); else if (size < 16) small.push(sample(el) + ' (' + size * 2 + 'px)');
+    } else if (code) {
+      if (size < 13) tiny.push('código: ' + sample(el) + ' (' + size * 2 + 'px)'); else if (size < 14) small.push('código: ' + sample(el) + ' (' + size * 2 + 'px)');
+    } else if (size < 12) tiny.push('nota: ' + sample(el) + ' (' + size * 2 + 'px)');
+    if (/mono/i.test(cs.fontFamily) && !monoOk(el)) monoLabels++;
     if (cs.textTransform === 'uppercase' && parseFloat(cs.letterSpacing) > 0.5 && size < 16) capsLabels++;
     const ratio = contrastOf(el, cs);
-    if (ratio !== null && ratio < 3 && parseFloat(cs.opacity) > 0.7) lowContrast.push((el.textContent || '').trim().slice(0, 40) + ' (' + ratio.toFixed(1) + ':1)');
+    const need = prose && size < 24 ? 4.5 : 3;
+    if (ratio !== null && ratio < need && parseFloat(cs.opacity) > 0.7) lowContrast.push(sample(el) + ' (' + ratio.toFixed(1) + ':1, pide ' + need + ':1)');
   }
   // La firma y la pestaña también tienen que leerse sobre lo que haya detrás.
   for (const el of slide.querySelectorAll('[data-brand] *, [data-frame="pestaña"]')) {
     if (![...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim())) continue;
     const ratio = contrastOf(el, getComputedStyle(el));
-    if (ratio !== null && ratio < 3) lowContrast.push('marco: ' + (el.textContent || '').trim().slice(0, 30) + ' (' + ratio.toFixed(1) + ':1)');
+    if (ratio !== null && ratio < 3) lowContrast.push('marco: ' + sample(el) + ' (' + ratio.toFixed(1) + ':1)');
   }
   // Ancla visual: lo que dice el tema sin leer. Obligatoria en la portada.
   const anchors = [...slide.querySelectorAll('[data-ancla]')].map((a) => a.getBoundingClientRect());
@@ -169,30 +194,58 @@ const INSPECT = `((isCover) => {
   if (isCover && !anchors.length) issues.push(['error', 'La portada no tiene ancla visual: usa <Logo>, <Icono> o <Img ancla> (skills/carrusel-taste)']);
   else if (isCover && anchorShare < 0.025) issues.push(['aviso', 'El ancla de la portada ocupa ' + (anchorShare * 100).toFixed(1) + '% de la lámina: en miniatura no se va a reconocer']);
   for (const t of lowContrast) issues.push(['error', 'Texto sin contraste suficiente: ' + t]);
-  if (tiny) issues.push(['error', tiny + ' texto(s) por debajo de 22px reales: no se leen en el celular']);
-  if (small) issues.push(['aviso', small + ' texto(s) entre 22 y 26px reales: revisa si se leen']);
+  if (tiny.length) issues.push(['error', tiny.length + ' texto(s) demasiado chicos para el celular: ' + tiny.slice(0, 3).join('; ')]);
+  if (small.length) issues.push(['aviso', small.length + ' texto(s) chicos (el cuerpo va en 32px reales o más): ' + small.slice(0, 3).join('; ')]);
+  if (sizes.size > 3) issues.push(['aviso', sizes.size + ' tamaños de letra distintos (' + [...sizes].sort((a, b) => b - a).map((s) => s * 2 + 'px').join(', ') + '); usa 2 o 3']);
   if (gradients) issues.push(['aviso', gradients + ' degradado(s): delatan diseño genérico']);
   if (shadows) issues.push(['aviso', shadows + ' sombra(s) en reposo: usa un cambio de tono']);
   if (monoLabels) issues.push(['aviso', monoLabels + ' texto(s) en monoespaciada fuera de código']);
   if (capsLabels) issues.push(['aviso', capsLabels + ' etiqueta(s) pequeñas en mayúsculas espaciadas']);
   if (families.size > 2) issues.push(['aviso', 'Más de dos tipografías fuera del código: ' + [...families].join(', ')]);
+  // Palabras que se leen: sin código, marco ni notas.
+  const walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT);
+  const read = [];
+  for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+    const p = n.parentElement;
+    if (!p || isCode(p) || isChrome(p) || !n.textContent.trim()) continue;
+    read.push(n.textContent);
+  }
+  const readText = read.join(' ').replace(/\\s+/g, ' ').trim();
+  const words = readText ? readText.split(' ').length : 0;
+  const cta = isLast ? content.querySelector('[data-cta]') : null;
   const text = content.innerText.replace(/\\s+/g, ' ').trim();
-  const words = text ? text.split(' ').length : 0;
-  return { issues, text, words };
+  return { issues, text, words, cta: cta ? (cta.textContent || '').replace(/\\s+/g, ' ').trim() : null };
 })`;
 
-type SlideReport = { issues: Issue[]; text: string; words: number };
+type SlideReport = { issues: Issue[]; text: string; words: number; cta: string | null };
 
-async function inspectSlide(page: Page, i: number): Promise<SlideReport> {
-  const r = (await page.evaluate(`${INSPECT}(${i === 0})`)) as { issues: [Issue["level"], string][]; text: string; words: number };
+const normalize = (s: string) =>
+  s
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^\p{L}\p{N}]+/gu, " ")
+    .trim();
+
+async function inspectSlide(page: Page, i: number, total: number): Promise<SlideReport> {
+  const isCover = i === 0;
+  const isLast = i === total - 1;
+  const r = (await page.evaluate(`${INSPECT}(${isCover}, ${isLast})`)) as {
+    issues: [Issue["level"], string][];
+    text: string;
+    words: number;
+    cta: string | null;
+  };
   const where = `lámina ${i + 1}`;
   const issues: Issue[] = r.issues.map(([level, message]) => ({ level, where, message }));
-  if (r.words > 70) issues.push({ level: "error", where, message: `${r.words} palabras; el máximo es 70` });
-  else if (r.words > 50) issues.push({ level: "aviso", where, message: `${r.words} palabras; mejor 50 o menos` });
-  const lower = r.text.toLowerCase();
+  if (isCover) {
+    if (r.words > 20) issues.push({ level: "error", where, message: `${r.words} palabras en la portada; el máximo es 20` });
+    else if (r.words > 12) issues.push({ level: "aviso", where, message: `${r.words} palabras en la portada; mejor 12 o menos (gancho y promesa)` });
+  } else if (r.words > 50) issues.push({ level: "error", where, message: `${r.words} palabras; el máximo es 50` });
+  else if (r.words > 35) issues.push({ level: "aviso", where, message: `${r.words} palabras; mejor 35 o menos` });
   if (r.text.includes("—")) issues.push({ level: "aviso", where, message: "Guion largo (—): suena a texto de IA" });
-  for (const s of SLOP) if (lower.includes(s)) issues.push({ level: "aviso", where, message: `Frase de relleno: "${s}"` });
-  return { issues, text: r.text, words: r.words };
+  for (const { find, re } of SLOP) if (re.test(r.text)) issues.push({ level: "aviso", where, message: `Frase de relleno: "${find}" (skills/ig-es/slop-es.json)` });
+  return { issues, text: r.text, words: r.words, cta: r.cta };
 }
 
 function contactSheet(images: string[], handle: string): string {
@@ -230,7 +283,24 @@ export async function renderPiece(dir: string): Promise<{ files: string[]; issue
   const issues: Issue[] = [];
   const files: string[] = [];
 
-  const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH || undefined });
+  // Paso 0: brief editorial y puerta A (workflows/carrusel.md).
+  const load = loadBrief(dir);
+  let brief: Brief | null = null;
+  if (load.status === "sin-brief") {
+    issues.push({ level: "aviso", where: "brief", message: "Sin brief.json: pieza anterior al paso 0 (workflows/carrusel.md)" });
+  } else if (load.status === "invalido") {
+    for (const e of load.errors) issues.push({ level: "error", where: "brief", message: e });
+  } else {
+    brief = load.brief;
+    for (const w of load.warnings) issues.push({ level: "aviso", where: "brief", message: w });
+    if (!brief.puertaA.aprobado) {
+      issues.push({ level: "error", where: "brief", message: "La puerta A no está aprobada: corre carrusel:brief y muéstrale out/puerta-a.md a la persona" });
+    }
+  }
+
+  const slideTexts: string[] = [];
+  let lastCta: string | null = null;
+  const browser = await launchBrowser();
   try {
     const page = await browser.newPage({ viewport: { width: DESIGN_W, height: DESIGN_H }, deviceScaleFactor: 2 });
     const texts: string[] = [];
@@ -243,9 +313,11 @@ export async function renderPiece(dir: string): Promise<{ files: string[]; issue
       writeFileSync(join(buildDir, `${String(i + 1).padStart(2, "0")}.html`), html);
       await page.setContent(html, { waitUntil: "load" });
       await page.evaluate(() => document.fonts.ready);
-      const report = await inspectSlide(page, i);
+      const report = await inspectSlide(page, i, slides.length);
       issues.push(...report.issues);
       texts.push(`--- Lámina ${i + 1} (${report.words} palabras)\n${report.text}`);
+      slideTexts.push(report.text);
+      if (i === slides.length - 1) lastCta = report.cta;
       const file = join(outDir, `${String(i + 1).padStart(2, "0")}.png`);
       await page.screenshot({ path: file, type: "png" });
       files.push(file);
@@ -270,9 +342,77 @@ export async function renderPiece(dir: string): Promise<{ files: string[]; issue
     await browser.close();
   }
 
-  writeFileSync(join(outDir, "texto-del-post.txt"), post.caption + "\n");
+  // Cierre: despedida dinámica con un solo CTA, marcado con data-cta.
+  const lastWhere = `lámina ${slides.length}`;
+  if (lastCta === null) {
+    issues.push({
+      level: brief ? "error" : "aviso",
+      where: lastWhere,
+      message: "La última lámina no tiene CTA: marca el llamado a la acción con data-cta (workflows/carrusel.md, el cierre)",
+    });
+  } else if (brief && normalize(lastCta) !== normalize(brief.cta.texto)) {
+    issues.push({ level: "aviso", where: lastWhere, message: `El CTA de la lámina ("${lastCta}") no es el del brief ("${brief.cta.texto}")` });
+  }
+
+  const captionFile = join(outDir, "texto-del-post.txt");
+  writeFileSync(captionFile, post.caption + "\n");
   if (post.slideCaptions) {
     writeFileSync(join(outDir, "textos-por-lamina.txt"), post.slideCaptions.map((c, i) => `${i + 1}. ${c}`).join("\n\n") + "\n");
   }
+  if (post.alt) writeFileSync(join(outDir, "texto-alternativo.txt"), post.alt + "\n");
+  else issues.push({ level: "aviso", where: "texto del post", message: "Falta post.json → alt: el texto alternativo de la portada" });
+  issues.push(...revisarTextos({ outDir, captionFile, slideTexts, brief, busqueda: post.busqueda }));
   return { files, issues };
+}
+
+/**
+ * Abre Chromium. Primero CHROME_PATH, después el que pide playwright-core; si
+ * esa versión no está instalada, el Chromium de Playwright más nuevo que haya
+ * (de otro proyecto) y por último Chrome o Edge del sistema.
+ */
+async function launchBrowser(): Promise<Browser> {
+  const failures: string[] = [];
+  for (const executablePath of browserCandidates()) {
+    try {
+      return await chromium.launch({ executablePath });
+    } catch (e) {
+      failures.push(`${executablePath ?? "Chromium de playwright-core"}: ${(e as Error).message.split("\n")[0]}`);
+    }
+  }
+  throw new Error(`No pude abrir ningún navegador. Define CHROME_PATH o corre "npx playwright install chromium".\n${failures.join("\n")}`);
+}
+
+function browserCandidates(): (string | undefined)[] {
+  const list: (string | undefined)[] = [];
+  if (process.env.CHROME_PATH) list.push(process.env.CHROME_PATH);
+  list.push(undefined);
+  const home = homedir();
+  const pwDir =
+    process.env.PLAYWRIGHT_BROWSERS_PATH ??
+    (process.platform === "win32"
+      ? join(home, "AppData/Local/ms-playwright")
+      : process.platform === "darwin"
+        ? join(home, "Library/Caches/ms-playwright")
+        : join(home, ".cache/ms-playwright"));
+  const builds = existsSync(pwDir)
+    ? readdirSync(pwDir)
+        .filter((d) => /^chromium-\d+$/.test(d))
+        .sort((a, b) => Number(b.split("-")[1]) - Number(a.split("-")[1]))
+    : [];
+  const inBuild = ["chrome-win64/chrome.exe", "chrome-win/chrome.exe", "chrome-linux64/chrome", "chrome-linux/chrome",
+    "chrome-mac-arm64/Chromium.app/Contents/MacOS/Chromium", "chrome-mac/Chromium.app/Contents/MacOS/Chromium"];
+  const system = [
+    join(process.env.PROGRAMFILES ?? "C:/Program Files", "Google/Chrome/Application/chrome.exe"),
+    join(process.env["PROGRAMFILES(X86)"] ?? "C:/Program Files (x86)", "Google/Chrome/Application/chrome.exe"),
+    join(process.env.LOCALAPPDATA ?? join(home, "AppData/Local"), "Google/Chrome/Application/chrome.exe"),
+    join(process.env["PROGRAMFILES(X86)"] ?? "C:/Program Files (x86)", "Microsoft/Edge/Application/msedge.exe"),
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+    "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge",
+    "/usr/bin/google-chrome",
+    "/usr/bin/chromium",
+    "/usr/bin/chromium-browser",
+  ];
+  for (const b of builds) for (const rel of inBuild) if (existsSync(join(pwDir, b, rel))) list.push(join(pwDir, b, rel));
+  for (const p of system) if (existsSync(p)) list.push(p);
+  return list;
 }

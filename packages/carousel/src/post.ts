@@ -33,6 +33,10 @@ export const ArtSchema = z.object({
   fonts: PieceFontsSchema,
   anchor: AnchorSchema.describe("El elemento que dice el tema sin leer; va grande en la portada"),
   tab: z.string().trim().min(1).max(40).optional().describe("Texto de la pestaña del marco; por defecto, el tema de la carpeta + .md"),
+  contador: z
+    .boolean()
+    .optional()
+    .describe("Experimento: muestra n/N en el pie de las láminas interiores. Se decide con las métricas (workflows/metricas.md)"),
 });
 export type Art = z.infer<typeof ArtSchema>;
 
@@ -46,7 +50,18 @@ export const PostSchema = z.object({
     .min(10)
     .describe("La idea propia de esta pieza: 'En este carrusel, [algo del tema] se vuelve [recurso visual]'"),
   art: ArtSchema,
-  caption: z.string().trim().min(1).max(2200).describe("Texto principal del post"),
+  caption: z
+    .string()
+    .trim()
+    .min(1)
+    .max(2200)
+    .describe("Texto principal del post: gancho en los primeros 125 caracteres, una sola petición, hasta 5 hashtags"),
+  busqueda: z
+    .array(z.string().trim().min(2))
+    .max(5)
+    .optional()
+    .describe("Términos por los que quieres que te encuentren; van como frase dentro del texto, no como hashtag"),
+  alt: z.string().trim().min(10).max(500).optional().describe("Texto alternativo de la portada"),
   slideCaptions: z
     .array(z.string().trim().min(1).max(500))
     .optional()

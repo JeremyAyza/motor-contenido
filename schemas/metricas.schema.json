@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "publicado": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$",
+      "description": "Fecha y hora de publicación, con zona horaria"
+    },
+    "etiquetas": {
+      "type": "object",
+      "properties": {
+        "formato": {
+          "type": "string",
+          "enum": [
+            "noticia",
+            "ensenar",
+            "comparativa",
+            "error-comun",
+            "opinion",
+            "herramienta"
+          ]
+        },
+        "formulaGancho": {
+          "description": "id de skills/ig-es/ganchos-es.json",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 27
+        },
+        "direccion": {
+          "type": "string"
+        },
+        "laminas": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 20
+        },
+        "cta": {
+          "type": "string",
+          "enum": [
+            "guardar",
+            "enviar",
+            "comentar",
+            "seguir"
+          ]
+        }
+      }
+    },
+    "cortes": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "dia": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 90,
+            "description": "Días desde la publicación (2 y 7 como mínimo)"
+          },
+          "alcance": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "description": "Cuentas alcanzadas"
+          },
+          "alcanceNoSeguidores": {
+            "description": "Porcentaje del alcance que no te sigue",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "visualizaciones": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "guardados": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "compartidos": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "description": "Veces que se compartió o envió por DM"
+          },
+          "comentarios": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "meGusta": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "visitasPerfil": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "seguidores": {
+            "description": "Seguidores que llegaron por esta pieza",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "dia",
+          "alcance",
+          "guardados",
+          "compartidos",
+          "comentarios",
+          "meGusta"
+        ]
+      }
+    },
+    "notas": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "publicado",
+    "etiquetas",
+    "cortes"
+  ]
+}

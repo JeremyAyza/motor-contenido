@@ -1,0 +1,184 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "formato": {
+      "type": "string",
+      "enum": [
+        "noticia",
+        "ensenar",
+        "comparativa",
+        "error-comun",
+        "opinion",
+        "herramienta"
+      ]
+    },
+    "tesis": {
+      "type": "string",
+      "minLength": 20,
+      "maxLength": 240,
+      "description": "Una frase con la que alguien podría no estar de acuerdo, o que da una lectura que el anuncio no da"
+    },
+    "palanca": {
+      "description": "La palanca de ángulo usada si la tesis no pasaba la prueba del competidor editorial",
+      "type": "string",
+      "enum": [
+        "que-cambia",
+        "oficial-vs-independiente",
+        "cuentas-hechas",
+        "letra-chica",
+        "para-quien-no"
+      ]
+    },
+    "porQueAhora": {
+      "type": "string",
+      "minLength": 10
+    },
+    "paraQuien": {
+      "type": "string",
+      "minLength": 10,
+      "description": "Público específico, no 'devs'"
+    },
+    "queGana": {
+      "type": "string",
+      "minLength": 10,
+      "description": "Qué se lleva el lector: aprende a..., decide..., evita..."
+    },
+    "objetivo": {
+      "type": "string",
+      "enum": [
+        "guardar",
+        "enviar",
+        "comentar"
+      ]
+    },
+    "compartirCon": {
+      "type": "string",
+      "minLength": 10,
+      "description": "A quién se lo mandaría el lector, con su situación concreta"
+    },
+    "toma": {
+      "description": "La opinión de la persona, si la hay (docs/voz.md, posturas)",
+      "type": "string"
+    },
+    "ganchos": {
+      "minItems": 8,
+      "maxItems": 12,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "texto": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 120,
+            "description": "Texto de la portada; lo ideal son 3 a 8 palabras"
+          },
+          "promesa": {
+            "description": "Línea de promesa debajo del gancho",
+            "type": "string",
+            "maxLength": 140
+          },
+          "formula": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 27,
+            "description": "id de skills/ig-es/ganchos-es.json"
+          }
+        },
+        "required": [
+          "texto",
+          "formula"
+        ]
+      },
+      "description": "De 8 a 10 candidatos de al menos 4 fórmulas distintas"
+    },
+    "ganchoElegido": {
+      "description": "El gancho que eligió la persona en la puerta A",
+      "type": "string"
+    },
+    "esqueleto": {
+      "minItems": 5,
+      "maxItems": 10,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "afirmacion": {
+            "type": "string",
+            "minLength": 5
+          },
+          "prueba": {
+            "type": "string",
+            "minLength": 3
+          }
+        },
+        "required": [
+          "afirmacion",
+          "prueba"
+        ]
+      },
+      "description": "Una entrada por lámina: la afirmación y su prueba (un dato de facts.json o del inventario)"
+    },
+    "cta": {
+      "type": "object",
+      "properties": {
+        "tipo": {
+          "type": "string",
+          "enum": [
+            "guardar",
+            "enviar",
+            "comentar",
+            "seguir"
+          ],
+          "description": "La única acción que pide el cierre"
+        },
+        "texto": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 160,
+          "description": "Específico del tema: nombra la situación o la persona concreta, no 'compártelo con quien lo necesite'"
+        }
+      },
+      "required": [
+        "tipo",
+        "texto"
+      ]
+    },
+    "puertaA": {
+      "default": {
+        "aprobado": false
+      },
+      "description": "Solo la persona aprueba. El agente marca aprobado: true después de su sí en el chat",
+      "type": "object",
+      "properties": {
+        "aprobado": {
+          "type": "boolean"
+        },
+        "fecha": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        },
+        "notas": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "aprobado"
+      ]
+    }
+  },
+  "required": [
+    "formato",
+    "tesis",
+    "porQueAhora",
+    "paraQuien",
+    "queGana",
+    "objetivo",
+    "compartirCon",
+    "ganchos",
+    "esqueleto",
+    "cta"
+  ]
+}

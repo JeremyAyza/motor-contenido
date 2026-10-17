@@ -5,3 +5,6 @@ content/*/out/
 !.env.example
 *.log
 .DS_Store
+__pycache__/
+# Capturas de carruseles de terceros: solo para calibrar al crítico ciego
+skills/carrusel-taste/referencias/externas/

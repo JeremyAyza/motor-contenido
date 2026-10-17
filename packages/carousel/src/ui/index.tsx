@@ -72,6 +72,8 @@ const DOTS = `url("data:image/svg+xml,${encodeURIComponent(
  * - `underlay`: capa detrás del contenido y delante de los puntos, para campos
  *   a sangre (la pantalla partida de "antes y después", por ejemplo).
  * - `swipe`: muestra "Desliza" junto a la firma (solo en la portada).
+ * Si post.json → art.contador es true, las láminas interiores muestran n/N en
+ * el pie (experimento que se decide con las métricas).
  */
 export function Slide({
   children,
@@ -88,7 +90,8 @@ export function Slide({
   underlay?: ReactNode;
   swipe?: boolean;
 }) {
-  const { brand, tab } = useRender();
+  const { brand, tab, art, index, total } = useRender();
+  const counter = !swipe && art.contador && index > 0 ? `${index + 1}/${total}` : null;
   const dots: CSSProperties = {
     backgroundColor: "currentColor",
     WebkitMaskImage: DOTS,
@@ -116,6 +119,7 @@ export function Slide({
           <span className="opacity-80">{brand.handle}</span>
         </span>
         {swipe ? <span className="font-medium opacity-80">Desliza</span> : null}
+        {counter ? <span className="font-medium tabular-nums opacity-80">{counter}</span> : null}
       </footer>
     </main>
   );
@@ -303,8 +307,24 @@ export function Img({
   return (
     <figure className="relative" data-ancla={ancla ? "imagen" : undefined}>
       <img src={`data:${mime};base64,${data}`} alt={alt} className={cx("block", className)} />
-      {credit ? <figcaption className="mt-1.5 text-[13px] opacity-70">{credit}</figcaption> : null}
+      {credit ? (
+        <figcaption data-nota className="mt-1.5 text-[13px] opacity-70">
+          {credit}
+        </figcaption>
+      ) : null}
     </figure>
+  );
+}
+
+/**
+ * Letra pequeña que no es contenido: fuente, fecha, "ejemplo ilustrativo".
+ * El inspector la deja en 24px reales (12px de diseño) y no la cuenta como palabras.
+ */
+export function Nota({ children, className }: { children: ReactNode; className?: string }) {
+  return (
+    <p data-nota className={cx("text-[13px] leading-snug text-muted", className)}>
+      {children}
+    </p>
   );
 }
 

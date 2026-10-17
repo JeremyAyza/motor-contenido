@@ -22,6 +22,9 @@ Estas reglas adaptan al formato carrusel los principios de [Taste Skill](https:/
 | Dashboards falsos de barras grises o interfaces inventadas | Una captura real, código real o nada |
 | Logos, mascotas o personajes de marcas dibujados o imitados | El archivo oficial (`<Logo>`) o una captura real |
 | La misma dirección de arte que el carrusel anterior | La baraja (`npm run carrusel:baraja`) deja fuera las dos últimas |
+| Letra chica en el cuerpo (menos de 32px reales) | Menos texto y más grande; la letra chica es solo para fuente y fecha, con `<Nota>` |
+| Un cierre genérico ("compártelo con quien lo necesite", "sígueme para más") | Una despedida que cierra la portada y un CTA que nombra la situación concreta |
+| Dos peticiones en el cierre o en el texto del post | Una sola, la misma en la lámina y en el texto |
 
 ## Hacer
 
@@ -34,7 +37,8 @@ Estas reglas adaptan al formato carrusel los principios de [Taste Skill](https:/
 
 ## Texto
 
-- Español neutro, en voz de alguien que lo probó.
-- Sin guiones largos (—) ni frases de relleno: "potenciar", "sumérgete", "en el dinámico mundo", "soluciones innovadoras", "sin precedentes", "al siguiente nivel", "revolucionario", "desbloquea", "en la era de".
+- Español neutro, en la voz de [docs/voz.md](voz.md).
+- Sin guiones largos (—) ni frases de relleno. La lista completa está en [skills/ig-es/slop-es.json](../skills/ig-es/slop-es.json): la usan el inspector (láminas) y el humanizador de `ig-human` (texto del post). Ejemplos: "potenciar", "sumérgete", "en el mundo actual", "cabe destacar que", "sin lugar a dudas", "un antes y un después", "al siguiente nivel", "revolucionario", "increíble".
+- Sin las estructuras que delatan a un modelo: "No es solo X, es Y", "No se trata de X, se trata de Y", tríadas ("rápido, barato y fácil."), "¿El resultado?" en una línea, "Spoiler:", "¿Sabías que...?", "Todo lo que necesitas saber", preguntas genéricas de cierre ("¿Qué opinas?") y cebos ("etiqueta a alguien", "compártelo con quien lo necesite"). El render las marca en el texto y en las láminas.
 - Verbos concretos y números con fuente. Nada de testimonios, cifras ni clientes inventados.
 - Cada lámina responde a una sola afirmación del argumento.

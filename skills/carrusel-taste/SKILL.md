@@ -7,7 +7,7 @@ description: Dirección de arte para carruseles de Instagram del motor. Úsala a
 
 Criterio visual para que cada carrusel se vea pensado para su tema y distinto del anterior, sin caer en el promedio de lo que hace un modelo. Adapta a láminas fijas de 1080×1350 los principios de [Taste Skill](https://github.com/Leonxlnx/taste-skill) (MIT); lo que es de páginas web (navegación, animación, búsqueda de fotos) quedó fuera.
 
-Se usa en el paso de dirección de arte de [workflows/carrusel.md](../../workflows/carrusel.md), después de tener la ficha, el argumento y la idea.
+Se usa en el paso de dirección de arte de [workflows/carrusel.md](../../workflows/carrusel.md), después de que la persona aprobó el brief en la puerta A (tesis, gancho, esqueleto y CTA) y de tener la idea visual.
 
 ## Qué es fijo y qué cambia
 
@@ -72,6 +72,9 @@ Nunca dibujes ni imites un logo, una mascota o un personaje de una marca: solo a
 - **La portada sigue la receta de la dirección** (`portada`) y el interior su `interior`.
 - **Asimetría con intención:** alinea a un borde, deja aire en el otro. El centrado simétrico en todo se ve plantilla.
 - **Lo real manda:** comandos, código, capturas y números con fuente. Nada de dashboards falsos ni interfaces inventadas.
+- **Grande para el celular:** el cuerpo en 16px de diseño o más; menos palabras antes que letra chica.
+- **El cierre también se diseña:** la última lámina es una despedida que cierra lo que abrió la portada (el mismo ancla, el mismo trazo, la respuesta al gancho), en la forma de la dirección elegida, con un solo CTA marcado con `data-cta`. Es tan dinámica como la portada: no hay una lámina final fija.
+- **La lámina de resumen,** cuando la hay, se diseña para que se entienda capturada y mandada sola.
 - Revisa también [docs/anti-slop.md](../../docs/anti-slop.md).
 
 ## Referencias
@@ -87,3 +90,5 @@ Nunca dibujes ni imites un logo, una mascota o un personaje de una marca: solo a
 - [ ] La paleta sale del ancla y de la dirección; ningún color suelto.
 - [ ] Dos familias como mucho por lámina, sin contar el código.
 - [ ] Ninguna lámina repite la composición de la anterior.
+- [ ] La portada usa el gancho aprobado en la puerta A.
+- [ ] La última lámina cierra la portada y tiene un solo CTA con `data-cta`.

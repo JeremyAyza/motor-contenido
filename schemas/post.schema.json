@@ -216,6 +216,10 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 40
+        },
+        "contador": {
+          "description": "Experimento: muestra n/N en el pie de las láminas interiores. Se decide con las métricas (workflows/metricas.md)",
+          "type": "boolean"
         }
       },
       "required": [
@@ -230,7 +234,22 @@
       "type": "string",
       "minLength": 1,
       "maxLength": 2200,
-      "description": "Texto principal del post"
+      "description": "Texto principal del post: gancho en los primeros 125 caracteres, una sola petición, hasta 5 hashtags"
+    },
+    "busqueda": {
+      "description": "Términos por los que quieres que te encuentren; van como frase dentro del texto, no como hashtag",
+      "maxItems": 5,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 2
+      }
+    },
+    "alt": {
+      "description": "Texto alternativo de la portada",
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 500
     },
     "slideCaptions": {
       "description": "Un texto por lámina (opción de Instagram desde junio de 2026)",

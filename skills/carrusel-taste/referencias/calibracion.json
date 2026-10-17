@@ -1,0 +1,15 @@
+{
+  "nota": "Calificaciones de Jeremy con la rúbrica de docs/critica-carrusel.md, para calibrar al crítico ciego (docs/critico-ciego.md). Las capturas van en referencias/externas/ (fuera de git). Llena de 6 a 10 entradas; puntos de 1 a 5.",
+  "rubrica": ["gancho", "tesis", "valor", "compartible", "cierre", "voz", "legibilidad", "ancla", "progresion"],
+  "carruseles": [
+    {
+      "cuenta": "@ejemplo",
+      "url": "https://www.instagram.com/p/EJEMPLO/",
+      "capturas": "externas/ejemplo/",
+      "tesis": "Lo que entendiste que quería decir, en una frase",
+      "jeremy": { "gancho": null, "tesis": null, "valor": null, "compartible": null, "cierre": null, "voz": null, "legibilidad": null, "ancla": null, "progresion": null },
+      "porQue": "Qué te gustó o te sobró, en una o dos líneas",
+      "critico": null
+    }
+  ]
+}

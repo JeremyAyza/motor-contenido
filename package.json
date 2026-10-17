@@ -10,10 +10,16 @@
   },
   "scripts": {
     "carrusel:nuevo": "tsx packages/carousel/src/cli.ts nuevo",
+    "carrusel:brief": "tsx packages/carousel/src/cli.ts brief",
     "carrusel:baraja": "tsx packages/carousel/src/cli.ts baraja",
     "carrusel:logo": "tsx packages/carousel/src/cli.ts logo",
     "carrusel:render": "tsx packages/carousel/src/cli.ts render",
+    "carrusel:texto": "tsx packages/carousel/src/cli.ts texto",
+    "carrusel:critica": "tsx packages/carousel/src/cli.ts critica",
+    "carrusel:metricas": "tsx packages/carousel/src/cli.ts metricas",
+    "carrusel:swipe": "tsx packages/carousel/src/cli.ts swipe",
     "carrusel:esquema": "tsx packages/carousel/src/cli.ts esquema",
+    "py": "tsx packages/carousel/src/python.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "devDependencies": {
