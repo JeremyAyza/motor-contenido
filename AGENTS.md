@@ -25,6 +25,10 @@ Un motor que produce contenido para Instagram con dos flujos independientes que 
 8. **Confidencialidad.** Nunca uses código, capturas, proyectos, clientes ni métricas del empleador de la persona.
 9. **Estilo de texto:** español neutro, sin guiones largos (—), sin frases de relleno, una afirmación por lámina.
 
+## Contexto
+
+El porqué de las decisiones, el estado y los próximos pasos están en [docs/contexto.md](docs/contexto.md). Léelo al empezar un chat nuevo.
+
 ## Estructura
 
 ```
