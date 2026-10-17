@@ -1,0 +1,37 @@
+{
+  "topic": "Tipos de modelos de Claude: Haiku, Sonnet y Opus",
+  "checkedAt": "2026-10-17",
+  "facts": [
+    {
+      "claim": "Anthropic organiza la familia de modelos Claude en tres categorías principales: Haiku (velocidad y costo mínimo), Sonnet (equilibrio óptimo para código y agentes) y Opus (razonamiento profundo).",
+      "source": "https://docs.anthropic.com/en/docs/about-claude/models",
+      "primary": true
+    },
+    {
+      "claim": "Claude 3.5 Sonnet cuesta $3 por millón de tokens de entrada y $15 por salida, siendo el modelo configurado por defecto en Claude Code por su rendimiento en programación.",
+      "source": "https://www.anthropic.com/pricing",
+      "primary": true
+    },
+    {
+      "claim": "Claude 3 Opus cuesta $15 por millón de tokens de entrada y $75 por salida, siendo exactamente 5 veces más caro que Sonnet.",
+      "source": "https://www.anthropic.com/pricing",
+      "primary": true
+    },
+    {
+      "claim": "Claude 3.5 Haiku cuesta $0.80 por millón de tokens de entrada y $4 por salida, diseñado para respuestas casi instantáneas y subagentes en segundo plano.",
+      "source": "https://www.anthropic.com/pricing",
+      "primary": true
+    },
+    {
+      "claim": "Tanto Haiku como Sonnet y Opus cuentan con una ventana de contexto de 200.000 tokens en la API de Anthropic.",
+      "source": "https://docs.anthropic.com/en/docs/about-claude/models",
+      "primary": true
+    },
+    {
+      "claim": "En evaluación de código y resolución de incidencias en repositorios (SWE-bench Verified), Sonnet supera a Opus a pesar de costar el 20% de su precio.",
+      "source": "https://www.anthropic.com/news/claude-3-5-sonnet",
+      "primary": true
+    }
+  ],
+  "pendingToVerify": []
+}

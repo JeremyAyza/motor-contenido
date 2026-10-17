@@ -120,6 +120,35 @@
       },
       "description": "Una entrada por lámina: la afirmación y su prueba (un dato de facts.json o del inventario)"
     },
+    "despedida": {
+      "type": "object",
+      "properties": {
+        "jugada": {
+          "type": "string",
+          "enum": [
+            "vuelta-a-la-portada",
+            "respuesta-al-gancho",
+            "el-veredicto",
+            "la-cuenta-final",
+            "lo-que-viene",
+            "la-pregunta-abierta",
+            "el-primer-paso",
+            "el-giro"
+          ],
+          "description": "Cómo cierra la última lámina lo que abrió la portada (skills/carrusel-taste/cierres.json)"
+        },
+        "texto": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 120,
+          "description": "La frase de despedida de la última lámina, encima del CTA"
+        }
+      },
+      "required": [
+        "jugada",
+        "texto"
+      ]
+    },
     "cta": {
       "type": "object",
       "properties": {
@@ -133,6 +162,24 @@
           ],
           "description": "La única acción que pide el cierre"
         },
+        "forma": {
+          "type": "string",
+          "enum": [
+            "guardar-para-cuando",
+            "guardar-la-lamina",
+            "guardar-antes-de",
+            "enviar-ese-amigo",
+            "enviar-al-equipo",
+            "enviar-el-que-dijo",
+            "enviar-el-aviso",
+            "comentar-dilema",
+            "comentar-tu-caso",
+            "comentar-la-apuesta",
+            "seguir-lo-que-viene",
+            "seguir-la-serie"
+          ],
+          "description": "Forma del CTA, de skills/carrusel-taste/cierres.json; tiene que ser de su mismo tipo"
+        },
         "texto": {
           "type": "string",
           "minLength": 8,
@@ -142,8 +189,58 @@
       },
       "required": [
         "tipo",
+        "forma",
         "texto"
       ]
+    },
+    "ctaAlternativas": {
+      "description": "Otros CTA de formas distintas, para que la persona pueda cambiarlo en la puerta A",
+      "maxItems": 3,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "tipo": {
+            "type": "string",
+            "enum": [
+              "guardar",
+              "enviar",
+              "comentar",
+              "seguir"
+            ],
+            "description": "La única acción que pide el cierre"
+          },
+          "forma": {
+            "type": "string",
+            "enum": [
+              "guardar-para-cuando",
+              "guardar-la-lamina",
+              "guardar-antes-de",
+              "enviar-ese-amigo",
+              "enviar-al-equipo",
+              "enviar-el-que-dijo",
+              "enviar-el-aviso",
+              "comentar-dilema",
+              "comentar-tu-caso",
+              "comentar-la-apuesta",
+              "seguir-lo-que-viene",
+              "seguir-la-serie"
+            ],
+            "description": "Forma del CTA, de skills/carrusel-taste/cierres.json; tiene que ser de su mismo tipo"
+          },
+          "texto": {
+            "type": "string",
+            "minLength": 8,
+            "maxLength": 160,
+            "description": "Específico del tema: nombra la situación o la persona concreta, no 'compártelo con quien lo necesite'"
+          }
+        },
+        "required": [
+          "tipo",
+          "forma",
+          "texto"
+        ]
+      }
     },
     "puertaA": {
       "default": {
@@ -179,6 +276,7 @@
     "compartirCon",
     "ganchos",
     "esqueleto",
+    "despedida",
     "cta"
   ]
 }

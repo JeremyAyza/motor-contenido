@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { z } from "zod";
+import { FORMA_CTA_IDS, FORMAS_CTA, JUGADA_IDS } from "./cierres.ts";
 
 /**
  * Brief editorial (`brief.json`): el paso 0 del carrusel. Se escribe antes que
@@ -16,14 +17,25 @@ export const GanchoSchema = z.object({
   formula: z.number().int().min(1).max(27).describe("id de skills/ig-es/ganchos-es.json"),
 });
 
-export const CtaSchema = z.object({
-  tipo: z.enum([...OBJETIVOS, "seguir"]).describe("La única acción que pide el cierre"),
-  texto: z
-    .string()
-    .trim()
-    .min(8)
-    .max(160)
-    .describe("Específico del tema: nombra la situación o la persona concreta, no 'compártelo con quien lo necesite'"),
+export const CtaSchema = z
+  .object({
+    tipo: z.enum([...OBJETIVOS, "seguir"]).describe("La única acción que pide el cierre"),
+    forma: z.enum(FORMA_CTA_IDS).describe("Forma del CTA, de skills/carrusel-taste/cierres.json; tiene que ser de su mismo tipo"),
+    texto: z
+      .string()
+      .trim()
+      .min(8)
+      .max(160)
+      .describe("Específico del tema: nombra la situación o la persona concreta, no 'compártelo con quien lo necesite'"),
+  })
+  .refine((c) => FORMAS_CTA.find((f) => f.id === c.forma)?.tipo === c.tipo, {
+    message: "La forma del CTA es de otro tipo (skills/carrusel-taste/cierres.json)",
+    path: ["forma"],
+  });
+
+export const DespedidaSchema = z.object({
+  jugada: z.enum(JUGADA_IDS).describe("Cómo cierra la última lámina lo que abrió la portada (skills/carrusel-taste/cierres.json)"),
+  texto: z.string().trim().min(3).max(120).describe("La frase de despedida de la última lámina, encima del CTA"),
 });
 
 export const BriefSchema = z.object({
@@ -51,7 +63,13 @@ export const BriefSchema = z.object({
     .min(5)
     .max(10)
     .describe("Una entrada por lámina: la afirmación y su prueba (un dato de facts.json o del inventario)"),
+  despedida: DespedidaSchema,
   cta: CtaSchema,
+  ctaAlternativas: z
+    .array(CtaSchema)
+    .max(3)
+    .optional()
+    .describe("Otros CTA de formas distintas, para que la persona pueda cambiarlo en la puerta A"),
   puertaA: z
     .object({
       aprobado: z.boolean(),
@@ -93,5 +111,8 @@ export function loadBrief(dir: string): BriefLoad {
     warnings.push("ganchoElegido no coincide con ningún gancho de la lista (está bien si la persona lo reescribió)");
   }
   if (brief.puertaA.aprobado && !brief.ganchoElegido) warnings.push("La puerta A está aprobada pero no hay ganchoElegido");
+  if (brief.ctaAlternativas?.some((c) => c.forma === brief.cta.forma)) {
+    warnings.push("ctaAlternativas repite la forma del CTA elegido: las alternativas son de formas distintas");
+  }
   return { status: "ok", brief, warnings };
 }

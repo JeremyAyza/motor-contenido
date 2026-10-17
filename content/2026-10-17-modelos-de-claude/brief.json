@@ -1,0 +1,88 @@
+{
+  "formato": "comparativa",
+  "tesis": "Pagar 5 veces más por Opus para programar es un error: Sonnet lo supera en código y Haiku es el verdadero héroe de los subagentes.",
+  "palanca": "cuentas-hechas",
+  "porQueAhora": "Muchos programadores asumen que el modelo más caro siempre es el mejor y pagan de más en sus APIs de IA.",
+  "paraQuien": "Devs que usan la API de Anthropic o Claude Code y no saben qué modelo elegir para cada tarea.",
+  "queGana": "Aprende a elegir el modelo exacto para cada caso y ahorra hasta un 80% en su factura de tokens.",
+  "objetivo": "guardar",
+  "compartirCon": "Al compañero de equipo que usa Opus para todo sin saber que Sonnet programa mejor y cuesta un quinto.",
+  "toma": "El modelo más caro no siempre es el más inteligente para tu caso de uso.",
+  "ganchos": [
+    {
+      "texto": "Deja de pagar 5 veces más por Opus",
+      "promesa": "Cuándo usar Haiku, Sonnet y Opus sin quemar presupuesto",
+      "formula": 2
+    },
+    {
+      "texto": "El 80% de ahorro que ignoras en Claude",
+      "promesa": "La guía definitiva de modelos de Anthropic",
+      "formula": 23
+    },
+    {
+      "texto": "Más caro no es mejor en Claude",
+      "promesa": "Por qué Sonnet supera a Opus en código",
+      "formula": 22
+    },
+    {
+      "texto": "Si pagas la API de Anthropic, mira esto",
+      "promesa": "Haiku vs Sonnet vs Opus explicados para devs",
+      "formula": 10
+    },
+    {
+      "texto": "¿Vale la pena pagar por Claude Opus?",
+      "promesa": "Los números reales frente a Sonnet",
+      "formula": 16
+    },
+    {
+      "texto": "3 modelos de Claude. El del medio gana",
+      "promesa": "Haiku, Sonnet u Opus: cuándo conviene cada uno",
+      "formula": 11
+    },
+    {
+      "texto": "No necesitas el modelo más caro de Claude",
+      "promesa": "Cómo elegir entre Haiku, Sonnet y Opus",
+      "formula": 20
+    },
+    {
+      "texto": "Este modelo reemplaza a Opus para programar",
+      "promesa": "Y cuesta 5 veces menos en cada llamada",
+      "formula": 4
+    }
+  ],
+  "esqueleto": [
+    {
+      "afirmacion": "La portada plantea el dilema de elegir modelo sin pagar de más",
+      "prueba": "Gancho con contraste de costo y ancla oficial de Claude."
+    },
+    {
+      "afirmacion": "Claude Haiku es la elección para velocidad extrema y subagentes",
+      "prueba": "$0.80 por millón de tokens: latencia casi nula para tareas simples."
+    },
+    {
+      "afirmacion": "Claude Sonnet es el estándar insuperable para código y agentes",
+      "prueba": "$3 por millón: supera a Opus en benchmarks de código al 20% del costo."
+    },
+    {
+      "afirmacion": "Claude Opus es para razonamiento profundo, no para programar",
+      "prueba": "$15 por millón: 5 veces más caro, justificado solo en análisis complejo."
+    },
+    {
+      "afirmacion": "Tabla comparativa de decisión según caso de uso y presupuesto",
+      "prueba": "Resumen directo con precio, velocidad y cuándo conviene cada uno."
+    },
+    {
+      "afirmacion": "Cierre con recordatorio para la próxima configuración de modelo",
+      "prueba": "CTA temático de guardado para la API de Claude."
+    }
+  ],
+  "cta": {
+    "tipo": "guardar",
+    "texto": "Guárdalo para la próxima vez que elijas un modelo en tu API de Claude"
+  },
+  "ganchoElegido": "Deja de pagar 5 veces más por Opus",
+  "puertaA": {
+    "aprobado": true,
+    "fecha": "2026-10-17"
+  }
+}

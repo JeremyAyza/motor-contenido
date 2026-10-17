@@ -2,6 +2,7 @@ import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { basename, join } from "node:path";
 import { REPO_ROOT } from "../../brand/src/index.ts";
 import { loadBrief, type Brief } from "./brief.ts";
+import { FORMAS_CTA, JUGADAS, repeticionesCierre } from "./cierres.ts";
 import { runPythonJson } from "./python.ts";
 
 /** Resultado de hookscore_es.py --json por gancho. */
@@ -34,6 +35,14 @@ export function puertaA(dir: string): { file: string; text: string; problems: st
   const byId = formulas();
   const { scores, error } = scoreHooks(dir);
   if (!scores) problems.push(`No se pudo puntuar los ganchos: ${error ?? "sin Python"}`);
+  const { recientes, avisos } = repeticionesCierre(dir, {
+    jugada: brief.despedida.jugada,
+    despedida: brief.despedida.texto,
+    tipo: brief.cta.tipo,
+    forma: brief.cta.forma,
+    cta: brief.cta.texto,
+  });
+  problems.push(...avisos);
 
   const rows = brief.ganchos.map((g) => {
     const s = scores?.find((x) => x.hook === g.texto);
@@ -69,8 +78,19 @@ export function puertaA(dir: string): { file: string; text: string; problems: st
   });
   lines.push("", "## Esqueleto", "");
   brief.esqueleto.forEach((e, i) => lines.push(`${i + 1}. ${e.afirmacion} *(prueba: ${e.prueba})*`));
+  const jugada = (id?: string) => (id ? (JUGADAS.find((j) => j.id === id)?.nombre ?? id) : "-");
+  const forma = (id?: string) => (id ? (FORMAS_CTA.find((f) => f.id === id)?.nombre ?? id) : "-");
   lines.push("", "## Cierre", "");
-  lines.push(`- **CTA (${brief.cta.tipo}):** ${brief.cta.texto}`);
+  lines.push(`- **Despedida (${jugada(brief.despedida.jugada)}):** ${brief.despedida.texto}`);
+  lines.push(`- **CTA (${brief.cta.tipo}, ${forma(brief.cta.forma)}):** ${brief.cta.texto}`);
+  for (const alt of brief.ctaAlternativas ?? []) lines.push(`- *Alternativa (${alt.tipo}, ${forma(alt.forma)}):* ${alt.texto}`);
+  if (recientes.length) {
+    lines.push("", "Cierres anteriores de la cuenta, para que no se repitan:", "");
+    lines.push("| Pieza | Despedida | CTA |", "|---|---|---|");
+    for (const r of recientes) {
+      lines.push(`| ${r.pieza} | ${jugada(r.jugada)}: ${r.despedida ?? "-"} | ${forma(r.forma)}: ${r.cta ?? "-"} |`);
+    }
+  }
   if (problems.length) {
     lines.push("", "## Para revisar", "");
     for (const p of problems) lines.push(`- ${p}`);

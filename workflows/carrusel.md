@@ -64,7 +64,9 @@ El paso que convierte un tema en una pieza que alguien guarda o manda. Campos ([
 | `toma` | La opinión de Jeremy, si la hay (sale de las posturas de `docs/voz.md`) |
 | `ganchos` | De 8 a 10 candidatos (paso 5) |
 | `esqueleto` | Una línea por lámina: la afirmación y su prueba. De 5 a 10 láminas; una lámina sin afirmación se borra |
-| `cta` | El cierre: `tipo` (guardar, enviar, comentar o seguir) y `texto` |
+| `despedida` | La frase con la que se despide la última lámina: `jugada` (de `cierres.json`) y `texto` |
+| `cta` | El CTA: `tipo` (guardar, enviar, comentar o seguir), `forma` (de `cierres.json`, del mismo tipo) y `texto` |
+| `ctaAlternativas` | Dos CTA más, de formas distintas, por si la persona prefiere otro en la puerta A |
 
 **Prueba del competidor editorial.** Si otra cuenta que solo leyó el anuncio podría publicar la misma tesis, falta ángulo. Usa una de estas palancas y anótala en `palanca`:
 
@@ -84,13 +86,14 @@ Ejemplo: "Llegó Gemini 4 Argon" es noticia. "El millón de tokens de salida exi
 
 Cuando el contenido es una lista, unos pasos o una comparación, agrega una **lámina de resumen** antes del cierre: la que se captura y se manda por DM.
 
-**El CTA es específico del tema.** "Compártelo con quien lo necesite" es cebo genérico y el inspector lo marca. Nombra la situación:
+**El cierre cambia en cada pieza.** Son dos decisiones, y las dos salen de [`skills/carrusel-taste/cierres.json`](../skills/carrusel-taste/cierres.json):
 
-| Objetivo | No | Sí |
-|---|---|---|
-| Enviar | "Compártelo con quien lo necesite" | "Mándaselo al de tu equipo que todavía paga por tokens que no usa" |
-| Guardar | "Guarda este post" | "Guárdalo para la próxima vez que configures thinkingLevel" |
-| Comentar | "¿Qué opinas?" | "¿Lo usarías en producción o esperas el precio de diciembre?" |
+- **La despedida** (`despedida.jugada`): cómo cierra la última lámina lo que abrió la portada. Hay 8 jugadas: vuelta a la portada, respuesta al gancho, el veredicto, la cuenta final, lo que viene, la pregunta abierta, el primer paso y el giro.
+- **La forma del CTA** (`cta.forma`): cómo se pide la acción. Cada tipo tiene varias. Por ejemplo, para enviar: "ese amigo que...", al chat del equipo, al que dijo lo contrario y el aviso.
+
+Elige la jugada y la forma que mejor sirvan al tema, no la primera. Escribe tres CTA de formas distintas: uno en `cta` y dos en `ctaAlternativas`. `carrusel:brief` muestra los cierres de las piezas anteriores y avisa si repites la jugada o la forma de alguna de las dos últimas, si el CTA o la despedida arrancan igual que los de la anterior, o si es el tercer cierre seguido con el mismo tipo.
+
+Los ejemplos del catálogo muestran la forma; no se copian. **El CTA es específico del tema:** nombra la situación o al amigo concreto. "Compártelo con ese amigo que todavía revisa los diffs a mano" funciona; "compártelo con quien lo necesite" o "...que lo necesita" es cebo genérico y el revisor de texto lo marca.
 
 Sin CTA de "comenta una palabra y te mando el recurso": obliga a enviar DMs, y aquí no se automatizan.
 
@@ -167,7 +170,7 @@ Sigue el esqueleto aprobado, con el gancho elegido en la portada.
 - **Composición distinta entre láminas vecinas.** Si dos láminas seguidas tienen la misma estructura, rediseña una.
 - **Una cosa dominante por lámina,** con dos o tres tamaños de texto como mucho.
 - **Artefactos reales:** código con `<Code>` (se resalta solo), comandos reales copiados de la documentación o de una ejecución real, capturas con `<Img>`, prompts con `<Prompt>`, interfaz con `<Window>`. Lo ilustrativo se dice ("Ejemplo ilustrativo"); nunca se presenta como salida real.
-- **El cierre: despedida dinámica + CTA.** La última lámina cierra lo que abrió la portada: el mismo ancla, el mismo elemento visual o la respuesta a la pregunta del gancho. Se diseña dentro de la dirección de la pieza, así que cambia en cada carrusel igual que la portada. Lleva **un solo CTA**, el de `brief.json`, marcado con `data-cta` (`<p data-cta>...</p>`). Ahí van también la fuente y la fecha, con `<Nota>`.
+- **El cierre: despedida dinámica + CTA.** La última lámina cierra lo que abrió la portada: el mismo ancla, el mismo elemento visual o la respuesta a la pregunta del gancho. Se diseña dentro de la dirección de la pieza, así que cambia en cada carrusel igual que la portada. Lleva la frase de `despedida.texto` y **un solo CTA**, el de `brief.json`, marcado con `data-cta` (`<p data-cta>...</p>`). Ahí van también la fuente y la fecha, con `<Nota>`. El inspector avisa si la despedida o el CTA de la lámina no son los del brief.
 - **Contador (experimento):** `post.json → art.contador: true` muestra n/N en el pie. Se decide con las métricas.
 - Escribe JSX y Tailwind directo. Si un recurso se repite en muchos carruseles, propón agregarlo a `packages/carousel/src/ui/` en vez de copiarlo.
 

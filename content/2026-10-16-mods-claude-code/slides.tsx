@@ -84,7 +84,7 @@ export default [
     <p className="mt-3 text-[24px] font-medium">del evento, tu mod puede:</p>
     <Linea d="M0 330 C 150 330, 190 300, 290 300 S 440 330, 540 330" className="stroke-accent-ink" />
     <Parada x={290} y={300} className="border-accent-ink bg-accent" />
-    <ul className="absolute left-9 right-9 top-[372px] flex flex-col gap-4 text-[22px] font-semibold leading-snug">
+    <ul className="absolute left-9 right-9 top-[364px] flex flex-col gap-3 text-[24px] font-semibold leading-snug">
       <li>Reescribir tu prompt antes de que lo lea el modelo.</li>
       <li>Bloquear o reescribir una llamada a herramienta.</li>
       <li>Aprobar o negar un permiso.</li>
@@ -106,7 +106,7 @@ export default [
       </svg>
     </div>
     <p className="mt-5 text-[25px] font-bold leading-tight">Lo puedes desactivar o reemplazar por tu versión.</p>
-    <p className="mt-2 text-[13px] opacity-80">Captura: claude.com, 16 de octubre de 2026</p>
+    <Nota className="mt-2">Captura: claude.com, 16 de octubre de 2026</Nota>
   </Slide>,
 
   // 5. Después.

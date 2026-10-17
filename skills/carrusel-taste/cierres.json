@@ -1,0 +1,139 @@
+{
+  "nota": "Catálogo del cierre del carrusel (workflows/carrusel.md, paso 4 y paso 9). Cada pieza elige una jugada de despedida y una forma de CTA, y carrusel:brief avisa si repite las de las dos piezas anteriores de la cuenta. Los ejemplos muestran la forma; no se copian.",
+  "despedidas": [
+    {
+      "id": "vuelta-a-la-portada",
+      "nombre": "Vuelta a la portada",
+      "como": "Repite la imagen o la frase de la portada, cambiada por lo que el lector ya sabe.",
+      "ejemplo": "La portada saca el camino del logo hacia \"tu mod\"; la despedida lo trae de vuelta al logo, con el mod adentro."
+    },
+    {
+      "id": "respuesta-al-gancho",
+      "nombre": "Respuesta al gancho",
+      "como": "Si la portada preguntó o prometió algo, el cierre lo contesta en una línea.",
+      "ejemplo": "Portada: \"¿Vale la pena el plan Max?\". Cierre: \"Solo si pasas de 40 horas al mes.\""
+    },
+    {
+      "id": "el-veredicto",
+      "nombre": "El veredicto",
+      "como": "La tesis en una frase, dicha como opinión de Jeremy (docs/voz.md, posturas).",
+      "ejemplo": "\"Para un equipo chico, todavía no.\""
+    },
+    {
+      "id": "la-cuenta-final",
+      "nombre": "La cuenta final",
+      "como": "Un número que resume la pieza, sacado de facts.json o marcado como cálculo propio.",
+      "ejemplo": "\"3 comandos y 0 dólares.\""
+    },
+    {
+      "id": "lo-que-viene",
+      "nombre": "Lo que viene",
+      "como": "La próxima fecha o el próximo evento que el lector tiene que mirar.",
+      "ejemplo": "\"El precio sube el 1 de diciembre.\""
+    },
+    {
+      "id": "la-pregunta-abierta",
+      "nombre": "La pregunta abierta",
+      "como": "Lo que todavía no se sabe, dicho con honestidad.",
+      "ejemplo": "\"Lo que Google no dijo: cuánto cuesta en el plan gratis.\""
+    },
+    {
+      "id": "el-primer-paso",
+      "nombre": "El primer paso",
+      "como": "La acción más chica y concreta para empezar hoy.",
+      "ejemplo": "\"Empieza por /plugin y desactiva /diff.\""
+    },
+    {
+      "id": "el-giro",
+      "nombre": "El giro",
+      "como": "El cierre da vuelta lo que la portada hizo esperar.",
+      "ejemplo": "Portada: \"El modelo que más escribe\". Cierre: \"Y el que más te cobra por escribir.\""
+    }
+  ],
+  "ctas": [
+    {
+      "id": "guardar-para-cuando",
+      "tipo": "guardar",
+      "nombre": "Para cuando te toque",
+      "como": "Nombra el momento futuro en que el lector va a volver a buscarlo.",
+      "ejemplo": "\"Guárdalo para cuando escribas tu primer mod.\""
+    },
+    {
+      "id": "guardar-la-lamina",
+      "tipo": "guardar",
+      "nombre": "La lámina que vas a buscar",
+      "como": "Señala la lámina concreta que vale la pena tener a mano.",
+      "ejemplo": "\"La lámina 5 tiene los tres comandos. Guárdala.\""
+    },
+    {
+      "id": "guardar-antes-de",
+      "tipo": "guardar",
+      "nombre": "Antes de una fecha",
+      "como": "Ata el guardado a una fecha o un cambio que se viene.",
+      "ejemplo": "\"Guárdalo antes del 1 de diciembre, cuando cambia el precio.\""
+    },
+    {
+      "id": "enviar-ese-amigo",
+      "tipo": "enviar",
+      "nombre": "Ese amigo que...",
+      "como": "Nombra al amigo por un hábito o una situación concreta. No termina en \"que lo necesita\": eso es cebo y el revisor lo marca.",
+      "ejemplo": "\"Compártelo con ese amigo que todavía revisa los diffs a mano.\""
+    },
+    {
+      "id": "enviar-al-equipo",
+      "tipo": "enviar",
+      "nombre": "Al chat del equipo",
+      "como": "Lleva la pieza a la decisión que el equipo tiene pendiente.",
+      "ejemplo": "\"Pásalo al chat de tu equipo antes de renovar Copilot.\""
+    },
+    {
+      "id": "enviar-el-que-dijo",
+      "tipo": "enviar",
+      "nombre": "Al que dijo lo contrario",
+      "como": "Para el amigo con el que tienes esa discusión pendiente.",
+      "ejemplo": "\"Mándaselo al que dice que los modelos abiertos no sirven para programar.\""
+    },
+    {
+      "id": "enviar-el-aviso",
+      "tipo": "enviar",
+      "nombre": "El aviso",
+      "como": "Para alguien a quien el cambio le pega directo.",
+      "ejemplo": "\"Si alguien de tu equipo usa la API vieja, avísale hoy.\""
+    },
+    {
+      "id": "comentar-dilema",
+      "tipo": "comentar",
+      "nombre": "El dilema",
+      "como": "Dos opciones concretas, no \"¿qué opinas?\".",
+      "ejemplo": "\"¿Lo usarías en producción o esperas al precio de diciembre?\""
+    },
+    {
+      "id": "comentar-tu-caso",
+      "tipo": "comentar",
+      "nombre": "Tu caso",
+      "como": "Pide la respuesta propia del lector, sobre algo que pueda contestar en una línea.",
+      "ejemplo": "\"¿Cuál sería tu primer mod?\""
+    },
+    {
+      "id": "comentar-la-apuesta",
+      "tipo": "comentar",
+      "nombre": "La apuesta",
+      "como": "Pide una predicción con un número o una fecha, y da la tuya.",
+      "ejemplo": "\"¿Cuánto dura este precio? Yo digo tres meses.\""
+    },
+    {
+      "id": "seguir-lo-que-viene",
+      "tipo": "seguir",
+      "nombre": "La próxima pieza",
+      "como": "Anuncia el tema concreto de la siguiente pieza. Solo si ya está en el radar.",
+      "ejemplo": "\"El jueves: cuánto cuesta de verdad. Sígueme para verlo.\""
+    },
+    {
+      "id": "seguir-la-serie",
+      "tipo": "seguir",
+      "nombre": "La serie",
+      "como": "La pieza es parte de una serie con las demás partes planeadas.",
+      "ejemplo": "\"Es la parte 1 de 3 sobre mods. La 2 es cómo escribir uno.\""
+    }
+  ]
+}

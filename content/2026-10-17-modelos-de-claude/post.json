@@ -1,0 +1,32 @@
+{
+  "account": "dev",
+  "topic": "modelos-de-claude",
+  "infoDate": "2026-10-17",
+  "idea": "",
+  "art": {
+    "direction": "",
+    "dealt": [],
+    "reason": "",
+    "borrowed": [],
+    "palette": {
+      "bg": "#",
+      "ink": "#",
+      "accent": "#",
+      "accentInk": "#"
+    },
+    "fonts": {
+      "display": "",
+      "text": "geist"
+    },
+    "anchor": {
+      "kind": "logo",
+      "ref": "",
+      "source": ""
+    }
+  },
+  "caption": "",
+  "busqueda": [],
+  "alt": "",
+  "slideCaptions": [],
+  "sources": []
+}

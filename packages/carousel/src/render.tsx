@@ -300,6 +300,7 @@ export async function renderPiece(dir: string): Promise<{ files: string[]; issue
 
   const slideTexts: string[] = [];
   let lastCta: string | null = null;
+  let lastText = "";
   const browser = await launchBrowser();
   try {
     const page = await browser.newPage({ viewport: { width: DESIGN_W, height: DESIGN_H }, deviceScaleFactor: 2 });
@@ -317,7 +318,10 @@ export async function renderPiece(dir: string): Promise<{ files: string[]; issue
       issues.push(...report.issues);
       texts.push(`--- Lámina ${i + 1} (${report.words} palabras)\n${report.text}`);
       slideTexts.push(report.text);
-      if (i === slides.length - 1) lastCta = report.cta;
+      if (i === slides.length - 1) {
+        lastCta = report.cta;
+        lastText = report.text;
+      }
       const file = join(outDir, `${String(i + 1).padStart(2, "0")}.png`);
       await page.screenshot({ path: file, type: "png" });
       files.push(file);
@@ -353,6 +357,9 @@ export async function renderPiece(dir: string): Promise<{ files: string[]; issue
     });
   } else if (brief && normalize(lastCta) !== normalize(brief.cta.texto)) {
     issues.push({ level: "aviso", where: lastWhere, message: `El CTA de la lámina ("${lastCta}") no es el del brief ("${brief.cta.texto}")` });
+  }
+  if (brief && !normalize(lastText).includes(normalize(brief.despedida.texto))) {
+    issues.push({ level: "aviso", where: lastWhere, message: `La despedida del brief ("${brief.despedida.texto}") no está en la última lámina` });
   }
 
   const captionFile = join(outDir, "texto-del-post.txt");

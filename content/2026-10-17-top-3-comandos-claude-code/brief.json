@@ -81,8 +81,13 @@
       "prueba": "CTA temático específico de guardado."
     }
   ],
+  "despedida": {
+    "jugada": "vuelta-a-la-portada",
+    "texto": "Controla tu sesión en la terminal"
+  },
   "cta": {
     "tipo": "guardar",
+    "forma": "guardar-para-cuando",
     "texto": "Guárdalo para la próxima vez que abras una sesión de Claude Code"
   },
   "ganchoElegido": "Deja de tratar a Claude Code como chat",

@@ -14,7 +14,7 @@ Califica cada punto de 1 a 5 y escribe una línea de por qué.
 | Tesis | 15% | Tu resumen del paso 1 coincide con la tesis del brief, y no es el comunicado de prensa con otras palabras |
 | Valor | 15% | El lector se lleva algo que puede usar o una lectura que no tenía |
 | Compartible | 10% | Hay una lámina que alguien mandaría por DM: un resumen, un dato o una comparación que se entiende sin contexto |
-| Cierre y CTA | 10% | La última lámina cierra lo que abrió la portada y pide una sola acción, específica del tema (no "compártelo con quien lo necesite") |
+| Cierre y CTA | 10% | La última lámina cierra lo que abrió la portada y pide una sola acción, específica del tema (no "compártelo con quien lo necesite"). Un cierre que podría ir en cualquier otro carrusel no pasa de 3 |
 | Voz | 5% | Suena a [docs/voz.md](voz.md), no a un texto genérico de IA |
 | Legibilidad en el celular | 10% | Todo se lee en `revision.png` sin hacer zoom |
 | Ancla y dirección | 10% | En `pulgar.png` se sabe el tema sin leer; la dirección de arte se nota en todo el carrusel |

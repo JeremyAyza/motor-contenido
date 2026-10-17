@@ -41,7 +41,7 @@ Así se fue corrigiendo el rumbo, para no repetir errores:
    - **paso editorial** (`brief.json`): tesis con ángulo, público, objetivo (guardar, enviar o comentar), a quién se lo mandaría el lector, 8 a 10 ganchos de 4 fórmulas y esqueleto, aprobado en la **puerta A**;
    - **crítico ciego** en un contexto nuevo, con rúbrica de 70% contenido y 30% diseño y calibración con las notas de Jeremy;
    - **letra para el celular:** cuerpo de 32px reales o más, 35 palabras por lámina, contraste 4.5:1 en texto chico;
-   - **cierre dinámico:** la última lámina cierra lo que abrió la portada, con un solo CTA específico del tema (idea de Jeremy). "Compártelo con quien lo necesite" se marca como cebo genérico;
+   - **cierre dinámico:** la última lámina cierra lo que abrió la portada, con un solo CTA específico del tema (idea de Jeremy). La jugada de despedida y la forma del CTA salen de `skills/carrusel-taste/cierres.json` y no se repiten entre piezas seguidas. "Compártelo con quien lo necesite" se marca como cebo genérico;
    - **instagram-agent-skill** (MIT) instalada en `.agents/skills/`, con wrappers en español para el texto del post, el humanizador, el puntaje de ganchos y el archivo de referencias;
    - **radar** semanal de temas, **swipe** mensual de cuentas de referencia y **métricas** por pieza con revisión mensual.
    - Jeremy pidió mantener la baraja y la portada dinámica tal cual, y no tocar la verificación de datos.
@@ -78,6 +78,7 @@ GitHub: `JeremyAyza/motor-contenido`, rama `main`.
 |---|---|
 | `skills/carrusel-taste/SKILL.md` | Proceso de dirección de arte: baraja, ancla, paleta, tipografías, composición |
 | `skills/carrusel-taste/direcciones.json` | Las 12 direcciones: idea, cuándo usarla, portada, interior, tipografías, paleta, qué evitar |
+| `skills/carrusel-taste/cierres.json` | El catálogo del cierre: 8 jugadas de despedida y las formas de CTA por tipo |
 | `skills/carrusel-taste/referencias/` | Hoja con las 12 portadas y la prueba del pulgar, con y sin ancla |
 | `packages/carousel/src/ui/index.tsx` | Primitivas: `Slide` (marco, con `tone`, `underlay` y contador opcional), `Logo`, `Icono`, `Img` (con `ancla` y `credit`), `Code`, `Window`, `Prompt`, `Nota`, `cx` |
 | `packages/carousel/src/render.tsx` | Render, inspector en el navegador y búsqueda del navegador |
