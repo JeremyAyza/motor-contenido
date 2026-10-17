@@ -1,0 +1,27 @@
+{
+  "topic": "comandos-ocultos-claude-code",
+  "checkedAt": "2026-10-17",
+  "facts": [
+    {
+      "claim": "Claude Code incluye el comando /rewind para revertir el código y el contexto de conversación a un punto previo de la sesión sin desincronizar el agente.",
+      "source": "Documentación oficial de Claude Code de Anthropic (CLI Reference)",
+      "url": "https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/overview"
+    },
+    {
+      "claim": "/context desglosa visualmente el consumo de tokens en la ventana activa, separando archivos leídos, prompts de sistema y respuestas previas.",
+      "source": "Documentación oficial de Claude Code de Anthropic (CLI Reference)",
+      "url": "https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/overview"
+    },
+    {
+      "claim": "/security-review ejecuta una auditoría de seguridad automática enfocada en vulnerabilidades y riesgos en los cambios pendientes antes de comitear.",
+      "source": "Documentación oficial de Claude Code de Anthropic (CLI Reference)",
+      "url": "https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/overview"
+    },
+    {
+      "claim": "Claude Code permite crear comandos propios guardando archivos Markdown en .claude/commands/ para reutilizar prompts frecuentes como slash commands nativos.",
+      "source": "Documentación oficial de Claude Code de Anthropic (Custom Slash Commands)",
+      "url": "https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/overview"
+    }
+  ],
+  "pendingToVerify": []
+}

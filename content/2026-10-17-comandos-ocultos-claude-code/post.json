@@ -1,0 +1,62 @@
+{
+  "account": "dev",
+  "topic": "Comandos ocultos de Claude Code",
+  "infoDate": "2026-10-17",
+  "idea": "En este carrusel, cada comando nativo poco conocido se presenta con su problema común y su solución en terminal, evitando reiniciar la sesión.",
+  "art": {
+    "direction": "titular-gigante",
+    "dealt": [
+      "ficha-tecnica",
+      "elige-tu-camino",
+      "titular-gigante"
+    ],
+    "reason": "Titular gigante permite arrancar con una afirmación contundente contra el hábito de reiniciar la terminal, alternando con ventanas de terminal para cada comando.",
+    "borrowed": [
+      "terminal"
+    ],
+    "palette": {
+      "bg": "#0D1117",
+      "ink": "#F0F6FC",
+      "accent": "#D97757",
+      "accentInk": "#0D1117",
+      "surface": "#161B22",
+      "muted": "#8B949E"
+    },
+    "fonts": {
+      "display": "archivo",
+      "text": "geist"
+    },
+    "anchor": {
+      "kind": "logo",
+      "ref": "claudecode",
+      "source": "Ícono oficial de Claude Code en Simple Icons (CC0), tomado de claude.ai; se usa sin modificar para identificar el tema"
+    },
+    "tab": "claude-code-pro.sh",
+    "cierre": {
+      "tratamiento": "gesto-gigante",
+      "gesto": "enviar"
+    }
+  },
+  "caption": "No necesitas cerrar la terminal cuando Claude falla. 4 comandos ocultos cambian cómo trabajas:\n\nPasa a diario.\nClaude Code toma un camino raro o edita archivos equivocados.\nLa reacción común es cerrar la terminal y empezar de cero.\nPierdes tiempo y tokens valiosos.\nPara dominar tus atajos de terminal y recuperar tus sesiones de Claude Code sin reiniciar, aprovecha estos 4 comandos de Claude Code:\n\n1. /rewind\nLa máquina del tiempo. Rebobina tanto el código modificado como la memoria de conversación a un punto previo de la sesión.\n\n2. /context\nEl mapa de memoria. Muestra con precisión cuántos tokens ocupan tus archivos, el prompt de sistema y las herramientas activas.\n\n3. /security-review\nAuditoría rápida antes del commit. Analiza tus cambios pendientes en busca de vulnerabilidades y riesgos en tu diff local.\n\n4. .claude/commands/\nCrea tus propios atajos de terminal. Convierte cualquier prompt repetitivo en un comando Markdown y córrelo con una barra.\n\nCompártelo con ese colega que siempre reinicia la terminal cuando Claude Code se equivoca.\n\nInformación al 17 de octubre de 2026. Fuente: documentación oficial de Claude Code de Anthropic.\n\n#claudecode #anthropic #terminal #desarrolladores #programacion",
+  "busqueda": [
+    "comandos de Claude Code",
+    "atajos de terminal",
+    "sesiones de Claude Code"
+  ],
+  "alt": "Portada con el logo de Claude Code y el titular: No necesitas cerrar la terminal cuando Claude falla.",
+  "slideCaptions": [
+    "No necesitas cerrar la terminal cuando Claude falla. 4 comandos nativos que salvan tu sesión.",
+    "/rewind: la máquina del tiempo para volver a un checkpoint previo sin desincronizar git.",
+    "/context: el mapa de tokens para ver qué archivos están inflando tu contexto.",
+    "/security-review: la auditoría automática de seguridad antes de hacer commit.",
+    ".claude/commands/: cómo crear tus propios comandos de terminal con Markdown.",
+    "Compártelo con ese colega que siempre reinicia la terminal cuando Claude Code se equivoca."
+  ],
+  "sources": [
+    {
+      "title": "Anthropic Claude Code CLI Documentation",
+      "url": "https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/overview",
+      "checkedAt": "2026-10-17"
+    }
+  ]
+}

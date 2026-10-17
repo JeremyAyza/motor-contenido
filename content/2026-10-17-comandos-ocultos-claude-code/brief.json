@@ -1,0 +1,93 @@
+{
+  "formato": "herramienta",
+  "tesis": "Claude Code tiene comandos nativos poco explorados que resuelven los peores dolores de una sesión: desincronización de código, saturación de tokens y auditoría de seguridad.",
+  "palanca": "que-cambia",
+  "porQueAhora": "La mayoría de programadores solo usan el chat básico y terminan reiniciando la terminal cuando el agente se desvía o llena la memoria.",
+  "paraQuien": "Programadores y DevOps que trabajan a diario con Claude Code en su terminal y quieren dominar la herramienta como expertos.",
+  "queGana": "Descubre 4 comandos indispensables para retroceder cambios sin desincronizar git, inspeccionar qué archivos inflan el contexto, auditar seguridad y crear atajos propios.",
+  "objetivo": "enviar",
+  "compartirCon": "Al compañero de equipo que se queja de que Claude Code rompió su código o que gasta tokens de más.",
+  "toma": "Reiniciar la terminal cada vez que el agente se equivoca es de novatos: la herramienta ya tiene atajos para rebobinar.",
+  "ganchos": [
+    {
+      "texto": "Deja de reiniciar Claude Code en tu terminal",
+      "promesa": "4 comandos poco conocidos que salvan tus sesiones",
+      "formula": 2
+    },
+    {
+      "texto": "Lo que nadie te dice de Claude Code",
+      "promesa": "4 comandos ocultos que todo dev senior debería conocer",
+      "formula": 3
+    },
+    {
+      "texto": "Estás usando mal Claude Code si reinicias la sesión",
+      "promesa": "El comando para rebobinar código y memoria a la vez",
+      "formula": 7
+    },
+    {
+      "texto": "Si usas Claude Code en terminal, mira esto",
+      "promesa": "4 comandos nativos que casi nadie aprovecha",
+      "formula": 10
+    },
+    {
+      "texto": "4 comandos de Claude Code que pocos conocen",
+      "promesa": "El primero es una máquina del tiempo para tu código",
+      "formula": 11
+    },
+    {
+      "texto": "¿Sabías que puedes rebobinar a Claude Code?",
+      "promesa": "El comando nativo que deshace cambios y alucinaciones",
+      "formula": 16
+    },
+    {
+      "texto": "No necesitas cerrar la terminal cuando Claude falla",
+      "promesa": "4 comandos para recuperar el control de tu sesión",
+      "formula": 20
+    },
+    {
+      "texto": "/rewind",
+      "promesa": "El comando de Claude Code que casi nadie usa al fallar",
+      "formula": 27
+    }
+  ],
+  "esqueleto": [
+    {
+      "afirmacion": "La portada plantea comandos indispensables poco explorados de Claude Code",
+      "prueba": "Gancho de curiosidad y terminal de Claude con etiquetas de atajos."
+    },
+    {
+      "afirmacion": "/rewind es la máquina del tiempo de tu sesión",
+      "prueba": "Revierte código y contexto a un checkpoint previo sin desincronizar el historial del agente."
+    },
+    {
+      "afirmacion": "/context muestra con exactitud qué devora tu ventana de tokens",
+      "prueba": "Desglosa archivos cargados, prompt del sistema y herramientas antes de que el contexto colapse."
+    },
+    {
+      "afirmacion": "/security-review audita tus cambios pendientes antes del commit",
+      "prueba": "Escaneo enfocado en vulnerabilidades, inyecciones y malas prácticas en el diff local."
+    },
+    {
+      "afirmacion": "Crea tus propios comandos en .claude/commands/ con Markdown",
+      "prueba": "Guarda prompts repetitivos como atajos nativos ejecutables con una sola barra diagonal."
+    },
+    {
+      "afirmacion": "Cierre con recordatorio para guardar la chuleta y primer paso",
+      "prueba": "Despedida del primer paso y CTA de guardar el post."
+    }
+  ],
+  "despedida": {
+    "jugada": "respuesta-al-gancho",
+    "texto": "No reinicies tu sesión: rebobina el contexto y mantén el control de tu repo."
+  },
+  "cta": {
+    "tipo": "enviar",
+    "forma": "enviar-ese-amigo",
+    "texto": "Compártelo con ese colega que siempre reinicia la terminal cuando Claude Code se equivoca."
+  },
+  "ganchoElegido": "No necesitas cerrar la terminal cuando Claude falla",
+  "puertaA": {
+    "aprobado": true,
+    "fecha": "2026-10-17"
+  }
+}
