@@ -76,9 +76,14 @@
       "prueba": "CTA temático de guardado para la API de Claude."
     }
   ],
+  "despedida": {
+    "jugada": "el-veredicto",
+    "texto": "Sonnet para programar, Haiku para subagentes y Opus solo para razonamiento puro."
+  },
   "cta": {
     "tipo": "guardar",
-    "texto": "Guárdalo para la próxima vez que elijas un modelo en tu API de Claude"
+    "forma": "guardar-la-lamina",
+    "texto": "La lámina 5 tiene la tabla comparativa con precios y casos de uso. Guárdala."
   },
   "ganchoElegido": "Deja de pagar 5 veces más por Opus",
   "puertaA": {

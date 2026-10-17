@@ -1,32 +1,63 @@
 {
   "account": "dev",
-  "topic": "modelos-de-claude",
+  "topic": "Modelos de Claude: Haiku vs Sonnet vs Opus",
   "infoDate": "2026-10-17",
-  "idea": "",
+  "idea": "En este carrusel, los 3 modelos de Claude se comparan como una ficha técnica de ingeniería con sus especificaciones de precio, velocidad y código.",
   "art": {
-    "direction": "",
-    "dealt": [],
-    "reason": "",
-    "borrowed": [],
+    "direction": "ficha-tecnica",
+    "dealt": [
+      "collage",
+      "terminal",
+      "ficha-tecnica"
+    ],
+    "reason": "Ficha técnica es ideal para desglosar la comparativa de precios ($0.80 vs $3 vs $15), latencias y benchmarks de la familia Claude con tipografía sobria y datos directos.",
+    "borrowed": [
+      "terminal"
+    ],
     "palette": {
-      "bg": "#",
-      "ink": "#",
-      "accent": "#",
-      "accentInk": "#"
+      "bg": "#F5F4EF",
+      "ink": "#141412",
+      "accent": "#9B3818",
+      "accentInk": "#FFFFFF",
+      "surface": "#EBE9E1",
+      "muted": "#52524A"
     },
     "fonts": {
-      "display": "",
+      "display": "archivo",
       "text": "geist"
     },
     "anchor": {
       "kind": "logo",
-      "ref": "",
-      "source": ""
-    }
+      "ref": "claude",
+      "source": "Ícono oficial de Claude en Simple Icons (CC0), tomado de claude.com; se usa sin modificar para identificar el tema"
+    },
+    "tab": "modelos-claude.md"
   },
-  "caption": "",
-  "busqueda": [],
-  "alt": "",
-  "slideCaptions": [],
-  "sources": []
+  "caption": "Deja de pagar 5 veces más por Opus. Si programas con la API de Anthropic o Claude Code, Sonnet es tu modelo:\n\nEs un error común.\nMuchos devs eligen el modelo más caro asumiendo que siempre razona mejor en código.\nNo siempre.\nPara entender los modelos de Claude y tomar decisiones con los precios de Anthropic reales, esta es la comparativa de Claude 3.5 Sonnet vs Opus:\n\n1. Claude Haiku ($0.80 / $4 por millón)\nUltrarrápido. Es la opción ideal para autocompletar código en vivo, clasificar texto y correr decenas de subagentes en paralelo sin fundir tu tarjeta.\n\n2. Claude Sonnet ($3 / $15 por millón)\nEl caballo de batalla. Supera a Opus en pruebas reales de programación (SWE-bench) y cuesta cinco veces menos. Es el motor por defecto en Claude Code.\n\n3. Claude Opus ($15 / $75 por millón)\nEl modelo más pesado. Resérvalo solo para análisis matemático denso o auditorías legales complejas donde cada matiz conceptual cuente.\n\nLa lámina 5 tiene la tabla comparativa con precios y casos de uso. Guárdala.\n\nInformación al 17 de octubre de 2026. Fuente: documentación oficial de Anthropic.\n\n#claude #anthropic #programacion #ia #desarrolladores",
+  "busqueda": [
+    "modelos de Claude",
+    "Claude 3.5 Sonnet vs Opus",
+    "precios de Anthropic"
+  ],
+  "alt": "Portada con el logo oficial de Claude y el titular: Deja de pagar 5 veces más por Opus.",
+  "slideCaptions": [
+    "Deja de pagar 5 veces más por Opus: guía de modelos de Claude.",
+    "Claude Haiku: el más rápido y económico a $0.80 el millón de tokens.",
+    "Claude Sonnet: el rey del código a $3 el millón de tokens.",
+    "Claude Opus: razonamiento extremo a $15 el millón de tokens.",
+    "Tabla comparativa de precios, contexto y casos de uso.",
+    "La lámina 5 tiene la tabla comparativa con precios y casos de uso. Guárdala."
+  ],
+  "sources": [
+    {
+      "title": "Anthropic Model Overview",
+      "url": "https://docs.anthropic.com/en/docs/about-claude/models",
+      "checkedAt": "2026-10-17"
+    },
+    {
+      "title": "Anthropic Pricing",
+      "url": "https://www.anthropic.com/pricing",
+      "checkedAt": "2026-10-17"
+    }
+  ]
 }
