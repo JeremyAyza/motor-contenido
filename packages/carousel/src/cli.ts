@@ -104,6 +104,7 @@ async function main(): Promise<number> {
               palette: { bg: "#", ink: "#", accent: "#", accentInk: "#" },
               fonts: { display: "", text: "geist" },
               anchor: { kind: "logo", ref: "", source: "" },
+              cierre: { tratamiento: "", gesto: "", porque: "" },
             },
             caption: "",
             busqueda: [],
@@ -122,7 +123,9 @@ async function main(): Promise<number> {
 // No escribas este archivo hasta que la puerta A esté aprobada (brief.json).
 // Lee workflows/carrusel.md y skills/carrusel-taste/SKILL.md antes de diseñar.
 // La portada lleva el ancla visual grande (Logo, Icono o Img con ancla).
-// La última lámina es la despedida de brief.json, que cierra la portada, y un solo CTA marcado con data-cta.
+// La última lámina es la despedida de brief.json, que cierra la portada, y un solo CTA marcado con data-cta,
+// con el tratamiento visual de post.json → art.cierre (skills/carrusel-taste/cierres.json). Lo de abajo es
+// solo el esqueleto: diséñala dentro de la dirección, con <Gesto> si el tratamiento lleva ícono.
 export default [
   <Slide swipe className="justify-between">
     <Logo slug="slug-de-simple-icons" size={160} />

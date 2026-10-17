@@ -2,18 +2,63 @@ import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { basename, join } from "node:path";
 import { REPO_ROOT } from "../../brand/src/index.ts";
 
-/** Catálogo del cierre (skills/carrusel-taste/cierres.json): jugadas de despedida y formas de CTA. */
+/**
+ * Catálogo del cierre (skills/carrusel-taste/cierres.json): jugadas de
+ * despedida y formas de CTA (van en brief.json) y tratamientos visuales del
+ * CTA (van en post.json → art.cierre).
+ */
 export type Jugada = { id: string; nombre: string; como: string; ejemplo: string };
 export type FormaCta = Jugada & { tipo: string };
+export type Tratamiento = { id: string; nombre: string; como: string; cuando: string; conGesto: boolean };
 
 const CATALOGO = JSON.parse(readFileSync(join(REPO_ROOT, "skills/carrusel-taste/cierres.json"), "utf8")) as {
   despedidas: Jugada[];
   ctas: FormaCta[];
+  tratamientos: Tratamiento[];
 };
 export const JUGADAS = CATALOGO.despedidas;
 export const FORMAS_CTA = CATALOGO.ctas;
+export const TRATAMIENTOS = CATALOGO.tratamientos;
 export const JUGADA_IDS = JUGADAS.map((j) => j.id) as [string, ...string[]];
 export const FORMA_CTA_IDS = FORMAS_CTA.map((f) => f.id) as [string, ...string[]];
+export const TRATAMIENTO_IDS = TRATAMIENTOS.map((t) => t.id) as [string, ...string[]];
+
+/** Gestos de Instagram y su ícono genérico de Lucide (no son copias de los íconos de Instagram). */
+export const GESTOS = {
+  guardar: "bookmark",
+  enviar: "send",
+  comentar: "message-circle",
+  "me-gusta": "heart",
+  seguir: "user-plus",
+  repostear: "repeat-2",
+} as const;
+export type Gesto = keyof typeof GESTOS;
+export const GESTO_IDS = Object.keys(GESTOS) as [Gesto, ...Gesto[]];
+/** El gesto que corresponde a cada tipo de CTA. */
+export const GESTO_DE_TIPO: Record<string, Gesto> = { guardar: "guardar", enviar: "enviar", comentar: "comentar", seguir: "seguir" };
+
+/**
+ * Tratamientos visuales del CTA de las piezas anteriores de la cuenta, de la
+ * más reciente a la más antigua (post.json → art.cierre).
+ */
+export function historialTratamientos(account: string, excluir?: string): { pieza: string; tratamiento: string; gesto?: string }[] {
+  const root = join(REPO_ROOT, "content");
+  if (!existsSync(root)) return [];
+  const out: { pieza: string; tratamiento: string; gesto?: string }[] = [];
+  for (const pieza of readdirSync(root).sort().reverse()) {
+    if (pieza === excluir || pieza.startsWith("zz-")) continue;
+    const file = join(root, pieza, "post.json");
+    if (!existsSync(file)) continue;
+    try {
+      const post = JSON.parse(readFileSync(file, "utf8"));
+      const t = post.art?.cierre?.tratamiento;
+      if (post.account === account && typeof t === "string" && t) out.push({ pieza, tratamiento: t, gesto: post.art.cierre.gesto });
+    } catch {
+      // Un post.json a medio escribir no rompe el historial.
+    }
+  }
+  return out;
+}
 
 /** Un cierre ya usado por la cuenta. */
 export type CierreUsado = { pieza: string; jugada?: string; despedida?: string; tipo?: string; forma?: string; cta?: string };

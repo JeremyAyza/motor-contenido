@@ -152,12 +152,13 @@ npm run carrusel:logo -- <marca>          # slug y color oficial del ancla
 1. De las 3 direcciones que te tocan, elige la que mejor sirva al tema y explica por qué en `art.reason`.
 2. Una dirección base para todo el carrusel; las láminas interiores pueden tomar la forma de otra (anótala en `art.borrowed`) sin cambiar paleta ni tipografías.
 3. Define `art.anchor`, `art.palette` y `art.fonts`.
+4. Elige el **tratamiento visual del CTA** de `tratamientos` en [`cierres.json`](../skills/carrusel-taste/cierres.json) y anótalo en `art.cierre`: `tratamiento`, `gesto` (si lleva ícono) y `porque`. Se elige como la dirección: el que mejor sirva a esta dirección y a este tema, no el de la pieza anterior.
 
 ## 9. Diseñar `slides.tsx`
 
 Sigue el esqueleto aprobado, con el gancho elegido en la portada.
 
-- Exporta por defecto un arreglo de `<Slide>`. Importa las primitivas desde `@motor/ui`: `Slide`, `Logo`, `Icono`, `Img`, `Code`, `Window`, `Prompt`, `Nota` y `cx`.
+- Exporta por defecto un arreglo de `<Slide>`. Importa las primitivas desde `@motor/ui`: `Slide`, `Logo`, `Icono`, `Gesto`, `Img`, `Code`, `Window`, `Prompt`, `Nota` y `cx`.
 - El lienzo mide 1080×1350, pero Tailwind está a escala 2x: diseña pensando en 540×675 con las clases normales. El área de contenido mide 540 × 577 y su esquina superior izquierda es (0, 0) para lo que posiciones con `absolute`.
 - **Letra para el celular** (la lámina se ve a un 36% del PNG): el texto de cuerpo va en **16px de diseño o más** (32 reales); 14px es el mínimo absoluto. El código, 14px o más. La letra chica que no es contenido (fuente, fecha, créditos, "ejemplo ilustrativo") va con `<Nota>` o `data-nota`, desde 12px.
 - **Palabras:** la portada, 12 o menos; cada lámina interior, 35 o menos. El código y las notas no cuentan.
@@ -171,6 +172,7 @@ Sigue el esqueleto aprobado, con el gancho elegido en la portada.
 - **Una cosa dominante por lámina,** con dos o tres tamaños de texto como mucho.
 - **Artefactos reales:** código con `<Code>` (se resalta solo), comandos reales copiados de la documentación o de una ejecución real, capturas con `<Img>`, prompts con `<Prompt>`, interfaz con `<Window>`. Lo ilustrativo se dice ("Ejemplo ilustrativo"); nunca se presenta como salida real.
 - **El cierre: despedida dinámica + CTA.** La última lámina cierra lo que abrió la portada: el mismo ancla, el mismo elemento visual o la respuesta a la pregunta del gancho. Se diseña dentro de la dirección de la pieza, así que cambia en cada carrusel igual que la portada. Lleva la frase de `despedida.texto` y **un solo CTA**, el de `brief.json`, marcado con `data-cta` (`<p data-cta>...</p>`). Ahí van también la fuente y la fecha, con `<Nota>`. El inspector avisa si la despedida o el CTA de la lámina no son los del brief.
+- **El CTA también se diseña, y cambia de pieza a pieza.** Sigue el tratamiento de `art.cierre`: el gesto gigante, el gesto ya tocado, la fila de gestos, el gesto dentro del recurso de la pieza, el patrón, el sello, la nota a mano o solo tipografía. El ícono va con `<Gesto accion="guardar" />` (también `enviar`, `comentar`, `me-gusta`, `seguir` y `repostear`; `lleno` lo dibuja tocado). El gesto destacado es el que pide el CTA: un CTA de guardar no destaca el corazón. No copies la última lámina de otra pieza: el texto centrado con el CTA en una caja redondeada es justo el bloque que se repite. El render avisa si el tratamiento repite el de alguna de las dos piezas anteriores, si falta el ícono o si el gesto no es el del CTA.
 - **Contador (experimento):** `post.json → art.contador: true` muestra n/N en el pie. Se decide con las métricas.
 - Escribe JSX y Tailwind directo. Si un recurso se repite en muchos carruseles, propón agregarlo a `packages/carousel/src/ui/` en vez de copiarlo.
 

@@ -1,0 +1,93 @@
+{
+  "formato": "ensenar",
+  "tesis": "Claude puede actuar como un desarrollador junior autónomo y cerrar tickets de tu backlog de Notion sin supervisión, siempre que la tarea esté acotada y redactada con criterios verificables.",
+  "palanca": "que-cambia",
+  "porQueAhora": "La combinación de servidores MCP y agentes de terminal permite delegar el ciclo completo de un ticket sin intervención humana intermedia.",
+  "paraQuien": "Devs y tech leads que pasan horas resolviendo tareas junior repetitivas en vez de enfocarse en arquitectura.",
+  "queGana": "Aprende qué tareas delegar sin supervisión, cómo redactar tickets ejecutables en Notion y el flujo MCP para que el agente entregue el PR listo.",
+  "objetivo": "enviar",
+  "compartirCon": "Al tech lead o compañero de equipo que vive tapado de tickets junior y no delega en agentes.",
+  "toma": "Si tienes que supervisar cada línea que escribe el agente en un bug simple, el problema no es el modelo sino cómo redactaste el ticket.",
+  "ganchos": [
+    {
+      "texto": "No necesitas supervisar a Claude en Notion",
+      "promesa": "Cómo delegarle tickets junior para que los cierre solo",
+      "formula": 20
+    },
+    {
+      "texto": "Deja que Claude cierre tus tickets de Notion",
+      "promesa": "El sistema para delegar tareas junior sin supervisión",
+      "formula": 2
+    },
+    {
+      "texto": "Deja de supervisar a Claude en Notion",
+      "promesa": "El método para que resuelva tickets junior por su cuenta",
+      "formula": 2
+    },
+    {
+      "texto": "Sin supervisión: delega tus tickets de Notion",
+      "promesa": "El flujo con Claude para vaciar tu backlog junior",
+      "formula": 2
+    },
+    {
+      "texto": "¿Por qué no delegas tus tickets de Notion a Claude?",
+      "promesa": "Tareas de nivel junior que un agente resuelve solo",
+      "formula": 16
+    },
+    {
+      "texto": "Lo estás usando mal al pasar tickets a Claude",
+      "promesa": "Cómo lograr que resuelva tareas junior sin supervisión",
+      "formula": 7
+    },
+    {
+      "texto": "Si tienes tickets acumulados en Notion, mira esto",
+      "promesa": "El flujo para que Claude los resuelva sin ayuda",
+      "formula": 10
+    },
+    {
+      "texto": "4 reglas para delegar tickets sin supervisión",
+      "promesa": "De Notion a código terminado con Claude Code",
+      "formula": 11
+    }
+  ],
+  "esqueleto": [
+    {
+      "afirmacion": "La portada plantea delegar tickets junior a Claude sin supervisión",
+      "prueba": "Gancho enfocado en autonomía de tareas con logos de Notion y Claude."
+    },
+    {
+      "afirmacion": "Qué tickets sí puede resolver un agente sin supervisión",
+      "prueba": "Tareas acotadas: refactor de tipos, endpoints CRUD, bugs con test fallido y migraciones simples."
+    },
+    {
+      "afirmacion": "La anatomía del ticket ejecutable en Notion",
+      "prueba": "Archivos afectados, criterios de aceptación en checklist y comandos de test obligatorios."
+    },
+    {
+      "afirmacion": "Orquestación en terminal con MCP sin intervención manual",
+      "prueba": "Claude lee el ticket vía MCP, crea la rama git, implementa los cambios y corre los tests."
+    },
+    {
+      "afirmacion": "El cierre del ciclo: de Notion a Pull Request listo",
+      "prueba": "El agente actualiza el estado a En revisión y pega el diff; el humano solo hace code review."
+    },
+    {
+      "afirmacion": "Cierre con recordatorio para el equipo antes de la próxima planning",
+      "prueba": "Despedida del primer paso y CTA de compartir al equipo."
+    }
+  ],
+  "despedida": {
+    "jugada": "el-primer-paso",
+    "texto": "Empieza por redactar un solo ticket de refactor con checklist y córrelo con Claude."
+  },
+  "cta": {
+    "tipo": "enviar",
+    "forma": "enviar-al-equipo",
+    "texto": "Compártelo con tu equipo antes de la próxima planning en Notion."
+  },
+  "ganchoElegido": "¿Por qué no delegas tus tickets de Notion a Claude?",
+  "puertaA": {
+    "aprobado": true,
+    "fecha": "2026-10-17"
+  }
+}

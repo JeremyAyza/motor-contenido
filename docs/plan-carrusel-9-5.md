@@ -15,7 +15,7 @@ Implementadas las fases 1 y 2, y las herramientas de la fase 3. Sin commit todav
 | 5. Legibilidad | Hecho: umbrales nuevos en el inspector, `<Nota>` y `data-nota` |
 | 6. Baraja | Sin cambios, por decisión de Jeremy |
 | 7. Métricas | Hecho: `metricas.json`, `carrusel:metricas`, `workflows/metricas.md`, `docs/aprendizajes.md`. Se llena al publicar |
-| 8. Compartir y cierre | Hecho: `objetivo`, `compartirCon`, `despedida` y `cta` en el brief; jugadas de despedida y formas de CTA en `skills/carrusel-taste/cierres.json`, con aviso si se repiten entre piezas seguidas; cierre con `data-cta` revisado por el inspector; texto del post con `caption_es`; contador opcional |
+| 8. Compartir y cierre | Hecho: `objetivo`, `compartirCon`, `despedida` y `cta` en el brief; jugadas de despedida y formas de CTA en `skills/carrusel-taste/cierres.json`, y tratamientos visuales del CTA (`art.cierre`, primitiva `<Gesto>`), con aviso si se repiten entre piezas seguidas; cierre con `data-cta` revisado por el inspector; texto del post con `caption_es`; contador opcional |
 | 9. Voz | Plantilla hecha en `docs/voz.md`; humanizador en el render. **Pendiente de Jeremy:** sus textos y posturas |
 | 10. Dos puertas | Hecho: puerta A obligatoria antes del render (error si no está aprobada) y puerta B al final |
 

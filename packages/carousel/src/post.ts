@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { PaletteSchema, PieceFontsSchema } from "../../brand/src/index.ts";
+import { GESTO_IDS, TRATAMIENTO_IDS } from "./cierres.ts";
 import { DIRECCION_IDS } from "./direcciones.ts";
 
 /**
@@ -37,6 +38,14 @@ export const ArtSchema = z.object({
     .boolean()
     .optional()
     .describe("Experimento: muestra n/N en el pie de las láminas interiores. Se decide con las métricas (workflows/metricas.md)"),
+  cierre: z
+    .object({
+      tratamiento: z.enum(TRATAMIENTO_IDS).describe("Cómo se ve el CTA en la última lámina (skills/carrusel-taste/cierres.json)"),
+      gesto: z.enum(GESTO_IDS).optional().describe("El gesto que muestra el CTA con <Gesto>; el del tipo de CTA del brief"),
+      porque: z.string().trim().min(10).optional().describe("Por qué este tratamiento sirve a esta dirección y este tema"),
+    })
+    .optional()
+    .describe("Tratamiento visual del CTA. Cambia de una pieza a la siguiente, como la dirección"),
 });
 export type Art = z.infer<typeof ArtSchema>;
 

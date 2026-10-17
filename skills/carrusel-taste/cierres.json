@@ -1,5 +1,5 @@
 {
-  "nota": "Catálogo del cierre del carrusel (workflows/carrusel.md, paso 4 y paso 9). Cada pieza elige una jugada de despedida y una forma de CTA, y carrusel:brief avisa si repite las de las dos piezas anteriores de la cuenta. Los ejemplos muestran la forma; no se copian.",
+  "nota": "Catálogo del cierre del carrusel (workflows/carrusel.md, paso 4 y paso 9). Cada pieza elige una jugada de despedida y una forma de CTA (en brief.json) y un tratamiento visual del CTA (en post.json → art.cierre). carrusel:brief y el render avisan si se repiten los de las dos piezas anteriores de la cuenta. Los ejemplos muestran la forma; no se copian.",
   "despedidas": [
     {
       "id": "vuelta-a-la-portada",
@@ -134,6 +134,64 @@
       "nombre": "La serie",
       "como": "La pieza es parte de una serie con las demás partes planeadas.",
       "ejemplo": "\"Es la parte 1 de 3 sobre mods. La 2 es cómo escribir uno.\""
+    }
+  ],
+  "tratamientos": [
+    {
+      "id": "gesto-gigante",
+      "nombre": "El gesto gigante",
+      "conGesto": true,
+      "como": "El ícono del gesto es lo dominante de la lámina, a un tercio de su alto o más. La despedida y el CTA lo acompañan.",
+      "cuando": "Direcciones de titular gigante, minimalistas o de una sola idea."
+    },
+    {
+      "id": "gesto-tocado",
+      "nombre": "El gesto ya tocado",
+      "conGesto": true,
+      "como": "El ícono relleno con el acento, como cuando ya se tocó. Puede ir junto a su versión vacía, como un antes y después.",
+      "cuando": "Piezas sobre un cambio de estado, un antes y después o una decisión."
+    },
+    {
+      "id": "fila-de-gestos",
+      "nombre": "La fila de gestos",
+      "conGesto": true,
+      "como": "Los gestos genéricos en fila (me gusta, comentar, enviar, guardar): el que pide el CTA relleno y en el acento, los demás apagados. Íconos de Lucide con la paleta de la pieza; no es una copia de la barra de Instagram.",
+      "cuando": "Cuando el gesto solo no se entiende o la lámina tiene aire horizontal."
+    },
+    {
+      "id": "gesto-en-el-recurso",
+      "nombre": "El gesto dentro del recurso",
+      "conGesto": true,
+      "como": "El ícono vive dentro del elemento visual de la pieza: la línea termina en el marcador, la tarjeta de resumen lo lleva en la esquina, el último punto del gráfico es el ícono, la ventana lo tiene en su barra.",
+      "cuando": "Cuando la dirección tiene un recurso fuerte que recorre las láminas. Es el más propio de cada pieza."
+    },
+    {
+      "id": "patron",
+      "nombre": "El patrón",
+      "conGesto": true,
+      "como": "El ícono repetido como textura de fondo, en un tono que no compita con el texto, con uno solo destacado en el acento.",
+      "cuando": "Direcciones de cuadrícula, patrón o textura."
+    },
+    {
+      "id": "sello",
+      "nombre": "El sello",
+      "conGesto": true,
+      "como": "El gesto y el CTA dentro de una etiqueta o un sello girado unos grados, pegado sobre la composición.",
+      "cuando": "Direcciones con papel, recortes, etiquetas o notas adhesivas."
+    },
+    {
+      "id": "nota-a-mano",
+      "nombre": "La nota a mano",
+      "conGesto": false,
+      "como": "El CTA escrito con font-notes y una flecha dibujada hacia el gesto o hacia la lámina que vale la pena guardar.",
+      "cuando": "Direcciones de cuaderno, pizarra o captura anotada."
+    },
+    {
+      "id": "solo-tipografia",
+      "nombre": "Solo tipografía",
+      "conGesto": false,
+      "como": "Sin ícono: el CTA es el elemento dominante, en la tipografía de titulares.",
+      "cuando": "Cuando la lámina ya está cargada o la dirección es puramente tipográfica. Es el bloque de siempre: úsalo solo si de verdad es lo mejor para la pieza."
     }
   ]
 }

@@ -1,0 +1,32 @@
+{
+  "topic": "Orquestar tickets con Notion y Claude",
+  "checkedAt": "2026-10-17",
+  "facts": [
+    {
+      "claim": "El Model Context Protocol (MCP) de Anthropic permite conectar Claude Code directamente a Notion mediante servidores MCP para leer y actualizar tareas sin salir de la terminal.",
+      "source": "https://modelcontextprotocol.io",
+      "primary": true
+    },
+    {
+      "claim": "En Claude Code, una integración de Notion se registra con `claude mcp add` o configurando `mcpServers` en el archivo de configuración con el token de integración de Notion.",
+      "source": "https://code.claude.com/docs/en/mcp",
+      "primary": true
+    },
+    {
+      "claim": "El servidor MCP de Notion permite a Claude consultar bases de datos de tickets, leer los criterios de aceptación de una página y actualizar propiedades como el estado de la tarea.",
+      "source": "https://github.com/modelcontextprotocol/servers",
+      "primary": true
+    },
+    {
+      "claim": "Las guías de ingeniería de prompts de Anthropic señalan que los agentes requieren criterios de aceptación estructurados (inputs, outputs y casos borde) para evitar alucinaciones en especificaciones ambiguas.",
+      "source": "https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering",
+      "primary": true
+    },
+    {
+      "claim": "Las integraciones de Notion permiten restringir el acceso exclusivamente a la base de datos de tickets del proyecto para proteger la privacidad del resto del espacio de trabajo.",
+      "source": "https://developers.notion.com/docs/create-a-notion-integration",
+      "primary": true
+    }
+  ],
+  "pendingToVerify": []
+}

@@ -9,6 +9,7 @@ import { chromium, type Browser, type Page } from "playwright-core";
 import { createHighlighter } from "shiki";
 import { fontFaceCss, loadAccount, pieceFontIds, REPO_ROOT, tailwindTheme } from "../../brand/src/index.ts";
 import { loadBrief, type Brief } from "./brief.ts";
+import { GESTO_DE_TIPO, historialTratamientos, TRATAMIENTOS } from "./cierres.ts";
 import { PostSchema, type Post } from "./post.ts";
 import { revisarTextos } from "./texto.ts";
 import { SlideContext } from "./ui/index.tsx";
@@ -213,11 +214,12 @@ const INSPECT = `((isCover, isLast) => {
   const readText = read.join(' ').replace(/\\s+/g, ' ').trim();
   const words = readText ? readText.split(' ').length : 0;
   const cta = isLast ? content.querySelector('[data-cta]') : null;
+  const gestos = isLast ? [...content.querySelectorAll('[data-gesto]')].map((g) => g.getAttribute('data-gesto')) : [];
   const text = content.innerText.replace(/\\s+/g, ' ').trim();
-  return { issues, text, words, cta: cta ? (cta.textContent || '').replace(/\\s+/g, ' ').trim() : null };
+  return { issues, text, words, cta: cta ? (cta.textContent || '').replace(/\\s+/g, ' ').trim() : null, gestos };
 })`;
 
-type SlideReport = { issues: Issue[]; text: string; words: number; cta: string | null };
+type SlideReport = { issues: Issue[]; text: string; words: number; cta: string | null; gestos: string[] };
 
 const normalize = (s: string) =>
   s
@@ -235,6 +237,7 @@ async function inspectSlide(page: Page, i: number, total: number): Promise<Slide
     text: string;
     words: number;
     cta: string | null;
+    gestos: string[];
   };
   const where = `lámina ${i + 1}`;
   const issues: Issue[] = r.issues.map(([level, message]) => ({ level, where, message }));
@@ -245,7 +248,7 @@ async function inspectSlide(page: Page, i: number, total: number): Promise<Slide
   else if (r.words > 35) issues.push({ level: "aviso", where, message: `${r.words} palabras; mejor 35 o menos` });
   if (r.text.includes("—")) issues.push({ level: "aviso", where, message: "Guion largo (—): suena a texto de IA" });
   for (const { find, re } of SLOP) if (re.test(r.text)) issues.push({ level: "aviso", where, message: `Frase de relleno: "${find}" (skills/ig-es/slop-es.json)` });
-  return { issues, text: r.text, words: r.words, cta: r.cta };
+  return { issues, text: r.text, words: r.words, cta: r.cta, gestos: r.gestos };
 }
 
 function contactSheet(images: string[], handle: string): string {
@@ -266,6 +269,39 @@ function thumbSheet(cover: string): string {
 .t{width:135px;height:169px;display:block}.a{background:#2a2d33}.b{background:#3a3530}
 </style></head><body><div class="row"><i class="t a"></i><img class="t" src="${cover}"><i class="t b"></i></div>
 <p>Miniatura del perfil en el celular. ¿Se sabe el tema sin leer?</p></body></html>`;
+}
+
+/**
+ * El tratamiento visual del CTA (post.json → art.cierre): que esté, que no
+ * repita el de las dos piezas anteriores, que el gesto esté en la lámina y que
+ * sea el que pide el CTA.
+ */
+function revisarTratamiento(dir: string, post: Post, brief: Brief | null, gestos: string[], where: string): Issue[] {
+  const issues: Issue[] = [];
+  const cierre = post.art.cierre;
+  if (!cierre) {
+    if (brief) {
+      issues.push({ level: "aviso", where, message: "Falta post.json → art.cierre: el tratamiento visual del CTA (skills/carrusel-taste/cierres.json)" });
+    }
+    return issues;
+  }
+  const t = TRATAMIENTOS.find((x) => x.id === cierre.tratamiento);
+  const previo = historialTratamientos(post.account, basename(dir))
+    .slice(0, 2)
+    .find((h) => h.tratamiento === cierre.tratamiento);
+  if (previo) {
+    issues.push({ level: "aviso", where, message: `El CTA repite el tratamiento "${t?.nombre ?? cierre.tratamiento}" de ${previo.pieza}: elige otro de skills/carrusel-taste/cierres.json` });
+  }
+  if (cierre.gesto && !gestos.includes(cierre.gesto)) {
+    issues.push({ level: "aviso", where, message: `post.json → art.cierre.gesto es "${cierre.gesto}", pero la última lámina no tiene <Gesto accion="${cierre.gesto}">` });
+  } else if (t?.conGesto && !gestos.length) {
+    issues.push({ level: "aviso", where, message: `El tratamiento "${t.nombre}" lleva el ícono del gesto: usa <Gesto> en la última lámina` });
+  }
+  const pedido = brief ? GESTO_DE_TIPO[brief.cta.tipo] : undefined;
+  if (pedido && cierre.gesto && cierre.gesto !== pedido) {
+    issues.push({ level: "aviso", where, message: `El gesto destacado ("${cierre.gesto}") no es el que pide el CTA ("${pedido}"): son dos señales distintas` });
+  }
+  return issues;
 }
 
 export async function renderPiece(dir: string): Promise<{ files: string[]; issues: Issue[] }> {
@@ -301,6 +337,7 @@ export async function renderPiece(dir: string): Promise<{ files: string[]; issue
   const slideTexts: string[] = [];
   let lastCta: string | null = null;
   let lastText = "";
+  let lastGestos: string[] = [];
   const browser = await launchBrowser();
   try {
     const page = await browser.newPage({ viewport: { width: DESIGN_W, height: DESIGN_H }, deviceScaleFactor: 2 });
@@ -321,6 +358,7 @@ export async function renderPiece(dir: string): Promise<{ files: string[]; issue
       if (i === slides.length - 1) {
         lastCta = report.cta;
         lastText = report.text;
+        lastGestos = report.gestos;
       }
       const file = join(outDir, `${String(i + 1).padStart(2, "0")}.png`);
       await page.screenshot({ path: file, type: "png" });
@@ -361,6 +399,7 @@ export async function renderPiece(dir: string): Promise<{ files: string[]; issue
   if (brief && !normalize(lastText).includes(normalize(brief.despedida.texto))) {
     issues.push({ level: "aviso", where: lastWhere, message: `La despedida del brief ("${brief.despedida.texto}") no está en la última lámina` });
   }
+  issues.push(...revisarTratamiento(dir, post, brief, lastGestos, lastWhere));
 
   const captionFile = join(outDir, "texto-del-post.txt");
   writeFileSync(captionFile, post.caption + "\n");

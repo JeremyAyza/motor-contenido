@@ -78,7 +78,7 @@ GitHub: `JeremyAyza/motor-contenido`, rama `main`.
 |---|---|
 | `skills/carrusel-taste/SKILL.md` | Proceso de dirección de arte: baraja, ancla, paleta, tipografías, composición |
 | `skills/carrusel-taste/direcciones.json` | Las 12 direcciones: idea, cuándo usarla, portada, interior, tipografías, paleta, qué evitar |
-| `skills/carrusel-taste/cierres.json` | El catálogo del cierre: 8 jugadas de despedida y las formas de CTA por tipo |
+| `skills/carrusel-taste/cierres.json` | El catálogo del cierre: 8 jugadas de despedida, las formas de CTA por tipo y 8 tratamientos visuales del CTA (con `<Gesto>`) |
 | `skills/carrusel-taste/referencias/` | Hoja con las 12 portadas y la prueba del pulgar, con y sin ancla |
 | `packages/carousel/src/ui/index.tsx` | Primitivas: `Slide` (marco, con `tone`, `underlay` y contador opcional), `Logo`, `Icono`, `Img` (con `ancla` y `credit`), `Code`, `Window`, `Prompt`, `Nota`, `cx` |
 | `packages/carousel/src/render.tsx` | Render, inspector en el navegador y búsqueda del navegador |
@@ -123,6 +123,7 @@ Tamaños en px reales del PNG (el celular lo muestra a un 36%).
 - texto de cuerpo de menos de 32px, código de menos de 28px;
 - más de 35 palabras, o más de 12 en la portada;
 - más de 3 tamaños de letra por lámina;
+- cierre: tratamiento visual igual al de una de las dos piezas anteriores, falta el ícono del gesto, o el gesto destacado no es el que pide el CTA;
 - ancla menor al 2.5% de la lámina;
 - degradados, sombras, monoespaciada fuera de código y mayúsculas espaciadas;
 - más de dos tipografías fuera del código;

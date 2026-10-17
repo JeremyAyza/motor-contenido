@@ -220,6 +220,46 @@
         "contador": {
           "description": "Experimento: muestra n/N en el pie de las láminas interiores. Se decide con las métricas (workflows/metricas.md)",
           "type": "boolean"
+        },
+        "cierre": {
+          "description": "Tratamiento visual del CTA. Cambia de una pieza a la siguiente, como la dirección",
+          "type": "object",
+          "properties": {
+            "tratamiento": {
+              "type": "string",
+              "enum": [
+                "gesto-gigante",
+                "gesto-tocado",
+                "fila-de-gestos",
+                "gesto-en-el-recurso",
+                "patron",
+                "sello",
+                "nota-a-mano",
+                "solo-tipografia"
+              ],
+              "description": "Cómo se ve el CTA en la última lámina (skills/carrusel-taste/cierres.json)"
+            },
+            "gesto": {
+              "description": "El gesto que muestra el CTA con <Gesto>; el del tipo de CTA del brief",
+              "type": "string",
+              "enum": [
+                "guardar",
+                "enviar",
+                "comentar",
+                "me-gusta",
+                "seguir",
+                "repostear"
+              ]
+            },
+            "porque": {
+              "description": "Por qué este tratamiento sirve a esta dirección y este tema",
+              "type": "string",
+              "minLength": 10
+            }
+          },
+          "required": [
+            "tratamiento"
+          ]
         }
       },
       "required": [

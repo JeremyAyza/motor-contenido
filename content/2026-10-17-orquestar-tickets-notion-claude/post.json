@@ -1,0 +1,63 @@
+{
+  "account": "dev",
+  "topic": "Orquestar tickets con Notion y Claude",
+  "infoDate": "2026-10-17",
+  "idea": "En este carrusel, cada ticket de Notion se vuelve un sticker de tarea ejecutable que Claude resuelve en terminal sin supervisión.",
+  "art": {
+    "direction": "collage",
+    "dealt": [
+      "diario-de-prueba",
+      "elige-tu-camino",
+      "collage"
+    ],
+    "reason": "Collage permite mostrar Notion y Claude como dos stickers de trabajo coordinado y presentar los tickets como fichas dinámicas con etiquetas rotadas.",
+    "borrowed": [
+      "terminal"
+    ],
+    "palette": {
+      "bg": "#F6F2E9",
+      "ink": "#141412",
+      "accent": "#9E3812",
+      "accentInk": "#FFFFFF",
+      "surface": "#EDE6D8",
+      "muted": "#544F44"
+    },
+    "fonts": {
+      "display": "bricolage",
+      "text": "geist"
+    },
+    "anchor": {
+      "kind": "logo",
+      "ref": "notion",
+      "source": "Ícono oficial de Notion en Simple Icons (CC0), tomado de notion.so; se usa sin modificar para identificar el tema"
+    },
+    "tab": "notion-claude.md"
+  },
+  "caption": "¿Por qué no delegas tus tickets de Notion a Claude? Si pasas horas en tareas junior repetitivas, este flujo cambia todo:\n\nPasa siempre.\nTu backlog se llena de tareas mecánicas: tipados, endpoints CRUD, corrección de bugs con test fallido o migraciones.\nNo tienes que hacerlas tú.\nPara orquestar tickets con Claude y de verdad delegar tareas a agentes sin microgestión, solo necesitas conectar Notion con Claude Code:\n\n1. Filtra los tickets delegables\nElige tareas aisladas con alcance definido. Si el ticket no toca la arquitectura core o lógica de pagos, puede resolverlo un agente sin supervisión.\n\n2. Diseña el ticket ejecutable\nRedáctalo en Notion con archivos afectados, checklist de criterios de aceptación verificables y comando de test obligatorio.\n\n3. Conecta vía MCP\nUsa claude mcp add para que Claude lea el ticket directamente desde tu base de Notion y cree la rama git en local.\n\n4. Cierre automático\nClaude escribe el código, corre los tests y actualiza el estado del ticket en Notion a Listo para review. Tú solo revisas el Pull Request.\n\nCompártelo con tu equipo antes de la próxima planning en Notion.\n\nInformación al 17 de octubre de 2026. Fuente: documentación oficial de MCP y Notion API.\n\n#notion #claudecode #anthropic #programacion #desarrolladores",
+  "busqueda": [
+    "orquestar tickets con Claude",
+    "conectar Notion con Claude Code",
+    "delegar tareas a agentes"
+  ],
+  "alt": "Portada con los stickers de Notion y Claude y el titular: ¿Por qué no delegas tus tickets de Notion a Claude?",
+  "slideCaptions": [
+    "¿Por qué no delegas tus tickets de Notion a Claude? El flujo para vaciar tu backlog junior.",
+    "El filtro: qué tickets sí puede cerrar un agente sin supervisión.",
+    "Anatomía del ticket: cómo redactar una tarea ejecutable en Notion.",
+    "Conexión MCP: cómo orquestar la terminal con Notion sin intermediarios.",
+    "El ciclo completo: de ticket en Notion a Pull Request testeado.",
+    "Compártelo con tu equipo antes de la próxima planning en Notion."
+  ],
+  "sources": [
+    {
+      "title": "Model Context Protocol Documentation",
+      "url": "https://modelcontextprotocol.io",
+      "checkedAt": "2026-10-17"
+    },
+    {
+      "title": "Notion API Integrations",
+      "url": "https://developers.notion.com/docs/create-a-notion-integration",
+      "checkedAt": "2026-10-17"
+    }
+  ]
+}

@@ -73,7 +73,7 @@ Nunca dibujes ni imites un logo, una mascota o un personaje de una marca: solo a
 - **Asimetría con intención:** alinea a un borde, deja aire en el otro. El centrado simétrico en todo se ve plantilla.
 - **Lo real manda:** comandos, código, capturas y números con fuente. Nada de dashboards falsos ni interfaces inventadas.
 - **Grande para el celular:** el cuerpo en 16px de diseño o más; menos palabras antes que letra chica.
-- **El cierre también se diseña:** la última lámina es una despedida que cierra lo que abrió la portada (el mismo ancla, el mismo trazo, la respuesta al gancho), en la forma de la dirección elegida, con la despedida y el CTA del brief (`data-cta`). Es tan dinámica como la portada: no hay una lámina final fija, y la jugada de despedida y la forma del CTA cambian de una pieza a la siguiente (`cierres.json`).
+- **El cierre también se diseña:** la última lámina es una despedida que cierra lo que abrió la portada (el mismo ancla, el mismo trazo, la respuesta al gancho), en la forma de la dirección elegida, con la despedida y el CTA del brief (`data-cta`). Es tan dinámica como la portada: no hay una lámina final fija, y la jugada de despedida y la forma del CTA cambian de una pieza a la siguiente (`cierres.json`). El CTA tiene su propio tratamiento visual (`art.cierre`): el ícono del gesto con `<Gesto>`, metido en el recurso de la dirección cuando se puede (la línea que termina en el marcador, la tarjeta con el marcador en la esquina). Combina tratamiento, gesto y dirección; no repitas la caja redondeada de siempre.
 - **La lámina de resumen,** cuando la hay, se diseña para que se entienda capturada y mandada sola.
 - Revisa también [docs/anti-slop.md](../../docs/anti-slop.md).
 
@@ -92,3 +92,4 @@ Nunca dibujes ni imites un logo, una mascota o un personaje de una marca: solo a
 - [ ] Ninguna lámina repite la composición de la anterior.
 - [ ] La portada usa el gancho aprobado en la puerta A.
 - [ ] La última lámina cierra la portada con la despedida del brief y tiene un solo CTA con `data-cta`.
+- [ ] `art.cierre` tiene un tratamiento distinto al de las dos piezas anteriores, y el gesto destacado es el que pide el CTA.

@@ -4,6 +4,7 @@ import { createContext, useContext, type CSSProperties, type ReactNode } from "r
 import { svgPathBbox } from "svg-path-bbox";
 import { twMerge } from "tailwind-merge";
 import { REPO_ROOT, type AccountBrand } from "../../../brand/src/index.ts";
+import { GESTOS, type Gesto as GestoId } from "../cierres.ts";
 import type { Art } from "../post.ts";
 
 /**
@@ -212,9 +213,6 @@ export function Icono({
   className?: string;
   ancla?: boolean;
 }) {
-  const file = join(REPO_ROOT, "node_modules/lucide-static/icons", `${name}.svg`);
-  if (!existsSync(file)) throw new Error(`No existe el ícono "${name}" en Lucide. Revisa los nombres en https://lucide.dev/icons`);
-  const inner = readFileSync(file, "utf8").replace(/^[\s\S]*?<svg[^>]*>/, "").replace(/<\/svg>\s*$/, "");
   return (
     <svg
       viewBox="0 0 24 24"
@@ -227,7 +225,58 @@ export function Icono({
       strokeLinejoin="round"
       className={cx("block shrink-0", className)}
       data-ancla={ancla ? "icono" : undefined}
-      dangerouslySetInnerHTML={{ __html: inner }}
+      dangerouslySetInnerHTML={{ __html: lucide(name) }}
+    />
+  );
+}
+
+/** El contenido de un ícono de Lucide, sin la etiqueta <svg>. */
+function lucide(name: string): string {
+  const file = join(REPO_ROOT, "node_modules/lucide-static/icons", `${name}.svg`);
+  if (!existsSync(file)) throw new Error(`No existe el ícono "${name}" en Lucide. Revisa los nombres en https://lucide.dev/icons`);
+  return readFileSync(file, "utf8").replace(/^[\s\S]*?<svg[^>]*>/, "").replace(/<\/svg>\s*$/, "");
+}
+
+/**
+ * El gesto que pide el CTA (guardar, enviar, comentar, me-gusta, seguir,
+ * repostear), para la última lámina. Son íconos genéricos de Lucide (ISC), no
+ * copias de los de Instagram. `lleno` lo dibuja relleno, como cuando ya se
+ * tocó; se ve bien en guardar, me-gusta, enviar y comentar. El color sale del
+ * texto (text-accent, text-ink...). Cómo usarlo: skills/carrusel-taste/cierres.json.
+ */
+export function Gesto({
+  accion,
+  size = 96,
+  lleno = false,
+  strokeWidth = 2,
+  className,
+  style,
+}: {
+  accion: GestoId;
+  size?: number;
+  lleno?: boolean;
+  strokeWidth?: number;
+  className?: string;
+  style?: CSSProperties;
+}) {
+  const name = GESTOS[accion];
+  if (!name) throw new Error(`Gesto desconocido: "${accion}". Usa uno de: ${Object.keys(GESTOS).join(", ")}`);
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      fill={lleno ? "currentColor" : "none"}
+      stroke="currentColor"
+      strokeWidth={strokeWidth}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={cx("block shrink-0", className)}
+      style={style}
+      aria-hidden
+      data-gesto={accion}
+      data-lleno={lleno ? "" : undefined}
+      dangerouslySetInnerHTML={{ __html: lucide(name) }}
     />
   );
 }
