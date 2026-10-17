@@ -25,3 +25,7 @@ Arreglos hechos en la ronda 1:
 Arreglo de la ronda 2: la pregunta final pasó a estar junto al punto donde termina la línea, para que el camino acabe en "tu primer mod".
 
 Para subir a 5: instalar un mod real con `/plugin`, capturarlo y usarlo en la lámina 6; mencionar `/diff` en la portada.
+
+## Puerta humana
+
+Aprobada por Jeremy el 16 de octubre de 2026, sin cambios.
