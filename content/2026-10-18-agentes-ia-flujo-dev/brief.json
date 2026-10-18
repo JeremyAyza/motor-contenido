@@ -1,0 +1,114 @@
+{
+  "formato": "opinion",
+  "tesis": "Un agente de código no es para pedirle snippets sueltos: su verdadero valor está en delegarle las tareas mecánicas de tu día a día, desde el plan de implementación hasta el Pull Request listo.",
+  "palanca": "que-cambia",
+  "porQueAhora": "Los agentes en terminal y entorno local ya no solo sugieren código: hoy ejecutan comandos, corren tests y gestionan el ciclo completo de un ticket.",
+  "paraQuien": "Programadores que usan IA como un chat web para autocompletar código pero aún hacen toda la gestión de tickets, tests y PRs de forma manual.",
+  "queGana": "Descubre 4 tareas manuales del día a día que ya puede delegar a un agente de código para enfocarse en arquitectura y revisión.",
+  "objetivo": "guardar",
+  "compartirCon": "Al compañero del equipo que sigue copiando y pegando errores de terminal a una ventana de ChatGPT.",
+  "toma": "El trabajo del developer está mutando: pasamos de tipear código repetitivo a redactar planes precisos y revisar diffs.",
+  "ganchos": [
+    {
+      "texto": "Si eres dev y no usas agentes, mira esto",
+      "promesa": "Las 4 tareas que hoy resuelven antes de tocar código",
+      "formula": 10
+    },
+    {
+      "texto": "Deja de hacer estas tareas a mano en tu código",
+      "promesa": "Cómo delegar tickets y PRs a un agente hoy",
+      "formula": 2
+    },
+    {
+      "texto": "No necesitas tipear todo tu Pull Request a mano",
+      "promesa": "Lo que un agente de código ya hace por ti",
+      "formula": 20
+    },
+    {
+      "texto": "Estás usando mal la IA si solo le pides snippets",
+      "promesa": "El flujo real para resolver un ticket completo",
+      "formula": 7
+    },
+    {
+      "texto": "Este flujo reemplaza una hora de trabajo manual",
+      "promesa": "De la idea al PR con un agente en terminal",
+      "formula": 4
+    },
+    {
+      "texto": "4 tareas de dev que ya no deberías hacer manual",
+      "promesa": "La tercera te ahorra la mitad del tiempo de testing",
+      "formula": 11
+    },
+    {
+      "texto": "Lo que nadie te dice de los agentes de código",
+      "promesa": "No es magia: es un loop con terminal y linters",
+      "formula": 3
+    },
+    {
+      "texto": "¿Por qué sigues copiando código de un chat?",
+      "promesa": "El salto a un agente que trabaja en tu propio repo",
+      "formula": 16
+    },
+    {
+      "texto": "Claude Code",
+      "promesa": "4 tareas que ya no deberías hacer a mano en tu terminal",
+      "formula": 27
+    }
+  ],
+  "esqueleto": [
+    {
+      "afirmacion": "La portada plantea el contraste entre tipear todo a mano y delegar a un agente",
+      "prueba": "Gancho sobre tareas manuales de dev y ancla visual de terminal agéntico."
+    },
+    {
+      "afirmacion": "La IA no es solo para autocompletar líneas o pedir snippets sueltos",
+      "prueba": "Copiar y pegar código y errores entre el navegador y el editor es el cuello de botella que los agentes resuelven."
+    },
+    {
+      "afirmacion": "Diseñar planes de implementación técnicos antes de modificar un archivo",
+      "prueba": "El agente lee la arquitectura del repo, evalúa dependencias, define riesgos y propone el plan paso a paso."
+    },
+    {
+      "afirmacion": "Resolver un ticket completo navegando por todo el repositorio",
+      "prueba": "Lee el issue con GitHub CLI o archivo local, localiza los módulos involucrados y aplica los parches necesarios."
+    },
+    {
+      "afirmacion": "Ejecutar linters, suite de tests y corregir errores en bucle cerrado",
+      "prueba": "Si un test falla, el agente lee el stack trace en su terminal local, ajusta el código y reintenta hasta compilar."
+    },
+    {
+      "afirmacion": "Crear el Pull Request con descripción técnica y resumen de cambios",
+      "prueba": "Genera el diff, documenta el por qué del cambio con gh pr create y deja la rama lista para revisión humana."
+    },
+    {
+      "afirmacion": "El nuevo rol del programador: de picar código repetitivo a dirigir y revisar",
+      "prueba": "Despedida del veredicto y CTA específico de guardado para el próximo sprint."
+    }
+  ],
+  "despedida": {
+    "jugada": "el-veredicto",
+    "texto": "Tu rol ya no es picar código repetitivo: es dirigir la arquitectura y revisar los diffs."
+  },
+  "cta": {
+    "tipo": "guardar",
+    "forma": "guardar-la-lamina",
+    "texto": "La lámina de los 4 pasos tiene el flujo completo. Guárdala para tu próxima tarea compleja."
+  },
+  "ctaAlternativas": [
+    {
+      "tipo": "guardar",
+      "forma": "guardar-para-cuando",
+      "texto": "Guárdalo para cuando tengas que armar tu próximo plan de implementación."
+    },
+    {
+      "tipo": "enviar",
+      "forma": "enviar-ese-amigo",
+      "texto": "Compártelo con ese dev del equipo que todavía copia y pega errores de terminal al chat."
+    }
+  ],
+  "ganchoElegido": "4 tareas de dev que ya no deberías hacer manual",
+  "puertaA": {
+    "aprobado": true,
+    "fecha": "2026-10-18"
+  }
+}

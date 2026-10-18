@@ -28,7 +28,7 @@ Alrededor del carrusel hay dos flujos más: el [radar](workflows/radar.md) (qué
 9. **El inspector manda.** Corrige todos los errores del render; cada aviso es un error salvo que lo puedas defender en una frase.
 10. **Confidencialidad.** Nunca uses código, capturas, proyectos, clientes ni métricas del empleador de la persona.
 11. **Estilo de texto:** español neutro, en la voz de [docs/voz.md](docs/voz.md), sin guiones largos (—), sin frases de relleno, una afirmación por lámina.
-12. **Nada se publica sin que la persona lo pida.** Las skills escriben. Publicar es un paso opcional: solo con `carrusel:publicar`, solo cuando la persona lo pide en el chat y solo con la puerta B aprobada ([workflows/carrusel.md](workflows/carrusel.md), paso 14). El login lo hace siempre la persona: el agente no escribe usuarios ni contraseñas ni inicia sesión por ella. No se automatizan DMs, comentarios ni solicitudes.
+12. **Nada se publica sin que la persona lo pida.** Las skills escriben. Publicar es un paso opcional: solo con `carrusel:publicar`, solo cuando la persona lo pide en el chat y solo con la puerta B aprobada ([workflows/carrusel.md](workflows/carrusel.md), paso 14). El agente corre los comandos. La persona escribe su usuario y su contraseña en la ventana de Chrome que abren: el agente nunca los escribe ni los pide. No se automatizan DMs, comentarios ni solicitudes.
 
 ## Contexto
 

@@ -1,0 +1,32 @@
+{
+  "topic": "agentes-ia-flujo-dev",
+  "checkedAt": "2026-10-18",
+  "facts": [
+    {
+      "claim": "Los agentes de código en terminal como Claude Code ejecutan comandos de shell, buscan en el repositorio, leen múltiples archivos y aplican parches sin requerir copiar y pegar manual.",
+      "source": "Documentación oficial de Claude Code (Anthropic)",
+      "url": "https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/overview",
+      "primary": true
+    },
+    {
+      "claim": "El bucle autónomo de un agente se basa en el ciclo de ejecución de herramientas: analiza el problema, modifica el código, ejecuta el linter o tests y lee el error de la terminal para corregirse solo.",
+      "source": "Documentación oficial de Tool Use de Anthropic",
+      "url": "https://docs.anthropic.com/en/docs/build-with-claude/tool-use",
+      "primary": true
+    },
+    {
+      "claim": "A través de herramientas de línea de comandos como GitHub CLI (gh), los agentes pueden leer issues directamente y abrir Pull Requests formateados con su contexto y descripción técnica.",
+      "source": "Manual oficial de GitHub CLI (gh pr create)",
+      "url": "https://cli.github.com/manual/gh_pr_create",
+      "primary": true
+    },
+    {
+      "claim": "El benchmark estándar de la industria para evaluar agentes de desarrollo, SWE-bench, mide la resolución completa de problemas reales de repositorios abiertos desde el reporte hasta el test en verde.",
+      "source": "SWE-bench (Princeton University / SWE-bench team)",
+      "url": "https://www.swebench.com",
+      "primary": false,
+      "referente": "swe-bench"
+    }
+  ],
+  "pendingToVerify": []
+}

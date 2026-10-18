@@ -39,9 +39,18 @@ export type PostOutcome = { kind: "published"; url?: string } | { kind: "skipped
 
 const fileStamp = (id: string, date: Date) => `${date.toISOString().replace(/[:.]/g, "-")}-${id.replace(/[^\w.-]+/g, "-")}`;
 
-async function ensureAccount(publisher: Publisher, platform: string, account: string, handle: string): Promise<void> {
+/**
+ * Makes sure the open session is the account's. Without a session it waits for
+ * the person to log in by hand in the Chrome window: nobody else types credentials.
+ */
+async function ensureAccount(publisher: Publisher, platform: string, account: string, handle: string, log: Log): Promise<void> {
   if (!(await publisher.isLoggedIn())) {
-    throw new PublisherError(`Not logged in to ${platform} as @${handle}. Run: publisher login ${platform} --account ${account}`);
+    log(`Not logged in to ${platform}. Log in as @${handle} in the Chrome window that just opened; waiting up to 10 minutes`);
+    try {
+      await publisher.waitForLogin(LOGIN_TIMEOUT_MS);
+    } catch {
+      throw new PublisherError(`Nobody logged in to ${platform} within 10 minutes, so nothing was posted`);
+    }
   }
   const current = await publisher.currentHandle();
   if (!current) throw new PublisherError(`Couldn't tell which ${platform} account is logged in, so nothing was posted`);
@@ -82,7 +91,7 @@ export async function postPublication(req: PostRequest): Promise<PostOutcome> {
   let started = false;
   let shared = false;
   try {
-    await ensureAccount(publisher, platform.id, manifest.account, req.handle);
+    await ensureAccount(publisher, platform.id, manifest.account, req.handle, log);
     log(`Posting ${manifest.id} to ${platform.id} as @${req.handle}${req.dryRun ? " (dry run)" : ""}`);
     started = true;
     const result = await publisher.post(

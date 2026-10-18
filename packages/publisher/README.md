@@ -44,6 +44,7 @@ npm run publisher -- post instagram --manifest content/<pieza>/publication.json
 - `--dry-run` hace todo menos el clic en Compartir y guarda una captura en `.publisher/dry-runs/`. No mira ni toca el registro.
 - `--force` publica aunque el registro diga que ya está publicada.
 - Antes de abrir el navegador revisa archivos, formatos, peso, cantidad de imágenes, largo del caption y hashtags.
+- Si no hay sesión, deja Chrome abierto y espera hasta 10 minutos a que entres a mano; después sigue solo. `login` sirve para dejar la sesión lista antes.
 - Antes de publicar comprueba que la cuenta abierta sea la del manifiesto.
 - Si la cuenta publicó en los últimos 15 minutos, espera de 1 a 2 minutos.
 

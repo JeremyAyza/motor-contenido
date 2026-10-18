@@ -227,31 +227,30 @@ Con su sí en el chat, anota `post.json → puertaB`: `{ "aprobado": true, "fech
 
 Solo cuando Jeremy lo pide en el chat ("súbela a Instagram"). Publicar no es parte de terminar la pieza.
 
+Los comandos los corres tú, el agente. No le pidas a Jeremy que los corra. Lo único que hace él es escribir su usuario y su contraseña en la ventana de Chrome que abre el comando; tú nunca los escribes ni los pides.
+
 1. Comprueba que `post.json → puertaB.aprobado` sea `true`. Si no, vuelve al paso 13.
-2. La primera vez con cada cuenta, Jeremy tiene que iniciar sesión. Pídele que corra el login él mismo: se abre Chrome y entra a mano. Nunca escribas su usuario ni su contraseña.
-
-   ```bash
-   npm run publisher -- login instagram --account dev
-   ```
-
-3. Si es la primera publicación o algo cambió en Instagram, haz primero un ensayo. Hace todo menos el clic en Compartir y guarda una captura en `.publisher/dry-runs/`:
+2. Si es la primera publicación o algo cambió en Instagram, haz primero un ensayo. Hace todo menos el clic en Compartir y guarda una captura en `.publisher/dry-runs/`. Mírala antes de seguir: las láminas tienen que verse enteras, en 4:5, y el texto completo.
 
    ```bash
    npm run carrusel:publicar -- content/<pieza> --ensayo
    ```
 
-4. Publica:
+3. Publica:
 
    ```bash
    npm run carrusel:publicar -- content/<pieza>
    ```
 
    El comando exige la puerta B y que las láminas de `out/` sean posteriores al último cambio de `slides.tsx`. Arma `out/publication.json` con las láminas y `post.json → caption`, verifica que la sesión abierta sea la de la cuenta y publica sin pedir confirmación. `--plataforma` elige la red (por defecto, `instagram`).
-5. Pásale a Jeremy la URL que imprime. El registro de qué se subió y dónde está en `publications.jsonl` (`npm run publisher -- status --id <pieza>`).
+
+   **Sin sesión** (la primera vez con cada cuenta, o si Instagram la cerró): el comando abre Chrome, imprime "Log in as @... in the Chrome window" y espera hasta 10 minutos. Avísale a Jeremy en el chat que entre en esa ventana; cuando lo hace, el comando sigue solo. Córrelo en segundo plano o con un tiempo de espera de más de 10 minutos para no cortarlo mientras él entra. Si quiere dejar la sesión lista antes, corre `npm run publisher -- login instagram --account dev`, que abre la ventana y termina cuando él entra.
+4. Pásale a Jeremy la URL que imprime. El registro de qué se subió y dónde está en `publications.jsonl` (`npm run publisher -- status --id <pieza>`).
 
 Si falla:
 
-- **Sin sesión o con otra cuenta:** el error lo dice. Pídele a Jeremy que haga el login; no lo hagas tú.
+- **Nadie entró en 10 minutos:** no se publicó nada. Vuelve a correr el comando cuando Jeremy esté.
+- **Otra cuenta abierta:** el error dice cuál. Jeremy cierra sesión en esa ventana y entra con la correcta; después repites el comando.
 - **Falló antes de compartir:** no se publicó nada. Hay captura y HTML en `.publisher/errors/`. Si es un selector, se corrige en `packages/publisher/src/platforms/instagram.selectors.ts` y se confirma con `--ensayo`.
 - **Falló después del clic en Compartir:** el registro queda en `sending` y el comando no vuelve a publicar. Pídele a Jeremy que revise el perfil. Si la publicación está, anótala con `npm run publisher -- mark instagram --id <pieza> --account <cuenta> --url <url>`. Si no está, repite con `--forzar`, y solo con su sí. Los mensajes del publisher dicen `--force`; en `carrusel:publicar` es `--forzar`.
 - **Ya publicada:** el comando no la repite. `--forzar` la publica otra vez, solo si Jeremy lo pide.

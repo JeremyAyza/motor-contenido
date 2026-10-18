@@ -8,7 +8,7 @@ import type { Platform, Publisher } from "../src/platforms/platform.ts";
 import { decide, postPublication, type PostRequest } from "../src/publish.ts";
 import { Registry, type Entry } from "../src/registry.ts";
 
-type Behavior = { loggedIn?: boolean; handle?: string; fail?: "before-share" | "after-share" };
+type Behavior = { loggedIn?: boolean; loginTimesOut?: boolean; handle?: string; fail?: "before-share" | "after-share" };
 
 /** A platform that records what happened instead of driving a browser. */
 function fakePlatform(behavior: Behavior = {}) {
@@ -17,7 +17,10 @@ function fakePlatform(behavior: Behavior = {}) {
     async isLoggedIn() {
       return behavior.loggedIn ?? true;
     },
-    async waitForLogin() {},
+    async waitForLogin() {
+      calls.push("waitForLogin");
+      if (behavior.loginTimesOut) throw new Error("Timeout 600000ms exceeded");
+    },
     async currentHandle() {
       return behavior.handle ?? "jeremyayza.dev";
     },
@@ -138,9 +141,19 @@ describe("postPublication", () => {
     await assert.rejects(postPublication(wrong.request), /as @otra\.cuenta, but account "dev" is @jeremyayza\.dev/);
     assert.deepEqual(wrong.registry.entries(), []);
     assert.ok(!wrong.calls.includes("post"));
-    const loggedOut = setup({ loggedIn: false });
-    await assert.rejects(postPublication(loggedOut.request), /publisher login instagram --account dev/);
-    assert.deepEqual(loggedOut.registry.entries(), []);
+  });
+
+  it("without a session it waits for the person to log in and then posts", async () => {
+    const { request, calls } = setup({ loggedIn: false });
+    assert.equal((await postPublication(request)).kind, "published");
+    assert.deepEqual(calls, ["open", "waitForLogin", "post", "close"]);
+  });
+
+  it("posts nothing and records nothing if nobody logs in", async () => {
+    const { request, registry, calls } = setup({ loggedIn: false, loginTimesOut: true });
+    await assert.rejects(postPublication(request), /Nobody logged in to instagram within 10 minutes/);
+    assert.deepEqual(registry.entries(), []);
+    assert.ok(!calls.includes("post"));
   });
 
   it("dry runs stop before sharing, ignore the registry and leave it untouched", async () => {

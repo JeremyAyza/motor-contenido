@@ -1,0 +1,74 @@
+{
+  "account": "dev",
+  "topic": "4 tareas de dev para tu agente",
+  "infoDate": "2026-10-18",
+  "idea": "En este carrusel, cada etapa del ciclo de vida del código se convierte en un artefacto interactivo real: árbol de archivos, issue de GitHub, terminal de tests y preview de Pull Request.",
+  "art": {
+    "direction": "linea-continua",
+    "dealt": [
+      "titular-gigante",
+      "diario-de-prueba",
+      "linea-continua"
+    ],
+    "reason": "La línea de desarrollo conecta las láminas mientras que los préstamos de collage, terminal y ficha técnica permiten mostrar interfaces y comandos reales en cada paso.",
+    "borrowed": [
+      "collage",
+      "terminal",
+      "ficha-tecnica"
+    ],
+    "palette": {
+      "bg": "#F6F8FA",
+      "ink": "#1F2328",
+      "accent": "#0969DA",
+      "accentInk": "#FFFFFF",
+      "surface": "#EAEEF2",
+      "muted": "#59636E"
+    },
+    "fonts": {
+      "display": "bricolage",
+      "text": "geist"
+    },
+    "anchor": {
+      "kind": "logo",
+      "ref": "github",
+      "source": "Ícono oficial de GitHub en Simple Icons (CC0), tomado de github.com/logos; se usa sin modificar para identificar el tema"
+    },
+    "tab": "agente-dev-pipeline.ts",
+    "cierre": {
+      "tratamiento": "gesto-en-el-recurso",
+      "gesto": "guardar",
+      "porque": "La línea del pipeline recorre todas las láminas y desemboca directamente en el marcador de guardar."
+    }
+  },
+  "caption": "4 tareas de dev que ya no deberías hacer manual. Cómo un agente de código asume el trabajo pesado en tu repositorio:\n\nSeguimos tratando a la inteligencia artificial como un chat web donde pegamos código y copiamos errores de vuelta.\n\nEse flujo manual te quita horas de desarrollo.\n\nHerramientas en terminal como Claude Code ejecutan comandos de shell, leen múltiples archivos y se autocorrigen en tu máquina.\n\nPara integrar agentes de código y optimizar tu flujo de desarrollo con IA, estas son las 4 tareas que puedes delegar hoy:\n\n1. Plan de implementación\nAntes de tocar código, el agente revisa la arquitectura del repositorio, mapea dependencias y redacta un plan paso a paso con los riesgos identificados.\n\n2. De ticket a cambios reales\nCon herramientas de terminal como GitHub CLI, el agente lee la incidencia, localiza los módulos afectados y escribe los cambios en todos los archivos necesarios.\n\n3. Pruebas y autocorrección en local\nEjecuta la suite de tests y el linter en tu propia máquina. Si una prueba falla, lee el error en terminal y ajusta el código hasta que todo pase en verde.\n\n4. Creación del Pull Request\nGenera la rama, resume los cambios técnicos con contexto y deja el PR listo para que tú solo tengas que hacer code review.\n\nLa lámina de los 4 pasos tiene el flujo completo. Guárdala para tu próxima tarea compleja.\n\nInformación al 18 de octubre de 2026. Fuentes: documentación oficial de Anthropic y manual de GitHub CLI.\n\n#programacion #desarrollo #ia #github #claudecode",
+  "busqueda": [
+    "agentes de código",
+    "flujo de desarrollo con IA"
+  ],
+  "alt": "Portada con el logo oficial de GitHub y el titular: 4 tareas de dev que ya no deberías hacer manual.",
+  "slideCaptions": [
+    "4 tareas de dev que ya no deberías hacer manual.",
+    "El cuello de botella: copiar y pegar código y errores en un chat.",
+    "Paso 1: Plan de implementación antes de modificar código.",
+    "Paso 2: Del ticket a parches en múltiples archivos.",
+    "Paso 3: Verificación automática de tests y linter en local.",
+    "Paso 4: Pull Request completo con descripción técnica.",
+    "La lámina de los 4 pasos tiene el flujo completo. Guárdala para tu próxima tarea compleja."
+  ],
+  "sources": [
+    {
+      "title": "Anthropic Claude Code Documentation",
+      "url": "https://docs.anthropic.com/en/docs/agents-and-tools/claude-code/overview",
+      "checkedAt": "2026-10-18"
+    },
+    {
+      "title": "GitHub CLI Documentation",
+      "url": "https://cli.github.com/manual/gh_pr_create",
+      "checkedAt": "2026-10-18"
+    }
+  ],
+  "puertaB": {
+    "aprobado": true,
+    "fecha": "2026-10-18"
+  }
+}
