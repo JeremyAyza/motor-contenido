@@ -16,6 +16,7 @@
     "carrusel:render": "tsx packages/carousel/src/cli.ts render",
     "carrusel:texto": "tsx packages/carousel/src/cli.ts texto",
     "carrusel:critica": "tsx packages/carousel/src/cli.ts critica",
+    "carrusel:publicar": "tsx packages/carousel/src/cli.ts publicar",
     "carrusel:metricas": "tsx packages/carousel/src/cli.ts metricas",
     "carrusel:swipe": "tsx packages/carousel/src/cli.ts swipe",
     "carrusel:esquema": "tsx packages/carousel/src/cli.ts esquema",

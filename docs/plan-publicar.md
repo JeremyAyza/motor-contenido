@@ -6,7 +6,7 @@ Estado al 17 de octubre de 2026:
 |---|---|
 | 1. Núcleo | Hecho, con 26 pruebas que pasan |
 | 2. Instagram | Hecho. Probado con un perfil sin sesión: abre Chrome, detecta que falta el login y frena sin anotar nada. Falta el ensayo con tu sesión y la primera publicación real |
-| 3. Integración con el motor | Pendiente (`publisher.config.json` ya existe) |
+| 3. Integración con el motor | Hecho, con 4 pruebas. Probado de punta a punta hasta el login con una copia de una pieza |
 | 4. Después | Pendiente |
 
 Uso y detalles en [packages/publisher/README.md](../packages/publisher/README.md).
@@ -43,7 +43,7 @@ publisher mark tiktok --id <piece> --account dev --url <url>
 - `--force` publica aunque el registro diga que ya está publicada.
 - `mark` anota lo que subiste a mano, en cualquier plataforma, tenga adaptador o no.
 
-En este repo se llaman con `npm run publisher -- ...` y `npm run carrusel:publicar -- <pieza>`. El segundo lleva el nombre de los demás comandos del motor mientras el motor siga en español.
+En este repo se llaman con `npm run publisher -- ...` y con `npm run carrusel:publicar -- <pieza> [--plataforma instagram] [--ensayo] [--forzar]`. El segundo sigue la convención del motor, que todavía está en español: por eso sus flags son `--ensayo` y `--forzar`.
 
 ## Contratos
 
@@ -63,7 +63,7 @@ La configuración del proyecto va en `publisher.config.json`, en la raíz:
 ```json
 {
   "registry": "publications.jsonl",
-  "accounts": { "dev": { "instagram": "jeremyayza.dev" } }
+  "accounts": { "dev": { "instagram": "jacekt.dev" } }
 }
 ```
 
@@ -91,6 +91,7 @@ packages/publisher/
     browser.ts                 abre Chrome con el perfil de la cuenta
     human.ts                   pause(min, max), clic con espera previa, texto pegado de una vez
     errors.ts                  PublisherError: errores para la persona, sin traza
+    index.ts                   API pública para otros paquetes: PLATFORMS, platformById, postManifest
     platforms/
       platform.ts              interfaces Platform (límites y open) y Publisher (sesión: login, cuenta, post → { url })
       instagram.ts             el flujo de Instagram
@@ -125,7 +126,8 @@ Manifiesto, configuración, registro, `human.ts`, `browser.ts` y los comandos `s
 
 ### 3. Integración con el motor
 
-- `carrusel:publicar <pieza>` exige tres cosas: `post.json → puertaB.aprobado`, una imagen en `out/` por lámina y que `out/` sea más reciente que `slides.tsx`. Con eso arma el manifiesto con `out/NN.png` y `post.json → caption` y llama al caso de uso.
+- `carrusel:publicar <pieza>` ([publicar.ts](../packages/carousel/src/publicar.ts)) exige tres cosas: `post.json → puertaB.aprobado`, una imagen en `out/` por lámina y que `out/` sea más reciente que `slides.tsx`. Con eso deja el manifiesto en `out/publication.json`, con `out/NN.png` y `post.json → caption`, y llama a `postManifest`. El número de láminas sale de `out/texto-de-laminas.txt`, porque el render no borra los PNG de renders anteriores que tenían más láminas.
+- Un cambio en `post.json → art` después del render no se detecta, porque anotar la puerta B también modifica `post.json`. El workflow lo cubre: si algo cambia después de la puerta B, vuelve a `false`.
 - `puertaB` entra al esquema de `post.json`, con el mismo nombre que `puertaA`. El agente la anota cuando Jeremy aprueba en el chat.
 - En `workflows/carrusel.md` se agrega el paso 14, "Publicar (opcional)", solo si Jeremy lo pide. En `AGENTS.md` queda la regla: nunca publicar sin ese pedido.
 - `publisher.config.json` se crea con las dos cuentas.

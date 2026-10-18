@@ -6,7 +6,7 @@ Resumen de lo decidido en las conversaciones con Claude donde se creó y mejoró
 
 - **Jeremy Ayza**, Tech Lead con empleo estable en Lima, Perú. Trabaja como freelance de noche y los fines de semana.
 - Quiere construir marca personal en Instagram con **dos cuentas separadas**:
-  - **Cuenta dev** (`accounts/dev.json`): IA y programación, para ganar reputación. Usuario provisional: `@jeremyayza.dev`.
+  - **Cuenta dev** (`accounts/dev.json`): IA y programación, para ganar reputación. Usuario: `@jacekt.dev`.
   - **Cuenta negocios** (`accounts/negocios.json`): para conseguir clientes. Usuario pendiente: `@pendiente`.
 - Contenido automatizado y de alta calidad. Los **carruseles** son la entrada rápida y los **videos** pesan más en el algoritmo.
 
@@ -20,7 +20,7 @@ Resumen de lo decidido en las conversaciones con Claude donde se creó y mejoró
 6. **Dos puertas humanas:** Jeremy aprueba el brief (tesis, gancho, esqueleto, CTA) en la puerta A, antes del diseño, y la pieza final en la puerta B.
 7. **Confidencialidad:** nunca usar código, capturas, proyectos, clientes, métricas ni datos del empleador de Jeremy.
 8. **Credenciales:** las API keys van en el `.env` local (está en `.gitignore`). Nunca se pegan en el chat ni se commitean.
-9. **No automatizar** el envío de DMs ni de solicitudes de conexión.
+9. **No automatizar** el envío de DMs ni de solicitudes de conexión. Publicar sí se automatiza desde el 17 de octubre de 2026, con `carrusel:publicar` y `packages/publisher`, pero solo cuando Jeremy lo pide y con la puerta B aprobada. El login lo hace él ([docs/plan-publicar.md](plan-publicar.md)).
 10. **Logos y mascotas:** Jeremy considera válido usar el logo o la mascota de una empresa cuando el contenido habla de ella, como difusión educativa. El acuerdo: se usan **archivos oficiales sin modificar** (Simple Icons, kits de prensa) o **capturas reales**. **Nunca se dibujan ni se imitan** logos, mascotas o personajes.
 11. **Estilo de texto:** español neutro, sin guiones largos (—), sin frases de relleno, una afirmación por lámina.
 12. **No hace falta probar** lo que se publica: la promesa "probado de verdad" del lema salió del contexto, no de Jeremy. El ángulo sale de la investigación (letra chica, cuentas hechas, oficial contra referentes).
@@ -153,7 +153,7 @@ Ver [AGENTS.md](../AGENTS.md#comandos).
 | `content/2026-10-16-instagram-agent-skill/` | Borrador del commit `2579e4a` en el formato de plantillas de la primera versión (`carousel.json`); el motor actual no lo renderiza. Buen candidato a pieza piloto del flujo nuevo |
 
 **Antes de publicar la de mods:**
-- Confirmar el usuario real de Instagram. Si no es `@jeremyayza.dev`, cambiar `accounts/dev.json` y volver a renderizar.
+- El usuario real de Instagram es `@jacekt.dev` (17 de octubre de 2026), ya en `accounts/dev.json`. Las piezas renderizadas antes llevan `@jeremyayza.dev` en la firma: vuelve a renderizarlas antes de publicarlas.
 - Con el inspector nuevo da errores: contraste 4.3:1 en el texto chico de las láminas 3 y 7, y la fuente y el crédito sin `data-nota` (26px). No tiene CTA marcado ni `alt`. Arreglarlo es rápido, pero cambia una pieza aprobada: decide Jeremy.
 - Para subirla a 5 puntos más adelante: capturar un mod real instalado con `/plugin` y mencionar `/diff` en la portada.
 

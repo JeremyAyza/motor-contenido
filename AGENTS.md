@@ -23,12 +23,12 @@ Alrededor del carrusel hay dos flujos más: el [radar](workflows/radar.md) (qué
 4. **Primero lo editorial.** Ningún `slides.tsx` se escribe sin un `brief.json` aprobado: tesis, público, objetivo, ganchos, esqueleto y CTA ([workflows/carrusel.md](workflows/carrusel.md), pasos 4 a 6).
 5. **Diseño propio por tema** con [skills/carrusel-taste](skills/carrusel-taste/SKILL.md) y [docs/anti-slop.md](docs/anti-slop.md). La última lámina es una despedida que cierra la portada, con un solo CTA específico del tema.
 6. **Ancla visual con archivos reales.** Logos oficiales con `<Logo>` (Simple Icons), capturas reales o íconos genéricos. Nunca dibujes ni imites logos, mascotas o personajes de marcas.
-7. **Dos puertas humanas.** La persona aprueba el brief en la **puerta A**, antes del diseño, y la pieza final en la **puerta B**. Solo el sí de la persona en el chat aprueba; el agente lo anota en `brief.json → puertaA`.
+7. **Dos puertas humanas.** La persona aprueba el brief en la **puerta A**, antes del diseño, y la pieza final en la **puerta B**. Solo el sí de la persona en el chat aprueba; el agente lo anota en `brief.json → puertaA` y en `post.json → puertaB`.
 8. **Crítica ciega.** Quien diseña no se califica. La crítica la hace un contexto nuevo que solo ve las láminas y el texto ([docs/critico-ciego.md](docs/critico-ciego.md)).
 9. **El inspector manda.** Corrige todos los errores del render; cada aviso es un error salvo que lo puedas defender en una frase.
 10. **Confidencialidad.** Nunca uses código, capturas, proyectos, clientes ni métricas del empleador de la persona.
 11. **Estilo de texto:** español neutro, en la voz de [docs/voz.md](docs/voz.md), sin guiones largos (—), sin frases de relleno, una afirmación por lámina.
-12. **Nada se publica ni se envía solo.** Las skills escriben; la persona publica. No se automatizan DMs ni solicitudes, y no se inicia sesión en Instagram por la persona.
+12. **Nada se publica sin que la persona lo pida.** Las skills escriben. Publicar es un paso opcional: solo con `carrusel:publicar`, solo cuando la persona lo pide en el chat y solo con la puerta B aprobada ([workflows/carrusel.md](workflows/carrusel.md), paso 14). El login lo hace siempre la persona: el agente no escribe usuarios ni contraseñas ni inicia sesión por ella. No se automatizan DMs, comentarios ni solicitudes.
 
 ## Contexto
 
@@ -47,6 +47,7 @@ skills/ig-es/             capa sobre .agents/skills: léxico, ganchos y wrappers
 packages/brand/           firma, catálogo de tipografías y tema de Tailwind por pieza
 packages/carousel/src/ui  primitivas: Slide, Logo, Icono, Img, Code, Window, Prompt, Nota
 packages/carousel/src     render, inspector, brief, crítica, métricas y CLI del carrusel
+packages/publisher/       CLI que publica con Playwright y lleva publications.jsonl (código en inglés, sin imports de otros paquetes)
 packages/video/           flujo de video (en construcción)
 schemas/                  JSON Schema de post.json, brief.json y metricas.json
 workflows/                guías paso a paso: carrusel, radar, métricas, video
@@ -66,11 +67,14 @@ npm run carrusel:logo -- <marca>          # slug y color oficial en Simple Icons
 npm run carrusel:render -- content/<pieza>   # láminas, inspector y revisión de textos
 npm run carrusel:texto -- content/<pieza> # solo la revisión de textos
 npm run carrusel:critica -- content/<pieza> # carpeta para el crítico ciego
+npm run carrusel:publicar -- content/<pieza> [--ensayo] # publica (solo si la persona lo pide, con la puerta B)
+npm run publisher -- status               # qué se publicó, dónde y cuándo (packages/publisher/README.md)
 npm run carrusel:metricas                 # informe en docs/metricas.md
 npm run carrusel:swipe -- docs/swipe/<mes>.tsv # carruseles de referencia en docs/swipe.md
 npm run carrusel:esquema                  # regenera schemas/
 npm run py -- skills/ig-es/<script>.py    # corre un wrapper con el Python que haya
 npm run typecheck
+npm test
 ```
 
 El render busca solo un navegador (el Chromium de Playwright que pide el repo, otro Chromium de Playwright instalado, o Chrome/Edge). `CHROME_PATH` fuerza uno; `npx playwright install chromium` instala el exacto.

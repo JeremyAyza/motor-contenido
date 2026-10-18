@@ -1,14 +1,12 @@
-import { join, resolve } from "node:path";
+import { resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { profileDir } from "./browser.ts";
 import { PublisherError } from "./errors.ts";
+import { PLATFORMS, platformById, postManifest } from "./index.ts";
 import { assertAccount, handleFor, loadManifest, loadProject } from "./manifest.ts";
-import { instagram } from "./platforms/instagram.ts";
 import type { Platform } from "./platforms/platform.ts";
-import { login, postPublication } from "./publish.ts";
+import { login } from "./publish.ts";
 import { Registry, timestamp, type Entry } from "./registry.ts";
-
-const PLATFORMS: Record<string, Platform> = { instagram };
 
 const USAGE = `Usage:
   publisher login <platform> --account <account>
@@ -26,11 +24,7 @@ function required(value: string | undefined, flag: string): string {
   return value;
 }
 
-function adapter(id: string | undefined): Platform {
-  const platform = PLATFORMS[required(id, "<platform>")];
-  if (!platform) throw new PublisherError(`No adapter for "${id}". Available: ${Object.keys(PLATFORMS).join(", ")}`);
-  return platform;
-}
+const adapter = (id: string | undefined): Platform => platformById(required(id, "<platform>"));
 
 function printStatus(entries: Entry[]): void {
   const header = ["ID", "PLATFORM", "ACCOUNT", "STATUS", "AT", "URL / ERROR"];
@@ -74,18 +68,7 @@ async function main(argv: string[]): Promise<void> {
     case "post": {
       const platform = adapter(platformId);
       const manifest = loadManifest(resolve(cwd, required(values.manifest, "--manifest")));
-      const handle = handleFor(project.config, manifest.account, platform.id);
-      const outcome = await postPublication({
-        platform,
-        manifest,
-        handle,
-        profileDir: profileDir(platform.id, handle),
-        registry,
-        evidenceDir: join(project.root, ".publisher"),
-        dryRun: values["dry-run"],
-        force: values.force,
-        log: console.log,
-      });
+      const outcome = await postManifest({ from: cwd, platform: platform.id, manifest, dryRun: values["dry-run"], force: values.force });
       if (outcome.kind === "skipped") {
         console.log(`Already on ${platform.id} (${outcome.entry.status}, ${outcome.entry.at}${outcome.entry.url ? `, ${outcome.entry.url}` : ""}). Use --force to post again.`);
       } else if (outcome.kind === "dry-run") {

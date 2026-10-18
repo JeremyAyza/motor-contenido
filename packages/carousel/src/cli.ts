@@ -2,12 +2,14 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { z } from "zod";
 import { REPO_ROOT } from "../../brand/src/index.ts";
+import { postManifest } from "../../publisher/src/index.ts";
 import { BriefSchema, loadBrief } from "./brief.ts";
 import { prepararCritica } from "./critica.ts";
 import { DIRECCIONES, historial, repartir, type Direccion } from "./direcciones.ts";
 import { puertaA } from "./editorial.ts";
 import { informeMetricas, MetricasSchema } from "./metricas.ts";
 import { PostSchema } from "./post.ts";
+import { prepararPublicacion } from "./publicar.ts";
 import { runPython } from "./python.ts";
 import { renderPiece, type Issue } from "./render.tsx";
 import { revisarTextos } from "./texto.ts";
@@ -21,6 +23,8 @@ import { revisarTextos } from "./texto.ts";
  *   carrusel render <carpeta>                  valida, renderiza e inspecciona (láminas y textos)
  *   carrusel texto <carpeta>                   vuelve a revisar solo los textos, sin renderizar
  *   carrusel critica <carpeta>                 prepara la carpeta del crítico ciego
+ *   carrusel publicar <carpeta> [--plataforma instagram] [--ensayo] [--forzar]
+ *                                              publica con packages/publisher (puerta B aprobada)
  *   carrusel metricas                          informe de métricas de todas las piezas
  *   carrusel swipe <archivo.tsv>               ordena carruseles de referencia (docs/swipe.md)
  *   carrusel esquema                           exporta los JSON Schema
@@ -111,6 +115,7 @@ async function main(): Promise<number> {
             alt: "",
             slideCaptions: [],
             sources: [],
+            puertaB: { aprobado: false },
           },
           null,
           2,
@@ -177,6 +182,32 @@ export default [
       console.log("\nAbre un contexto nuevo (subagente o sesión nueva) y dale solo esta carpeta: que lea LEEME.md y escriba informe.md.");
       return 0;
     }
+    case "publicar": {
+      if (!arg) throw new Error("Uso: carrusel publicar <carpeta-de-la-pieza> [--plataforma instagram] [--ensayo] [--forzar]");
+      const { manifest, file } = prepararPublicacion(resolve(arg));
+      const plataforma = flag("--plataforma", "instagram");
+      console.log(`Manifiesto: ${file}`);
+      const outcome = await postManifest({
+        from: REPO_ROOT,
+        platform: plataforma,
+        manifest,
+        dryRun: rest.includes("--ensayo"),
+        force: rest.includes("--forzar"),
+      });
+      if (outcome.kind === "skipped") {
+        const { status, at, url } = outcome.entry;
+        console.log(`Ya está en ${plataforma} (${status}, ${at}${url ? `, ${url}` : ""}). Para publicarla otra vez: --forzar, solo si la persona lo pide.`);
+      } else if (outcome.kind === "dry-run") {
+        console.log(`Ensayo listo: se detuvo antes de Compartir. Captura: ${outcome.captures.join(", ")}`);
+      } else if (outcome.url) {
+        console.log(`Publicada: ${outcome.url}`);
+      } else {
+        console.log(
+          `Publicada, pero no encontré la URL en el perfil. Anótala con: npm run publisher -- mark ${plataforma} --id ${manifest.id} --account ${manifest.account} --url <url>`,
+        );
+      }
+      return 0;
+    }
     case "metricas": {
       const { text, file, errores } = informeMetricas();
       console.log(text);
@@ -237,7 +268,7 @@ export default [
     }
     default:
       console.log(
-        "Comandos: nuevo <slug> [--cuenta dev] | brief <carpeta> | baraja [--cuenta dev] [--todas] | logo <marca> | render <carpeta> | texto <carpeta> | critica <carpeta> | metricas | swipe <tsv> | esquema",
+        "Comandos: nuevo <slug> [--cuenta dev] | brief <carpeta> | baraja [--cuenta dev] [--todas] | logo <marca> | render <carpeta> | texto <carpeta> | critica <carpeta> | publicar <carpeta> [--plataforma instagram] [--ensayo] [--forzar] | metricas | swipe <tsv> | esquema",
       );
       return command ? 1 : 0;
   }

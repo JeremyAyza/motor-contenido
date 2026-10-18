@@ -50,7 +50,7 @@ npm run carrusel:swipe -- docs/swipe/2026-10.tsv
 6. **`ig-plan`.** La mezcla de Reels y formatos en inglés se reemplaza por la tabla de [workflows/radar.md](../../workflows/radar.md) hasta que exista el flujo de video.
 7. **`ig-viral`.** Para carruseles la columna de vistas lleva me gusta (no hay vistas públicas). Lectura a ritmo humano con el navegador de Jeremy: nunca iniciar sesión por él ni hacer scraping.
 8. **`ig-audit`.** Las métricas van en `content/<pieza>/metricas.json` ([workflows/metricas.md](../../workflows/metricas.md)).
-9. **Fuera del carrusel por ahora:** `ig-reel`, `ig-repurpose` (flujo de video), `ig-story`, `ig-comment`, `ig-reply`, `ig-dm` y `ig-profile` (usar una vez antes de la primera publicación). Si se usan, aplican las mismas reglas: nada se publica ni se envía sin que Jeremy lo haga.
+9. **Fuera del carrusel por ahora:** `ig-reel`, `ig-repurpose` (flujo de video), `ig-story`, `ig-comment`, `ig-reply`, `ig-dm` y `ig-profile` (usar una vez antes de la primera publicación). Si se usan, aplican las mismas reglas: nada se envía sin que Jeremy lo haga, y publicar solo pasa por `carrusel:publicar` cuando él lo pide, con la puerta B aprobada (AGENTS.md, regla 12).
 
 ## Probar los wrappers después de actualizar las skills
 

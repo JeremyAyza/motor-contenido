@@ -11,7 +11,7 @@ Plataformas con adaptador: Instagram. `mark` registra cualquier plataforma.
 ```json
 {
   "registry": "publications.jsonl",
-  "accounts": { "dev": { "instagram": "jeremyayza.dev" } }
+  "accounts": { "dev": { "instagram": "jacekt.dev" } }
 }
 ```
 
@@ -82,6 +82,10 @@ Todos los textos y selectores están en [instagram.selectors.ts](src/platforms/i
 2. Regístrala en `PLATFORMS`, en [cli.ts](src/cli.ts).
 
 El caso de uso ([publish.ts](src/publish.ts)) no cambia.
+
+## Usarlo desde otro paquete
+
+[index.ts](src/index.ts) es la API pública. `postManifest({ from, platform, manifest })` busca la configuración, abre el perfil de la cuenta y anota en el registro, igual que el CLI. En este repo la usa `carrusel:publicar` ([packages/carousel/src/publicar.ts](../carousel/src/publicar.ts)), que arma el manifiesto de una pieza y exige la puerta B.
 
 ## Pruebas
 

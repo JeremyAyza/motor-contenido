@@ -76,5 +76,15 @@ export const PostSchema = z.object({
     .optional()
     .describe("Un texto por lámina (opción de Instagram desde junio de 2026)"),
   sources: z.array(SourceSchema).min(1, "Toda pieza necesita al menos una fuente"),
+  puertaB: z
+    .object({
+      aprobado: z.boolean(),
+      fecha: z.iso.date().optional(),
+      notas: z.string().trim().optional(),
+    })
+    .default({ aprobado: false })
+    .describe(
+      "La pieza final. Solo la persona aprueba: el agente marca aprobado: true después de su sí en el chat, y vuelve a false si después cambian las láminas o el texto. Sin ella, carrusel:publicar no corre",
+    ),
 });
 export type Post = z.infer<typeof PostSchema>;

@@ -327,6 +327,29 @@
           "checkedAt"
         ]
       }
+    },
+    "puertaB": {
+      "default": {
+        "aprobado": false
+      },
+      "description": "La pieza final. Solo la persona aprueba: el agente marca aprobado: true después de su sí en el chat, y vuelve a false si después cambian las láminas o el texto. Sin ella, carrusel:publicar no corre",
+      "type": "object",
+      "properties": {
+        "aprobado": {
+          "type": "boolean"
+        },
+        "fecha": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        },
+        "notas": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "aprobado"
+      ]
     }
   },
   "required": [

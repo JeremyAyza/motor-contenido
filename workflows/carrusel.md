@@ -12,8 +12,9 @@ Lee también [skills/carrusel-taste/SKILL.md](../skills/carrusel-taste/SKILL.md)
 | 1 a 6. Paso editorial | `facts.json`, `brief.json`, `out/puerta-a.md` | Jeremy aprueba en la puerta A |
 | 7 a 10. Diseño y texto | `post.json`, `slides.tsx` | El agente, con el inspector |
 | 11 y 12. Revisión | PNG, `revision-texto.txt`, informe del crítico ciego | El crítico ciego |
-| 13. Puerta B | La pieza final | Jeremy aprueba |
-| 14. Después de publicar | `metricas.json` | [workflows/metricas.md](metricas.md) |
+| 13. Puerta B | La pieza final, `post.json → puertaB` | Jeremy aprueba |
+| 14. Publicar (opcional) | La publicación y su línea en `publications.jsonl` | Solo si Jeremy lo pide |
+| 15. Después de publicar | `metricas.json` | [workflows/metricas.md](metricas.md) |
 
 ## 1. Crear la pieza
 
@@ -220,6 +221,43 @@ Umbral para la puerta B: todos los puntos en 4 o más, promedio ponderado de 4.5
 
 Muestra a la persona `revision.png`, el texto del post y el informe del crítico ciego. El ángulo ya está aprobado: aquí se revisan el diseño y el texto. No des la pieza por terminada sin su aprobación.
 
-## 14. Después de publicar
+Con su sí en el chat, anota `post.json → puertaB`: `{ "aprobado": true, "fecha": "AAAA-MM-DD" }`. Si después cambian las láminas o el texto del post, vuelve a `aprobado: false` y muéstrale la versión nueva. Lo que se publica es lo que aprobó.
 
-Sigue [workflows/metricas.md](metricas.md): métricas a las 48 horas y a los 7 días en `content/<pieza>/metricas.json`.
+## 14. Publicar (opcional)
+
+Solo cuando Jeremy lo pide en el chat ("súbela a Instagram"). Publicar no es parte de terminar la pieza.
+
+1. Comprueba que `post.json → puertaB.aprobado` sea `true`. Si no, vuelve al paso 13.
+2. La primera vez con cada cuenta, Jeremy tiene que iniciar sesión. Pídele que corra el login él mismo: se abre Chrome y entra a mano. Nunca escribas su usuario ni su contraseña.
+
+   ```bash
+   npm run publisher -- login instagram --account dev
+   ```
+
+3. Si es la primera publicación o algo cambió en Instagram, haz primero un ensayo. Hace todo menos el clic en Compartir y guarda una captura en `.publisher/dry-runs/`:
+
+   ```bash
+   npm run carrusel:publicar -- content/<pieza> --ensayo
+   ```
+
+4. Publica:
+
+   ```bash
+   npm run carrusel:publicar -- content/<pieza>
+   ```
+
+   El comando exige la puerta B y que las láminas de `out/` sean posteriores al último cambio de `slides.tsx`. Arma `out/publication.json` con las láminas y `post.json → caption`, verifica que la sesión abierta sea la de la cuenta y publica sin pedir confirmación. `--plataforma` elige la red (por defecto, `instagram`).
+5. Pásale a Jeremy la URL que imprime. El registro de qué se subió y dónde está en `publications.jsonl` (`npm run publisher -- status --id <pieza>`).
+
+Si falla:
+
+- **Sin sesión o con otra cuenta:** el error lo dice. Pídele a Jeremy que haga el login; no lo hagas tú.
+- **Falló antes de compartir:** no se publicó nada. Hay captura y HTML en `.publisher/errors/`. Si es un selector, se corrige en `packages/publisher/src/platforms/instagram.selectors.ts` y se confirma con `--ensayo`.
+- **Falló después del clic en Compartir:** el registro queda en `sending` y el comando no vuelve a publicar. Pídele a Jeremy que revise el perfil. Si la publicación está, anótala con `npm run publisher -- mark instagram --id <pieza> --account <cuenta> --url <url>`. Si no está, repite con `--forzar`, y solo con su sí. Los mensajes del publisher dicen `--force`; en `carrusel:publicar` es `--forzar`.
+- **Ya publicada:** el comando no la repite. `--forzar` la publica otra vez, solo si Jeremy lo pide.
+
+Si Jeremy la subió a mano a otra red, anótalo igual: `npm run publisher -- mark tiktok --id <pieza> --account dev --url <url>`.
+
+## 15. Después de publicar
+
+Sigue [workflows/metricas.md](metricas.md): métricas a las 48 horas y a los 7 días en `content/<pieza>/metricas.json`. La fecha y hora de publicación (`publicado`) sale de `npm run publisher -- status --id <pieza>`.
