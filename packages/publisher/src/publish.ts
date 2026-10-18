@@ -8,6 +8,9 @@ import { timestamp, type Entry, type Registry } from "./registry.ts";
 /** If the account posted less than this long ago, wait 1 to 2 minutes before posting again. */
 const RECENT_MS = 15 * 60 * 1000;
 const LOGIN_TIMEOUT_MS = 10 * 60 * 1000;
+/** Some agents run commands in a sandbox with no desktop: Chrome opens but nobody can see it. */
+const NO_WINDOW_HINT =
+  "If no Chrome window shows up, this process has no visible desktop (an agent sandbox); run the same command from a terminal with desktop access";
 
 export type Decision = { go: true } | { go: false; entry: Entry };
 
@@ -45,7 +48,7 @@ const fileStamp = (id: string, date: Date) => `${date.toISOString().replace(/[:.
  */
 async function ensureAccount(publisher: Publisher, platform: string, account: string, handle: string, log: Log): Promise<void> {
   if (!(await publisher.isLoggedIn())) {
-    log(`Not logged in to ${platform}. Log in as @${handle} in the Chrome window that just opened; waiting up to 10 minutes`);
+    log(`Not logged in to ${platform}. Log in as @${handle} in the Chrome window that just opened; waiting up to 10 minutes.\n${NO_WINDOW_HINT}`);
     try {
       await publisher.waitForLogin(LOGIN_TIMEOUT_MS);
     } catch {
@@ -132,7 +135,7 @@ export async function login(req: LoginRequest): Promise<void> {
   const publisher = await platform.open(req.profileDir);
   try {
     if (!(await publisher.isLoggedIn())) {
-      log(`Log in to ${platform.id} as @${handle} in the Chrome window. Waiting up to 10 minutes`);
+      log(`Log in to ${platform.id} as @${handle} in the Chrome window. Waiting up to 10 minutes.\n${NO_WINDOW_HINT}`);
       await publisher.waitForLogin(LOGIN_TIMEOUT_MS);
     }
     const current = await publisher.currentHandle();

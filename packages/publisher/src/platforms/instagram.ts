@@ -42,7 +42,10 @@ class InstagramPublisher implements Publisher {
 
   async currentHandle(): Promise<string | undefined> {
     if (!this.page.url().startsWith(IG.home)) await this.goHome();
-    const link = this.page.getByRole("link", { name: IG.profileLink }).first();
+    const link = this.page
+      .getByRole("link", { name: IG.profileLink })
+      .or(this.page.locator('a[href^="/"]:has(img[alt*="perfil" i], img[alt*="profile" i])'))
+      .first();
     try {
       await link.waitFor({ state: "visible", timeout: 10 * SECOND });
     } catch {

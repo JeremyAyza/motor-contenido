@@ -11,8 +11,8 @@ export const IG = {
   /** The login form's field names change (username, email); the password field stays. */
   loginInput: 'input[type="password"]',
   homeIcon: 'svg[aria-label="Inicio"], svg[aria-label="Home"]',
-  /** Sidebar link whose href is /<handle>/; its accessible name ends with the label. */
-  profileLink: /(^|\s)(Perfil|Profile)$/,
+  /** Sidebar link whose href is /<handle>/; its accessible name contains Perfil or Profile. */
+  profileLink: /(Perfil|Profile)/i,
   notNow: /^(Ahora no|Not now)$/i,
 
   createLink: /(^|\s)(Crear|Create)$/,

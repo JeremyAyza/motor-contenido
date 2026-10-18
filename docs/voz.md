@@ -7,7 +7,7 @@ Cómo suena Jeremy en lo que se publica. Lo leen todas las piezas (carrusel y vi
 ## Quién habla
 
 - **Nombre:** Jeremy Ayza
-- **Cuenta:** dev (`@jacekt.dev`)
+- **Cuenta:** dev (`@jacket.dev`)
 - **Qué hace, en una frase:** Tech Lead en Lima que trabaja con IA y código, y hace freelance de noche y los fines de semana.
 - **A quién le habla:** PENDIENTE. Algo más específico que "devs": por ejemplo, devs de Latinoamérica que ya usan IA en su trabajo y quieren usarla mejor.
 - **Lema de la cuenta:** PENDIENTE de elegir (el anterior, "probado de verdad", ya no aplica). Ideas: "IA y código, con fuentes", "Lo nuevo en IA, explicado para devs", "IA para devs que construyen".

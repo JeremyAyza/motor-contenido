@@ -245,6 +245,8 @@ Los comandos los corres tú, el agente. No le pidas a Jeremy que los corra. Lo �
    El comando exige la puerta B y que las láminas de `out/` sean posteriores al último cambio de `slides.tsx`. Arma `out/publication.json` con las láminas y `post.json → caption`, verifica que la sesión abierta sea la de la cuenta y publica sin pedir confirmación. `--plataforma` elige la red (por defecto, `instagram`).
 
    **Sin sesión** (la primera vez con cada cuenta, o si Instagram la cerró): el comando abre Chrome, imprime "Log in as @... in the Chrome window" y espera hasta 10 minutos. Avísale a Jeremy en el chat que entre en esa ventana; cuando lo hace, el comando sigue solo. Córrelo en segundo plano o con un tiempo de espera de más de 10 minutos para no cortarlo mientras él entra. Si quiere dejar la sesión lista antes, corre `npm run publisher -- login instagram --account dev`, que abre la ventana y termina cuando él entra.
+
+   El comando siempre abre Chrome con ventana visible. Si Jeremy no la ve, el problema es tu entorno: algunos agentes corren los comandos en un sandbox sin escritorio. Díselo así, y pide permiso para correr ese comando fuera del sandbox (con acceso completo). No le inventes otra causa. Si tu agente no puede salir del sandbox, Jeremy corre ese único comando en su terminal; después la sesión queda guardada y el resto lo corres tú.
 4. Pásale a Jeremy la URL que imprime. El registro de qué se subió y dónde está en `publications.jsonl` (`npm run publisher -- status --id <pieza>`).
 
 Si falla:
