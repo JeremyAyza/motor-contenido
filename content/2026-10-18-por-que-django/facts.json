@@ -1,0 +1,27 @@
+{
+  "topic": "por-que-django",
+  "checkedAt": "2026-10-18",
+  "facts": [
+    {
+      "claim": "Django incluye de forma nativa autenticación, panel de administración automático, ORM con migraciones y protección por defecto contra CSRF, Clickjacking y SQL Injection.",
+      "source": "Documentación oficial de Django (Django at a glance / Security)",
+      "url": "https://docs.djangoproject.com/en/stable/intro/overview/"
+    },
+    {
+      "claim": "Django 5.0+ soporta campos generados a nivel de base de datos (GeneratedField) y vistas asíncronas con ASGI para integrar agentes y sockets.",
+      "source": "Notas de lanzamiento de Django 5 (Django Software Foundation)",
+      "url": "https://docs.djangoproject.com/en/5.0/releases/5.0/"
+    },
+    {
+      "claim": "Empresas masivas como Instagram, Pinterest y Sentry construyeron su núcleo sobre monolitos de Django antes de fragmentar servicios.",
+      "source": "Instagram Engineering / Case studies de Django Software Foundation",
+      "url": "https://www.djangoproject.com/start/overview/"
+    },
+    {
+      "claim": "Con extensiones como Django Ninja, el framework genera documentación OpenAPI interactiva y validación Pydantic sin perder el panel de administración.",
+      "source": "Documentación oficial de Django Ninja",
+      "url": "https://django-ninja.dev"
+    }
+  ],
+  "pendingToVerify": []
+}

@@ -1,0 +1,93 @@
+{
+  "formato": "opinion",
+  "tesis": "Armar un backend ensamblando diez librerías separadas suele ser una trampa: el monolito con baterías incluidas de Django te permite validar y lanzar un producto antes de que la competencia configure su linter.",
+  "palanca": "que-cambia",
+  "porQueAhora": "La moda de los microservicios prematuros y los frameworks minimalistas está dejando a cientos de startups sin tiempo ni presupuesto antes de conseguir su primer usuario.",
+  "paraQuien": "Programadores y fundadores técnicos que quieren lanzar un SaaS o backend funcional sin perder semanas reinventando autenticación, migraciones y paneles de control.",
+  "queGana": "Entiende por qué el enfoque con baterías incluidas de Django ahorra meses de desarrollo, qué ventajas nativas ofrece y cómo modernizarlo con ASGI o Django Ninja.",
+  "objetivo": "enviar",
+  "compartirCon": "Al compañero de equipo que siempre propone montar 5 microservicios para un proyecto que aún no tiene clientes.",
+  "toma": "La velocidad de lanzamiento mata a la pureza arquitectónica: para validar una idea de software, nada supera a un buen monolito en Django.",
+  "ganchos": [
+    {
+      "texto": "No necesitas 10 librerías para lanzar tu backend",
+      "promesa": "Por qué Django sigue siendo la opción más inteligente",
+      "formula": 20
+    },
+    {
+      "texto": "Deja de sobreingenierizar tu backend con microservicios",
+      "promesa": "Por qué los seniores siguen eligiendo Django en 2026",
+      "formula": 2
+    },
+    {
+      "texto": "Lo que nadie te dice de Django en 2026",
+      "promesa": "Por qué resuelve en un fin de semana lo que a otros les toma un mes",
+      "formula": 3
+    },
+    {
+      "texto": "Estás armando mal tu backend si juntas 8 paquetes para un MVP",
+      "promesa": "El monolito de Django te ahorra semanas de configuración",
+      "formula": 7
+    },
+    {
+      "texto": "Si vas a lanzar un SaaS este año, mira esto",
+      "promesa": "La ventaja oculta del monolito con baterías de Django",
+      "formula": 10
+    },
+    {
+      "texto": "4 cosas que Django te da de serie y tu stack moderno no",
+      "promesa": "La tercera te ahorra semanas de desarrollo",
+      "formula": 11
+    },
+    {
+      "texto": "¿Por qué Django sigue ganando en la era moderna?",
+      "promesa": "La verdad sobre productividad real en producción",
+      "formula": 16
+    },
+    {
+      "texto": "Django",
+      "promesa": "El monolito que vence a 10 microservicios para lanzar tu idea",
+      "formula": 27
+    }
+  ],
+  "esqueleto": [
+    {
+      "afirmacion": "La portada plantea el contraste entre la sobreingeniería y la velocidad de Django",
+      "prueba": "Gancho sobre no necesitar 10 librerías y logo oficial de Django."
+    },
+    {
+      "afirmacion": "La trampa del stack minimalista: ensamblar 10 paquetes de terceros",
+      "prueba": "Diferencia entre perder 3 semanas configurando auth, ORM y migraciones vs arrancar el producto en el día 1."
+    },
+    {
+      "afirmacion": "Las cuatro baterías nativas que nadie debería reinventar",
+      "prueba": "Panel Admin autogenerado, sistema de migraciones, motor de autenticación y protección de seguridad integrada."
+    },
+    {
+      "afirmacion": "El mito de que Django es viejo y lento en 2026",
+      "prueba": "Soporte ASGI asíncrono nativo en Django 5.x y APIs tipadas con Pydantic vía Django Ninja."
+    },
+    {
+      "afirmacion": "Casos reales masivos que escalaron primero sobre el monolito",
+      "prueba": "Instagram, Pinterest y Sentry crecieron sobre Django antes de separar microservicios."
+    },
+    {
+      "afirmacion": "Cierre con la cuenta final y llamado a la acción",
+      "prueba": "Cero paquetes extra para validar y CTA para el que dice que Django es un framework viejo."
+    }
+  ],
+  "despedida": {
+    "jugada": "la-cuenta-final",
+    "texto": "Cero paquetes extra para tener auth, base de datos y panel admin funcionando."
+  },
+  "cta": {
+    "tipo": "enviar",
+    "forma": "enviar-el-que-dijo",
+    "texto": "Mándaselo a ese dev que dice que Django es un framework viejo del 2010."
+  },
+  "ganchoElegido": "No necesitas 10 librerías para lanzar tu backend",
+  "puertaA": {
+    "aprobado": true,
+    "fecha": "2026-10-18"
+  }
+}

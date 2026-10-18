@@ -1,0 +1,66 @@
+{
+  "account": "dev",
+  "topic": "Por qué Django en 2026",
+  "infoDate": "2026-10-18",
+  "idea": "En este carrusel, cada ventaja nativa de Django se presenta como una fila de ficha técnica comparando el monolito frente al stack fragmentado.",
+  "art": {
+    "direction": "ficha-tecnica",
+    "dealt": [
+      "ficha-tecnica",
+      "diario-de-prueba",
+      "captura-anotada"
+    ],
+    "reason": "Ficha técnica permite contrastar con datos directos las baterías que Django trae de serie frente al tiempo perdido configurando paquetes sueltos.",
+    "borrowed": [
+      "terminal"
+    ],
+    "palette": {
+      "bg": "#F5F7F5",
+      "ink": "#111814",
+      "accent": "#0C4B33",
+      "accentInk": "#FFFFFF",
+      "surface": "#E6EDE8",
+      "muted": "#4D6054"
+    },
+    "fonts": {
+      "display": "archivo",
+      "text": "geist"
+    },
+    "anchor": {
+      "kind": "logo",
+      "ref": "django",
+      "source": "Ícono oficial de Django en Simple Icons (CC0), tomado de djangoproject.com; se usa sin modificar para identificar el tema"
+    },
+    "tab": "django-vs-stack.md",
+    "cierre": {
+      "tratamiento": "solo-tipografia"
+    }
+  },
+  "caption": "No necesitas 10 librerías para lanzar tu backend. Por qué Django sigue siendo la opción más rápida:\n\nLa trampa actual es conocida.\nEmpiezas un proyecto nuevo y pierdes dos semanas configurando autenticación y base de datos desde cero.\nTodavía no tienes ni una pantalla para tus usuarios.\nPara construir un backend con Django y validar tu producto sin sobreingeniería, el monolito con baterías incluidas te da ventajas concretas:\n\n1. Autenticación y permisos\nViene resuelto de fábrica. No necesitas tokens externos ni armar tu modelo de usuario a mano.\n\n2. Panel de administración\nEl admin autogenerado de Django te ahorra días enteros de programar pantallas internas para gestionar tus registros.\n\n3. Seguridad por defecto\nProtección nativa contra ataques CSRF e inyecciones SQL activada desde el primer minuto en producción.\n\n4. Moderno y tipado\nCon Django 5 y Django Ninja tienes vistas asíncronas con ASGI y esquemas OpenAPI automáticos para el desarrollo web en Python.\n\nGrandes productos como Instagram y Sentry escalaron primero sobre un monolito con Django antes de separar servicios.\n\nMándaselo a ese dev que dice que Django es un framework viejo del 2010.\n\nInformación al 18 de octubre de 2026. Fuente: documentación oficial de Django Software Foundation.\n\n#django #python #backend #programacion #desarrolladores",
+  "busqueda": [
+    "backend con Django",
+    "monolito con Django",
+    "desarrollo web en Python"
+  ],
+  "alt": "Portada con el logo oficial de Django y el titular: No necesitas 10 librerías para lanzar tu backend.",
+  "slideCaptions": [
+    "No necesitas 10 librerías para lanzar tu backend. Por qué Django sigue siendo la opción más rápida.",
+    "La trampa de ensamblar 10 paquetes frente a tener baterías incluidas.",
+    "Las 4 piezas nativas: auth, admin automático, ORM con migraciones y seguridad.",
+    "Django en 2026: ASGI asíncrono y APIs tipadas con Django Ninja.",
+    "Casos de éxito reales que escalaron sobre el monolito: Instagram y Sentry.",
+    "Mándaselo a ese dev que dice que Django es un framework viejo del 2010."
+  ],
+  "sources": [
+    {
+      "title": "Django Documentation Overview",
+      "url": "https://docs.djangoproject.com/en/stable/intro/overview/",
+      "checkedAt": "2026-10-18"
+    },
+    {
+      "title": "Django 5.0 Release Notes",
+      "url": "https://docs.djangoproject.com/en/5.0/releases/5.0/",
+      "checkedAt": "2026-10-18"
+    }
+  ]
+}
