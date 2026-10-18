@@ -1,4 +1,4 @@
-import { Code, Logo, Nota, Slide, Window } from "@motor/ui";
+import { Code, Gesto, Logo, Nota, Slide, Window } from "@motor/ui";
 
 // Dirección de arte base: collage.
 // Tipografía Bricolage en titulares y Geist en texto.
@@ -165,12 +165,15 @@ export default [
     </div>
 
     <div className="w-full my-auto px-2">
-      <p
+      <div
         data-cta
-        className="rounded-2xl bg-bg p-5 font-display text-[20px] font-bold leading-snug text-accent border border-accent/20"
+        className="rounded-2xl bg-bg p-5 border border-accent/20 flex flex-col items-center gap-3"
       >
-        Compártelo con tu equipo antes de la próxima planning en Notion.
-      </p>
+        <Gesto accion="enviar" size={44} className="text-accent" />
+        <p className="font-display text-[20px] font-bold leading-snug text-accent text-center">
+          Compártelo con tu equipo antes de la próxima planning en Notion.
+        </p>
+      </div>
     </div>
 
     <Nota className="pb-1">

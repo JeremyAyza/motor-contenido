@@ -1,4 +1,4 @@
-import { Code, Logo, Nota, Slide, Window } from "@motor/ui";
+import { Code, Gesto, Logo, Nota, Slide, Window } from "@motor/ui";
 
 // Dirección de arte base: capa-por-capa.
 // Paleta oscura con acento coral oficial de Claude Code (#D97757).
@@ -154,12 +154,15 @@ Active session metrics:
     </div>
 
     <div className="w-full my-auto px-2">
-      <p
+      <div
         data-cta
-        className="rounded-2xl bg-bg px-6 py-5 font-display text-[22px] font-bold leading-snug text-accent border border-accent/30"
+        className="rounded-2xl bg-bg px-6 py-5 border border-accent/30 flex flex-col items-center gap-3"
       >
-        Guárdalo para la próxima vez que abras una sesión de Claude Code
-      </p>
+        <Gesto accion="guardar" size={48} lleno className="text-accent" />
+        <p className="font-display text-[22px] font-bold leading-snug text-accent text-center">
+          Guárdalo para la próxima vez que abras una sesión de Claude Code
+        </p>
+      </div>
     </div>
 
     <Nota className="pb-2">
