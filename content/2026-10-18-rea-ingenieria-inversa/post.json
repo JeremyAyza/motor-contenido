@@ -1,0 +1,73 @@
+{
+  "account": "dev",
+  "topic": "REA: ingeniería inversa con agentes",
+  "infoDate": "2026-10-18",
+  "idea": "En este carrusel, cada fase del análisis de ingeniería inversa se vuelve una terminal interactiva con llamadas MCP, descompilación de código y fichas de evidencia técnica.",
+  "art": {
+    "direction": "terminal",
+    "dealt": [
+      "elige-tu-camino",
+      "terminal",
+      "antes-despues"
+    ],
+    "reason": "La dirección de terminal permite mostrar la consola de comandos real de REA, las llamadas de herramientas MCP y la salida descompilada con resaltado de sintaxis.",
+    "borrowed": [
+      "ficha-tecnica",
+      "collage"
+    ],
+    "palette": {
+      "bg": "#0B0F17",
+      "ink": "#F1F5F9",
+      "accent": "#818CF8",
+      "accentInk": "#0B0F17",
+      "surface": "#161E2E",
+      "muted": "#94A3B8"
+    },
+    "fonts": {
+      "display": "geist",
+      "text": "geist"
+    },
+    "anchor": {
+      "kind": "logo",
+      "ref": "github",
+      "source": "Ícono oficial de GitHub en Simple Icons (CC0), tomado de github.com/logos; se usa sin modificar para identificar el repositorio de REA"
+    },
+    "tab": "rea-bridge.mjs",
+    "cierre": {
+      "tratamiento": "gesto-gigante",
+      "gesto": "enviar",
+      "porque": "El gesto gigante de enviar domina el centro de la lámina de cierre invitando a compartir la herramienta."
+    }
+  },
+  "caption": "Este MCP reemplaza horas en Ghidra. Si quieres inspeccionar apps cerradas con tu agente de IA, esto cambia todo:\n\nPasa siempre.\nVes una función cerrada en una app comercial y quieres entender cómo está hecha, pero no tienes el código fuente.\nMeterte a descompilar binarios en Ghidra o Hopper a mano toma días enteros.\nPara hacer ingenieria inversa con IA y conectar un servidor MCP para binarios, el proyecto rea reverse engineer anything resuelve todo el ciclo:\n\n1. Setup en un solo comando\nEjecutas npx rea-agents setup y el instalador registra las herramientas MCP e instrucciones en Claude Code, Cursor, Codex o Gemini CLI.\n\n2. Pídeselo en lenguaje natural\nNo necesitas escribir scripts en Python para Hopper. Le dices qué función de la app quieres entender y qué evidencia técnica necesitas.\n\n3. Inspección en múltiples niveles\nAnaliza ejecutables nativos en C o Rust, paquetes ASAR de Electron, bundles minificados de JavaScript y ensamblados .NET.\n\n4. Evidencia y código funcional\nEl agente no alucina: extrae las llamadas reales, los límites del binario y te escribe una implementación lista para tu propio repositorio.\n\nCompártelo con ese amigo que todavía pasa horas descompilando binarios a mano.\n\nInformación al 18 de octubre de 2026. Fuente: repositorio oficial morluto/rea y paquete npm rea-agents.\n\n#programacion #ingenieriainversa #mcp #ia #desarrolladores",
+  "busqueda": [
+    "ingenieria inversa con IA",
+    "servidor MCP para binarios",
+    "rea reverse engineer anything"
+  ],
+  "alt": "Portada del carrusel con el logo de GitHub, badge de MCP y el titular: Este MCP reemplaza horas en Ghidra.",
+  "slideCaptions": [
+    "Este MCP reemplaza horas en Ghidra: ingeniería inversa con tu agente de IA.",
+    "Qué es REA: el puente MCP entre decompiladores nativos y modelos de lenguaje.",
+    "Instalación: un solo comando npx para conectar Claude Code, Cursor o Codex.",
+    "El prompt de investigación: cómo pedirle a tu agente que audite una app cerrada.",
+    "Qué puede analizar: binarios nativos, Electron (.asar), JavaScript y .NET.",
+    "Empieza hoy: corre npx rea-agents setup y pruébalo en tu máquina."
+  ],
+  "sources": [
+    {
+      "title": "Repositorio oficial morluto/rea en GitHub",
+      "url": "https://github.com/morluto/rea",
+      "checkedAt": "2026-10-18"
+    },
+    {
+      "title": "Paquete npm rea-agents",
+      "url": "https://www.npmjs.com/package/rea-agents",
+      "checkedAt": "2026-10-18"
+    }
+  ],
+  "puertaB": {
+    "aprobado": true,
+    "fecha": "2026-10-18"
+  }
+}

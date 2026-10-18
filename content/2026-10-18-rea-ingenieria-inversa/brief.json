@@ -1,0 +1,105 @@
+{
+  "formato": "herramienta",
+  "tesis": "La ingeniería inversa dejó de ser una tarea reservada para especialistas en ensamblador; con REA, cualquier desarrollador puede pedirle a su agente vía MCP que inspeccione una app cerrada y extraiga la lógica real.",
+  "palanca": "que-cambia",
+  "porQueAhora": "El repositorio morluto/rea explotó en GitHub este mes al conectar decompiladores como Hopper y Ghidra con agentes de código mediante el protocolo MCP.",
+  "paraQuien": "Desarrolladores y tech leads que quieren entender la arquitectura de apps comerciales o paquetes cerrados sin perder semanas analizando binarios a mano.",
+  "queGana": "Aprende qué es REA, cómo conectarlo a Claude Code o Cursor en un comando y el flujo para pedirle a su agente que inspeccione y replique una funcionalidad con evidencia.",
+  "objetivo": "guardar",
+  "compartirCon": "Al dev del equipo que siempre intenta descifrar cómo resolvieron un problema técnico complejo en otra aplicación.",
+  "toma": "La ingeniería inversa ya no es un nicho oscuro de ciberseguridad: es una herramienta de productividad para entender código empaquetado.",
+  "ganchos": [
+    {
+      "texto": "No necesitas ser hacker para hacer ingeniería inversa",
+      "promesa": "Cómo tu agente inspecciona cualquier app vía MCP",
+      "formula": 20
+    },
+    {
+      "texto": "Deja de descompilar binarios a mano",
+      "promesa": "El servidor MCP que lee apps cerradas con tu agente",
+      "formula": 2
+    },
+    {
+      "texto": "Este MCP reemplaza horas en Ghidra",
+      "promesa": "Inspecciona binarios y Electron desde la terminal de tu agente",
+      "formula": 4
+    },
+    {
+      "texto": "Si programas con agentes de código, mira esto",
+      "promesa": "Cómo pedirle que analice y replique features de apps cerradas",
+      "formula": 10
+    },
+    {
+      "texto": "¿Cómo hace esa app para funcionar así?",
+      "promesa": "La herramienta para que tu agente extraiga la lógica real",
+      "formula": 16
+    },
+    {
+      "texto": "Así es como tu agente inspecciona apps cerradas",
+      "promesa": "De binario o Electron a código funcional en tu proyecto",
+      "formula": 24
+    },
+    {
+      "texto": "Lo que nadie te dice de clonar features",
+      "promesa": "El método para analizar binarios sin tener el código fuente",
+      "formula": 3
+    },
+    {
+      "texto": "npx rea-agents setup",
+      "promesa": "El comando para darle ingeniería inversa a Claude Code o Cursor",
+      "formula": 27
+    }
+  ],
+  "esqueleto": [
+    {
+      "afirmacion": "La portada plantea usar el agente para inspeccionar apps cerradas sin ser experto en binarios",
+      "prueba": "Gancho aprobado con referencia visual a REA, MCP y terminal."
+    },
+    {
+      "afirmacion": "Qué es REA: el puente MCP entre decompiladores y tu agente",
+      "prueba": "Conecta Claude Code, Cursor y Codex con Ghidra, Hopper, Cutter y analizadores de Electron y .NET."
+    },
+    {
+      "afirmacion": "Un comando para configurarlo en tu entorno local",
+      "prueba": "npx rea-agents setup registra el servidor MCP y las instrucciones de trabajo sin configuración manual."
+    },
+    {
+      "afirmacion": "El prompt exacto para pedirle una investigación con evidencia",
+      "prueba": "El comando en lenguaje natural: pedirle que entienda la feature, muestre las llamadas reales y construya la versión para tu repo."
+    },
+    {
+      "afirmacion": "Qué analiza en local sin necesidad de código fuente original",
+      "prueba": "Ejecutables nativos, paquetes ASAR de Electron, bundles minificados de JavaScript y ensamblados .NET."
+    },
+    {
+      "afirmacion": "Cierre con recordatorio para guardar la configuración de REA",
+      "prueba": "Despedida del veredicto y CTA temático de guardado."
+    }
+  ],
+  "despedida": {
+    "jugada": "el-primer-paso",
+    "texto": "Empieza por correr npx rea-agents setup y conecta tu agente en un minuto."
+  },
+  "cta": {
+    "tipo": "enviar",
+    "forma": "enviar-ese-amigo",
+    "texto": "Compártelo con ese amigo que todavía pasa horas descompilando binarios a mano."
+  },
+  "ctaAlternativas": [
+    {
+      "tipo": "guardar",
+      "forma": "guardar-para-cuando",
+      "texto": "Guárdalo para cuando necesites auditar o entender una app cerrada."
+    },
+    {
+      "tipo": "enviar",
+      "forma": "enviar-al-equipo",
+      "texto": "Pásalo al chat de tu equipo antes de intentar clonar una librería compleja."
+    }
+  ],
+  "ganchoElegido": "Este MCP reemplaza horas en Ghidra",
+  "puertaA": {
+    "aprobado": true,
+    "fecha": "2026-10-18"
+  }
+}

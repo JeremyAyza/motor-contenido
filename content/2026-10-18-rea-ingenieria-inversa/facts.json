@@ -1,0 +1,37 @@
+{
+  "topic": "rea-ingenieria-inversa",
+  "checkedAt": "2026-10-18",
+  "facts": [
+    {
+      "claim": "morluto/rea es un proyecto de código abierto (licencia MIT, v6.6.0 en rea-agents) que expone un servidor MCP y CLI para hacer ingeniería inversa de binarios y aplicaciones desde agentes de IA.",
+      "source": "Repositorio oficial morluto/rea y npm rea-agents",
+      "url": "https://github.com/morluto/rea",
+      "primary": true
+    },
+    {
+      "claim": "Se integra con Claude Code, Cursor, Codex y Gemini CLI mediante el comando 'npx rea-agents setup', configurando herramientas MCP y flujos de trabajo para el agente.",
+      "source": "Documentación oficial de instalación de REA",
+      "url": "https://github.com/morluto/rea#quick-start",
+      "primary": true
+    },
+    {
+      "claim": "Permite inspeccionar ejecutables nativos mediante Hopper, Ghidra o IDA Pro, y analizar aplicaciones Electron (.asar), JavaScript y ensamblados .NET de forma local sin requerir código fuente original.",
+      "source": "README de morluto/rea (What you can analyze)",
+      "url": "https://github.com/morluto/rea#how-rea-works",
+      "primary": true
+    },
+    {
+      "claim": "El agente recibe la evidencia, funciones decompiladas y referencias cruzadas para explicar cómo funciona una funcionalidad cerrada y replicarla directamente en el proyecto del usuario.",
+      "source": "README de morluto/rea (Investigation flow)",
+      "url": "https://github.com/morluto/rea#how-rea-works",
+      "primary": true
+    },
+    {
+      "claim": "Requiere Node.js 22.19+, 24.11+ o 26+, ejecuta todo el análisis en la máquina local y devuelve el código de evidencia junto con las limitaciones de cada conclusión.",
+      "source": "package.json y documentación de requisitos de morluto/rea",
+      "url": "https://github.com/morluto/rea/blob/main/package.json",
+      "primary": true
+    }
+  ],
+  "pendingToVerify": []
+}
