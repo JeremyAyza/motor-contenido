@@ -20,6 +20,8 @@
     "carrusel:swipe": "tsx packages/carousel/src/cli.ts swipe",
     "carrusel:esquema": "tsx packages/carousel/src/cli.ts esquema",
     "py": "tsx packages/carousel/src/python.ts",
+    "publisher": "tsx packages/publisher/src/cli.ts",
+    "test": "node --import tsx --test \"packages/*/test/*.test.ts\"",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "devDependencies": {

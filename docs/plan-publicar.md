@@ -1,6 +1,15 @@
 # Plan: CLI de publicación
 
-Estado: propuesto el 17 de octubre de 2026. Sin implementar.
+Estado al 17 de octubre de 2026:
+
+| Fase | Estado |
+|---|---|
+| 1. Núcleo | Hecho, con 26 pruebas que pasan |
+| 2. Instagram | Hecho. Probado con un perfil sin sesión: abre Chrome, detecta que falta el login y frena sin anotar nada. Falta el ensayo con tu sesión y la primera publicación real |
+| 3. Integración con el motor | Pendiente (`publisher.config.json` ya existe) |
+| 4. Después | Pendiente |
+
+Uso y detalles en [packages/publisher/README.md](../packages/publisher/README.md).
 
 ## Qué es
 
@@ -38,14 +47,14 @@ En este repo se llaman con `npm run publisher -- ...` y `npm run carrusel:public
 
 ## Contratos
 
-El manifiesto es lo que el proyecto le pasa al CLI:
+El manifiesto es lo que el proyecto le pasa al CLI. Las rutas de `media` son relativas al manifiesto:
 
 ```json
 {
   "id": "2026-10-17-top-3-comandos-claude-code",
   "account": "dev",
   "caption": "Deja de tratar a Claude Code como chat...",
-  "media": ["content/2026-10-17-top-3-comandos-claude-code/out/01.png", "..."]
+  "media": ["out/01.png", "out/02.png"]
 }
 ```
 
@@ -73,22 +82,25 @@ Cada publicación es una línea del registro:
 ## Estructura
 
 ```
-packages/publisher/src/
-  cli.ts                     argumentos y salida, sin lógica
-  publish.ts                 caso de uso: validar, consultar el registro, abrir sesión, publicar, anotar
-  manifest.ts                esquemas Zod del manifiesto y la configuración
-  registry.ts                leer y anexar publications.jsonl
-  browser.ts                 abre Chrome con el perfil de la cuenta
-  human.ts                   pause(min, max), clic con espera previa, texto pegado de una vez
-  platforms/
-    platform.ts              interfaz Publisher: login, verifyAccount, post → { url }
-    instagram.ts             el flujo de Instagram
-    instagram.selectors.ts   textos y selectores de la interfaz en un solo lugar, en español e inglés
+packages/publisher/
+  src/
+    cli.ts                     argumentos y salida, sin lógica
+    publish.ts                 caso de uso: validar, consultar el registro, abrir sesión, publicar, anotar
+    manifest.ts                esquemas Zod del manifiesto y la configuración, validación y huella
+    registry.ts                leer y anexar publications.jsonl
+    browser.ts                 abre Chrome con el perfil de la cuenta
+    human.ts                   pause(min, max), clic con espera previa, texto pegado de una vez
+    errors.ts                  PublisherError: errores para la persona, sin traza
+    platforms/
+      platform.ts              interfaces Platform (límites y open) y Publisher (sesión: login, cuenta, post → { url })
+      instagram.ts             el flujo de Instagram
+      instagram.selectors.ts   textos y selectores de la interfaz en un solo lugar, en español e inglés
+  test/                        node:test, con una plataforma falsa para el caso de uso
 ```
 
 Reglas:
 
-- El caso de uso depende de la interfaz `Publisher`, no de Playwright.
+- El caso de uso depende de las interfaces `Platform` y `Publisher`, no de Playwright.
 - Los selectores no salen de `instagram.selectors.ts`. Los textos de la interfaz de Instagram van en español e inglés porque dependen del idioma de la cuenta.
 - Ningún archivo importa de `packages/carousel`.
 
@@ -106,7 +118,8 @@ Manifiesto, configuración, registro, `human.ts`, `browser.ts` y los comandos `s
 - `post` recorre el flujo: inicio, cerrar los avisos ("Ahora no"), Crear, Publicación, subir los archivos, recorte "Original", Siguiente dos veces, caption, Compartir y esperar la confirmación.
 - Para la URL del post, abre el perfil y toma la primera publicación cuyo texto empieza igual. Si no la encuentra, anota sin URL y avisa.
 - Si algo falla, guarda captura y HTML en `.publisher/errors/` (en .gitignore) y anota una línea `failed` con el error.
-- Entre acciones espera entre medio segundo y 3 segundos. Si la misma cuenta publicó hace poco, según el registro, espera además de 1 a 2 minutos.
+- Entre acciones espera entre medio segundo y 3 segundos. Si la misma cuenta publicó en los últimos 15 minutos, según el registro, espera además de 1 a 2 minutos.
+- Si falla después del clic en Compartir, el registro se queda en `sending` en vez de `failed`, porque la publicación pudo haber salido.
 
 **Listo cuando:** `--dry-run` llega a Compartir con una pieza real, y una publicación real queda en el registro con su URL.
 
@@ -124,7 +137,7 @@ Manifiesto, configuración, registro, `human.ts`, `browser.ts` y los comandos `s
 - TikTok y Facebook como adaptadores.
 - Texto alternativo por lámina.
 - Programar a una hora.
-- La API oficial como otro adaptador de la misma interfaz `Publisher`.
+- La API oficial como otro adaptador de la misma interfaz `Platform`.
 
 ## Riesgos
 
