@@ -1,0 +1,75 @@
+{
+  "account": "dev",
+  "topic": "Qué es Ray Tracing y cómo funciona",
+  "infoDate": "2026-10-18",
+  "idea": "En este carrusel, el rayo de luz virtual se vuelve una línea continua que atraviesa las láminas mostrando cómo viaja desde la cámara hasta los objetos y las fuentes de luz.",
+  "art": {
+    "direction": "linea-continua",
+    "dealt": [
+      "linea-continua",
+      "diario-de-prueba",
+      "terminal"
+    ],
+    "reason": "La línea continua es la metáfora visual perfecta para representar la trayectoria física del rayo de luz rebotando a través de las láminas.",
+    "borrowed": [
+      "antes-despues",
+      "ficha-tecnica"
+    ],
+    "palette": {
+      "bg": "#0B0F14",
+      "ink": "#F0F6FC",
+      "accent": "#76B900",
+      "accentInk": "#0B0F14",
+      "surface": "#151C24",
+      "muted": "#8B949E"
+    },
+    "fonts": {
+      "display": "archivo",
+      "text": "geist"
+    },
+    "anchor": {
+      "kind": "logo",
+      "ref": "nvidia",
+      "source": "Ícono oficial de NVIDIA en Simple Icons (CC0), tomado de nvidia.com; se usa sin modificar para identificar la tecnología RTX y hardware de trazado de rayos"
+    },
+    "tab": "ray-tracer.hlsl",
+    "cierre": {
+      "tratamiento": "gesto-en-el-recurso",
+      "gesto": "enviar",
+      "porque": "La línea de luz continua recorre la composición y termina directamente en el ícono de enviar como su punto focal final."
+    }
+  },
+  "caption": "Pierdes 60 FPS con RTX pero no sabes que es el ray tracing:\n\nActivas la opción en tu juego y el rendimiento cae a la mitad al instante.\nMuchos creen que solo sirve para ver charcos con reflejos.\nNo es así.\n\nPara entender la diferencia entre rasterizado y ray tracing, solo necesitas comprender como funciona el ray tracing en juegos mediante una analogía muy simple:\n\n1. La física al revés\nEn el mundo real, el sol emite billones de fotones por segundo en todas direcciones.\nSi tu GPU calculara eso, colapsaría.\nLa enorme mayoría de esos rayos jamás entrarían en tu ojo.\n\n2. El láser desde la cámara\nEl ray tracing da vuelta la ecuación.\nLa cámara dispara un rayo por cada píxel de la pantalla hacia los objetos.\nSolo cuando el rayo choca con una superficie, busca de dónde venía la luz original.\n\n3. Pintor vs física real\nEl rasterizado tradicional es un pintor rápido. Proyecta triángulos planos y finge la sombra con texturas precalculadas.\nEl ray tracing calcula el rebote físico exacto entre vidrio y espejos.\n\n4. Cine frente a videojuegos\nPixar tarda 10 horas en renderizar un solo fotograma con path tracing puro.\nEn cambio, los juegos modernos usan renderizado híbrido: rasterizado veloz y núcleos RT dedicados a 60 FPS.\n\nMándaselo al que dice que el ray tracing solo sirve para ver charcos con reflejos.\n\nInformación al 18 de octubre de 2026. Fuentes: documentación técnica de NVIDIA y paper original de Turner Whitted.\n\n#raytracing #rtx #videojuegos #graficos #computacion",
+  "busqueda": [
+    "que es el ray tracing",
+    "diferencia entre rasterizado y ray tracing",
+    "como funciona el ray tracing en juegos"
+  ],
+  "alt": "Portada con el logo oficial de NVIDIA y el titular: No necesitas entender física óptica para entender Ray Tracing.",
+  "slideCaptions": [
+    "Portada: No necesitas entender física óptica para entender Ray Tracing.",
+    "La paradoja física: por qué seguir la luz real colapsaría la GPU.",
+    "La analogía del láser en reversa: disparar desde la cámara.",
+    "Rasterizado frente a Ray Tracing: pintar triángulos vs calcular física.",
+    "Los tres efectos visuales: reflejos, sombras suaves y luz global.",
+    "Dónde se usa en cine: trazado de rayos offline en Pixar y Disney.",
+    "Dónde se usa en videojuegos: renderizado híbrido a 60 FPS con núcleos RT.",
+    "Resumen comparativo: cine offline frente a videojuegos en tiempo real.",
+    "Cierre: Mándaselo al que dice que el ray tracing solo sirve para charcos."
+  ],
+  "sources": [
+    {
+      "title": "Documentación técnica de gráficos de NVIDIA",
+      "url": "https://www.nvidia.com/en-us/geforce/news/what-is-ray-tracing/",
+      "checkedAt": "2026-10-18"
+    },
+    {
+      "title": "Paper original de Turner Whitted (SIGGRAPH 1980)",
+      "url": "https://dl.acm.org/doi/10.1145/800250.807467",
+      "checkedAt": "2026-10-18"
+    }
+  ],
+  "puertaB": {
+    "aprobado": true
+  }
+}

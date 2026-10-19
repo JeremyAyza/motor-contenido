@@ -1,0 +1,76 @@
+{
+  "account": "dev",
+  "topic": "DOOM en Arduino con agentes de IA",
+  "infoDate": "2026-10-18",
+  "idea": "En este carrusel, las 5 funciones mínimas de la HAL de doomgeneric se vuelven una arquitectura de prompts que se ensambla lámina a lámina sobre las restricciones de hardware del microcontrolador.",
+  "art": {
+    "direction": "titular-gigante",
+    "dealt": [
+      "captura-anotada",
+      "chat",
+      "titular-gigante"
+    ],
+    "reason": "El titular gigante le da máxima contundencia al gancho del meme técnico, y permite alternar láminas con alto impacto visual y pruebas de código prestadas de terminal para mostrar las 5 funciones HAL de doomgeneric.",
+    "borrowed": [
+      "terminal",
+      "ficha-tecnica"
+    ],
+    "palette": {
+      "bg": "#0B1116",
+      "ink": "#F0F6FC",
+      "accent": "#00979D",
+      "accentInk": "#0B1116",
+      "surface": "#161F28",
+      "muted": "#8B949E"
+    },
+    "fonts": {
+      "display": "archivo",
+      "text": "geist"
+    },
+    "anchor": {
+      "kind": "logo",
+      "ref": "arduino",
+      "source": "Ícono oficial de Arduino en Simple Icons (CC0), tomado de arduino.cc; se usa sin modificar para identificar la plataforma de hardware"
+    },
+    "tab": "doomgeneric.ino",
+    "cierre": {
+      "tratamiento": "fila-de-gestos",
+      "gesto": "enviar",
+      "porque": "La fila de gestos destaca la acción de enviar en el acento de la pieza mientras mantiene los otros gestos atenuados para guiar la atención hacia el chat del equipo."
+    }
+  },
+  "caption": "Así es como tu agente programa DOOM en Arduino sin romper la memoria:\n\nLe pides a tu agente 'corre DOOM en Arduino' y empieza el desastre.\nAlucina librerías mágicas, intenta meter 4 MB de texturas en un micro de 2 KB o te tira código para MS-DOS que nunca va a compilar.\n\nPara programar microcontroladores con IA y lograr correr doom en arduino nano esp32, la clave es darle tres restricciones antes de pedir una sola línea de código:\n\n1. El hardware manda\nNo uses un Uno clásico. Exige 32 bits con memoria extendida (como ESP32 con PSRAM) y pantalla SPI ILI9341 de 320x240 píxeles.\n\n2. Olvida el código de 1993\nUsa doomgeneric en lugar del repo original. Elimina la basura de DOS y reduce todo el port a una capa HAL con doomgeneric de solo 5 funciones.\n\n3. Solo la HAL\nPídele al agente únicamente que implemente DG_Init, DG_DrawFrame, DG_SleepMs, DG_GetTicksMs y DG_GetKey mapeadas a las funciones de Arduino.\n\n4. Streaming del WAD\nProhíbele cargar el archivo en RAM. La lectura de DOOM1.WAD va por bloques desde micro-SD o partición flash.\n\nPásalo al chat de tu equipo antes de que alguien intente correr DOOM en un Arduino Uno.\n\nInformación al 18 de octubre de 2026. Fuentes: repositorio oficial ozkl/doomgeneric y especificaciones de Arduino.\n\n#arduino #doom #programacion #ia #sistemasembebidos",
+  "busqueda": [
+    "programar microcontroladores con IA",
+    "doom en arduino nano esp32",
+    "capa HAL con doomgeneric"
+  ],
+  "alt": "Portada con el logo oficial de Arduino y el titular: Así es como tu agente programa DOOM en Arduino.",
+  "slideCaptions": [
+    "Portada: Así es como tu agente programa DOOM en Arduino.",
+    "El error común: por qué el prompt ingenuo rompe al modelo.",
+    "Restricción 1: Hardware de 32 bits con PSRAM y pantalla SPI.",
+    "Restricción 2: Usar doomgeneric en vez del código de 1993.",
+    "Restricción 3: Acotar la tarea a 5 funciones de la HAL.",
+    "Mapeo de la HAL a las funciones nativas de Arduino.",
+    "Gestión de memoria: streaming del archivo WAD por bloques.",
+    "La plantilla de directivas estructuradas para tu agente.",
+    "Cierre: Pásalo al chat de tu equipo antes de intentar correr DOOM en un Uno."
+  ],
+  "sources": [
+    {
+      "title": "Repositorio oficial ozkl/doomgeneric en GitHub",
+      "url": "https://github.com/ozkl/doomgeneric",
+      "checkedAt": "2026-10-18"
+    },
+    {
+      "title": "Documentación oficial Arduino Nano ESP32",
+      "url": "https://docs.arduino.cc/hardware/nano-esp32/",
+      "checkedAt": "2026-10-18"
+    }
+  ],
+  "puertaB": {
+    "aprobado": true,
+    "fecha": "2026-10-18"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "topic": "doom-arduino-32bit",
+  "checkedAt": "2026-10-19",
+  "facts": [
+    {
+      "claim": "doomgeneric (repositorio ozkl/doomgeneric) es una capa de abstracción en C que permite portar el motor original de DOOM a cualquier plataforma implementando solo 5 funciones: DG_Init, DG_DrawFrame, DG_SleepMs, DG_GetTicksMs y DG_GetKey.",
+      "source": "Repositorio oficial ozkl/doomgeneric",
+      "url": "https://github.com/ozkl/doomgeneric",
+      "primary": true
+    },
+    {
+      "claim": "El motor original de DOOM requiere un framebuffer nativo de 320x200 píxeles (64 KB a 8 bits indexados) y el archivo de datos DOOM1.WAD (shareware) pesa 4.19 MB, lo que supera físicamente los 2 KB de SRAM y 32 KB de Flash de un Arduino Uno (ATmega328P).",
+      "source": "Especificaciones técnicas de id Software y Arduino Uno",
+      "url": "https://docs.arduino.cc/hardware/uno-rev3/",
+      "primary": true
+    },
+    {
+      "claim": "Para ejecutar DOOM en el ecosistema Arduino se requiere un microcontrolador de 32 bits con PSRAM externa o memoria extendida, como Arduino Nano ESP32 (ESP32-S3 con 512 KB SRAM y 8 MB PSRAM) o Arduino Giga R1 WiFi (STM32H7 con 1 MB SRAM y 8 MB SDRAM).",
+      "source": "Documentación oficial Arduino Hardware",
+      "url": "https://docs.arduino.cc/hardware/nano-esp32/",
+      "primary": true
+    },
+    {
+      "claim": "La pantalla estándar para este port es un panel SPI ILI9341 de 320x240 píxeles, que coincide con la resolución horizontal de DOOM (320x200) y se comunica por bus SPI a frecuencias de hasta 40 MHz usando librerías como TFT_eSPI.",
+      "source": "Documentación oficial TFT_eSPI de Bodmer",
+      "url": "https://github.com/Bodmer/TFT_eSPI",
+      "primary": true
+    },
+    {
+      "claim": "En Arduino, las funciones de tiempo DG_SleepMs y DG_GetTicksMs se mapean directamente a delay() y millis(), DG_GetKey se mapea a lecturas digitales de pines GPIO con debounce, y DG_DrawFrame transfiere DG_ScreenBuffer a la pantalla vía SPI.",
+      "source": "Implementación de doomgeneric-esp32 y doomgeneric",
+      "url": "https://github.com/ozkl/doomgeneric#how-to-port",
+      "primary": true
+    },
+    {
+      "claim": "Los agentes de IA fallan al pedirles 'DOOM en Arduino' si no se les delimita el hardware (32 bits), el framework (doomgeneric en lugar de idTech en C99 puro) y la arquitectura de memoria (streaming de WAD desde SD/LittleFS en vez de cargarlo en RAM).",
+      "source": "Análisis de directivas de prompting para hardware embebido",
+      "url": "https://github.com/ozkl/doomgeneric",
+      "primary": true
+    }
+  ],
+  "pendingToVerify": []
+}

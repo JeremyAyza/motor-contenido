@@ -1,0 +1,37 @@
+{
+  "topic": "que-es-ray-tracing",
+  "checkedAt": "2026-10-19",
+  "facts": [
+    {
+      "claim": "El algoritmo de Ray Tracing recursivo fue introducido por Turner Whitted en 1980 en SIGGRAPH con el paper 'An Improved Illumination Model for Shaded Display', modelando reflexiones, refracciones y sombras simulando rayos en reversa.",
+      "source": "Paper original de Turner Whitted en ACM SIGGRAPH 1980",
+      "url": "https://dl.acm.org/doi/10.1145/800250.807467",
+      "primary": true
+    },
+    {
+      "claim": "El ray tracing traza rayos desde la cámara hacia la escena en lugar de seguir los fotones de la fuente de luz, evitando calcular los miles de millones de rayos que nunca entrarían en el ojo del observador.",
+      "source": "Documentación técnica de gráficos de NVIDIA",
+      "url": "https://www.nvidia.com/en-us/geforce/news/what-is-ray-tracing/",
+      "primary": true
+    },
+    {
+      "claim": "El rasterizado tradicional proyecta triángulos 3D en píxeles 2D de forma local sin conocer el resto de la escena, requiriendo trucos como 'screen space reflections' y mapas de sombras precalculados.",
+      "source": "Documentación de arquitectura gráfica de Microsoft DirectX Raytracing",
+      "url": "https://learn.microsoft.com/en-us/windows/win32/direct3d12/directx-raytracing-overview",
+      "primary": true
+    },
+    {
+      "claim": "En películas de animación y efectos visuales (Pixar, Disney, Blender Cycles), el ray tracing se ejecuta de forma offline y puede tardar varias horas por cada fotograma individual.",
+      "source": "Documentación de producción de Pixar RenderMan",
+      "url": "https://renderman.pixar.com/",
+      "primary": true
+    },
+    {
+      "claim": "En videojuegos modernos (NVIDIA RTX, consolas PS5/Xbox Series), se utiliza renderizado híbrido: rasterizado para la geometría principal y núcleos RT acelerando árboles BVH (Bounding Volume Hierarchy) para reflejos e iluminación global en tiempo real.",
+      "source": "Arquitectura Turing y Ada Lovelace de NVIDIA",
+      "url": "https://www.nvidia.com/en-us/geforce/news/geforce-rtx-ray-tracing-explained/",
+      "primary": true
+    }
+  ],
+  "pendingToVerify": []
+}

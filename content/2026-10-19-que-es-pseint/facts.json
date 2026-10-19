@@ -1,0 +1,37 @@
+{
+  "topic": "que-es-pseint",
+  "checkedAt": "2026-10-19",
+  "facts": [
+    {
+      "claim": "PSeInt (PSeudo Intérprete) es una herramienta educativa de código abierto (licencia GPLv2) creada por Pablo Novara para enseñar lógica de programación y algoritmos mediante pseudocódigo en español.",
+      "source": "Sitio oficial de PSeInt en SourceForge",
+      "url": "https://pseint.sourceforge.net/",
+      "primary": true
+    },
+    {
+      "claim": "Incluye una función nativa de exportación (Archivo > Exportar) que traduce automáticamente cualquier algoritmo en pseudocódigo a código fuente en Java, C++, Python, C#, C, JavaScript, PHP y Pascal.",
+      "source": "Documentación de características de PSeInt",
+      "url": "https://pseint.sourceforge.net/index.php?page=caracteristicas.php",
+      "primary": true
+    },
+    {
+      "claim": "Al exportar a Java, PSeInt genera la clase, el método public static void main, la declaración explícita de tipos de datos y mapea las instrucciones Leer a instancias de java.util.Scanner.",
+      "source": "Módulo de exportación de código de PSeInt",
+      "url": "https://pseint.sourceforge.net/",
+      "primary": true
+    },
+    {
+      "claim": "Permite generar y editar diagramas de flujo de forma bidireccional y cuenta con ejecución paso a paso que permite inspeccionar el valor de las variables en tiempo real (prueba de escritorio).",
+      "source": "Documentación de características de PSeInt",
+      "url": "https://pseint.sourceforge.net/index.php?page=caracteristicas.php",
+      "primary": true
+    },
+    {
+      "claim": "Dispone de perfiles de configuración que van desde sintaxis flexible hasta estricta, esta última exigiendo definición explícita de variables (Definir x Como Entero) y punto y coma, idéntico a las reglas de Java y C++.",
+      "source": "Documentación oficial de perfiles de PSeInt",
+      "url": "https://pseint.sourceforge.net/",
+      "primary": true
+    }
+  ],
+  "pendingToVerify": []
+}

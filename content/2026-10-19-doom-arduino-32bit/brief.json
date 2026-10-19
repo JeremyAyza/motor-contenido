@@ -1,0 +1,117 @@
+{
+  "formato": "ensenar",
+  "tesis": "Pedirle a un agente que programe DOOM en Arduino termina en alucinación salvo que le fijes tres restricciones: un micro de 32 bits, el framework doomgeneric y una capa HAL de solo 5 funciones.",
+  "palanca": "letra-chica",
+  "porQueAhora": "El reto de correr DOOM en cualquier dispositivo se volvió la prueba definitiva para medir si los agentes de código entienden límites físicos de hardware.",
+  "paraQuien": "Desarrolladores y entusiastas del hardware que usan agentes de IA (Claude Code, Cursor) y quieren programar microcontroladores sin toparse con código inservible.",
+  "queGana": "Aprende la arquitectura y el prompt exacto para guiar a un agente a portar DOOM a Arduino mediante una capa de abstracción mínima de 5 funciones.",
+  "objetivo": "enviar",
+  "compartirCon": "A ese amigo programador que pide correr DOOM en cualquier dispositivo o que cree que los agentes de IA no tienen límites de memoria.",
+  "toma": "Un agente de IA es inútil en sistemas embebidos si el desarrollador no define la arquitectura de memoria y los límites de la CPU antes de pedir código.",
+  "ganchos": [
+    {
+      "texto": "Deja de pedirle DOOM en Arduino a tu agente",
+      "promesa": "Por qué el Uno falla y cómo guiarlo en 32 bits con doomgeneric",
+      "formula": 2
+    },
+    {
+      "texto": "Si programas microcontroladores con IA, mira esto",
+      "promesa": "El prompt para compilar DOOM en un Arduino Nano ESP32",
+      "formula": 10
+    },
+    {
+      "texto": "No necesitas reescribir DOOM para correrlo en Arduino",
+      "promesa": "Solo dale 5 funciones en C a tu agente de código",
+      "formula": 20
+    },
+    {
+      "texto": "Así es como tu agente programa DOOM en Arduino",
+      "promesa": "La arquitectura en 4 pasos para no desbordar la memoria",
+      "formula": 24
+    },
+    {
+      "texto": "¿Puede un agente de IA programar DOOM en Arduino?",
+      "promesa": "Sí, pero solo si le fijas estas 3 restricciones de hardware",
+      "formula": 16
+    },
+    {
+      "texto": "doomgeneric en vez del código de 1993",
+      "promesa": "La capa mínima para que tu agente no alucine librerías",
+      "formula": 4
+    },
+    {
+      "texto": "Lo estás haciendo mal al pedirle código embebido a tu agente",
+      "promesa": "De alucinaciones con 2 KB a DOOM jugable en 32 bits",
+      "formula": 7
+    },
+    {
+      "texto": "doomGeneric",
+      "promesa": "Las 5 funciones para portar DOOM a Arduino con tu agente",
+      "formula": 27
+    }
+  ],
+  "esqueleto": [
+    {
+      "afirmacion": "La portada plantea el reto de guiar al agente para correr DOOM en Arduino sin alucinar",
+      "prueba": "Gancho aprobado con referencia visual a Arduino, pantalla SPI y DOOM."
+    },
+    {
+      "afirmacion": "Por qué el prompt ingenuo 'programa DOOM en Arduino' siempre falla",
+      "prueba": "El Arduino Uno tiene 2 KB de SRAM y DOOM1.WAD pesa 4.19 MB; un solo framebuffer de 320x200 ya desborda la memoria."
+    },
+    {
+      "afirmacion": "Primera restricción: Fijar hardware de 32 bits con memoria extendida",
+      "prueba": "Exigir placas como Arduino Nano ESP32 (8 MB PSRAM) y pantalla SPI ILI9341 de 320x240 píxeles."
+    },
+    {
+      "afirmacion": "Segunda restricción: Usar doomgeneric en vez del código fuente de 1993",
+      "prueba": "ozkl/doomgeneric elimina dependencias de MS-DOS y reduce el port a una capa HAL de 5 funciones."
+    },
+    {
+      "afirmacion": "Tercera restricción: Acotar al agente a implementar solo 5 funciones",
+      "prueba": "DG_Init, DG_DrawFrame, DG_SleepMs, DG_GetTicksMs y DG_GetKey."
+    },
+    {
+      "afirmacion": "Cómo mapea el agente esas 5 funciones a las librerías de Arduino",
+      "prueba": "millis() para ticks, delay() para sleep, digitalRead() para controles y pushColors() por SPI a 40 MHz con TFT_eSPI."
+    },
+    {
+      "afirmacion": "La gestión del archivo WAD: streaming desde micro-SD o LittleFS",
+      "prueba": "Instruir al agente a leer sectores bajo demanda en lugar de cargar los 4.19 MB del WAD en la memoria RAM."
+    },
+    {
+      "afirmacion": "Lámina de resumen: El prompt maestro estructurado para tu agente",
+      "prueba": "La plantilla con rol, hardware, framework, HAL y constraints de memoria lista para capturar y compartir."
+    },
+    {
+      "afirmacion": "Cierre con respuesta al gancho y llamado a compartir con el equipo",
+      "prueba": "Despedida de respuesta al gancho y CTA de enviar al equipo."
+    }
+  ],
+  "despedida": {
+    "jugada": "respuesta-al-gancho",
+    "texto": "El agente no necesita magia para correr DOOM: necesita 5 funciones en C y restricciones claras de hardware."
+  },
+  "cta": {
+    "tipo": "enviar",
+    "forma": "enviar-al-equipo",
+    "texto": "Pásalo al chat de tu equipo antes de que alguien intente correr DOOM en un Arduino Uno."
+  },
+  "ctaAlternativas": [
+    {
+      "tipo": "enviar",
+      "forma": "enviar-el-aviso",
+      "texto": "Si alguien en tu equipo cree que la IA programa microcontroladores sin límites, avísale con este flujo."
+    },
+    {
+      "tipo": "guardar",
+      "forma": "guardar-para-cuando",
+      "texto": "Guárdalo para cuando vayas a programar proyectos de hardware embebido con tu agente de IA."
+    }
+  ],
+  "ganchoElegido": "Así es como tu agente programa DOOM en Arduino",
+  "puertaA": {
+    "aprobado": true,
+    "fecha": "2026-10-18"
+  }
+}

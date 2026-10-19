@@ -1,0 +1,117 @@
+{
+  "formato": "ensenar",
+  "tesis": "Aprender a programar chocando contra la sintaxis de Java frustra a cualquiera; usar PSeInt permite dominar la lógica en español y luego exportar el código listo para compilar.",
+  "palanca": "que-cambia",
+  "porQueAhora": "Cada inicio de ciclo universitario miles de estudiantes se frustran aprendiendo sintaxis en inglés antes de entender cómo piensa un algoritmo.",
+  "paraQuien": "Estudiantes, autodidactas y programadores que enseñan a otros y quieren una ruta pedagógica clara sin fricción sintáctica.",
+  "queGana": "Aprende qué es PSeInt, cómo usar su ejecución paso a paso y cómo exportar cualquier algoritmo directamente a Java y otros lenguajes.",
+  "objetivo": "guardar",
+  "compartirCon": "A ese estudiante o amigo que quiere aprender a programar y se siente abrumado por la sintaxis y los errores del compilador.",
+  "toma": "La verdadera habilidad de un programador es la lógica algorítmica; la sintaxis de cualquier lenguaje se aprende en una semana una vez que dominas el flujo.",
+  "ganchos": [
+    {
+      "texto": "No necesitas aprender Java para empezar a programar",
+      "promesa": "Cómo PSeInt te enseña la lógica y luego exporta el código",
+      "formula": 20
+    },
+    {
+      "texto": "PSeInt en vez de pelear con la sintaxis",
+      "promesa": "De pseudocódigo en español a tu primer programa en Java",
+      "formula": 4
+    },
+    {
+      "texto": "Así es como PSeInt te prepara para Java",
+      "promesa": "El truco de exportar algoritmos que casi nadie aprovecha",
+      "formula": 24
+    },
+    {
+      "texto": "Si te cuesta entender la lógica de programación, mira esto",
+      "promesa": "La herramienta gratuita para dominar algoritmos paso a paso",
+      "formula": 10
+    },
+    {
+      "texto": "Lo estás haciendo mal al memorizar sintaxis desde el día uno",
+      "promesa": "Domina primero el pseudocódigo antes de lidiar con compiladores",
+      "formula": 7
+    },
+    {
+      "texto": "Deja de memorizar sintaxis antes de entender la lógica",
+      "promesa": "Por qué PSeInt es el mejor puente hacia Java y C++",
+      "formula": 2
+    },
+    {
+      "texto": "¿Cómo pasar de pseudocódigo a código real?",
+      "promesa": "El menú de PSeInt que traduce tu algoritmo a Java",
+      "formula": 16
+    },
+    {
+      "texto": "PSeInt",
+      "promesa": "El software libre que convierte tus algoritmos en código Java",
+      "formula": 27
+    }
+  ],
+  "esqueleto": [
+    {
+      "afirmacion": "La portada plantea que no necesitas empezar chocando contra la sintaxis de Java",
+      "prueba": "Gancho aprobado con referencia visual a algoritmos, pseudocódigo y código real."
+    },
+    {
+      "afirmacion": "La barrera común: memorizar sintaxis en inglés antes de entender la lógica",
+      "prueba": "Un principiante gasta horas en errores de punto y coma, llaves y tipado estático en vez de aprender a razonar el problema."
+    },
+    {
+      "afirmacion": "Qué es PSeInt: el intérprete de pseudocódigo en español",
+      "prueba": "Software libre de Pablo Novara que permite escribir instrucciones naturales como Leer, Escribir, Si-Entonces y Mientras."
+    },
+    {
+      "afirmacion": "La prueba de escritorio: ejecución paso a paso con variables visibles",
+      "prueba": "Permite ver cómo cambian los valores en la memoria en cada ciclo a velocidad controlada sin necesidad de un depurador complejo."
+    },
+    {
+      "afirmacion": "De pseudocódigo a diagrama de flujo en un solo clic",
+      "prueba": "Genera el diagrama visual del algoritmo de forma bidireccional para entender el flujo antes de compilar."
+    },
+    {
+      "afirmacion": "El salto a producción: la función nativa de exportar código",
+      "prueba": "Menú Archivo > Exportar convierte el pseudocódigo en código limpio para Java, C++, Python, C# y JavaScript."
+    },
+    {
+      "afirmacion": "Comparativa práctica: de PSeInt a Java sin esfuerzo",
+      "prueba": "Mapeo exacto: Escribir se vuelve System.out.println y Leer se convierte en Scanner con tipos de datos correctos."
+    },
+    {
+      "afirmacion": "Lámina de resumen: la ruta recomendada para dominar cualquier lenguaje",
+      "prueba": "Flujo de 3 pasos: lógica en pseudocódigo, prueba de escritorio y exportación al lenguaje final."
+    },
+    {
+      "afirmacion": "Cierre con veredicto sobre la lógica y llamado a guardar la guía",
+      "prueba": "Despedida del veredicto y CTA de guardado para cuando toque enseñar o aprender."
+    }
+  ],
+  "despedida": {
+    "jugada": "el-veredicto",
+    "texto": "Aprender a programar no es memorizar sintaxis: es dominar la lógica antes de que el compilador te frustre."
+  },
+  "cta": {
+    "tipo": "guardar",
+    "forma": "guardar-para-cuando",
+    "texto": "Guárdalo para cuando tengas que aprender o enseñarle a programar a alguien desde cero."
+  },
+  "ctaAlternativas": [
+    {
+      "tipo": "guardar",
+      "forma": "guardar-la-lamina",
+      "texto": "La lámina de la comparativa tiene el mapeo exacto. Guárdala para tu próxima clase."
+    },
+    {
+      "tipo": "enviar",
+      "forma": "enviar-ese-amigo",
+      "texto": "Compártelo con ese amigo que recién empieza a programar y se está frustrando con Java."
+    }
+  ],
+  "ganchoElegido": "No necesitas aprender Java para empezar a programar",
+  "puertaA": {
+    "aprobado": true,
+    "fecha": "2026-10-18"
+  }
+}

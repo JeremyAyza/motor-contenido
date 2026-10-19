@@ -1,0 +1,71 @@
+{
+  "account": "dev",
+  "topic": "PSeInt y cómo enseña a programar",
+  "infoDate": "2026-10-18",
+  "idea": "En este carrusel, cada instrucción de pseudocódigo en PSeInt se convierte en una ficha comparativa que se traduce directamente a su equivalente en Java.",
+  "art": {
+    "direction": "ficha-tecnica",
+    "dealt": [
+      "ficha-tecnica",
+      "elige-tu-camino",
+      "chat"
+    ],
+    "reason": "La ficha técnica permite estructurar la sintaxis en español frente a la sintaxis compilada de Java en tablas limpias y fichas de ejecución paso a paso.",
+    "borrowed": [
+      "antes-despues",
+      "terminal"
+    ],
+    "palette": {
+      "bg": "#0D1117",
+      "ink": "#F0F6FC",
+      "accent": "#38BDF8",
+      "accentInk": "#0D1117",
+      "surface": "#161B22",
+      "muted": "#8B949E"
+    },
+    "fonts": {
+      "display": "archivo",
+      "text": "geist"
+    },
+    "anchor": {
+      "kind": "icono",
+      "ref": "binary",
+      "source": "Ícono de binary en Lucide (ISC), representa la lógica algorítmica y el flujo computacional de PSeInt"
+    },
+    "tab": "algoritmo.psc",
+    "cierre": {
+      "tratamiento": "gesto-tocado",
+      "gesto": "guardar",
+      "porque": "El gesto de guardar ya tocado en cyan refuerza la acción de conservar la guía para consultarla al enseñar o estudiar algoritmos."
+    }
+  },
+  "caption": "No necesitas aprender Java para empezar a programar:\n\nEmpezar en el mundo del desarrollo suele ser una pesadilla para principiantes.\nTe meten clases, public static void main, tipos estáticos y puntos y coma antes de explicarte qué es un simple condicional.\n\nPara aprender a programar con PSeInt y dominar la logica de programacion para principiantes, la clave es separar el razonamiento de la sintaxis.\nLuego, dar el salto de pseudocodigo a Java es un proceso natural en 4 pasos:\n\n1. Lógica en tu idioma\nEscribes instrucciones en español: Leer, Escribir, Si-Entonces y Mientras. Razonas el problema sin pelear con llaves o errores del compilador.\n\n2. Prueba de escritorio paso a paso\nEjecutas el algoritmo a velocidad lenta viendo cómo cambian las variables en la memoria en tiempo real.\n\n3. Diagramas de flujo automáticos\nUn solo clic genera el diagrama visual de tu algoritmo para entender cómo viajan las decisiones.\n\n4. Exportación nativa\nCuando el algoritmo funciona, vas a Archivo > Exportar y PSeInt te genera el código en Java, C++, Python o C# listo para compilar.\n\nGuárdalo para cuando tengas que aprender o enseñarle a programar a alguien desde cero.\n\nInformación al 18 de octubre de 2026. Fuentes: documentación oficial de PSeInt en SourceForge.\n\n#programacion #pseint #java #algoritmos #aprenderaprogramar",
+  "busqueda": [
+    "aprender a programar con PSeInt",
+    "de pseudocodigo a Java",
+    "logica de programacion para principiantes"
+  ],
+  "alt": "Portada con el ícono de algoritmo binario y el titular: No necesitas aprender Java para empezar a programar.",
+  "slideCaptions": [
+    "Portada: No necesitas aprender Java para empezar a programar.",
+    "El error clásico: chocar contra la sintaxis antes de entender la lógica.",
+    "Qué es PSeInt: lógica algorítmica pura en pseudocódigo en español.",
+    "Las estructuras clave: cómo razona un algoritmo básico.",
+    "La prueba de escritorio: ejecución paso a paso con inspección de memoria.",
+    "De pseudocódigo a diagrama de flujo en un solo clic.",
+    "La exportación nativa: el botón para generar Java, C++ y Python.",
+    "Comparativa: de algoritmo en PSeInt a código compilable en Java.",
+    "Cierre: Guárdalo para cuando tengas que enseñar o aprender desde cero."
+  ],
+  "sources": [
+    {
+      "title": "Sitio oficial de PSeInt en SourceForge",
+      "url": "https://pseint.sourceforge.net/",
+      "checkedAt": "2026-10-18"
+    }
+  ],
+  "puertaB": {
+    "aprobado": true,
+    "fecha": "2026-10-18"
+  }
+}

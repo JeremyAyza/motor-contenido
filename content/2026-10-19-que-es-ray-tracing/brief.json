@@ -1,0 +1,117 @@
+{
+  "formato": "ensenar",
+  "tesis": "El secreto para entender ray tracing es comprender que la computadora simula la física al revés: en vez de seguir los fotones de la luz, dispara rayos desde tu ojo hacia la escena para no desperdiciar cálculos.",
+  "palanca": "que-cambia",
+  "porQueAhora": "El ray tracing ya es el estándar en consolas y tarjetas gráficas modernas, pero la mayoría de jugadores todavía cree que solo sirve para ver reflejos en charcos de agua.",
+  "paraQuien": "Gamers, desarrolladores y curiosos de la tecnología que escuchan sobre RTX o trazado de rayos y quieren entender cómo funciona sin tecnicismos matemáticos complejos.",
+  "queGana": "Entiende la analogía intuitiva de la luz en reversa, la diferencia frente al rasterizado tradicional y cómo se aplica tanto en películas como en videojuegos a 60 FPS.",
+  "objetivo": "enviar",
+  "compartirCon": "A ese amigo gamer o compañero de equipo que cree que el ray tracing es solo puro marketing para vender tarjetas gráficas caras.",
+  "toma": "El ray tracing no es un filtro de posprocesamiento: es el salto de pintar ilusiones ópticas a simular la física real de la luz.",
+  "ganchos": [
+    {
+      "texto": "No necesitas entender física óptica para entender Ray Tracing",
+      "promesa": "La analogía de la linterna en reversa explicada en 1 minuto",
+      "formula": 20
+    },
+    {
+      "texto": "La luz en los videojuegos viaja al revés de la vida real",
+      "promesa": "Por qué el Ray Tracing dispara rayos desde tu ojo a la pantalla",
+      "formula": 22
+    },
+    {
+      "texto": "Ray Tracing en vez de trucos de luces falsas",
+      "promesa": "Cómo pasamos de pintar triángulos a simular fotones en tiempo real",
+      "formula": 4
+    },
+    {
+      "texto": "Si juegas en PC o consola y ves RTX, mira esto",
+      "promesa": "Qué hace de verdad el Ray Tracing dentro de tu tarjeta gráfica",
+      "formula": 10
+    },
+    {
+      "texto": "¿Cómo funciona el Ray Tracing sin quemar tu GPU?",
+      "promesa": "La analogía visual para entender el renderizado moderno",
+      "formula": 16
+    },
+    {
+      "texto": "Así es como el Ray Tracing calcula la luz en tu juego",
+      "promesa": "De los renders de Pixar a 60 cuadros por segundo en tu pantalla",
+      "formula": 24
+    },
+    {
+      "texto": "Deja de creer que Ray Tracing es solo reflejos en charcos",
+      "promesa": "La física detrás de la iluminación global y las sombras suaves",
+      "formula": 2
+    },
+    {
+      "texto": "Ray Tracing",
+      "promesa": "La analogía simple para entender la tecnología que cambió los gráficos",
+      "formula": 27
+    }
+  ],
+  "esqueleto": [
+    {
+      "afirmacion": "La portada plantea que entender ray tracing no requiere física compleja",
+      "prueba": "Gancho aprobado con referencia visual a rayos de luz y renderizado 3D."
+    },
+    {
+      "afirmacion": "La paradoja de la física real: seguir la luz hacia adelante colapsaría la GPU",
+      "prueba": "Una bombilla emite billones de fotones por segundo en todas direcciones; simularlos todos desperdiciaría el 99.9% de energía en rayos que nunca entran a tu ojo."
+    },
+    {
+      "afirmacion": "La analogía del láser en reversa: de la cámara hacia la escena",
+      "prueba": "En ray tracing la cámara dispara un rayo por cada píxel de la pantalla hacia los objetos; solo cuando choca busca de dónde venía la luz."
+    },
+    {
+      "afirmacion": "Rasterizado clásico frente a Ray Tracing: pintor rápido vs física real",
+      "prueba": "El rasterizado dibuja triángulos 2D rápidos con trucos de textura precalculados; el ray tracing calcula los rebotes exactos de la luz entre superficies."
+    },
+    {
+      "afirmacion": "Los tres efectos visuales que antes eran imposibles de simular con precisión",
+      "prueba": "Reflejos de objetos fuera de la pantalla, refracción en vidrio y sombras suaves que se difuminan con la distancia."
+    },
+    {
+      "afirmacion": "Dónde se usa en cine: el renderizado offline fotorrealista de Hollywood",
+      "prueba": "Pixar y Disney usan path tracing puro en granjas de servidores donde un solo fotograma puede tardar horas en calcularse."
+    },
+    {
+      "afirmacion": "Dónde se usa en videojuegos: el renderizado híbrido en tiempo real",
+      "prueba": "En Cyberpunk o consolas modernas el rasterizado hace el trabajo pesado y los núcleos RT aceleran árboles BVH para calcular rayos a 60 FPS."
+    },
+    {
+      "afirmacion": "Lámina de resumen: comparativa entre cine offline y videojuegos híbridos",
+      "prueba": "Tabla con tiempo por fotograma, hardware requerido y balance entre precisión física y velocidad."
+    },
+    {
+      "afirmacion": "Cierre con despedida del giro y llamado a compartir con el amigo escéptico",
+      "prueba": "Despedida del giro y CTA temático para el que dice que el ray tracing es solo marketing."
+    }
+  ],
+  "despedida": {
+    "jugada": "el-giro",
+    "texto": "La magia no está en dibujar mejores gráficos: está en simular las leyes de la física al revés."
+  },
+  "cta": {
+    "tipo": "enviar",
+    "forma": "enviar-el-que-dijo",
+    "texto": "Mándaselo al que dice que el ray tracing solo sirve para ver charcos con reflejos."
+  },
+  "ctaAlternativas": [
+    {
+      "tipo": "guardar",
+      "forma": "guardar-para-cuando",
+      "texto": "Guárdalo para cuando quieras explicar cómo funciona la tecnología detrás de los gráficos modernos."
+    },
+    {
+      "tipo": "enviar",
+      "forma": "enviar-al-equipo",
+      "texto": "Pásalo al chat de tu equipo de diseño o desarrollo para entender cómo funciona la iluminación en 3D."
+    }
+  ],
+  "ganchoElegido": "No necesitas entender física óptica para entender Ray Tracing",
+  "puertaA": {
+    "aprobado": true,
+    "fecha": "2026-10-18"
+  }
+}
