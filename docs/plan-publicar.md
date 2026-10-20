@@ -63,7 +63,7 @@ La configuración del proyecto va en `publisher.config.json`, en la raíz:
 ```json
 {
   "registry": "publications.jsonl",
-  "accounts": { "dev": { "instagram": "jacekt.dev" } }
+  "accounts": { "dev": { "instagram": "jacket.dev" } }
 }
 ```
 

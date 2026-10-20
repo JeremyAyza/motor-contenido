@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { z } from "zod";
 import { FORMA_CTA_IDS, FORMAS_CTA, JUGADA_IDS } from "./cierres.ts";
+import { nombreRecurso, RECURSO_IDS } from "./recursos.ts";
 
 /**
  * Brief editorial (`brief.json`): el paso 0 del carrusel. Se escribe antes que
@@ -33,6 +34,22 @@ export const CtaSchema = z
     path: ["forma"],
   });
 
+export const VisualSchema = z.object({
+  recurso: z.enum(RECURSO_IDS).describe("El recurso visual de la lámina (skills/carrusel-taste/recursos.json)"),
+  que: z
+    .string()
+    .trim()
+    .min(10)
+    .max(220)
+    .describe("Qué se ve, concreto: 'una mochila con tres objetos rotulados', no 'un diagrama'"),
+});
+
+export const EntradaSchema = z.object({
+  afirmacion: z.string().trim().min(5),
+  prueba: z.string().trim().min(3),
+  visual: VisualSchema.optional().describe("Obligatorio en las láminas interiores: lo que se ve, aprobado en la puerta A"),
+});
+
 export const DespedidaSchema = z.object({
   jugada: z.enum(JUGADA_IDS).describe("Cómo cierra la última lámina lo que abrió la portada (skills/carrusel-taste/cierres.json)"),
   texto: z.string().trim().min(3).max(120).describe("La frase de despedida de la última lámina, encima del CTA"),
@@ -59,10 +76,10 @@ export const BriefSchema = z.object({
   ganchos: z.array(GanchoSchema).min(8).max(12).describe("De 8 a 10 candidatos de al menos 4 fórmulas distintas"),
   ganchoElegido: z.string().trim().optional().describe("El gancho que eligió la persona en la puerta A"),
   esqueleto: z
-    .array(z.object({ afirmacion: z.string().trim().min(5), prueba: z.string().trim().min(3) }))
+    .array(EntradaSchema)
     .min(5)
     .max(10)
-    .describe("Una entrada por lámina: la afirmación y su prueba (un dato de facts.json o del inventario)"),
+    .describe("Una entrada por lámina: la afirmación, su prueba (un dato de facts.json o del inventario) y, en las interiores, el recurso visual"),
   despedida: DespedidaSchema,
   cta: CtaSchema,
   ctaAlternativas: z
@@ -114,5 +131,31 @@ export function loadBrief(dir: string): BriefLoad {
   if (brief.ctaAlternativas?.some((c) => c.forma === brief.cta.forma)) {
     warnings.push("ctaAlternativas repite la forma del CTA elegido: las alternativas son de formas distintas");
   }
+  warnings.push(...revisarVisuales(brief));
   return { status: "ok", brief, warnings };
+}
+
+/**
+ * Los recursos visuales del esqueleto: cada lámina interior lleva uno (la
+ * portada tiene el ancla y el cierre su tratamiento), y no todas el mismo.
+ */
+export function revisarVisuales(brief: Brief): string[] {
+  const interiores = brief.esqueleto.slice(1, -1).map((e, i) => ({ numero: i + 2, visual: e.visual }));
+  const avisos: string[] = [];
+  const sinVisual = interiores.filter((e) => !e.visual).map((e) => e.numero);
+  if (sinVisual.length) {
+    const lista = sinVisual.length === 1 ? `${sinVisual[0]}` : `${sinVisual.slice(0, -1).join(", ")} y ${sinVisual[sinVisual.length - 1]}`;
+    avisos.push(
+      `${sinVisual.length === 1 ? "La lámina" : "Las láminas"} ${lista} del esqueleto no ${sinVisual.length === 1 ? "tiene" : "tienen"} visual: elige un recurso de skills/carrusel-taste/recursos.json y describe qué se ve`,
+    );
+  }
+  const usados = interiores.flatMap((e) => (e.visual ? [e.visual.recurso] : []));
+  const conteo = new Map<string, number>();
+  for (const r of usados) conteo.set(r, (conteo.get(r) ?? 0) + 1);
+  for (const [recurso, veces] of conteo) {
+    if (usados.length >= 3 && veces > usados.length / 2) {
+      avisos.push(`"${nombreRecurso(recurso)}" está en ${veces} de ${usados.length} láminas interiores: alterna con otro recurso para que no se vean iguales`);
+    }
+  }
+  return avisos;
 }

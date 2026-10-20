@@ -52,6 +52,16 @@ describe("problemsWith", () => {
   });
 });
 
+describe("problemsWith videos", () => {
+  it("measures videos against maxVideoBytes", () => {
+    const dir = tempDir();
+    writeFileSync(join(dir, "01.mp4"), "x".repeat(20));
+    const conVideo: Limits = { ...limits, formats: ["png", "mp4"], maxVideoBytes: 100 };
+    assert.deepEqual(problemsWith(manifestWith([join(dir, "01.mp4")]), conVideo), []);
+    assert.match(problemsWith(manifestWith([join(dir, "01.mp4")]), { ...conVideo, maxVideoBytes: 10 }).join("\n"), /Too large/);
+  });
+});
+
 describe("loadProject and handleFor", () => {
   it("finds the config upward and normalizes handles", () => {
     const root = tempDir();

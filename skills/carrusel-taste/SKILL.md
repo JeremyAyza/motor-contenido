@@ -77,6 +77,15 @@ Nunca dibujes ni imites un logo, una mascota o un personaje de una marca: solo a
 - **La lámina de resumen,** cuando la hay, se diseña para que se entienda capturada y mandada sola.
 - Revisa también [docs/anti-slop.md](../../docs/anti-slop.md).
 
+### 7. El recurso visual de cada lámina
+
+Cada lámina interior lleva el recurso de `esqueleto[].visual`, de [recursos.json](recursos.json): diagrama de proceso, anatomía con etiquetas, analogía de escala, metáfora con objetos, comparación dibujada, barras, cifra gigante, línea de tiempo, matriz, capas, captura anotada o artefacto real con señal. Se dibuja con las primitivas de `@motor/ui` (tabla en workflows/carrusel.md, paso 9) dentro de la dirección: la misma paleta, el mismo trazo, la misma textura.
+
+- **Grande:** el recurso es lo dominante de la lámina, no un adorno al pie. Si debajo del texto queda media lámina vacía, el recurso tenía que ocuparla.
+- **Explica, no decora** (Mayer, aprendizaje multimedia): palabras y dibujo juntos enseñan más que palabras solas; las etiquetas van pegadas a lo que nombran; una flecha o un resaltado dice dónde mirar; lo que no explica se borra.
+- **La dirección lo tiñe:** en `linea-continua` el proceso es la línea que cruza; en `collage`, objetos recortados con sello; en `ficha-tecnica`, barras y cifras; en `captura-anotada`, flechas sobre la captura real.
+- **Movimiento solo donde explica:** si una lámina se anima, que sea el recorrido, el orden o la barra que crece, y que el último cuadro sea la lámina completa.
+
 ## Referencias
 
 - [referencias/baraja-12-direcciones.jpg](referencias/baraja-12-direcciones.jpg): las 12 portadas con un mismo tema (Gemini 4 Argon contra Claude Opus 5.5), para ver solo el estilo.
@@ -90,6 +99,7 @@ Nunca dibujes ni imites un logo, una mascota o un personaje de una marca: solo a
 - [ ] La paleta sale del ancla y de la dirección; ningún color suelto.
 - [ ] Dos familias como mucho por lámina, sin contar el código.
 - [ ] Ninguna lámina repite la composición de la anterior.
+- [ ] Cada lámina interior dibuja su recurso de `esqueleto[].visual`, grande, y ninguna es solo titular, párrafo y caja.
 - [ ] La portada usa el gancho aprobado en la puerta A.
 - [ ] La última lámina cierra la portada con la despedida del brief y tiene un solo CTA con `data-cta`.
 - [ ] `art.cierre` tiene un tratamiento distinto al de las dos piezas anteriores, y el gesto destacado es el que pide el CTA.

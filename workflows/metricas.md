@@ -10,7 +10,7 @@ La única fuente honesta de lo que funciona para esta cuenta son sus propias pie
 ```json
 {
   "publicado": "2026-10-20T19:00:00-05:00",
-  "etiquetas": { "formato": "comparativa", "formulaGancho": 17, "direccion": "antes-despues", "laminas": 7, "cta": "enviar" },
+  "etiquetas": { "formato": "comparativa", "formulaGancho": 17, "direccion": "antes-despues", "laminas": 7, "cta": "enviar", "animadas": 1 },
   "cortes": [
     { "dia": 2, "alcance": 0, "alcanceNoSeguidores": 0, "guardados": 0, "compartidos": 0, "comentarios": 0, "meGusta": 0, "visitasPerfil": 0, "seguidores": 0 },
     { "dia": 7, "alcance": 0, "alcanceNoSeguidores": 0, "guardados": 0, "compartidos": 0, "comentarios": 0, "meGusta": 0, "visitasPerfil": 0, "seguidores": 0 }
@@ -18,7 +18,7 @@ La única fuente honesta de lo que funciona para esta cuenta son sus propias pie
 }
 ```
 
-   Las etiquetas salen de `brief.json` (formato, fórmula del gancho elegido, CTA) y de `post.json` (dirección, número de láminas). Si Instagram cambió el nombre de una métrica, anótalo en `notas` y usa el campo más parecido.
+   Las etiquetas salen de `brief.json` (formato, fórmula del gancho elegido, CTA) y de `post.json` (dirección, número de láminas). `animadas` es cuántas láminas salieron como video (`out/NN.mp4`): es el experimento de movimiento, y se decide con estos números. Si Instagram cambió el nombre de una métrica, anótalo en `notas` y usa el campo más parecido.
 3. `npm run carrusel:metricas` regenera [docs/metricas.md](../docs/metricas.md).
 
 Más adelante se puede leer Insights con la API de Instagram para cuentas profesionales (solo lectura: necesita una app de Meta y un token). No publica nada ni envía DMs, así que no choca con la regla de no automatizar mensajes.

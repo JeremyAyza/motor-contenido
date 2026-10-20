@@ -1,0 +1,101 @@
+{
+  "nota": "Catálogo de recursos visuales del carrusel (workflows/carrusel.md, pasos 4 y 9). Cada lámina interior lleva uno: se elige en el esqueleto del brief (esqueleto[].visual), la persona lo aprueba en la puerta A y se dibuja con las primitivas de @motor/ui. El recurso explica, no adorna: si se puede borrar sin perder nada, no es un recurso. Los ejemplos muestran la forma; no se copian.",
+  "recursos": [
+    {
+      "id": "proceso",
+      "nombre": "Diagrama de proceso",
+      "como": "Los pasos como nodos conectados con flechas, en el orden en que pasan. Un ícono u objeto por paso y dos o tres palabras por nodo; el paso que importa, en el acento.",
+      "cuando": "Cómo funciona algo por dentro: un flujo, un pipeline, lo que hace un comando, el camino de una petición.",
+      "primitivas": ["Proceso", "Nodo", "Flecha"],
+      "ejemplo": "El hook de Claude Code como cuatro nodos (evento, hook, tu script, respuesta) con el tuyo resaltado."
+    },
+    {
+      "id": "anatomia",
+      "nombre": "Anatomía con etiquetas",
+      "como": "La cosa entera al centro (una interfaz real, un archivo, un comando, un objeto) y etiquetas cortas con línea guía que apuntan a cada parte. La etiqueta va pegada a lo que nombra, nunca en una leyenda aparte.",
+      "cuando": "Las partes de algo: los campos de un archivo de configuración, las opciones de un comando, las zonas de una pantalla.",
+      "primitivas": ["Etiqueta", "Img", "Window", "Code", "Objeto"],
+      "ejemplo": "Un CLAUDE.md real con tres etiquetas: reglas, comandos de test, arquitectura."
+    },
+    {
+      "id": "escala",
+      "nombre": "Analogía de escala",
+      "como": "Una cifra que no se siente se traduce a algo físico o cotidiano (distancia, tiempo, peso, dinero) con una cuenta hecha, marcada como cálculo propio en una Nota. Se dibuja lo chico al lado de lo grande.",
+      "cuando": "Diferencias de órdenes de magnitud: milisegundos contra horas, tokens contra páginas, precios por millón.",
+      "primitivas": ["Escala", "Cifra", "Boceto", "Objeto"],
+      "ejemplo": "Si un cuadro de videojuego (16 ms) midiera 1 mm, una hora de render mediría 216 m: dos canchas de fútbol."
+    },
+    {
+      "id": "metafora",
+      "nombre": "Metáfora con objetos",
+      "como": "El concepto abstracto como un objeto cotidiano que se comporta igual: la ventana de contexto como una mochila que se llena, la caché como un llavero. Tiene que copiar la estructura (qué entra, qué se pierde, qué cuesta), no solo el nombre. Una por lámina, y la aprueba la persona en la puerta A.",
+      "cuando": "Conceptos que no tienen forma: contexto, latencia, embeddings, permisos, costo por token.",
+      "primitivas": ["Objeto", "Boceto", "Etiqueta"],
+      "ejemplo": "Una mochila con tres objetos rotulados (instrucciones, historial, archivos) y uno que ya no entra."
+    },
+    {
+      "id": "comparacion",
+      "nombre": "Comparación dibujada",
+      "como": "Lo mismo hecho de dos formas, dibujado con la misma composición para que la diferencia salte a la vista: dos columnas, antes y después, con y sin. La opción que gana va en el acento.",
+      "cuando": "Dos enfoques, dos herramientas o un cambio: rasterizado contra ray tracing, chat contra agente.",
+      "primitivas": ["Boceto", "Objeto", "Nodo", "Barras"],
+      "ejemplo": "Pintor que proyecta triángulos contra linterna que sigue cada rayo, cada uno en su columna."
+    },
+    {
+      "id": "datos",
+      "nombre": "Barras con datos",
+      "como": "Los números de facts.json como barras proporcionales, con la etiqueta y el valor en la misma fila y la que importa en el acento. Pocas barras (2 a 6) y la fuente en una Nota.",
+      "cuando": "Precios, benchmarks, porcentajes, tiempos: cualquier comparación de números.",
+      "primitivas": ["Barras", "Cifra"],
+      "ejemplo": "Precio por millón de tokens de tres modelos, con el más barato resaltado."
+    },
+    {
+      "id": "cifra",
+      "nombre": "La cifra gigante",
+      "como": "Un solo número domina la lámina, con su unidad y una línea que diga qué significa. Sin más datos alrededor.",
+      "cuando": "Cuando un número es la noticia: un precio, un récord, un porcentaje que cambia la decisión.",
+      "primitivas": ["Cifra"],
+      "ejemplo": "\"2.4×\" más rápido, con la línea \"en el mismo benchmark y el mismo hardware\"."
+    },
+    {
+      "id": "linea-de-tiempo",
+      "nombre": "Línea de tiempo",
+      "como": "Los hitos sobre una línea, en orden, con la fecha corta y dos o tres palabras cada uno. El de la pieza, en el acento.",
+      "cuando": "Versiones, lanzamientos, la historia de una técnica, lo que viene y cuándo.",
+      "primitivas": ["Linea"],
+      "ejemplo": "1980 Whitted, 2018 RTX, 2026 path tracing en tiempo real."
+    },
+    {
+      "id": "matriz",
+      "nombre": "Matriz de dos ejes",
+      "como": "Las opciones ubicadas en dos ejes con nombre (precio y calidad, velocidad y control). Cada punto con su etiqueta al lado; la recomendación, en el acento.",
+      "cuando": "Comparativas de muchas opciones donde importan dos variables a la vez.",
+      "primitivas": ["Matriz"],
+      "ejemplo": "Cinco modelos en precio contra puntaje de código, con el mejor por dólar resaltado."
+    },
+    {
+      "id": "capas",
+      "nombre": "Capas",
+      "como": "Lo que va encima de qué, como bloques apilados: la capa de abajo es la base y cada capa nombra qué agrega.",
+      "cuando": "Arquitecturas, pilas de herramientas, niveles de control o de abstracción.",
+      "primitivas": ["Nodo", "Boceto"],
+      "ejemplo": "Modelo, agente, herramientas y tu repo como cuatro capas."
+    },
+    {
+      "id": "captura-anotada",
+      "nombre": "Captura anotada",
+      "como": "Una captura real de la interfaz con flechas, resaltado y, si hace falta, un zoom a la parte que importa. Nunca se retoca lo que muestra.",
+      "cuando": "Dónde está una opción, qué cambió en una pantalla, qué mirar en una salida.",
+      "primitivas": ["Img", "Window", "Flecha", "Etiqueta"],
+      "ejemplo": "La pantalla de /cost con una flecha al costo en dólares."
+    },
+    {
+      "id": "artefacto",
+      "nombre": "Artefacto real con señal",
+      "como": "Código, terminal o prompt reales, con una flecha, un resaltado o una etiqueta que diga dónde mirar. Sin la señal, es solo texto en una ventana.",
+      "cuando": "Comandos, configuraciones y prompts que el lector va a copiar.",
+      "primitivas": ["Code", "Window", "Prompt", "Flecha", "Etiqueta", "Resalte"],
+      "ejemplo": "La salida de npm test con una etiqueta en la línea que falla y otra en la que pasa."
+    }
+  ]
+}

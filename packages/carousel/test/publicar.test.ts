@@ -33,6 +33,14 @@ describe("prepararPublicacion", () => {
     assert.deepEqual(JSON.parse(readFileSync(file, "utf8")).media, ["01.png", "02.png"]);
   });
 
+  it("publica como video la lámina que el render dejó animada", () => {
+    const dir = pieza();
+    writeFileSync(join(dir, "out", "02.mp4"), "mp4");
+    const { manifest, file } = prepararPublicacion(dir);
+    assert.deepEqual(manifest.media.map((f) => basename(f)), ["01.png", "02.mp4"]);
+    assert.deepEqual(JSON.parse(readFileSync(file, "utf8")).media, ["01.png", "02.mp4"]);
+  });
+
   it("no corre sin la puerta B", () => {
     assert.throws(() => prepararPublicacion(pieza({ aprobada: false })), /La puerta B no está aprobada/);
   });

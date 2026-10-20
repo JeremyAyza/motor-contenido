@@ -8,6 +8,7 @@ import { prepararCritica } from "./critica.ts";
 import { DIRECCIONES, historial, repartir, type Direccion } from "./direcciones.ts";
 import { puertaA } from "./editorial.ts";
 import { informeMetricas, MetricasSchema } from "./metricas.ts";
+import { bajarObjeto, buscarObjetos } from "./objetos.ts";
 import { PostSchema } from "./post.ts";
 import { prepararPublicacion } from "./publicar.ts";
 import { runPython } from "./python.ts";
@@ -20,6 +21,7 @@ import { revisarTextos } from "./texto.ts";
  *   carrusel brief <carpeta>                   valida el brief, filtra los ganchos y arma la puerta A
  *   carrusel baraja [--cuenta dev] [--todas]   reparte 3 direcciones de arte
  *   carrusel logo <marca>                      busca el slug y el color oficial en Simple Icons
+ *   carrusel objeto <nombre> [--3d]            baja un objeto de Fluent Emoji a assets/objetos (o lista parecidos)
  *   carrusel render <carpeta>                  valida, renderiza e inspecciona (láminas y textos)
  *   carrusel texto <carpeta>                   vuelve a revisar solo los textos, sin renderizar
  *   carrusel critica <carpeta>                 prepara la carpeta del crítico ciego
@@ -248,6 +250,25 @@ export default [
       for (const h of hits) console.log(`${h.slug.padEnd(28)} #${h.hex}  ${h.title}${h.guidelines ? `  · guías: ${h.guidelines}` : ""}`);
       return 0;
     }
+    case "objeto": {
+      const nombre = [arg, ...rest].filter((a) => a && !a.startsWith("--")).join(" ");
+      if (!nombre) throw new Error("Uso: carrusel objeto <nombre en inglés> [--3d]   (ej.: backpack, light bulb, brain)");
+      const estilo = rest.includes("--3d") ? "3d" : "color";
+      const bajado = await bajarObjeto(nombre, estilo);
+      if (bajado) {
+        console.log(`Objeto en ${bajado.archivo}`);
+        console.log(`Úsalo con <Objeto nombre="${bajado.slug}"${estilo === "3d" ? ' estilo="3d"' : ""} /> (Fluent Emoji, MIT)`);
+        return 0;
+      }
+      const parecidos = await buscarObjetos(nombre);
+      if (!parecidos.length) {
+        console.log(`Ningún objeto de Fluent Emoji se llama parecido a "${nombre}". Prueba otra palabra en inglés.`);
+        return 1;
+      }
+      console.log(`No hay uno llamado "${nombre}". Parecidos:`);
+      for (const p of parecidos) console.log(`  ${p.slug.padEnd(30)} ${p.nombre}${p.tresD ? "" : "  (sin 3D)"}`);
+      return 1;
+    }
     case "render": {
       if (!arg) throw new Error("Uso: carrusel render <carpeta-de-la-pieza>");
       const { files, issues } = await renderPiece(resolve(arg));
@@ -268,7 +289,7 @@ export default [
     }
     default:
       console.log(
-        "Comandos: nuevo <slug> [--cuenta dev] | brief <carpeta> | baraja [--cuenta dev] [--todas] | logo <marca> | render <carpeta> | texto <carpeta> | critica <carpeta> | publicar <carpeta> [--plataforma instagram] [--ensayo] [--forzar] | metricas | swipe <tsv> | esquema",
+        "Comandos: nuevo <slug> [--cuenta dev] | brief <carpeta> | baraja [--cuenta dev] [--todas] | logo <marca> | objeto <nombre> [--3d] | render <carpeta> | texto <carpeta> | critica <carpeta> | publicar <carpeta> [--plataforma instagram] [--ensayo] [--forzar] | metricas | swipe <tsv> | esquema",
       );
       return command ? 1 : 0;
   }

@@ -111,6 +111,40 @@
           "prueba": {
             "type": "string",
             "minLength": 3
+          },
+          "visual": {
+            "description": "Obligatorio en las láminas interiores: lo que se ve, aprobado en la puerta A",
+            "type": "object",
+            "properties": {
+              "recurso": {
+                "type": "string",
+                "enum": [
+                  "proceso",
+                  "anatomia",
+                  "escala",
+                  "metafora",
+                  "comparacion",
+                  "datos",
+                  "cifra",
+                  "linea-de-tiempo",
+                  "matriz",
+                  "capas",
+                  "captura-anotada",
+                  "artefacto"
+                ],
+                "description": "El recurso visual de la lámina (skills/carrusel-taste/recursos.json)"
+              },
+              "que": {
+                "type": "string",
+                "minLength": 10,
+                "maxLength": 220,
+                "description": "Qué se ve, concreto: 'una mochila con tres objetos rotulados', no 'un diagrama'"
+              }
+            },
+            "required": [
+              "recurso",
+              "que"
+            ]
           }
         },
         "required": [
@@ -118,7 +152,7 @@
           "prueba"
         ]
       },
-      "description": "Una entrada por lámina: la afirmación y su prueba (un dato de facts.json o del inventario)"
+      "description": "Una entrada por lámina: la afirmación, su prueba (un dato de facts.json o del inventario) y, en las interiores, el recurso visual"
     },
     "despedida": {
       "type": "object",

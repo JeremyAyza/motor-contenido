@@ -11,7 +11,7 @@ Plataformas con adaptador: Instagram. `mark` registra cualquier plataforma.
 ```json
 {
   "registry": "publications.jsonl",
-  "accounts": { "dev": { "instagram": "jacekt.dev" } }
+  "accounts": { "dev": { "instagram": "jacket.dev" } }
 }
 ```
 

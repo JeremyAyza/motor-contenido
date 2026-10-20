@@ -23,7 +23,12 @@ export function prepararPublicacion(dir: string): { manifest: Manifest; file: st
   // El render escribe un bloque por lámina y no borra los PNG de renders con más láminas.
   const total = readFileSync(textos, "utf8").match(/^--- Lámina \d+/gm)?.length ?? 0;
   if (!total) problemas.push("out/texto-de-laminas.txt no tiene láminas: corre carrusel:render");
-  const media = Array.from({ length: total }, (_, i) => join(outDir, `${String(i + 1).padStart(2, "0")}.png`));
+  // Una lámina animada se publica como video (NN.mp4); el render borra el MP4 de las que dejan de estarlo.
+  const media = Array.from({ length: total }, (_, i) => {
+    const nn = String(i + 1).padStart(2, "0");
+    const video = join(outDir, `${nn}.mp4`);
+    return existsSync(video) ? video : join(outDir, `${nn}.png`);
+  });
   const faltan = media.filter((f) => !existsSync(f));
   if (faltan.length) problemas.push(`Faltan ${faltan.map((f) => basename(f)).join(", ")}: corre carrusel:render`);
   const slides = join(dir, "slides.tsx");

@@ -82,6 +82,7 @@ export function handleFor(config: Config, account: string, platform: string): st
 }
 
 const megabytes = (bytes: number) => (bytes / 1024 / 1024).toFixed(1);
+const VIDEO_FORMATS = ["mp4", "mov"];
 
 /** Reasons the platform would reject the publication, one per item. Empty when it can go. */
 export function problemsWith(manifest: Manifest, limits: Limits): string[] {
@@ -95,7 +96,8 @@ export function problemsWith(manifest: Manifest, limits: Limits): string[] {
     const format = extname(file).slice(1).toLowerCase();
     if (!limits.formats.includes(format)) problems.push(`Unsupported format .${format}: ${file} (use ${limits.formats.join(", ")})`);
     const size = statSync(file).size;
-    if (size > limits.maxBytes) problems.push(`Too large (${megabytes(size)} MB, limit ${megabytes(limits.maxBytes)} MB): ${file}`);
+    const limit = VIDEO_FORMATS.includes(format) ? (limits.maxVideoBytes ?? limits.maxBytes) : limits.maxBytes;
+    if (size > limit) problems.push(`Too large (${megabytes(size)} MB, limit ${megabytes(limit)} MB): ${file}`);
   }
   const length = [...manifest.caption].length;
   if (length > limits.maxCaption) problems.push(`Caption has ${length} characters; the limit is ${limits.maxCaption}`);

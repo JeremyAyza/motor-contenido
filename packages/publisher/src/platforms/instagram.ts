@@ -14,7 +14,15 @@ const squash = (text: string) => text.normalize("NFC").toLowerCase().replace(/\s
 
 export const instagram: Platform = {
   id: "instagram",
-  limits: { maxMedia: 20, formats: ["jpg", "jpeg", "png"], maxBytes: 12 * 1024 * 1024, maxCaption: 2200, maxHashtags: 30 },
+  // A carousel mixes images and videos (3 to 60 s each, same aspect ratio).
+  limits: {
+    maxMedia: 20,
+    formats: ["jpg", "jpeg", "png", "mp4"],
+    maxBytes: 12 * 1024 * 1024,
+    maxVideoBytes: 250 * 1024 * 1024,
+    maxCaption: 2200,
+    maxHashtags: 30,
+  },
   async open(profileDir) {
     const context = await openProfile(profileDir);
     const page = context.pages()[0] ?? (await context.newPage());

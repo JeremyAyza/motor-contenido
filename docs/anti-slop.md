@@ -15,16 +15,21 @@ Estas reglas adaptan al formato carrusel los principios de [Taste Skill](https:/
 | Líneas finas y cajas con borde de 1px | Espacio o un cambio de tono de fondo |
 | Degradados, sombras y brillos | Color plano y cambios de tono |
 | Una palabra del título en color, cursiva o subrayada | Un solo color de título; las palabras hacen el énfasis. Excepción: el código real |
-| Emoji o íconos como viñetas | Palabras o un artefacto real. Un ícono grande como ancla del tema sí vale |
+| Emoji o íconos como viñetas | Palabras o un artefacto real. Un ícono grande como ancla del tema sí vale, y un `<Objeto>` grande que sea la metáfora de la lámina también |
 | Filas de tarjetas iguales con ícono | Una composición pensada para ese contenido |
 | La misma composición en dos láminas seguidas | Cambia escala, alineación, campo de color o recurso |
 | Una lista con flechas en cada lámina | Como mucho una lista por carrusel |
-| Dashboards falsos de barras grises o interfaces inventadas | Una captura real, código real o nada |
+| Dashboards falsos de barras grises o interfaces inventadas | Una captura real, código real, `<Barras>` con números de `facts.json` o nada |
 | Logos, mascotas o personajes de marcas dibujados o imitados | El archivo oficial (`<Logo>`) o una captura real |
 | La misma dirección de arte que el carrusel anterior | La baraja (`npm run carrusel:baraja`) deja fuera las dos últimas |
 | Letra chica en el cuerpo (menos de 32px reales) | Menos texto y más grande; la letra chica es solo para fuente y fecha, con `<Nota>` |
 | Un cierre genérico ("compártelo con quien lo necesite", "sígueme para más") | Una despedida que cierra la portada y un CTA que nombra la situación concreta |
 | Dos peticiones en el cierre o en el texto del post | Una sola, la misma en la lámina y en el texto |
+| Láminas de titular, párrafo y caja, una detrás de otra | El recurso visual de `esqueleto[].visual` ([recursos.json](../skills/carrusel-taste/recursos.json)), grande |
+| Media lámina vacía debajo del texto | Un recurso que la ocupe o el contenido repartido |
+| Una metáfora que solo comparte el nombre ("la IA es un cerebro") | Una que copie la estructura: qué entra, qué se pierde, qué cuesta |
+| Animación de adorno: todo entra fundido o rebota sin motivo | Animar solo lo que explica (el recorrido, el orden, la barra que crece), en una o dos láminas |
+| `<Resalte>` o color en una palabra del título | El resaltado va en el cuerpo, las etiquetas o el código, donde dice dónde mirar |
 
 ## Hacer
 

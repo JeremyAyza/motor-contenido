@@ -57,31 +57,59 @@
     },
     {
       "afirmacion": "La paradoja de la física real: seguir la luz hacia adelante colapsaría la GPU",
-      "prueba": "Una bombilla emite billones de fotones por segundo en todas direcciones; simularlos todos desperdiciaría el 99.9% de energía en rayos que nunca entran a tu ojo."
+      "prueba": "Una fuente de luz dispara miles de millones de rayos que nunca entran en el ojo del observador; el ray tracing evita calcularlos (NVIDIA).",
+      "visual": {
+        "recurso": "escala",
+        "que": "Una bombilla con decenas de rayos grises en todas direcciones y uno solo, en el acento, que entra en un ojo"
+      }
     },
     {
       "afirmacion": "La analogía del láser en reversa: de la cámara hacia la escena",
-      "prueba": "En ray tracing la cámara dispara un rayo por cada píxel de la pantalla hacia los objetos; solo cuando choca busca de dónde venía la luz."
+      "prueba": "En ray tracing la cámara dispara un rayo por cada píxel de la pantalla hacia los objetos; solo cuando choca busca de dónde venía la luz.",
+      "visual": {
+        "recurso": "proceso",
+        "que": "Animada: el rayo sale del ojo, cruza un píxel de la pantalla, choca con una esfera y pregunta a la lámpara si le llega luz; un punto queda en sombra"
+      }
     },
     {
       "afirmacion": "Rasterizado clásico frente a Ray Tracing: pintor rápido vs física real",
-      "prueba": "El rasterizado dibuja triángulos 2D rápidos con trucos de textura precalculados; el ray tracing calcula los rebotes exactos de la luz entre superficies."
+      "prueba": "El rasterizado dibuja triángulos 2D rápidos con trucos de textura precalculados; el ray tracing calcula los rebotes exactos de la luz entre superficies.",
+      "visual": {
+        "recurso": "comparacion",
+        "que": "Dos columnas dibujadas a mano: el pincel que pinta triángulos y una sombra falsa, contra la lámpara cuyos rayos llegan a la esfera y proyectan la sombra"
+      }
     },
     {
       "afirmacion": "Los tres efectos visuales que antes eran imposibles de simular con precisión",
-      "prueba": "Reflejos de objetos fuera de la pantalla, refracción en vidrio y sombras suaves que se difuminan con la distancia."
+      "prueba": "Reflejos de objetos fuera de la pantalla, refracción en vidrio y sombras suaves que se difuminan con la distancia.",
+      "visual": {
+        "recurso": "anatomia",
+        "que": "Una esfera de vidrio sobre un piso con tres etiquetas pegadas a cada efecto: el reflejo en el piso, la refracción en la esfera y la sombra"
+      }
     },
     {
       "afirmacion": "Dónde se usa en cine: el renderizado offline fotorrealista de Hollywood",
-      "prueba": "Pixar y Disney usan path tracing puro en granjas de servidores donde un solo fotograma puede tardar horas en calcularse."
+      "prueba": "Pixar y Disney usan path tracing puro en granjas de servidores donde un solo fotograma puede tardar horas en calcularse.",
+      "visual": {
+        "recurso": "escala",
+        "que": "La cifra 216 m y dos canchas de fútbol dibujadas a mano: lo que mediría una hora de render si los 16.7 ms de un cuadro de juego fueran 1 mm"
+      }
     },
     {
       "afirmacion": "Dónde se usa en videojuegos: el renderizado híbrido en tiempo real",
-      "prueba": "En Cyberpunk o consolas modernas el rasterizado hace el trabajo pesado y los núcleos RT aceleran árboles BVH para calcular rayos a 60 FPS."
+      "prueba": "En Cyberpunk o consolas modernas el rasterizado hace el trabajo pesado y los núcleos RT aceleran árboles BVH para calcular rayos a 60 FPS.",
+      "visual": {
+        "recurso": "capas",
+        "que": "Dos planos apilados en perspectiva: abajo el rasterizado que dibuja la escena, arriba los núcleos RT que suman reflejos y luz global"
+      }
     },
     {
       "afirmacion": "Lámina de resumen: comparativa entre cine offline y videojuegos híbridos",
-      "prueba": "Tabla con tiempo por fotograma, hardware requerido y balance entre precisión física y velocidad."
+      "prueba": "Tabla con tiempo por fotograma, hardware requerido y balance entre precisión física y velocidad.",
+      "visual": {
+        "recurso": "matriz",
+        "que": "Rasterizado, juegos híbridos y cine ubicados en dos ejes, velocidad contra realismo, con los juegos híbridos en el acento"
+      }
     },
     {
       "afirmacion": "Cierre con despedida del giro y llamado a compartir con el amigo escéptico",

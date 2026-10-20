@@ -64,7 +64,7 @@ El paso que convierte un tema en una pieza que alguien guarda o manda. Campos ([
 | `compartirCon` | A quién se lo mandaría el lector, con su situación concreta |
 | `toma` | La opinión de Jeremy, si la hay (sale de las posturas de `docs/voz.md`) |
 | `ganchos` | De 8 a 10 candidatos (paso 5) |
-| `esqueleto` | Una línea por lámina: la afirmación y su prueba. De 5 a 10 láminas; una lámina sin afirmación se borra |
+| `esqueleto` | Una entrada por lámina: la afirmación, su prueba y, en las interiores, `visual` (lo que se ve, abajo). De 5 a 10 láminas; una lámina sin afirmación se borra |
 | `despedida` | La frase con la que se despide la última lámina: `jugada` (de `cierres.json`) y `texto` |
 | `cta` | El CTA: `tipo` (guardar, enviar, comentar o seguir), `forma` (de `cierres.json`, del mismo tipo) y `texto` |
 | `ctaAlternativas` | Dos CTA más, de formas distintas, por si la persona prefiere otro en la puerta A |
@@ -86,6 +86,13 @@ Ejemplo: "Llegó Gemini 4 Argon" es noticia. "El millón de tokens de salida exi
 - el **cierre** con el CTA (paso 9).
 
 Cuando el contenido es una lista, unos pasos o una comparación, agrega una **lámina de resumen** antes del cierre: la que se captura y se manda por DM.
+
+**Cada lámina interior dice qué se ve.** Un carrusel de titular, párrafo y caja se lee como un documento y en el feed no frena a nadie. En cada entrada interior del esqueleto anota `visual`: el `recurso` de [`skills/carrusel-taste/recursos.json`](../skills/carrusel-taste/recursos.json) y `que`, el dibujo concreto ("una mochila con tres objetos rotulados y uno que ya no entra", no "un diagrama"). Hay 12 recursos: diagrama de proceso, anatomía con etiquetas, analogía de escala, metáfora con objetos, comparación dibujada, barras con datos, la cifra gigante, línea de tiempo, matriz de dos ejes, capas, captura anotada y artefacto real con señal. Reglas:
+
+- **El recurso explica, no adorna.** Si se puede borrar sin perder nada, no es un recurso. Las palabras van pegadas a lo que nombran (etiquetas, no leyendas aparte) y una flecha o un resaltado dice dónde mirar.
+- **La metáfora copia la estructura**, no solo el nombre: qué entra, qué se pierde, qué cuesta. La aprueba la persona en la puerta A, como la tesis.
+- **Las cifras salen de `facts.json`;** una analogía de escala es una cuenta hecha y se marca como cálculo propio.
+- **Que no sean todos iguales.** `carrusel:brief` avisa si falta el visual en alguna lámina interior o si un recurso ocupa más de la mitad de ellas.
 
 **El cierre cambia en cada pieza.** Son dos decisiones, y las dos salen de [`skills/carrusel-taste/cierres.json`](../skills/carrusel-taste/cierres.json):
 
@@ -141,6 +148,8 @@ Completa esta frase y guárdala en `post.json` → `idea`:
 
 Ejemplo: en el carrusel de mods, el camino que recorre cada evento dentro de Claude Code se vuelve una línea que cruza todas las láminas, y cada parada muestra dónde se mete un mod.
 
+**La idea se dibuja, no se describe.** Si `idea` dice que el rayo recorre las láminas, las láminas muestran el rayo. Una idea visual que solo vive en `post.json` no cuenta.
+
 ## 8. Dirección de arte
 
 Sigue [skills/carrusel-taste/SKILL.md](../skills/carrusel-taste/SKILL.md):
@@ -159,7 +168,26 @@ npm run carrusel:logo -- <marca>          # slug y color oficial del ancla
 
 Sigue el esqueleto aprobado, con el gancho elegido en la portada.
 
-- Exporta por defecto un arreglo de `<Slide>`. Importa las primitivas desde `@motor/ui`: `Slide`, `Logo`, `Icono`, `Gesto`, `Img`, `Code`, `Window`, `Prompt`, `Nota` y `cx`.
+- Exporta por defecto un arreglo de `<Slide>`. Importa las primitivas desde `@motor/ui`: `Slide`, `Logo`, `Icono`, `Gesto`, `Img`, `Code`, `Window`, `Prompt`, `Nota` y `cx`, más las del recurso visual (abajo).
+- **El recurso visual de cada lámina interior** es el de `esqueleto[].visual`, dibujado con estas primitivas (todas toman la paleta de la pieza):
+
+  | Primitiva | Para qué |
+  |---|---|
+  | `<Proceso pasos={[...]} destacado={2} />` | Pasos conectados con flechas, en vertical u horizontal |
+  | `<Nodo titulo icono objeto />` | Una parte de un diagrama: caja, círculo o pastilla |
+  | `<Flecha de={[x, y]} a={[x, y]} curva mano />` | Une o señala; va en un contenedor `relative` con alto fijo |
+  | `<Etiqueta en={[x, y]} hacia="derecha">` | Texto con línea guía pegado a la parte que nombra |
+  | `<Barras datos={[...]} destacar={0} />` | Números de `facts.json` como barras proporcionales |
+  | `<Cifra valor={216} unidad="m" texto />` | Un número que domina la lámina |
+  | `<Escala de={...} a={...} />` | Dos valores muy distintos en escala logarítmica, con la proporción |
+  | `<Linea hitos={[...]} />` | Línea de tiempo |
+  | `<Matriz ejeX ejeY puntos={[...]} />` | Opciones en dos ejes |
+  | `<Boceto ancho alto trazos={["M10 10 H200..."]} />` | Dibujo a mano (rough.js) a partir de trazos SVG |
+  | `<Objeto nombre="backpack" />` | Objeto cotidiano de Fluent Emoji para metáforas; se baja con `npm run carrusel:objeto -- <nombre>` |
+  | `<Resalte>` | Marcador detrás de las palabras que importan, en el cuerpo, una etiqueta o el código (en el título no) |
+
+  Un recurso que se repite en muchas piezas y no está en la tabla se propone para `packages/carousel/src/ui/visual.tsx`. El SVG propio vale igual: usa `stroke-`/`fill-` de la paleta y marca la raíz con `data-visual`.
+- **El inspector mide lo visual.** En cada lámina interior avisa si el recurso ocupa menos del 15% del área de contenido, si más del 35% del alto queda vacío y si hay dos láminas seguidas de solo texto. La portada (ancla) y el cierre (tratamiento del CTA) no cuentan.
 - El lienzo mide 1080×1350, pero Tailwind está a escala 2x: diseña pensando en 540×675 con las clases normales. El área de contenido mide 540 × 577 y su esquina superior izquierda es (0, 0) para lo que posiciones con `absolute`.
 - **Letra para el celular** (la lámina se ve a un 36% del PNG): el texto de cuerpo va en **16px de diseño o más** (32 reales); 14px es el mínimo absoluto. El código, 14px o más. La letra chica que no es contenido (fuente, fecha, créditos, "ejemplo ilustrativo") va con `<Nota>` o `data-nota`, desde 12px.
 - **Palabras:** la portada, 12 o menos; cada lámina interior, 35 o menos. El código y las notas no cuentan.
@@ -175,6 +203,13 @@ Sigue el esqueleto aprobado, con el gancho elegido en la portada.
 - **El cierre: despedida dinámica + CTA.** La última lámina cierra lo que abrió la portada: el mismo ancla, el mismo elemento visual o la respuesta a la pregunta del gancho. Se diseña dentro de la dirección de la pieza, así que cambia en cada carrusel igual que la portada. Lleva la frase de `despedida.texto` y **un solo CTA**, el de `brief.json`, marcado con `data-cta` (`<p data-cta>...</p>`). Ahí van también la fuente y la fecha, con `<Nota>`. El inspector avisa si la despedida o el CTA de la lámina no son los del brief.
 - **El CTA también se diseña, y cambia de pieza a pieza.** Sigue el tratamiento de `art.cierre`: el gesto gigante, el gesto ya tocado, la fila de gestos, el gesto dentro del recurso de la pieza, el patrón, el sello, la nota a mano o solo tipografía. El ícono va con `<Gesto accion="guardar" />` (también `enviar`, `comentar`, `me-gusta`, `seguir` y `repostear`; `lleno` lo dibuja tocado). El gesto destacado es el que pide el CTA: un CTA de guardar no destaca el corazón. No copies la última lámina de otra pieza: el texto centrado con el CTA en una caja redondeada es justo el bloque que se repite. El render avisa si el tratamiento repite el de alguna de las dos piezas anteriores, si falta el ícono o si el gesto no es el del CTA.
 - **Contador (experimento):** `post.json → art.contador: true` muestra n/N en el pie. Se decide con las métricas.
+- **Movimiento (experimento):** una lámina con algo animado sale también como `NN.mp4`, y `carrusel:publicar` la sube como video dentro del carrusel. Se anima con `<Anim efecto="aparece" en={0.4}>` (también `sube`, `salta`, `crece` y `traza`), con la prop `anim={{ en: 0.3 }}` de las primitivas o con `<Cuenta hasta={216} />` para un número que cuenta. Reglas:
+  - **una o dos láminas animadas por pieza**, en la portada o en el recurso clave;
+  - **anima lo que explica:** el recorrido del rayo, el orden de los pasos, la barra que crece. Nada de animación de adorno;
+  - **el gancho de la portada se ve desde el primer cuadro;** en el feed el video puede no arrancar;
+  - **el último cuadro es la lámina completa:** es la imagen fija y la que mide el inspector.
+
+  El render dura entre 3 y 12 segundos por lámina animada (lo último más 1.5 s quieta) y necesita ffmpeg (`winget install Gyan.FFmpeg` o `FFMPEG_PATH`). La hoja de revisión marca las animadas. Al cargar las métricas, anota cuántas fueron en `etiquetas.animadas`.
 - Escribe JSX y Tailwind directo. Si un recurso se repite en muchos carruseles, propón agregarlo a `packages/carousel/src/ui/` en vez de copiarlo.
 
 ## 10. Texto del post: `post.json`

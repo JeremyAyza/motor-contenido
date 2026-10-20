@@ -32,6 +32,7 @@ export const MetricasSchema = z.object({
     direccion: z.string().optional(),
     laminas: z.number().int().min(1).max(20).optional(),
     cta: z.enum([...OBJETIVOS, "seguir"]).optional(),
+    animadas: z.number().int().min(0).max(20).optional().describe("Láminas que salieron como video (experimento de movimiento)"),
   }),
   cortes: z.array(CorteSchema).min(1),
   notas: z.string().optional(),
@@ -91,8 +92,8 @@ export function informeMetricas(): { text: string; file: string; errores: string
     lines.push(`Con ${filas.length} pieza(s) no hay conclusiones todavía: hacen falta al menos 15. Esto es un registro, no un patrón.`, "");
   }
   lines.push(
-    "| Pieza | Día | Alcance | x mediana | Compartidos % | Guardados % | Seguidores % | Formato | Fórmula | Dirección | CTA |",
-    "|---|---|---|---|---|---|---|---|---|---|---|",
+    "| Pieza | Día | Alcance | x mediana | Compartidos % | Guardados % | Seguidores % | Formato | Fórmula | Dirección | CTA | Animadas |",
+    "|---|---|---|---|---|---|---|---|---|---|---|---|",
   );
   for (const f of filas) {
     const mult = medAlcance ? (f.alcance / medAlcance).toFixed(1) : "-";
@@ -102,7 +103,7 @@ export function informeMetricas(): { text: string; file: string; errores: string
     const seg = f.seguidores === undefined ? "-" : pct(f.seguidores, f.alcance).toFixed(2);
     const e = f.etiquetas;
     lines.push(
-      `| ${f.pieza} | ${f.dia} | ${f.alcance} | ${mult} | ${marca(comp, medComp)} | ${marca(guard, medGuard)} | ${seg} | ${e.formato ?? "-"} | ${e.formulaGancho ?? "-"} | ${e.direccion ?? "-"} | ${e.cta ?? "-"} |`,
+      `| ${f.pieza} | ${f.dia} | ${f.alcance} | ${mult} | ${marca(comp, medComp)} | ${marca(guard, medGuard)} | ${seg} | ${e.formato ?? "-"} | ${e.formulaGancho ?? "-"} | ${e.direccion ?? "-"} | ${e.cta ?? "-"} | ${e.animadas ?? "-"} |`,
     );
   }
   lines.push(

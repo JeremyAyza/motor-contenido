@@ -4,6 +4,7 @@ import { REPO_ROOT } from "../../brand/src/index.ts";
 import { loadBrief, type Brief } from "./brief.ts";
 import { FORMAS_CTA, JUGADAS, repeticionesCierre } from "./cierres.ts";
 import { runPythonJson } from "./python.ts";
+import { nombreRecurso } from "./recursos.ts";
 
 /** Resultado de hookscore_es.py --json por gancho. */
 type HookScore = { hook: string; score: number; verdict: string; weakest: string; flags: string[] };
@@ -77,7 +78,11 @@ export function puertaA(dir: string): { file: string; text: string; problems: st
     lines.push(`| ${i + 1} | ${texto} | ${f ? `${f.id} ${f.name}` : r.formula} | ${filtro} |`);
   });
   lines.push("", "## Esqueleto", "");
-  brief.esqueleto.forEach((e, i) => lines.push(`${i + 1}. ${e.afirmacion} *(prueba: ${e.prueba})*`));
+  lines.push("Cada lámina interior dice qué se ve: el recurso visual se aprueba aquí, como la tesis.", "");
+  brief.esqueleto.forEach((e, i) => {
+    lines.push(`${i + 1}. ${e.afirmacion} *(prueba: ${e.prueba})*`);
+    if (e.visual) lines.push(`   - **Se ve (${nombreRecurso(e.visual.recurso)}):** ${e.visual.que}`);
+  });
   const jugada = (id?: string) => (id ? (JUGADAS.find((j) => j.id === id)?.nombre ?? id) : "-");
   const forma = (id?: string) => (id ? (FORMAS_CTA.find((f) => f.id === id)?.nombre ?? id) : "-");
   lines.push("", "## Cierre", "");

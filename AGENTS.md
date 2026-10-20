@@ -21,7 +21,7 @@ Alrededor del carrusel hay dos flujos más: el [radar](workflows/radar.md) (qué
 2. **Lo reciente se investiga.** Si el tema es de los últimos 12 meses, lee la documentación oficial o el anuncio antes de escribir. No confíes en la memoria del modelo.
 3. **No inventes** comandos, salidas de terminal, interfaces, versiones, cifras, casos ni testimonios. Lo ilustrativo se marca como ilustrativo.
 4. **Primero lo editorial.** Ningún `slides.tsx` se escribe sin un `brief.json` aprobado: tesis, público, objetivo, ganchos, esqueleto y CTA ([workflows/carrusel.md](workflows/carrusel.md), pasos 4 a 6).
-5. **Diseño propio por tema** con [skills/carrusel-taste](skills/carrusel-taste/SKILL.md) y [docs/anti-slop.md](docs/anti-slop.md). La última lámina es una despedida que cierra la portada, con un solo CTA específico del tema.
+5. **Diseño propio por tema** con [skills/carrusel-taste](skills/carrusel-taste/SKILL.md) y [docs/anti-slop.md](docs/anti-slop.md). Cada lámina interior explica con un recurso visual de [recursos.json](skills/carrusel-taste/recursos.json) (diagrama, dato, metáfora, captura), no solo con texto. La última lámina es una despedida que cierra la portada, con un solo CTA específico del tema.
 6. **Ancla visual con archivos reales.** Logos oficiales con `<Logo>` (Simple Icons), capturas reales o íconos genéricos. Nunca dibujes ni imites logos, mascotas o personajes de marcas.
 7. **Dos puertas humanas.** La persona aprueba el brief en la **puerta A**, antes del diseño, y la pieza final en la **puerta B**. Solo el sí de la persona en el chat aprueba; el agente lo anota en `brief.json → puertaA` y en `post.json → puertaB`.
 8. **Crítica ciega.** Quien diseña no se califica. La crítica la hace un contexto nuevo que solo ve las láminas y el texto ([docs/critico-ciego.md](docs/critico-ciego.md)).
@@ -32,7 +32,7 @@ Alrededor del carrusel hay dos flujos más: el [radar](workflows/radar.md) (qué
 
 ## Contexto
 
-El porqué de las decisiones, el estado y los próximos pasos están en [docs/contexto.md](docs/contexto.md). Léelo al empezar un chat nuevo. El plan de mejoras del contenido está en [docs/plan-carrusel-9-5.md](docs/plan-carrusel-9-5.md).
+El porqué de las decisiones, el estado y los próximos pasos están en [docs/contexto.md](docs/contexto.md). Léelo al empezar un chat nuevo. El plan de mejoras del contenido está en [docs/plan-carrusel-9-5.md](docs/plan-carrusel-9-5.md), y el de recursos visuales y movimiento en [docs/plan-visuales.md](docs/plan-visuales.md).
 
 ## Estructura
 
@@ -45,7 +45,8 @@ docs/                     anti-slop, rúbrica, crítico ciego, voz, referentes, 
 skills/carrusel-taste/    dirección de arte: las 12 direcciones, el proceso y referencias visuales
 skills/ig-es/             capa sobre .agents/skills: léxico, ganchos y wrappers en español
 packages/brand/           firma, catálogo de tipografías y tema de Tailwind por pieza
-packages/carousel/src/ui  primitivas: Slide, Logo, Icono, Img, Code, Window, Prompt, Nota
+packages/carousel/src/ui  primitivas: Slide, Logo, Icono, Img, Code, Window, Prompt, Nota; recursos visuales (Proceso, Barras, Cifra, Escala, Linea, Matriz, Boceto, Objeto, Flecha, Etiqueta) y movimiento (Anim, Cuenta)
+assets/objetos/           objetos de Fluent Emoji (MIT) para metáforas, bajados con carrusel:objeto
 packages/carousel/src     render, inspector, brief, crítica, métricas y CLI del carrusel
 packages/publisher/       CLI que publica con Playwright y lleva publications.jsonl (código en inglés, sin imports de otros paquetes)
 packages/video/           flujo de video (en construcción)
@@ -64,6 +65,7 @@ npm run carrusel:nuevo -- <tema>          # crea content/<fecha>-<tema>/ con bri
 npm run carrusel:brief -- content/<pieza> # filtra ganchos y arma la puerta A
 npm run carrusel:baraja -- --cuenta dev   # reparte 3 direcciones de arte
 npm run carrusel:logo -- <marca>          # slug y color oficial en Simple Icons
+npm run carrusel:objeto -- <nombre>       # objeto de Fluent Emoji para una metáfora (nombre en inglés)
 npm run carrusel:render -- content/<pieza>   # láminas, inspector y revisión de textos
 npm run carrusel:texto -- content/<pieza> # solo la revisión de textos
 npm run carrusel:critica -- content/<pieza> # carpeta para el crítico ciego
@@ -77,7 +79,7 @@ npm run typecheck
 npm test
 ```
 
-El render busca solo un navegador (el Chromium de Playwright que pide el repo, otro Chromium de Playwright instalado, o Chrome/Edge). `CHROME_PATH` fuerza uno; `npx playwright install chromium` instala el exacto.
+El render busca solo un navegador (el Chromium de Playwright que pide el repo, otro Chromium de Playwright instalado, o Chrome/Edge). `CHROME_PATH` fuerza uno; `npx playwright install chromium` instala el exacto. Las láminas animadas además necesitan ffmpeg (`winget install Gyan.FFmpeg`, o `FFMPEG_PATH`).
 
 ## Skills
 

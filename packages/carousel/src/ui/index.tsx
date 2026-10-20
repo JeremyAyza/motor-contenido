@@ -383,3 +383,7 @@ export function Prompt({ children, className }: { children: ReactNode; className
     <div className={cx("rounded-2xl rounded-br-md bg-surface px-5 py-4 text-[17px] leading-snug", className)}>{children}</div>
   );
 }
+
+// Recursos visuales (skills/carrusel-taste/recursos.json) y movimiento.
+export * from "./visual.tsx";
+export * from "./motion.tsx";

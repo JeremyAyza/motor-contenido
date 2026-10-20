@@ -3,7 +3,10 @@ export type Limits = {
   maxMedia: number;
   /** Lowercase file extensions. */
   formats: readonly string[];
+  /** Size limit for images. */
   maxBytes: number;
+  /** Size limit for videos (mp4, mov); when missing, videos use maxBytes. */
+  maxVideoBytes?: number;
   maxCaption: number;
   maxHashtags: number;
 };

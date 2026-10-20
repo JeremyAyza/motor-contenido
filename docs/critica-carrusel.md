@@ -18,7 +18,7 @@ Califica cada punto de 1 a 5 y escribe una línea de por qué.
 | Voz | 5% | Suena a [docs/voz.md](voz.md), no a un texto genérico de IA |
 | Legibilidad en el celular | 10% | Todo se lee en `revision.png` sin hacer zoom |
 | Ancla y dirección | 10% | En `pulgar.png` se sabe el tema sin leer; la dirección de arte se nota en todo el carrusel |
-| Progresión y dominancia | 10% | Cada lámina avanza el argumento, tiene una sola cosa que se ve primero y ninguna sobra |
+| Progresión y recurso visual | 10% | Cada lámina avanza el argumento y se entiende antes de leer el párrafo: el diagrama, el dato, la metáfora o la captura explican. Tiene una sola cosa que se ve primero y ninguna sobra. Un carrusel de titulares con párrafo y caja no pasa de 3 |
 
 **Promedio ponderado** = suma de (puntaje × peso). Sobre 5.
 

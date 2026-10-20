@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { basename, join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -10,9 +10,11 @@ import { createHighlighter } from "shiki";
 import { fontFaceCss, loadAccount, pieceFontIds, REPO_ROOT, tailwindTheme } from "../../brand/src/index.ts";
 import { loadBrief, type Brief } from "./brief.ts";
 import { GESTO_DE_TIPO, historialTratamientos, TRATAMIENTOS } from "./cierres.ts";
+import { ffmpegDisponible, finalizarMovimiento, grabarLamina, prepararMovimiento } from "./movimiento.ts";
 import { PostSchema, type Post } from "./post.ts";
 import { revisarTextos } from "./texto.ts";
 import { SlideContext } from "./ui/index.tsx";
+import { MOTION_CSS } from "./ui/motion.tsx";
 
 /** Se diseña en 540×675 y se fotografía a 2x: salen PNG de 1080×1350. */
 export const DESIGN_W = 540;
@@ -70,6 +72,7 @@ ${theme}
 @layer base {
   html, body { width: ${DESIGN_W}px; height: ${DESIGN_H}px; margin: 0; font-family: var(--font-sans); -webkit-font-smoothing: antialiased; text-rendering: geometricPrecision; }
 }
+${MOTION_CSS}
 `,
   );
   execFileSync(process.execPath, [TAILWIND_CLI, "-i", input, "-o", output], { stdio: "pipe", cwd: REPO_ROOT });
@@ -203,23 +206,72 @@ const INSPECT = `((isCover, isLast) => {
   if (monoLabels) issues.push(['aviso', monoLabels + ' texto(s) en monoespaciada fuera de código']);
   if (capsLabels) issues.push(['aviso', capsLabels + ' etiqueta(s) pequeñas en mayúsculas espaciadas']);
   if (families.size > 2) issues.push(['aviso', 'Más de dos tipografías fuera del código: ' + [...families].join(', ')]);
-  // Palabras que se leen: sin código, marco ni notas.
+  // Palabras que se leen: sin código, marco, notas ni estilos.
   const walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT);
   const read = [];
   for (let n = walker.nextNode(); n; n = walker.nextNode()) {
     const p = n.parentElement;
-    if (!p || isCode(p) || isChrome(p) || !n.textContent.trim()) continue;
+    if (!p || p.closest('style,script') || isCode(p) || isChrome(p) || !n.textContent.trim()) continue;
     read.push(n.textContent);
   }
+  // Peso visual: qué parte del área de contenido es un recurso que se ve en vez
+  // de leerse (skills/carrusel-taste/recursos.json). Cuenta lo marcado con
+  // data-visual y los SVG, imágenes, código y ventanas de al menos 24x24; los
+  // conectores (flechas, etiquetas) solos no cuentan. En los SVG se mide lo
+  // dibujado, no la caja. Se pinta una grilla para no contar dos veces lo que se tapa.
+  const cb = content.getBoundingClientRect();
+  const CELDA = 6;
+  const cols = Math.max(1, Math.ceil(cb.width / CELDA)), rows = Math.max(1, Math.ceil(cb.height / CELDA));
+  const pintado = new Uint8Array(cols * rows);
+  const ocupadas = new Uint8Array(rows);
+  const pintar = (q, grilla) => {
+    const c0 = Math.max(0, Math.floor((q.left - cb.left) / CELDA)), c1 = Math.min(cols, Math.ceil((q.right - cb.left) / CELDA));
+    const r0 = Math.max(0, Math.floor((q.top - cb.top) / CELDA)), r1 = Math.min(rows, Math.ceil((q.bottom - cb.top) / CELDA));
+    for (let r = r0; r < r1; r++) {
+      ocupadas[r] = 1;
+      if (grilla) for (let c = c0; c < c1; c++) pintado[r * cols + c] = 1;
+    }
+  };
+  const dibujado = (el) => {
+    if (el.tagName !== 'svg') return el.getBoundingClientRect();
+    try {
+      const b = el.getBBox(), m = el.getScreenCTM();
+      if (!m || !b.width || !b.height) return el.getBoundingClientRect();
+      const xs = [b.x, b.x + b.width].flatMap((x) => [b.y, b.y + b.height].map((y) => [m.a * x + m.c * y + m.e, m.b * x + m.d * y + m.f]));
+      return { left: Math.min(...xs.map((p) => p[0])), right: Math.max(...xs.map((p) => p[0])), top: Math.min(...xs.map((p) => p[1])), bottom: Math.max(...xs.map((p) => p[1])) };
+    } catch { return el.getBoundingClientRect(); }
+  };
+  const VISUAL = '[data-visual], svg, img, canvas, video, pre, [data-ui]';
+  for (const el of content.querySelectorAll(VISUAL + ', [data-conector]')) {
+    const padre = el.parentElement && el.parentElement.closest(VISUAL + ', [data-conector]');
+    if (padre && content.contains(padre)) continue;
+    const q = dibujado(el.matches('[data-conector]') ? (el.tagName === 'svg' ? el : el.querySelector('svg') || el) : el);
+    if (q.right - q.left < 24 || q.bottom - q.top < 24) continue;
+    pintar(q, !el.matches('[data-conector]'));
+  }
+  // Lo que tiene texto propio también ocupa alto: así se mide el hueco más grande.
+  for (const el of content.querySelectorAll('*')) {
+    if (el.closest('style,script') || ![...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim())) continue;
+    const q = el.getBoundingClientRect();
+    if (q.width && q.height) pintar(q, false);
+  }
+  let hueco = 0, corrida = 0;
+  for (let r = 0; r < rows; r++) { corrida = ocupadas[r] ? 0 : corrida + 1; hueco = Math.max(hueco, corrida); }
+  const visual = pintado.reduce((s, v) => s + v, 0) / (cols * rows);
   const readText = read.join(' ').replace(/\\s+/g, ' ').trim();
   const words = readText ? readText.split(' ').length : 0;
   const cta = isLast ? content.querySelector('[data-cta]') : null;
   const gestos = isLast ? [...content.querySelectorAll('[data-gesto]')].map((g) => g.getAttribute('data-gesto')) : [];
   const text = content.innerText.replace(/\\s+/g, ' ').trim();
-  return { issues, text, words, cta: cta ? (cta.textContent || '').replace(/\\s+/g, ' ').trim() : null, gestos };
+  return { issues, text, words, cta: cta ? (cta.textContent || '').replace(/\\s+/g, ' ').trim() : null, gestos, visual, hueco: hueco / rows };
 })`;
 
-type SlideReport = { issues: Issue[]; text: string; words: number; cta: string | null; gestos: string[] };
+/** Lo mínimo de recurso visual en una lámina interior, como parte del área de contenido. */
+const VISUAL_MINIMO = 0.15;
+/** El hueco vertical más grande que se tolera en una lámina interior, como parte del alto. */
+const HUECO_MAXIMO = 0.35;
+
+type SlideReport = { issues: Issue[]; text: string; words: number; cta: string | null; gestos: string[]; visual: number; hueco: number };
 
 const normalize = (s: string) =>
   s
@@ -238,6 +290,8 @@ async function inspectSlide(page: Page, i: number, total: number): Promise<Slide
     words: number;
     cta: string | null;
     gestos: string[];
+    visual: number;
+    hueco: number;
   };
   const where = `lámina ${i + 1}`;
   const issues: Issue[] = r.issues.map(([level, message]) => ({ level, where, message }));
@@ -248,12 +302,25 @@ async function inspectSlide(page: Page, i: number, total: number): Promise<Slide
   else if (r.words > 35) issues.push({ level: "aviso", where, message: `${r.words} palabras; mejor 35 o menos` });
   if (r.text.includes("—")) issues.push({ level: "aviso", where, message: "Guion largo (—): suena a texto de IA" });
   for (const { find, re } of SLOP) if (re.test(r.text)) issues.push({ level: "aviso", where, message: `Frase de relleno: "${find}" (skills/ig-es/slop-es.json)` });
-  return { issues, text: r.text, words: r.words, cta: r.cta, gestos: r.gestos };
+  // Las interiores explican con un recurso visual; la portada tiene el ancla y el cierre, su tratamiento.
+  if (!isCover && !isLast) {
+    if (r.visual < VISUAL_MINIMO) {
+      issues.push({
+        level: "aviso",
+        where,
+        message: `Sin recurso visual: lo que se ve ocupa ${Math.round(r.visual * 100)}% del área. Dibuja el de esqueleto[].visual con las primitivas (skills/carrusel-taste/recursos.json)`,
+      });
+    }
+    if (r.hueco > HUECO_MAXIMO) {
+      issues.push({ level: "aviso", where, message: `${Math.round(r.hueco * 100)}% del alto está vacío: agranda el recurso o reparte el contenido` });
+    }
+  }
+  return { issues, text: r.text, words: r.words, cta: r.cta, gestos: r.gestos, visual: r.visual, hueco: r.hueco };
 }
 
-function contactSheet(images: string[], handle: string): string {
+function contactSheet(images: string[], handle: string, etiquetas: string[]): string {
   const thumbs = images
-    .map((src, i) => `<figure><img src="${src}"><figcaption>${i + 1}</figcaption></figure>`)
+    .map((src, i) => `<figure><img src="${src}"><figcaption>${etiquetas[i] ?? i + 1}</figcaption></figure>`)
     .join("");
   return `<!doctype html><html><head><meta charset="utf-8"><style>
 *{margin:0;box-sizing:border-box}body{background:#05080f;padding:40px;font:16px system-ui;color:#A3B0C2}
@@ -339,20 +406,30 @@ export async function renderPiece(dir: string): Promise<{ files: string[]; issue
   let lastText = "";
   let lastGestos: string[] = [];
   const browser = await launchBrowser();
+  const pngs: string[] = [];
+  const animadas = new Map<number, number>();
+  const sinVisual: number[] = [];
   try {
     const page = await browser.newPage({ viewport: { width: DESIGN_W, height: DESIGN_H }, deviceScaleFactor: 2 });
     const texts: string[] = [];
+    let ffmpeg: string | null | undefined;
     for (let i = 0; i < slides.length; i++) {
+      const nn = String(i + 1).padStart(2, "0");
+      const where = `lámina ${i + 1}`;
       const markup = renderToStaticMarkup(
         <SlideContext.Provider value={{ brand, art, tab, index: i, total: slides.length, dir }}>{slides[i]}</SlideContext.Provider>,
       );
       const body = await highlightCode(markup);
       const html = `<!doctype html><html lang="es"><head><meta charset="utf-8"><style>${fonts}\n${css}</style></head><body>${body}</body></html>`;
-      writeFileSync(join(buildDir, `${String(i + 1).padStart(2, "0")}.html`), html);
+      writeFileSync(join(buildDir, `${nn}.html`), html);
       await page.setContent(html, { waitUntil: "load" });
       await page.evaluate(() => document.fonts.ready);
+      // Lo animado se inspecciona y se fotografía en su estado final.
+      const movimiento = await prepararMovimiento(page);
+      if (movimiento.cantidad) await finalizarMovimiento(page);
       const report = await inspectSlide(page, i, slides.length);
       issues.push(...report.issues);
+      if (i > 0 && i < slides.length - 1 && report.visual < VISUAL_MINIMO) sinVisual.push(i + 1);
       texts.push(`--- Lámina ${i + 1} (${report.words} palabras)\n${report.text}`);
       slideTexts.push(report.text);
       if (i === slides.length - 1) {
@@ -360,14 +437,37 @@ export async function renderPiece(dir: string): Promise<{ files: string[]; issue
         lastText = report.text;
         lastGestos = report.gestos;
       }
-      const file = join(outDir, `${String(i + 1).padStart(2, "0")}.png`);
+      const file = join(outDir, `${nn}.png`);
       await page.screenshot({ path: file, type: "png" });
       files.push(file);
+      pngs.push(file);
+
+      const video = join(outDir, `${nn}.mp4`);
+      if (!movimiento.cantidad) {
+        rmSync(video, { force: true });
+        continue;
+      }
+      if (i === 0 && (await page.evaluate(() => !!document.querySelector("[data-content] h1[data-anim], [data-content] [data-anim] h1")))) {
+        issues.push({ level: "aviso", where, message: "El gancho de la portada entra con animación: tiene que verse desde el primer cuadro (en el feed el video puede no arrancar)" });
+      }
+      ffmpeg ??= ffmpegDisponible();
+      if (!ffmpeg) {
+        issues.push({ level: "error", where, message: "La lámina está animada y no hay ffmpeg: instálalo (winget install Gyan.FFmpeg) o define FFMPEG_PATH" });
+        continue;
+      }
+      animadas.set(i, await grabarLamina(page, movimiento.finMs, join(buildDir, `cuadros-${nn}`), video, ffmpeg));
+      files.push(video);
+    }
+    // Un MP4 de un render anterior con más láminas tampoco puede quedar.
+    for (const f of readdirSync(outDir)) {
+      const m = f.match(/^(\d{2})\.mp4$/);
+      if (m && Number(m[1]) > slides.length) rmSync(join(outDir, f), { force: true });
     }
 
-    const images = files.map((f) => `data:image/png;base64,${readFileSync(f).toString("base64")}`);
-    await page.setViewportSize({ width: 1240, height: 200 + Math.ceil(files.length / 3) * 510 });
-    await page.setContent(contactSheet(images, brand.handle), { waitUntil: "load" });
+    const images = pngs.map((f) => `data:image/png;base64,${readFileSync(f).toString("base64")}`);
+    const etiquetas = pngs.map((_, i) => (animadas.has(i) ? `${i + 1} · animada, ${animadas.get(i)} s` : `${i + 1}`));
+    await page.setViewportSize({ width: 1240, height: 200 + Math.ceil(images.length / 3) * 510 });
+    await page.setContent(contactSheet(images, brand.handle, etiquetas), { waitUntil: "load" });
     const sheet = join(outDir, "revision.png");
     await page.screenshot({ path: sheet, fullPage: true });
     files.push(sheet);
@@ -382,6 +482,27 @@ export async function renderPiece(dir: string): Promise<{ files: string[]; issue
     writeFileSync(join(outDir, "texto-de-laminas.txt"), texts.join("\n\n") + "\n");
   } finally {
     await browser.close();
+  }
+
+  // Entre láminas: interiores seguidas de solo texto se sienten como un documento.
+  for (let k = 0; k < sinVisual.length; ) {
+    let fin = k;
+    while (fin + 1 < sinVisual.length && sinVisual[fin + 1] === sinVisual[fin] + 1) fin++;
+    if (fin > k) {
+      issues.push({
+        level: "aviso",
+        where: `láminas ${sinVisual[k]} a ${sinVisual[fin]}`,
+        message: `${fin - k + 1} láminas seguidas de solo texto: cada una necesita su recurso visual (skills/carrusel-taste/recursos.json)`,
+      });
+    }
+    k = fin + 1;
+  }
+  if (animadas.size > 2) {
+    issues.push({
+      level: "aviso",
+      where: "movimiento",
+      message: `${animadas.size} láminas animadas: el experimento pide 1 o 2 por pieza, en la portada o en el recurso clave (workflows/carrusel.md)`,
+    });
   }
 
   // Cierre: despedida dinámica con un solo CTA, marcado con data-cta. Es error

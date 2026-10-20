@@ -6,7 +6,7 @@ Resumen de lo decidido en las conversaciones con Claude donde se creó y mejoró
 
 - **Jeremy Ayza**, Tech Lead con empleo estable en Lima, Perú. Trabaja como freelance de noche y los fines de semana.
 - Quiere construir marca personal en Instagram con **dos cuentas separadas**:
-  - **Cuenta dev** (`accounts/dev.json`): IA y programación, para ganar reputación. Usuario: `@jacekt.dev`.
+  - **Cuenta dev** (`accounts/dev.json`): IA y programación, para ganar reputación. Usuario: `@jacket.dev`.
   - **Cuenta negocios** (`accounts/negocios.json`): para conseguir clientes. Usuario pendiente: `@pendiente`.
 - Contenido automatizado y de alta calidad. Los **carruseles** son la entrada rápida y los **videos** pesan más en el algoritmo.
 
@@ -153,7 +153,7 @@ Ver [AGENTS.md](../AGENTS.md#comandos).
 | `content/2026-10-16-instagram-agent-skill/` | Borrador del commit `2579e4a` en el formato de plantillas de la primera versión (`carousel.json`); el motor actual no lo renderiza. Buen candidato a pieza piloto del flujo nuevo |
 
 **Antes de publicar la de mods:**
-- El usuario real de Instagram es `@jacekt.dev` (17 de octubre de 2026), ya en `accounts/dev.json`. Las piezas renderizadas antes llevan `@jeremyayza.dev` en la firma: vuelve a renderizarlas antes de publicarlas.
+- El usuario real de Instagram es `@jacket.dev` (17 de octubre de 2026), ya en `accounts/dev.json`. Las piezas renderizadas antes llevan `@jeremyayza.dev` en la firma: vuelve a renderizarlas antes de publicarlas.
 - Con el inspector nuevo da errores: contraste 4.3:1 en el texto chico de las láminas 3 y 7, y la fuente y el crédito sin `data-nota` (26px). No tiene CTA marcado ni `alt`. Arreglarlo es rápido, pero cambia una pieza aprobada: decide Jeremy.
 - Para subirla a 5 puntos más adelante: capturar un mod real instalado con `/plugin` y mencionar `/diff` en la portada.
 
@@ -205,10 +205,10 @@ midu.dev, rick.theengineer, peterstewiestartup, bittabyte, sanmunoz.ia, saas_in_
    - aprobar la lista de cuentas para el swipe y calificar de 6 a 10 carruseles de referencia para calibrar al crítico ciego;
    - después de publicar, pasar las capturas de Insights a los 2 y 7 días.
 2. **Publicar el carrusel de mods** después de confirmar el usuario (y decidir si se ajusta al inspector nuevo).
-3. **Flujo de video**, diseñado en [workflows/video.md](../workflows/video.md):
-   1. Prueba a ciegas de voces en español, con las API keys de Jeremy en `.env`.
+3. **Flujo de video**, diseñado en [workflows/video.md](../workflows/video.md). El plan propuesto está en [docs/plan-videos.md](plan-videos.md):
+   1. Prueba a ciegas de voces en español, con las API keys de Jeremy en `.env`. Desde el 20 de octubre de 2026 es entre voces de Gemini, por la API, detrás de un puerto que permite cambiar de proveedor.
    2. Diseño del avatar y sus sprites: poses, expresiones y bocas A a H más X de Rhubarb. Ver `assets/avatar/README.md`.
-   3. Elegir entre Remotion y HyperFrames, y armar el catálogo de escenas animadas: terminal, comparativa, flujo, medidor, código y frase.
+   3. El motor es Remotion, con sus skills oficiales (decisión de Jeremy del 20 de octubre de 2026). Falta armar el catálogo de escenas animadas: terminal, comparativa, flujo, medidor, código y frase.
    4. Usar `ig-reel` (26 fórmulas, `beats.py`) e `ig-repurpose` de `.agents/skills`, con un wrapper en `skills/ig-es` si hace falta.
 4. **Más carruseles:** cada uno pasa por el radar, el brief y la baraja. La primera pieza de la cuenta de negocios va a necesitar anclas con `<Icono>` (temas sin marca).
 5. **Mejoras posibles del motor:**
