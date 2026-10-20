@@ -1,0 +1,30 @@
+{
+  "assets": [
+    {
+      "id": "whoosh",
+      "type": "sfx",
+      "tags": ["transición", "aire", "entrada"],
+      "url": "https://remotion.media/whoosh.wav",
+      "source": "https://freesound.org/s/831936/",
+      "author": "1bob",
+      "license": "CC0-1.0",
+      "attribution": "Woosh by 1bob (Freesound)",
+      "sha256": "d98f010fa5f03fd3f4f77418f8ba6a962d36e63357265772771c4ac69c1a63a7",
+      "checkedAt": "2026-10-20",
+      "notes": "Freesound dice Creative Commons 0 y 0.153 s; el archivo de remotion.media dura lo mismo."
+    },
+    {
+      "id": "page-turn",
+      "type": "sfx",
+      "tags": ["papel", "trazo", "dibujo"],
+      "url": "https://remotion.media/page-turn.wav",
+      "source": "https://kenney.nl/assets/rpg-audio",
+      "author": "Kenney",
+      "license": "CC0-1.0",
+      "attribution": "Draw Knife 1 by kenney.nl",
+      "sha256": "72762a9dafd5f9dd4bdf365f373519a35a8786ae975de4e2bc339fcdcf6b5f6d",
+      "checkedAt": "2026-10-20",
+      "notes": "Remotion lo atribuye a Draw Knife 1 de Kenney (https://www.remotion.dev/docs/sfx/page-turn). El pack RPG Audio de Kenney es Creative Commons CC0."
+    }
+  ]
+}

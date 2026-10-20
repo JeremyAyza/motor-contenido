@@ -71,7 +71,7 @@ export type FontId = keyof typeof FONTS;
 export const FONT_IDS = Object.keys(FONTS) as [FontId, ...FontId[]];
 export const FontIdSchema = z.enum(FONT_IDS);
 
-const MONO: Face[] = [
+export const MONO: Face[] = [
   { file: "geist/dist/fonts/geist-mono/GeistMono-Regular.woff2", weight: "400" },
   { file: "geist/dist/fonts/geist-mono/GeistMono-Medium.woff2", weight: "500" },
   { file: "geist/dist/fonts/geist-mono/GeistMono-SemiBold.woff2", weight: "600" },

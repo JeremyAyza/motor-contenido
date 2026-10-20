@@ -1,0 +1,5 @@
+{
+  "image": { "provider": "gemini", "model": "gemini-nano-banana-2.1" },
+  "music": { "provider": "gemini", "model": "lyria-3-clip-preview" },
+  "sounds": ["openverse", "freesound"]
+}

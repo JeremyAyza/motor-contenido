@@ -185,7 +185,7 @@ midu.dev, rick.theengineer, peterstewiestartup, bittabyte, sanmunoz.ia, saas_in_
 - **Arquitectura desacoplada del proveedor:** interfaz `VoiceProvider` con un adaptador por proveedor.
 - **Candidatos evaluados:** ElevenLabs (Eleven v4), Gemini 3.8 Flash TTS, Cartesia Sonic 3.6, Qwen Audio 3.1 y Fish Audio. Higgsfield también ofrece API y MCP.
 - **Tiempos por palabra:** si el proveedor no los da, se calculan con whisper.cpp. Además, diccionario de pronunciación y caché por texto y voz.
-- **Pendiente:** una prueba a ciegas en español para elegir proveedor.
+- **Elegida el 20 de octubre de 2026:** Gemini 3.8 Flash TTS, con la voz Puck y un estilo de ritmo tranquilo (`accounts/dev.json → voice`).
 
 ### Skills de carrusel evaluadas
 
@@ -202,14 +202,22 @@ midu.dev, rick.theengineer, peterstewiestartup, bittabyte, sanmunoz.ia, saas_in_
 
 1. **Probar el flujo nuevo con piezas reales** (Jeremy lo va a evaluar generando pruebas). Lo que falta de su lado:
    - completar `docs/voz.md` (de 3 a 5 textos suyos, posturas, palabras) y elegir el lema nuevo de la cuenta;
-   - aprobar la lista de cuentas para el swipe y calificar de 6 a 10 carruseles de referencia para calibrar al crítico ciego;
+   - aprobar la lista de cuentas para el swipe y calificar de 6 a 10 carruseles de referencia para calibrar al crítico ciego (y lo mismo con Reels, para el crítico del video);
    - después de publicar, pasar las capturas de Insights a los 2 y 7 días.
 2. **Publicar el carrusel de mods** después de confirmar el usuario (y decidir si se ajusta al inspector nuevo).
 3. **Flujo de video**, diseñado en [workflows/video.md](../workflows/video.md). El plan propuesto está en [docs/plan-videos.md](plan-videos.md):
-   1. Prueba a ciegas de voces en español, con las API keys de Jeremy en `.env`. Desde el 20 de octubre de 2026 es entre voces de Gemini, por la API, detrás de un puerto que permite cambiar de proveedor.
-   2. Diseño del avatar y sus sprites: poses, expresiones y bocas A a H más X de Rhubarb. Ver `assets/avatar/README.md`.
-   3. El motor es Remotion, con sus skills oficiales (decisión de Jeremy del 20 de octubre de 2026). Falta armar el catálogo de escenas animadas: terminal, comparativa, flujo, medidor, código y frase.
-   4. Usar `ig-reel` (26 fórmulas, `beats.py`) e `ig-repurpose` de `.agents/skills`, con un wrapper en `skills/ig-es` si hace falta.
+   1. **Hecho (fase 0, 20 de octubre de 2026):**
+      - **Motor:** Remotion, con sus skills oficiales.
+      - **Voz:** Gemini por la API, detrás de un puerto que permite cambiar de proveedor. La voz es Puck.
+      - **Estilo:** el del carrusel. El marco (pestaña, puntos, firma y subtítulos) es fijo, y la dirección de arte de la baraja (paleta, tipografías, ancla y composición) cambia con cada pieza. El diseño no esquiva la interfaz de Instagram: solo deja un margen. Reemplaza al marco fijo "cuaderno" desde el 20 de octubre de 2026.
+      - **Escena de prueba:** la del ray tracing, en MP4.
+   2. **Hecho (fases 1 a 3, 20 de octubre de 2026):**
+      - **Proveedores:** imágenes, música y efectos CC0 con catálogo.
+      - **Piloto:** el Reel del ray tracing, con las puertas A y B aprobadas y sin publicar.
+      - **Flujo editorial:** `ig-reel` por sus wrappers (`hookscore_es --video` y `beats_es`), el crítico ciego del video y las métricas de Reels (`video-metrics.json`).
+   3. Diseño del avatar y sus sprites: poses, expresiones y bocas A a H más X de Rhubarb. Ver `assets/avatar/README.md`.
+   4. Armar el catálogo de escenas animadas: terminal, comparativa, flujo, medidor, código y frase.
+   5. `ig-repurpose`, para sacar un Reel de un carrusel aprobado.
 4. **Más carruseles:** cada uno pasa por el radar, el brief y la baraja. La primera pieza de la cuenta de negocios va a necesitar anclas con `<Icono>` (temas sin marca).
 5. **Mejoras posibles del motor:**
    - un comando que capture páginas en alta resolución para las capturas anotadas;

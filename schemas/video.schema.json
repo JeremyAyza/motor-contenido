@@ -1,0 +1,397 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "hooks": {
+      "minItems": 1,
+      "maxItems": 3,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "said": {
+            "type": "string",
+            "minLength": 3,
+            "description": "The first line of the voice"
+          },
+          "onScreen": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 60,
+            "description": "The hook text, visible from frame 1; 6 words or fewer"
+          },
+          "formula": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 27,
+            "description": "Formula id from skills/ig-es/ganchos-es.json"
+          }
+        },
+        "required": [
+          "said",
+          "onScreen",
+          "formula"
+        ]
+      },
+      "description": "The first is the chosen one; the others are alternatives for gate A"
+    },
+    "scenes": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$"
+          },
+          "say": {
+            "type": "string",
+            "minLength": 3,
+            "description": "What the voice says, written for the ear. The voice says exactly this"
+          },
+          "see": {
+            "type": "string",
+            "minLength": 10,
+            "description": "What is seen, concrete: 'a lamp throwing rays that never reach the eye', not 'a diagram'"
+          },
+          "resource": {
+            "type": "string",
+            "enum": [
+              "proceso",
+              "anatomia",
+              "escala",
+              "metafora",
+              "comparacion",
+              "datos",
+              "cifra",
+              "linea-de-tiempo",
+              "matriz",
+              "capas",
+              "captura-anotada",
+              "artefacto"
+            ],
+            "description": "The visual resource of the scene (skills/carrusel-taste/recursos.json)"
+          }
+        },
+        "required": [
+          "id",
+          "say",
+          "see",
+          "resource"
+        ]
+      }
+    },
+    "caption": {
+      "description": "The post text",
+      "type": "string",
+      "maxLength": 2200
+    },
+    "art": {
+      "description": "The art direction, like post.json → art: direction dealt by video:baraja, palette, fonts, anchor and tab. Without it, the piece's post.json → art, so the Reel looks like its carousel",
+      "type": "object",
+      "properties": {
+        "direction": {
+          "type": "string",
+          "enum": [
+            "titular-gigante",
+            "terminal",
+            "captura-anotada",
+            "antes-despues",
+            "linea-continua",
+            "capa-por-capa",
+            "ficha-tecnica",
+            "diario-de-prueba",
+            "chat",
+            "collage",
+            "elige-tu-camino",
+            "personaje"
+          ],
+          "description": "Dirección de arte base, elegida de la mano que repartió `npm run carrusel:baraja`"
+        },
+        "dealt": {
+          "description": "Las direcciones que te tocaron en la baraja",
+          "minItems": 1,
+          "maxItems": 5,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "titular-gigante",
+              "terminal",
+              "captura-anotada",
+              "antes-despues",
+              "linea-continua",
+              "capa-por-capa",
+              "ficha-tecnica",
+              "diario-de-prueba",
+              "chat",
+              "collage",
+              "elige-tu-camino",
+              "personaje"
+            ]
+          }
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 20,
+          "description": "Por qué esta dirección sirve a este tema mejor que las otras que te tocaron"
+        },
+        "borrowed": {
+          "default": [],
+          "description": "Direcciones de las que alguna lámina interior toma la forma (con la misma paleta y tipografías)",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "titular-gigante",
+              "terminal",
+              "captura-anotada",
+              "antes-despues",
+              "linea-continua",
+              "capa-por-capa",
+              "ficha-tecnica",
+              "diario-de-prueba",
+              "chat",
+              "collage",
+              "elige-tu-camino",
+              "personaje"
+            ]
+          }
+        },
+        "palette": {
+          "type": "object",
+          "properties": {
+            "bg": {
+              "type": "string",
+              "pattern": "^#[0-9A-Fa-f]{6}$",
+              "description": "Fondo base"
+            },
+            "ink": {
+              "type": "string",
+              "pattern": "^#[0-9A-Fa-f]{6}$",
+              "description": "Texto sobre el fondo base"
+            },
+            "accent": {
+              "type": "string",
+              "pattern": "^#[0-9A-Fa-f]{6}$",
+              "description": "Color de acento; suele salir del ancla visual"
+            },
+            "accentInk": {
+              "type": "string",
+              "pattern": "^#[0-9A-Fa-f]{6}$",
+              "description": "Texto sobre el acento"
+            },
+            "surface": {
+              "description": "Fondo de bloques y tarjetas; si falta, se mezcla tinta y fondo",
+              "type": "string",
+              "pattern": "^#[0-9A-Fa-f]{6}$"
+            },
+            "muted": {
+              "description": "Notas secundarias; si falta, se mezcla tinta y fondo",
+              "type": "string",
+              "pattern": "^#[0-9A-Fa-f]{6}$"
+            }
+          },
+          "required": [
+            "bg",
+            "ink",
+            "accent",
+            "accentInk"
+          ]
+        },
+        "fonts": {
+          "type": "object",
+          "properties": {
+            "display": {
+              "type": "string",
+              "enum": [
+                "geist",
+                "archivo",
+                "instrument-serif",
+                "fraunces",
+                "bricolage",
+                "caveat"
+              ],
+              "description": "Titulares"
+            },
+            "text": {
+              "default": "geist",
+              "description": "Texto corrido",
+              "type": "string",
+              "enum": [
+                "geist",
+                "archivo",
+                "instrument-serif",
+                "fraunces",
+                "bricolage",
+                "caveat"
+              ]
+            },
+            "notes": {
+              "description": "Anotaciones a mano (caveat), solo si la dirección las usa",
+              "type": "string",
+              "enum": [
+                "geist",
+                "archivo",
+                "instrument-serif",
+                "fraunces",
+                "bricolage",
+                "caveat"
+              ]
+            }
+          },
+          "required": [
+            "display"
+          ]
+        },
+        "anchor": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "logo",
+                "captura",
+                "icono",
+                "imagen"
+              ],
+              "description": "logo: ícono oficial de una marca; captura: pantalla real; icono: objeto genérico (Lucide); imagen: foto o recurso de prensa con licencia"
+            },
+            "ref": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Slug de Simple Icons, nombre del ícono de Lucide o archivo de la pieza"
+            },
+            "source": {
+              "type": "string",
+              "minLength": 1,
+              "description": "De dónde sale y con qué licencia o permiso"
+            }
+          },
+          "required": [
+            "kind",
+            "ref",
+            "source"
+          ],
+          "description": "El elemento que dice el tema sin leer; va grande en la portada"
+        },
+        "tab": {
+          "description": "Texto de la pestaña del marco; por defecto, el tema de la carpeta + .md",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40
+        },
+        "contador": {
+          "description": "Experimento: muestra n/N en el pie de las láminas interiores. Se decide con las métricas (workflows/metricas.md)",
+          "type": "boolean"
+        },
+        "cierre": {
+          "description": "Tratamiento visual del CTA. Cambia de una pieza a la siguiente, como la dirección",
+          "type": "object",
+          "properties": {
+            "tratamiento": {
+              "type": "string",
+              "enum": [
+                "gesto-gigante",
+                "gesto-tocado",
+                "fila-de-gestos",
+                "gesto-en-el-recurso",
+                "patron",
+                "sello",
+                "nota-a-mano",
+                "solo-tipografia"
+              ],
+              "description": "Cómo se ve el CTA en la última lámina (skills/carrusel-taste/cierres.json)"
+            },
+            "gesto": {
+              "description": "El gesto que muestra el CTA con <Gesto>; el del tipo de CTA del brief",
+              "type": "string",
+              "enum": [
+                "guardar",
+                "enviar",
+                "comentar",
+                "me-gusta",
+                "seguir",
+                "repostear"
+              ]
+            },
+            "porque": {
+              "description": "Por qué este tratamiento sirve a esta dirección y este tema",
+              "type": "string",
+              "minLength": 10
+            }
+          },
+          "required": [
+            "tratamiento"
+          ]
+        }
+      },
+      "required": [
+        "direction",
+        "reason",
+        "palette",
+        "fonts",
+        "anchor"
+      ]
+    },
+    "gateA": {
+      "default": {
+        "approved": false
+      },
+      "description": "Hooks, script and storyboard. Without it, video:prepare does not generate the voice",
+      "type": "object",
+      "properties": {
+        "approved": {
+          "type": "boolean"
+        },
+        "date": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "approved"
+      ]
+    },
+    "gateB": {
+      "default": {
+        "approved": false
+      },
+      "description": "The final video. Without it, nothing is published",
+      "type": "object",
+      "properties": {
+        "approved": {
+          "type": "boolean"
+        },
+        "date": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        },
+        "notes": {
+          "type": "string"
+        },
+        "video": {
+          "description": "sha256 of the out/video.mp4 the person approved (video:render prints it). If the video changes, the gate goes back to false",
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "approved"
+      ]
+    }
+  },
+  "required": [
+    "hooks",
+    "scenes"
+  ]
+}

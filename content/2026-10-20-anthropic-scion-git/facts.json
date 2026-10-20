@@ -1,0 +1,31 @@
+{
+  "topic": "anthropic-scion-git",
+  "checkedAt": "2026-10-20",
+  "facts": [
+    {
+      "claim": "En mayo de 2026, Anthropic promediaba unos 2.500 merges diarios en su monorepo; para septiembre de 2026, superaron los 30.000 merges diarios debido a que Claude genera código a gran escala.",
+      "source": "Anthropic Engineering, Redesigning source control at Anthropic",
+      "url": "https://www.anthropic.com/engineering/redesigning-source-control",
+      "primary": true
+    },
+    {
+      "claim": "El monorepo de Anthropic acumuló casi 100 GB de historial en main y más de 25 GB en copia de trabajo comprimida, ejecutando unos 25 millones de checkouts diarios en CI que en Git habrían consumido más de 600 PB de tráfico diario.",
+      "source": "Anthropic Engineering, Redesigning source control at Anthropic",
+      "url": "https://www.anthropic.com/engineering/redesigning-source-control",
+      "primary": true
+    },
+    {
+      "claim": "Un equipo de 7 ingenieros construyó Scion (un sistema de control de versiones centrado en el servidor) y migró todo el monorepo fuera de Git en cinco meses.",
+      "source": "Anthropic Engineering, Redesigning source control at Anthropic",
+      "url": "https://www.anthropic.com/engineering/redesigning-source-control",
+      "primary": true
+    },
+    {
+      "claim": "Git fue diseñado en 2005 asumiendo que los clientes trabajan desconectados y necesitan una copia completa del repositorio; Scion se diseñó porque los agentes de IA y los workers de CI están siempre conectados y solo necesitan descargar archivos específicos bajo demanda.",
+      "source": "Anthropic Engineering, Redesigning source control at Anthropic",
+      "url": "https://www.anthropic.com/engineering/redesigning-source-control",
+      "primary": true
+    }
+  ],
+  "pendingToVerify": []
+}

@@ -1,0 +1,23 @@
+/*
+ * Tailwind for the videos. The theme points to CSS variables that PieceVideo
+ * sets from each piece's palette and fonts, so one bundle serves every piece
+ * (the carousel compiles a theme per piece instead). Same class names as the
+ * carousel: bg-bg, text-ink, text-accent, font-display...
+ */
+@import "tailwindcss" source(none);
+@source "../../../content/*/video.tsx";
+@source "../../carousel/src/ui/*.tsx";
+@source "./**/*.tsx";
+
+@theme inline {
+  --color-bg: var(--piece-bg);
+  --color-ink: var(--piece-ink);
+  --color-accent: var(--piece-accent);
+  --color-accent-ink: var(--piece-accent-ink);
+  --color-surface: var(--piece-surface);
+  --color-muted: var(--piece-muted);
+  --font-sans: var(--piece-font-text);
+  --font-display: var(--piece-font-display);
+  --font-notes: var(--piece-font-notes);
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+}

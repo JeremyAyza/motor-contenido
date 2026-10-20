@@ -23,19 +23,8 @@ export const JUGADA_IDS = JUGADAS.map((j) => j.id) as [string, ...string[]];
 export const FORMA_CTA_IDS = FORMAS_CTA.map((f) => f.id) as [string, ...string[]];
 export const TRATAMIENTO_IDS = TRATAMIENTOS.map((t) => t.id) as [string, ...string[]];
 
-/** Gestos de Instagram y su ícono genérico de Lucide (no son copias de los íconos de Instagram). */
-export const GESTOS = {
-  guardar: "bookmark",
-  enviar: "send",
-  comentar: "message-circle",
-  "me-gusta": "heart",
-  seguir: "user-plus",
-  repostear: "repeat-2",
-} as const;
-export type Gesto = keyof typeof GESTOS;
-export const GESTO_IDS = Object.keys(GESTOS) as [Gesto, ...Gesto[]];
-/** El gesto que corresponde a cada tipo de CTA. */
-export const GESTO_DE_TIPO: Record<string, Gesto> = { guardar: "guardar", enviar: "enviar", comentar: "comentar", seguir: "seguir" };
+// Los gestos viven aparte porque las primitivas los usan también en el navegador (video).
+export { GESTOS, GESTO_IDS, GESTO_DE_TIPO, type Gesto } from "./gestos.ts";
 
 /**
  * Tratamientos visuales del CTA de las piezas anteriores de la cuenta, de la

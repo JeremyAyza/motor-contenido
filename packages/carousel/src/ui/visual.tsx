@@ -1,9 +1,8 @@
-import { existsSync, readFileSync } from "node:fs";
-import { join } from "node:path";
 import { Fragment, type CSSProperties, type ReactNode } from "react";
 import rough from "roughjs";
-import { REPO_ROOT } from "../../../brand/src/index.ts";
-import { cx, Icono } from "./index.tsx";
+import { useAssets } from "./assets.ts";
+import { cx } from "./cx.ts";
+import { Icono } from "./index.tsx";
 import { animStyle, Cuenta, formatoNumero, type Tiempo } from "./motion.tsx";
 
 /**
@@ -157,7 +156,7 @@ export function Etiqueta({
         {punto ? <circle cx={x} cy={y} r="4" className="fill-accent" /> : null}
       </svg>
       <span
-        className={cx("absolute text-[16px] font-semibold leading-tight", ancho ? "whitespace-normal" : "whitespace-nowrap")}
+        className={cx("absolute text-[length:max(16px,var(--min-text,0px))] font-semibold leading-tight", ancho ? "whitespace-normal" : "whitespace-nowrap")}
         style={{ ...posicion, width: ancho }}
       >
         {children}
@@ -222,8 +221,8 @@ export function Nodo({
     >
       {marca}
       <div className={cx("flex min-w-0 flex-col", fila ? "items-start" : "items-center")}>
-        <span className="text-[17px] font-bold leading-tight">{titulo}</span>
-        {texto ? <span className="mt-0.5 text-[16px] leading-snug">{texto}</span> : null}
+        <span className="text-[length:max(17px,var(--min-text,0px))] font-bold leading-tight">{titulo}</span>
+        {texto ? <span className="mt-0.5 text-[length:max(16px,var(--min-text,0px))] leading-snug">{texto}</span> : null}
       </div>
     </div>
   );
@@ -321,7 +320,7 @@ export function Barras({
         const t = anim ? { en: anim.en + i * paso, dur: anim.dur ?? 0.9 } : undefined;
         return (
           <div key={i}>
-            <div className="flex items-baseline justify-between gap-3 text-[18px] leading-tight">
+            <div className="flex items-baseline justify-between gap-3 text-[length:max(18px,var(--min-text,0px))] leading-tight">
               <span className={cx("font-semibold", marcada ? "text-ink" : "text-muted")}>{d.etiqueta}</span>
               <span className={cx("font-bold", marcada ? "text-accent" : "text-ink")}>
                 {t ? (
@@ -392,7 +391,7 @@ export function Cifra({
         {numero}
         {unidad ? <span style={{ fontSize: unidadTamano ?? Math.round(tamano * 0.42) }}> {unidad}</span> : null}
       </span>
-      {texto ? <span className="mt-3 text-[18px] leading-snug">{texto}</span> : null}
+      {texto ? <span className="mt-3 text-[length:max(18px,var(--min-text,0px))] leading-snug">{texto}</span> : null}
     </div>
   );
 }
@@ -425,7 +424,7 @@ export function Escala({
           className={cx("absolute left-0 top-1/2 size-4 -translate-x-1/2 -translate-y-1/2 rounded-full", destacado ? "bg-accent" : "bg-ink")}
         />
         <span
-          className={cx("absolute whitespace-nowrap text-[16px] font-semibold", destacado ? "text-accent" : "text-ink")}
+          className={cx("absolute whitespace-nowrap text-[length:max(16px,var(--min-text,0px))] font-semibold", destacado ? "text-accent" : "text-ink")}
           style={{ transform: alinear, ...(arriba ? { bottom: "calc(50% + 14px)" } : { top: "calc(50% + 14px)" }) }}
         >
           {p.etiqueta}
@@ -448,7 +447,7 @@ export function Escala({
         {marca(de.valor <= a.valor ? de : a, true, false)}
         {marca(de.valor <= a.valor ? a : de, false, true)}
       </div>
-      <p data-nota className="text-[13px] text-muted">
+      <p data-nota className="text-[length:max(13px,var(--min-text,0px))] text-muted">
         Escala logarítmica: cada marca es ×10.
       </p>
     </div>
@@ -488,8 +487,8 @@ export function Linea({
           <div key={i} className="relative flex items-start gap-4">
             {punto(h, i)}
             <div data-anim={anim ? "aparece" : undefined} style={anim ? animStyle(t(i)!) : undefined} className="-mt-0.5">
-              <p className={cx("text-[18px] font-bold leading-tight", h.destacado && "text-accent")}>{h.fecha}</p>
-              <p className="text-[16px] leading-snug text-muted">{h.titulo}</p>
+              <p className={cx("text-[length:max(18px,var(--min-text,0px))] font-bold leading-tight", h.destacado && "text-accent")}>{h.fecha}</p>
+              <p className="text-[length:max(16px,var(--min-text,0px))] leading-snug text-muted">{h.titulo}</p>
             </div>
           </div>
         ))}
@@ -509,8 +508,8 @@ export function Linea({
           <div key={i} className="flex flex-col items-center px-1 text-center">
             {punto(h, i)}
             <div data-anim={anim ? "aparece" : undefined} style={anim ? animStyle(t(i)!) : undefined}>
-              <p className={cx("mt-3 text-[18px] font-bold leading-tight", h.destacado && "text-accent")}>{h.fecha}</p>
-              <p className="mt-1 text-[16px] leading-snug text-muted">{h.titulo}</p>
+              <p className={cx("mt-3 text-[length:max(18px,var(--min-text,0px))] font-bold leading-tight", h.destacado && "text-accent")}>{h.fecha}</p>
+              <p className="mt-1 text-[length:max(16px,var(--min-text,0px))] leading-snug text-muted">{h.titulo}</p>
             </div>
           </div>
         ))}
@@ -541,7 +540,7 @@ export function Matriz({
   const paso = anim?.paso ?? 0.25;
   return (
     <div data-visual="matriz" className={cx("flex flex-col", className)}>
-      <span className="mb-2 text-[16px] font-semibold text-muted">↑ {ejeY[1]}</span>
+      <span className="mb-2 text-[length:max(16px,var(--min-text,0px))] font-semibold text-muted">↑ {ejeY[1]}</span>
       <div className="relative border-b-2 border-l-2 border-muted" style={{ height: alto }}>
         <div className="absolute inset-x-0 top-1/2 border-t-2 border-dashed border-muted/40" />
         <div className="absolute inset-y-0 left-1/2 border-l-2 border-dashed border-muted/40" />
@@ -556,7 +555,7 @@ export function Matriz({
             >
               <span className={cx("absolute size-4 -translate-x-1/2 translate-y-1/2 rounded-full", p.destacado ? "bg-accent" : "bg-ink")} />
               <span
-                className={cx("absolute whitespace-nowrap text-[16px] font-semibold leading-none", p.destacado ? "text-accent" : "text-ink")}
+                className={cx("absolute whitespace-nowrap text-[length:max(16px,var(--min-text,0px))] font-semibold leading-none", p.destacado ? "text-accent" : "text-ink")}
                 style={izquierda ? { right: 14, bottom: -8 } : { left: 14, bottom: -8 }}
               >
                 {p.etiqueta}
@@ -565,7 +564,7 @@ export function Matriz({
           );
         })}
       </div>
-      <div className="mt-2 flex justify-between text-[16px] font-semibold text-muted">
+      <div className="mt-2 flex justify-between text-[length:max(16px,var(--min-text,0px))] font-semibold text-muted">
         <span>{ejeY[0]} · {ejeX[0]}</span>
         <span>{ejeX[1]} →</span>
       </div>
@@ -626,8 +625,6 @@ export function Boceto({
   );
 }
 
-const OBJETOS_DIR = join(REPO_ROOT, "assets/objetos");
-
 /**
  * Un objeto cotidiano de Fluent Emoji (Microsoft, MIT) para metáforas: una
  * mochila, una linterna, un cerebro. Se baja con `npm run carrusel:objeto -- <nombre>`
@@ -649,18 +646,14 @@ export function Objeto({
   className?: string;
   anim?: Tiempo;
 }) {
-  const archivo = join(OBJETOS_DIR, estilo === "3d" ? `${nombre}.3d.png` : `${nombre}.svg`);
-  if (!existsSync(archivo)) {
-    throw new Error(`No está el objeto "${nombre}" (${estilo}) en assets/objetos. Búscalo y bájalo con: npm run carrusel:objeto -- ${nombre}${estilo === "3d" ? " --3d" : ""}`);
-  }
-  const mime = estilo === "3d" ? "image/png" : "image/svg+xml";
+  const src = useAssets().object(nombre, estilo);
   return (
     <img
       data-visual="objeto"
       data-ancla={ancla ? "objeto" : undefined}
       data-anim={anim ? "salta" : undefined}
       style={anim ? animStyle(anim) : undefined}
-      src={`data:${mime};base64,${readFileSync(archivo).toString("base64")}`}
+      src={src}
       alt=""
       width={size}
       height={size}

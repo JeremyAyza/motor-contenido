@@ -1,11 +1,10 @@
-import { existsSync, readFileSync } from "node:fs";
-import { extname, isAbsolute, join } from "node:path";
 import { createContext, useContext, type CSSProperties, type ReactNode } from "react";
 import { svgPathBbox } from "svg-path-bbox";
-import { twMerge } from "tailwind-merge";
-import { REPO_ROOT, type AccountBrand } from "../../../brand/src/index.ts";
-import { GESTOS, type Gesto as GestoId } from "../cierres.ts";
+import type { AccountBrand } from "../../../brand/src/index.ts";
+import { GESTOS, type Gesto as GestoId } from "../gestos.ts";
 import type { Art } from "../post.ts";
+import { useAssets } from "./assets.ts";
+import { cx } from "./cx.ts";
 
 /**
  * Primitivas para diseñar láminas.
@@ -38,8 +37,7 @@ export function useRender(): RenderContext {
   return ctx;
 }
 
-/** Une clases dejando que las del agente ganen sobre las de la primitiva. */
-export const cx = (...c: Array<string | false | null | undefined>) => twMerge(c.filter(Boolean).join(" "));
+export { cx };
 
 /**
  * Tonos de la paleta de la pieza. Cambiar de tono entre láminas da ritmo sin
@@ -126,20 +124,6 @@ export function Slide({
   );
 }
 
-type SimpleIcon = { title: string; slug: string; hex: string; source: string; guidelines?: string };
-let SIMPLE_ICONS: SimpleIcon[] | null = null;
-
-/** Metadatos de un ícono de Simple Icons por su slug. */
-export function simpleIcon(slug: string): SimpleIcon & { path: string } {
-  SIMPLE_ICONS ??= JSON.parse(readFileSync(join(REPO_ROOT, "node_modules/simple-icons/data/simple-icons.json"), "utf8")) as SimpleIcon[];
-  const meta = SIMPLE_ICONS.find((i) => i.slug === slug);
-  if (!meta) throw new Error(`No existe "${slug}" en Simple Icons. Busca el slug con: npm run carrusel:logo -- <marca>`);
-  const svg = readFileSync(join(REPO_ROOT, "node_modules/simple-icons/icons", `${slug}.svg`), "utf8");
-  const path = svg.match(/ d="([^"]+)"/)?.[1];
-  if (!path) throw new Error(`El SVG de ${slug} no tiene un path simple`);
-  return { ...meta, path };
-}
-
 /**
  * Logo o ícono oficial de una marca (Simple Icons, CC0), como ancla visual.
  * Se dibuja el archivo tal cual, en el color oficial, sin deformarlo; solo se
@@ -164,7 +148,7 @@ export function Logo({
   /** Marca el elemento como ancla visual para el inspector. */
   ancla?: boolean;
 }) {
-  const icon = simpleIcon(slug);
+  const icon = useAssets().simpleIcon(slug);
   const [x0, y0, x1, y1] = svgPathBbox(icon.path);
   const w = x1 - x0;
   const h = y1 - y0;
@@ -213,6 +197,7 @@ export function Icono({
   className?: string;
   ancla?: boolean;
 }) {
+  const markup = useAssets().lucide(name);
   return (
     <svg
       viewBox="0 0 24 24"
@@ -225,16 +210,9 @@ export function Icono({
       strokeLinejoin="round"
       className={cx("block shrink-0", className)}
       data-ancla={ancla ? "icono" : undefined}
-      dangerouslySetInnerHTML={{ __html: lucide(name) }}
+      dangerouslySetInnerHTML={{ __html: markup }}
     />
   );
-}
-
-/** El contenido de un ícono de Lucide, sin la etiqueta <svg>. */
-function lucide(name: string): string {
-  const file = join(REPO_ROOT, "node_modules/lucide-static/icons", `${name}.svg`);
-  if (!existsSync(file)) throw new Error(`No existe el ícono "${name}" en Lucide. Revisa los nombres en https://lucide.dev/icons`);
-  return readFileSync(file, "utf8").replace(/^[\s\S]*?<svg[^>]*>/, "").replace(/<\/svg>\s*$/, "");
 }
 
 /**
@@ -259,6 +237,7 @@ export function Gesto({
   className?: string;
   style?: CSSProperties;
 }) {
+  const assets = useAssets();
   const name = GESTOS[accion];
   if (!name) throw new Error(`Gesto desconocido: "${accion}". Usa uno de: ${Object.keys(GESTOS).join(", ")}`);
   return (
@@ -276,7 +255,7 @@ export function Gesto({
       aria-hidden
       data-gesto={accion}
       data-lleno={lleno ? "" : undefined}
-      dangerouslySetInnerHTML={{ __html: lucide(name) }}
+      dangerouslySetInnerHTML={{ __html: assets.lucide(name) }}
     />
   );
 }
@@ -297,7 +276,7 @@ export function Code({
   return (
     <pre
       data-code={lang}
-      className={cx("overflow-hidden whitespace-pre rounded-xl bg-[#0d1117] p-5 font-mono text-[15px] leading-relaxed text-[#e6edf3]", className)}
+      className={cx("overflow-hidden whitespace-pre rounded-xl bg-[#0d1117] p-5 font-mono text-[length:max(15px,var(--min-text,0px))] leading-relaxed text-[#e6edf3]", className)}
     >
       {children.replace(/^\n+|\s+$/g, "")}
     </pre>
@@ -320,7 +299,7 @@ export function Window({
         <i className="size-2.5 rounded-full bg-white/20" />
         <i className="size-2.5 rounded-full bg-white/20" />
         <i className="size-2.5 rounded-full bg-white/20" />
-        {title ? <span className="ml-2 text-[12px] opacity-60">{title}</span> : null}
+        {title ? <span className="ml-2 text-[length:max(12px,var(--min-text,0px))] opacity-60">{title}</span> : null}
       </div>
       <div>{children}</div>
     </div>
@@ -346,18 +325,12 @@ export function Img({
   credit?: string;
   ancla?: boolean;
 }) {
-  const { dir } = useRender();
-  const path = isAbsolute(src) ? src : join(dir, src);
-  const mime = { ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".webp": "image/webp", ".svg": "image/svg+xml" }[
-    extname(path).toLowerCase()
-  ];
-  if (!mime) throw new Error(`Formato de imagen no soportado: ${src}`);
-  const data = readFileSync(path).toString("base64");
+  const url = useAssets().image(src);
   return (
     <figure className="relative" data-ancla={ancla ? "imagen" : undefined}>
-      <img src={`data:${mime};base64,${data}`} alt={alt} className={cx("block", className)} />
+      <img src={url} alt={alt} className={cx("block", className)} />
       {credit ? (
-        <figcaption data-nota className="mt-1.5 text-[13px] opacity-70">
+        <figcaption data-nota className="mt-1.5 text-[length:max(13px,var(--min-text,0px))] opacity-70">
           {credit}
         </figcaption>
       ) : null}
@@ -371,7 +344,7 @@ export function Img({
  */
 export function Nota({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <p data-nota className={cx("text-[13px] leading-snug text-muted", className)}>
+    <p data-nota className={cx("text-[length:max(13px,var(--min-text,0px))] leading-snug text-muted", className)}>
       {children}
     </p>
   );
@@ -380,10 +353,11 @@ export function Nota({ children, className }: { children: ReactNode; className?:
 /** Burbuja de chat: un prompt real que la audiencia puede copiar. */
 export function Prompt({ children, className }: { children: ReactNode; className?: string }) {
   return (
-    <div className={cx("rounded-2xl rounded-br-md bg-surface px-5 py-4 text-[17px] leading-snug", className)}>{children}</div>
+    <div className={cx("rounded-2xl rounded-br-md bg-surface px-5 py-4 text-[length:max(17px,var(--min-text,0px))] leading-snug", className)}>{children}</div>
   );
 }
 
-// Recursos visuales (skills/carrusel-taste/recursos.json) y movimiento.
+// Recursos visuales (skills/carrusel-taste/recursos.json), movimiento y de dónde salen los archivos.
 export * from "./visual.tsx";
 export * from "./motion.tsx";
+export * from "./assets.ts";

@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "publishedAt": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$",
+      "description": "Date and time of publishing, with the time zone"
+    },
+    "trial": {
+      "default": false,
+      "description": "Published as a Trial Reel: shown first to people who do not follow the account",
+      "type": "boolean"
+    },
+    "tags": {
+      "default": {},
+      "type": "object",
+      "properties": {
+        "hookFormula": {
+          "description": "Formula id of the chosen hook; defaults to video.json → hooks[0].formula",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 27
+        },
+        "seconds": {
+          "description": "Length of the published video (video:render prints it)",
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "scenes": {
+          "description": "Defaults to the scenes in video.json",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "music": {
+          "type": "boolean"
+        },
+        "avatar": {
+          "type": "boolean"
+        }
+      }
+    },
+    "snapshots": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "day": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 90,
+            "description": "Days since publishing (2 and 7 at least)"
+          },
+          "views": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "description": "Views: every time the Reel starts on screen, replays included"
+          },
+          "reach": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "description": "Accounts reached"
+          },
+          "nonFollowerReachPct": {
+            "description": "Share of the reach that does not follow the account",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "avgWatchSeconds": {
+            "description": "Average watch time, in seconds",
+            "type": "number",
+            "minimum": 0
+          },
+          "watchTimeSeconds": {
+            "description": "Total watch time, replays included, in seconds",
+            "type": "number",
+            "minimum": 0
+          },
+          "skipRate": {
+            "description": "Skip rate: share of viewers who swiped away from the Reel",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "likes": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "comments": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "shares": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "description": "Shares, sends by DM included"
+          },
+          "saves": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "reposts": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "follows": {
+            "description": "Follows that came from this Reel",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "profileVisits": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "day",
+          "views",
+          "reach",
+          "likes",
+          "comments",
+          "shares",
+          "saves"
+        ]
+      }
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "publishedAt",
+    "snapshots"
+  ]
+}

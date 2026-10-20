@@ -10,7 +10,11 @@ Qué cambia respecto del original:
 - cuenta como concreto el código (/comandos, `flags`, archivo.md, camelCase) y
   los sustantivos técnicos (repo, API, prompt, token...);
 - --brief lee los ganchos de un brief.json del motor y deja al final los que
-  tienen algo que los descarta, aunque sumen más puntos.
+  tienen algo que los descarta, aunque sumen más puntos;
+- --video lee los ganchos de un video.json del motor. Puntúa lo que dice la
+  voz (`said`), como el original: LENGTH vuelve a medir una frase dicha (de 5
+  a 12 palabras), no una portada. Los deja en el orden del archivo, porque el
+  primero es el elegido.
 
 Igual que el original, sirve para DESCARTAR ganchos débiles, no para elegir al
 ganador: su autor midió que separa bien un gancho malo de uno real (AUC 0.83)
@@ -20,6 +24,7 @@ Uso
   python skills/ig-es/hookscore_es.py --hook "Deja de pegar todo el repo en el chat"
   python skills/ig-es/hookscore_es.py ganchos.txt
   python skills/ig-es/hookscore_es.py --brief content/<pieza>/brief.json --json
+  python skills/ig-es/hookscore_es.py --video content/<pieza>/video.json --json
 """
 
 import json
@@ -33,6 +38,7 @@ exigir(h, "WORD_RE", "NUMBER_RE", "PROPER_RE", "SPOKEN_NUMBERS", "MONEY_WORDS", 
        "WEAK_OPENERS", "IMPERATIVES", "DEALBREAKERS", "HASHTAG_RE", "EMOJI_RE",
        "check_length", "check_address", "check_specificity", "run", "words", "clamp",
        "render_one", "render_table", "CHECKS", "main")
+spoken_length = h.check_length
 
 h.WORD_RE = re.compile(r"[A-Za-zÁÉÍÓÚÜÑáéíóúüñ0-9$%'’/._-]+")
 h.NUMBER_RE = re.compile(
@@ -154,30 +160,66 @@ def ganchos_del_brief(ruta):
     return [g["texto"] for g in brief.get("ganchos", []) if g.get("texto")]
 
 
+def video_hooks(path):
+    with open(path, encoding="utf-8") as fh:
+        script = json.load(fh)
+    return [hook for hook in script.get("hooks", []) if hook.get("said")]
+
+
+# The account voice says about 2.7 words per second, pauses included (packages/video/src/script.ts).
+VOICE_WORDS_PER_SECOND = 2.7
+
+
+def check_spoken_length(text):
+    """Un gancho dicho tiene que entrar antes de que se mueva el pulgar: el criterio del original."""
+    score, _ = spoken_length(text)
+    n = len(h.words(text))
+    return score, f"{n} palabras, unos {n / VOICE_WORDS_PER_SECOND:.1f} s con la voz de la cuenta (ideal: 5 a 12 palabras)"
+
+
+def score(line):
+    results, overall, verdict, flags = h.run(line)
+    return {
+        "hook": line,
+        "checks": {k: {"score": round(v[0], 1), "detail": v[1]} for k, v in results.items()},
+        "weakest": min(h.CHECKS, key=lambda c: results[c][0]),
+        "flags": flags,
+        "score": round(overall, 1),
+        "verdict": verdict,
+    }
+
+
+def score_video(path):
+    hooks = video_hooks(path)
+    if not hooks:
+        raise SystemExit("El video.json no tiene ganchos.")
+    h.check_length = check_spoken_length
+    try:
+        return [{**score(hook["said"]), "onScreen": hook.get("onScreen"), "formula": hook.get("formula")} for hook in hooks]
+    finally:
+        h.check_length = check_length
+
+
 def main():
     utf8()
     args = sys.argv[1:]
-    if "--brief" not in args:
+    if "--video" in args:
+        i = args.index("--video")
+        if i + 1 >= len(args):
+            raise SystemExit("Uso: hookscore_es.py --video content/<pieza>/video.json [--json]")
+        payload = score_video(args[i + 1])
+    elif "--brief" in args:
+        i = args.index("--brief")
+        if i + 1 >= len(args):
+            raise SystemExit("Uso: hookscore_es.py --brief content/<pieza>/brief.json [--json]")
+        lines = ganchos_del_brief(args[i + 1])
+        if not lines:
+            raise SystemExit("El brief no tiene ganchos.")
+        payload = [score(line) for line in lines]
+        # Un gancho con algo que lo descarta va al final aunque sume más puntos.
+        payload.sort(key=lambda r: (bool(r["flags"]), -r["score"]))
+    else:
         return h.main()
-    i = args.index("--brief")
-    if i + 1 >= len(args):
-        raise SystemExit("Uso: hookscore_es.py --brief content/<pieza>/brief.json [--json]")
-    lines = ganchos_del_brief(args[i + 1])
-    if not lines:
-        raise SystemExit("El brief no tiene ganchos.")
-    payload = []
-    for line in lines:
-        results, overall, verdict, flags = h.run(line)
-        payload.append({
-            "hook": line,
-            "checks": {k: {"score": round(v[0], 1), "detail": v[1]} for k, v in results.items()},
-            "weakest": min(h.CHECKS, key=lambda c: results[c][0]),
-            "flags": flags,
-            "score": round(overall, 1),
-            "verdict": verdict,
-        })
-    # Un gancho con algo que lo descarta va al final aunque sume más puntos.
-    payload.sort(key=lambda r: (bool(r["flags"]), -r["score"]))
     if "--json" in args:
         print(json.dumps(payload, indent=2, ensure_ascii=False))
     else:

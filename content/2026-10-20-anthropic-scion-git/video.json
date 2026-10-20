@@ -1,0 +1,97 @@
+{
+  "$schema": "../../schemas/video.schema.json",
+  "hooks": [
+    {
+      "said": "Anthropic reemplazó a Git con 30.000 merges diarios.",
+      "onScreen": "Anthropic reemplazó a Git",
+      "formula": 4
+    },
+    {
+      "said": "De 2.500 a 30.000 merges: Anthropic dejó Git.",
+      "onScreen": "De 2.500 a 30.000",
+      "formula": 5
+    },
+    {
+      "said": "Si tu equipo usa Git, mira qué hizo Anthropic.",
+      "onScreen": "¿Por qué Anthropic dejó Git?",
+      "formula": 10
+    }
+  ],
+  "scenes": [
+    {
+      "id": "gancho",
+      "say": "Anthropic reemplazó a Git con 30.000 merges diarios. Claude escribe tanto código que rompió su flujo.",
+      "see": "El título «Anthropic reemplazó a Git» con los logos oficiales de Anthropic y Git. En el centro, el logo de Git tiembla bajo una lluvia de merges que caen desde Claude.",
+      "resource": "comparacion"
+    },
+    {
+      "id": "la-cifra",
+      "say": "En mayo: 2.500 merges diarios. En septiembre: 30.000. Y 25 millones de checkouts al día en su CI.",
+      "see": "Dos barras comparativas: mayo con 2.500 merges y septiembre con 30.000 merges en color de acento, doce veces más alta. Abajo aparece la cifra de 25 millones de checkouts.",
+      "resource": "datos"
+    },
+    {
+      "id": "el-problema",
+      "say": "Git nació en 2005 para humanos. Descarga todo el historial en cada máquina: casi cien gigas.",
+      "see": "Un ícono de laptop desconectada con una mochila enorme que se llena con 100 GB de historial y 25 GB de archivos. Una flecha roja marca el cuello de botella.",
+      "resource": "metafora"
+    },
+    {
+      "id": "nace-scion",
+      "say": "Un agente nunca descansa. Por eso siete ingenieros construyeron Scion en solo cinco meses.",
+      "see": "Un diagrama de capas: arriba los agentes de Claude siempre conectados con una línea verde hacia un servidor central rotulado Scion, construido por 7 ingenieros.",
+      "resource": "capas"
+    },
+    {
+      "id": "como-funciona",
+      "say": "El historial vive en el servidor. El agente solo pide el archivo exacto. Sin clonar nada.",
+      "see": "Un servidor central que guarda todo el árbol. Cuando un agente pide un cambio, una flecha delgada le envía únicamente el archivo necesario, sin clonar el repositorio.",
+      "resource": "proceso"
+    },
+    {
+      "id": "cierre",
+      "say": "En la era de los agentes, ningún monorepo se salva. Mándaselo a tu equipo: ni Git se salva.",
+      "see": "El logo de Anthropic y Scion al lado del logo de Git. Al decir «mándaselo», aparece el gesto de enviar en el color de acento invitando a compartir.",
+      "resource": "comparacion"
+    }
+  ],
+  "caption": "Anthropic reemplazó a Git porque Claude escribe tanto código que rompió su monorepo.\n\nPasaron de 2.500 merges diarios en mayo a más de 30.000 en septiembre. Con 25 millones de checkouts al día en CI y un historial de 100 GB, el modelo distribuido de Git colapsó.\n\nEn cinco meses crearon Scion: un sistema centralizado donde el historial vive en el servidor y los agentes solo descargan el archivo exacto que van a modificar.\n\nMándaselo a tu equipo dev.\n\nFuente: Anthropic Engineering, «Redesigning source control at Anthropic» (octubre 2026).\n\n#anthropic #claude #git #scion #ia",
+  "art": {
+    "direction": "antes-despues",
+    "dealt": [
+      "diario-de-prueba",
+      "antes-despues",
+      "chat"
+    ],
+    "reason": "Scion es un antes y un después del control de versiones: Git copia todo el historial en cada máquina y Scion entrega desde el servidor solo el archivo exacto. Cada escena opone las dos mitades.",
+    "palette": {
+      "bg": "#F0EEE6",
+      "ink": "#141413",
+      "accent": "#A84A2C",
+      "accentInk": "#FFFFFF",
+      "surface": "#FAF9F5",
+      "muted": "#6B6A63"
+    },
+    "fonts": {
+      "display": "archivo",
+      "text": "geist"
+    },
+    "anchor": {
+      "kind": "logo",
+      "ref": "anthropic",
+      "source": "Ícono oficial de Anthropic en Simple Icons (CC0), sin modificar, para identificar a la empresa; el de Git, igual"
+    },
+    "tab": "scion-vs-git.md"
+  },
+  "gateA": {
+    "approved": true,
+    "date": "2026-10-20",
+    "notes": "Aprobado según indicación explícita del usuario en el chat para avanzar autónomamente al resultado."
+  },
+  "gateB": {
+    "approved": true,
+    "date": "2026-10-20",
+    "video": "c2e8030abe0644b9d49ad629d95578041abc1514819becd973b977819fe10e2e",
+    "notes": "Jeremy aprobó el video en el chat. Es el de Scion con su propia dirección de arte (antes y después), el marco de Slide y el diseño con margen."
+  }
+}

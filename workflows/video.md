@@ -1,18 +1,135 @@
 # Flujo: video (en construcción)
 
-Flujo separado del carrusel. Comparte solo la marca (`packages/brand`) y el avatar (`assets/avatar`).
+Es un flujo separado del carrusel: comparte la marca (`packages/brand`), las primitivas (`@motor/ui`) y el avatar (`assets/avatar`). El plan completo está en [docs/plan-videos.md](../docs/plan-videos.md). Este archivo dice lo que ya funciona.
 
-## Diseño acordado
+## Pasos
 
-1. **Investigación:** igual que el carrusel; produce `facts.json`.
-2. **Guion `video.json`:** 2 o 3 ganchos, escenas del catálogo (terminal, comparativa, flujo, medidor, código, frase), narración escrita para el oído y texto del post.
-3. **Puerta humana:** la persona aprueba la ficha y el guion.
-4. **Voz:** interfaz `VoiceProvider` con un adaptador por proveedor (ElevenLabs, Gemini, Cartesia, Qwen, Fish Audio). Devuelve el audio y, si el proveedor los da, los tiempos por palabra. Si no, whisper.cpp los calcula. Incluye diccionario de pronunciación y caché por texto y voz.
-5. **Render:** Remotion, 1080×1920. La duración de cada escena sale de su narración; subtítulos tipo karaoke con la palabra clave en color de acento; avatar con sincronía de boca.
-6. **Control automático:** duración, textos dentro del cuadro y hoja de revisión.
+1. **El guion: `content/<pieza>/video.json`.** Los campos van en inglés y el contenido en español. Lleva:
+   - de 1 a 3 ganchos (`hooks`), cada uno con lo que dice la voz (`said`), lo que se ve en pantalla (`onScreen`) y su fórmula de `skills/ig-es/ganchos-es.json`. El primero es el elegido;
+   - las escenas (`scenes`): `id`, lo que dice la voz (`say`, escrito para el oído), lo que se ve (`see`, concreto) y el recurso visual (`resource`, de [recursos.json](../skills/carrusel-taste/recursos.json));
+   - el texto del post (`caption`), opcional;
+   - la dirección de arte (`art`), como `post.json → art`; si falta, se toma la del carrusel de la pieza;
+   - las puertas (`gateA`, `gateB`).
+
+   La primera escena empieza con el gancho elegido. El esquema está en [schemas/video.schema.json](../schemas/video.schema.json) (`npm run video:schema`).
+2. **Puerta A:** `npm run video:script -- content/<pieza>`. Valida el guion, estima la duración y deja `out/gate-a.md`, la hoja que lee la persona. Avisa si:
+   - el gancho tarda más de 3 s;
+   - el texto en pantalla pasa de 6 palabras;
+   - el video sale de los 30 a 60 s.
+
+   Además corre dos revisiones, y todo lo que avisan entra en la hoja:
+   - **Las herramientas de `ig-reel`,** por sus wrappers en español ([skills/ig-es](../skills/ig-es/SKILL.md)):
+     - `hookscore_es --video` puntúa lo que dice la voz en cada gancho, y avisa si el elegido saca menos de 50;
+     - `beats_es --video` estima el ritmo frase por frase, con la voz de la cuenta (unas 2.7 palabras por segundo, con las pausas). Avisa de las frases de más de 4 s, de tres frases seguidas sin nada concreto y de un final que no repite ninguna palabra del gancho.
+   - **La revisión de textos del carrusel** (`skills/ig-es`), sobre el guion y el texto del post: la primera línea, el léxico de relleno, las estructuras de IA y el ritmo de las frases.
+
+   También arma `out/video-critica-ganchos/`: el tema, el público y los ganchos, sin puntajes, para que un contexto nuevo los ordene ([docs/critico-ciego-video.md](../docs/critico-ciego-video.md), "Ganchos"). Ese orden va a la puerta A junto con los avisos.
+
+   Solo el sí de la persona en el chat aprueba, y el agente lo anota en `video.json → gateA { approved: true, date }`.
+3. **Lo que se ve: `content/<pieza>/video.tsx`**, después de la puerta A. Antes, la dirección de arte: si la pieza tiene carrusel, el Reel toma su `post.json → art`; si no, `npm run video:baraja -- content/<pieza>` reparte 3 direcciones y la elegida va en `video.json → art` (ver **Estilo**, más abajo). `video.tsx` exporta `defineVideo` de `@motor/video` con una entrada por escena de `video.json`: el mismo `id`, el tono de la paleta (`tone`), los efectos (`sfx`) y lo que se ve (`Visual`). Lo que dice la voz no va aquí: sale de `video.json`, tal cual se aprobó. La guía para el agente está en [skills/video-es](../skills/video-es/SKILL.md).
+4. **Voz y tiempos:** `npm run video:prepare -- content/<pieza>`. No corre sin la puerta A. Hace cuatro cosas:
+   - genera la voz de cada escena con el proveedor y la voz de `accounts/dev.json → voice` (Gemini 3.8 Flash TTS, voz Puck);
+   - calcula cuándo se dice cada palabra con whisper.cpp local;
+   - baja los efectos de `assets/catalog.json`;
+   - deja todo en `out/video/`.
+
+   Las voces se guardan en caché: si el texto no cambia, no se vuelven a pagar.
+5. **Vista previa:** `npm run video:studio -- content/<pieza>` abre Remotion Studio con la pieza.
+6. **Render e inspector:** `npm run video:render -- content/<pieza>` deja cinco archivos:
+   - `out/video.mp4`: 1080×1920 a 30 fps, H.264 yuv420p en BT.709 y AAC, con el volumen normalizado a −14 LUFS. Es el que se publica;
+   - `out/video-vista-instagram.mp4`: el mismo video con una simulación de la interfaz de Instagram encima (barra, botones, usuario, texto del post y audio), para juzgar la composición como se ve en la app. Nunca se publica;
+   - `out/video-hoja.png`: la portada (el cuadro 1) y el final de cada escena, con esa interfaz encima;
+   - `out/video-inspector.txt`: lo que encontró el inspector;
+   - `out/video.sha256`: el hash del video, para la puerta B.
+
+   El render es determinista: el mismo contenido da el mismo archivo.
+
+   **El inspector** lee lo que el render dibujó de verdad: durante el render, la composición le pasa el texto de un cuadro cada medio segundo, con su posición, su tamaño y su opacidad. También revisa el archivo con ffmpeg.
+   - **Errores** (bloquean la puerta B y el comando sale con código 1):
+     - texto fuera del margen del marco (36 px a cada lado, entre la pestaña y los subtítulos);
+     - letra de menos de 22 px de diseño;
+     - el gancho elegido (`onScreen`) no se ve completo en el cuadro 1;
+     - subtítulos que no tienen todas las palabras del guion.
+   - **Avisos:**
+     - más de 12 palabras en pantalla a la vez, además de los subtítulos;
+     - el gancho fuera del centro 3:4 que muestra la grilla;
+     - una composición alta: el contenido de una escena centrado más de 25 px arriba del centro de lo que Instagram deja ver;
+     - una portada vacía: el cuadro 1 ocupa menos del 35 % del recorte 3:4;
+     - más de 4 s sin cambio arriba de los subtítulos. Se mide en píxeles que cambian cada medio segundo, así que cuenta un trazo que se dibuja;
+     - el volumen lejos de −14 LUFS;
+     - una duración fuera de 30 a 60 s.
+
+   Como en el carrusel, cada aviso es un error salvo que se pueda defender en una frase.
+7. **Crítico ciego:** `npm run video:critique -- content/<pieza>`. Arma `out/video-critica/` con lo que le llega a alguien en Instagram:
+   - el video con la interfaz encima;
+   - un cuadro cada 2 s, en tiras de 6;
+   - la hoja y la portada recortada como en la grilla;
+   - lo que se oye, con el segundo en que empieza cada parte;
+   - el texto del post.
+
+   Dale esa carpeta a un **contexto nuevo** (un subagente o una sesión nueva) siguiendo [docs/critico-ciego-video.md](../docs/critico-ciego-video.md). El crítico escribe `informe.md` con la rúbrica de [docs/critica-video.md](../docs/critica-video.md).
+
+   Arregla los tres problemas principales, vuelve a renderizar y vuelve a criticar con un contexto nuevo. Máximo tres rondas. Copia el informe final en `video-critica.md`, en la carpeta de la pieza. Si un arreglo cambia lo que dice la voz, vuelve a la puerta A.
+8. **Puerta B.** La persona ve el video y, después de su sí en el chat, el agente anota `video.json → gateB { approved: true, date, video: "<sha256>" }`. Se le muestran la vista con la interfaz de Instagram, la hoja y el informe del crítico. La aprobación vale para ese archivo: si un render posterior da otro video, `video:render` la vuelve a `false` y deja la razón en `notes`.
+
+## Después de publicar: métricas
+
+Igual que en el carrusel ([workflows/metricas.md](metricas.md)):
+1. A las 48 horas y a los 7 días, Jeremy le pasa al agente la captura de Insights del Reel.
+2. El agente la transcribe en `content/<pieza>/video-metrics.json` ([esquema](../schemas/video-metrics.schema.json)). La fórmula del gancho y el número de escenas salen de `video.json` si no se anotan. La duración (`tags.seconds`) es la que imprimió `video:render`.
+3. `npm run video:metrics` regenera [docs/metricas-video.md](../docs/metricas-video.md).
+
+## Cómo se trabaja
+
+**Sincronizar con la voz:** `useCue("palabra")` da el segundo en que se dice esa palabra en la escena, y los efectos se ponen igual (`at: "ojo"`). Si la voz cambia, todo se reacomoda.
+
+**La voz de la cuenta:** es Puck, de Gemini, elegida por Jeremy el 20 de octubre de 2026. Está en `accounts/dev.json → voice`, con su estilo, y no cambia entre videos. Para probar otras, `npm run video:voices` deja el mismo texto en 8 voces, con el volumen igualado, en `packages/video/out/voices/A.mp3` a `H.mp3`; `key.json` dice cuál es cuál y se abre después de elegir.
+
+**Estilo: el del carrusel** (decisión de Jeremy del 20 de octubre de 2026). Cada Reel se ve como un carrusel de la cuenta, y dos videos seguidos no se parecen:
+- **Fijo:** el marco de `<Slide>`, con la pestaña de archivo, la textura de puntos y la firma, más los subtítulos.
+- **Por pieza:** la dirección de arte (`art`) de la baraja del carrusel, con su paleta, sus tipografías, el ancla y la pestaña. El acento tiene que llegar a 4.5:1 sobre `bg` y sobre `surface`, porque los subtítulos lo usan (`video:prepare` lo revisa).
+- **Por escena:** el tono de la paleta (`tone`) y la composición.
+
+**Letra:** en video, la letra chica de las primitivas no baja de 22 px de diseño (44 px a 1080 de ancho). Es un piso: lo que ya era más grande no cambia, y el carrusel tampoco cambia.
+
+**Composición: todo el lienzo, con margen.** El diseño no esquiva los botones ni los textos de Instagram: usa el lienzo dentro del margen del marco, como una lámina del carrusel. Por eso:
+- **El título** va arriba, desde y 128, dentro del recorte de la grilla.
+- **El dibujo** va centrado entre el título y los subtítulos. `SceneFrame` (de `@motor/video`) lo hace solo: cada escena le da su dibujo de 468 px de ancho, el de una lámina del carrusel, y su alto.
+- **Los subtítulos** van de y 812 a 880, justo arriba de la firma, en páginas de una frase o un pedazo de frase: nunca mezclan el final de una oración con el principio de la siguiente.
+- **La portada.** El cuadro 1 lleva el dibujo, no solo el título, porque la grilla del perfil lo recorta al centro 3:4 (de y 120 a 840). La pestaña queda fuera de ese recorte.
+- **La vista con la interfaz** (`video-vista-instagram.mp4` y la hoja) muestra qué tapa la app encima del diseño. Es para saberlo, no para acomodar el dibujo.
+
+**Recursos de terceros:** solo los de `assets/catalog.json`. Para que `video:prepare` use uno, tiene que tener:
+- la licencia revisada en su fuente, con la fecha en `checkedAt`;
+- su `sha256`, que demuestra que el archivo es el que se revisó.
+
+Los archivos no se commitean.
+
+**Buscar y agregar efectos:**
+- `npm run video:asset -- search "lápiz en papel"` busca primero en el catálogo y después en las bibliotecas de `media.config.json`: Openverse, sin clave, y Freesound, con `FREESOUND_API_KEY` en `.env`. Solo trae CC0.
+- `npm run video:asset -- add openverse:<id> --id lapiz --tags "papel,trazo"` lo baja, le calcula el hash y lo agrega al catálogo con la fecha.
+
+**Imágenes generadas:** `npm run video:image -- content/<pieza> --name foco --prompt "..."` deja `img/foco.png`, que se usa con `<Img src="img/foco.png">`. Las opciones:
+- `--chroma` la pide sobre verde y la recorta, para un PNG transparente;
+- `--ref img/a.png` le pasa referencias, como el avatar, para mantener el personaje;
+- `--aspect` y `--size` fijan la proporción y el tamaño.
+
+Cada generación se paga, así que no pisa un archivo existente sin `--replace`.
+
+**Música:** `npm run video:music -- content/<pieza> --name cama --prompt "..."` deja `audio/cama.mp3`: un clip de 30 s de Lyria, que se repite si el video es más largo. En `video.tsx` va como `music: { file: "audio/cama.mp3" }`, o `music: { asset: "<id>" }` si es del catálogo. Entra y sale con un fundido y baja mientras habla la voz. El volumen por defecto es 0.12, porque la voz manda.
+
+**Registro de lo generado:** las imágenes y la música hechas con IA quedan en `content/<pieza>/generated.json`, con el proveedor, el modelo, el prompt, las referencias, el hash y la fecha. Las voces quedan registradas en la caché. Los proveedores y modelos de imagen y música se cambian en `media.config.json`; la voz, en `accounts/dev.json`.
+
+## Reglas
+
+- **Igual que el carrusel:** datos de `facts.json`, nada inventado, una idea por escena, un recurso visual por escena y el gancho visible desde el cuadro 1.
+- **Margen:** el texto va a 36 px de cada borde (en px de diseño, sobre 540×960), entre la pestaña y los subtítulos, que van de y 812 a 880.
+- **Etiqueta de IA:** todo Reel con voz sintética la lleva al publicar (Meta).
 
 ## Pendiente
 
-- Prueba a ciegas de voces en español para elegir el proveedor.
-- Diseño del avatar y sus sprites (ver `assets/avatar/README.md`).
-- Catálogo de escenas animadas en Remotion.
+Está por fases en [docs/plan-videos.md](../docs/plan-videos.md):
+- publicar el piloto del ray tracing, que ya tiene las puertas A y B;
+- la calibración del crítico ciego con Reels que Jeremy admira;
+- el avatar;
+- publicar Reels.

@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
-import { cx } from "./index.tsx";
+import { cx } from "./cx.ts";
 
 /**
  * Movimiento (experimento, workflows/carrusel.md): una lámina con algo animado

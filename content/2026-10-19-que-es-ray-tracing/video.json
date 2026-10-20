@@ -1,0 +1,76 @@
+{
+  "$schema": "../../schemas/video.schema.json",
+  "hooks": [
+    {
+      "said": "El ray tracing sigue la luz al revés.",
+      "onScreen": "La luz, al revés",
+      "formula": 22
+    },
+    {
+      "said": "Si tu tarjeta dice RTX, esto es lo que hace.",
+      "onScreen": "¿Qué hace tu RTX?",
+      "formula": 10
+    },
+    {
+      "said": "No necesitas física para entender el ray tracing.",
+      "onScreen": "Sin física",
+      "formula": 20
+    }
+  ],
+  "scenes": [
+    {
+      "id": "gancho",
+      "say": "El ray tracing sigue la luz al revés. Y eso explica qué hace de verdad tu tarjeta RTX.",
+      "see": "El título «La luz, al revés» escrito a mano junto al logo oficial de NVIDIA. Desde el cuadro 1, un rayo verde sale del ojo hacia la lámpara, al revés de la luz, y abajo está la tarjeta gráfica rotulada RTX. Con la voz, una línea punteada sube de la tarjeta al rayo y se subraya RTX.",
+      "resource": "metafora"
+    },
+    {
+      "id": "luz-al-reves",
+      "say": "Una lámpara tira luz para todos lados y casi nada llega a tu ojo. El ray tracing parte de tu ojo: así no calcula los rayos que nunca vas a ver.",
+      "see": "La lámpara tira rayos punteados para todos lados y el ojo aparece cuando la voz lo nombra. Del ojo sale una flecha verde hacia la lámpara, y cada rayo punteado se tacha en su punta, lejos de la flecha: solo se calculan los rayos que llegan al ojo.",
+      "resource": "metafora"
+    },
+    {
+      "id": "el-rayo",
+      "say": "Desde tu ojo sale un rayo hacia la escena. Si choca con algo, pregunta si a ese punto le llega luz. Si no le llega, ahí hay sombra.",
+      "see": "El rayo sale del ojo, cruza un píxel de la pantalla y choca con una esfera; desde ahí busca la lámpara. El punto que la lámpara no alcanza queda en sombra.",
+      "resource": "proceso"
+    },
+    {
+      "id": "rasterizado",
+      "say": "Los juegos de siempre usan rasterizado: pintan triángulos sin ver el resto de la escena. Los reflejos y las sombras, los fingen con trucos.",
+      "see": "Dos columnas dibujadas a mano. El rasterizado tiene sus triángulos desde la primera palabra; el pincel pinta una sombra pegada debajo, rotulada «truco». El ray tracing está apagado hasta «el resto de la escena»; ahí se enciende y repite en chico la escena anterior: el rayo sale del ojo, choca con la esfera y busca la lámpara, y la sombra real cae del lado opuesto.",
+      "resource": "comparacion"
+    },
+    {
+      "id": "cine-o-juego",
+      "say": "Pixar puede tardar horas en un solo fotograma. Un juego tiene que dibujar decenas por segundo.",
+      "see": "Un reloj de arena grande frente a un cronómetro, desde el principio. Con «horas» se da vuelta el reloj y se dibuja, lento, un solo fotograma («1 fotograma: horas»); con «decenas» salen muchos fotogramas chicos de golpe («Juego: decenas por segundo»).",
+      "resource": "escala"
+    },
+    {
+      "id": "hibrido",
+      "say": "Por eso tu RTX mezcla las dos cosas: el rasterizado dibuja la escena y los núcleos RT le suman reflejos y luz que rebota.",
+      "see": "Dos capas en perspectiva. Desde la primera palabra están el plano de abajo, el ojo y la lámpara; abajo aparece la escena del rasterizado y arriba la capa de los núcleos RT. El reflejo es el rayo del video: sale del ojo, rebota en la capa RT y busca la lámpara.",
+      "resource": "capas"
+    },
+    {
+      "id": "cierre",
+      "say": "No es marketing: es la luz, al revés. Mándaselo al que dice que el ray tracing solo sirve para ver charcos.",
+      "see": "El ojo, una esfera y la lámpara desde la primera palabra. Vuelve el rayo del video: sale del ojo, choca con la esfera y busca la lámpara, al revés de la luz. Al final aparece el ícono de enviar en verde.",
+      "resource": "metafora"
+    }
+  ],
+  "caption": "El ray tracing de tu RTX no sigue la luz: la sigue al revés, como propuso Turner Whitted en 1980.\n\nParte de tu ojo. No de la lámpara, que tira rayos para todos lados y casi ninguno te llega, así que se ahorra justo los que nunca vas a ver. Lo demás lo hacen los núcleos RT de tu tarjeta: reflejos y luz que rebota, encima del rasterizado de siempre y en tiempo real.\n\nMándaselo al que dice que el ray tracing solo sirve para ver charcos.\n\nFuentes: NVIDIA, Microsoft DirectX Raytracing, Pixar RenderMan y Turner Whitted (1980).\n\n#raytracing #nvidia #rtx",
+  "gateA": {
+    "approved": true,
+    "date": "2026-10-20",
+    "notes": "Piloto de la fase 2 del plan de videos. Jeremy aprobó el guion en el chat. Reemplaza el guion de la escena de prueba de la fase 0. El 20 de octubre, después de la primera crítica ciega, Jeremy pidió aplicar sus tres arreglos: cambia lo que se ve en el gancho, el rasterizado, cine o juego, el híbrido y el cierre. Lo que dice la voz no cambia. Después de la segunda crítica, Jeremy pidió la ronda 3: cambia lo que se ve en «Casi nada llega», «Pintar o calcular» y «Horas o un instante», y el final se sostiene 1 s. La voz sigue igual."
+  },
+  "gateB": {
+    "approved": true,
+    "date": "2026-10-20",
+    "video": "f29a5b2ba6a4573d4a9cc4aefed028a8a42730e5e1ff6630718173e69accc301",
+    "notes": "Jeremy aprobó el video en el chat. Es el piloto rehecho con el estilo del carrusel: la dirección de arte de su post.json (línea continua), el marco de Slide y el diseño con margen, sin esquivar la interfaz de Instagram. Reemplaza las aprobaciones anteriores del mismo día."
+  }
+}

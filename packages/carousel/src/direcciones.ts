@@ -54,12 +54,17 @@ export function historial(account: string, excluir?: string): { pieza: string; d
 
 /**
  * Reparte `n` direcciones al azar. Quedan fuera las dos últimas que usó la
- * cuenta, para que el feed no repita estilo dos veces seguidas.
+ * cuenta, para que el feed no repita estilo dos veces seguidas. El video pasa
+ * las suyas en `recientes`, para que tampoco se repitan en la pestaña de Reels.
  */
-export function repartir(account: string, n = 3, excluir?: string): { mano: Direccion[]; recientes: string[] } {
-  const recientes = historial(account, excluir)
+export function repartir(
+  account: string,
+  n = 3,
+  excluir?: string,
+  recientes = historial(account, excluir)
     .slice(0, 2)
-    .map((h) => h.direccion);
+    .map((h) => h.direccion),
+): { mano: Direccion[]; recientes: string[] } {
   const mazo = DIRECCIONES.filter((d) => disponible(d) && !recientes.includes(d.id));
   for (let i = mazo.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));

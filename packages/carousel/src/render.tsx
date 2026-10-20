@@ -13,6 +13,8 @@ import { GESTO_DE_TIPO, historialTratamientos, TRATAMIENTOS } from "./cierres.ts
 import { ffmpegDisponible, finalizarMovimiento, grabarLamina, prepararMovimiento } from "./movimiento.ts";
 import { PostSchema, type Post } from "./post.ts";
 import { revisarTextos } from "./texto.ts";
+import { AssetContext } from "./ui/assets.ts";
+import { nodeAssets } from "./ui/assets-node.ts";
 import { SlideContext } from "./ui/index.tsx";
 import { MOTION_CSS } from "./ui/motion.tsx";
 
@@ -406,6 +408,7 @@ export async function renderPiece(dir: string): Promise<{ files: string[]; issue
   let lastText = "";
   let lastGestos: string[] = [];
   const browser = await launchBrowser();
+  const assets = nodeAssets(dir);
   const pngs: string[] = [];
   const animadas = new Map<number, number>();
   const sinVisual: number[] = [];
@@ -417,7 +420,9 @@ export async function renderPiece(dir: string): Promise<{ files: string[]; issue
       const nn = String(i + 1).padStart(2, "0");
       const where = `lámina ${i + 1}`;
       const markup = renderToStaticMarkup(
-        <SlideContext.Provider value={{ brand, art, tab, index: i, total: slides.length, dir }}>{slides[i]}</SlideContext.Provider>,
+        <AssetContext.Provider value={assets}>
+          <SlideContext.Provider value={{ brand, art, tab, index: i, total: slides.length, dir }}>{slides[i]}</SlideContext.Provider>
+        </AssetContext.Provider>,
       );
       const body = await highlightCode(markup);
       const html = `<!doctype html><html lang="es"><head><meta charset="utf-8"><style>${fonts}\n${css}</style></head><body>${body}</body></html>`;

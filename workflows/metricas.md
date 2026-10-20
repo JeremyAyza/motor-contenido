@@ -35,6 +35,24 @@ Más adelante se puede leer Insights con la API de Instagram para cuentas profes
 
 Alcance alto con pocos seguidores es un problema del perfil (bio, portadas fijadas), no del carrusel: no reescribas ganchos por eso. Poco alcance es un problema del gancho.
 
+## Reels
+
+Los Reels van aparte, en `content/<pieza>/video-metrics.json` ([esquema](../schemas/video-metrics.schema.json)), porque una pieza puede tener carrusel y Reel. `npm run video:metrics` regenera [docs/metricas-video.md](../docs/metricas-video.md); los pasos están en [workflows/video.md](video.md).
+
+Insights cambió en 2025 y 2026, así que se anotan estos nombres:
+- **Vistas** (`views`): cada vez que el Reel aparece en pantalla, con las repeticiones. Reemplazó a las reproducciones en abril de 2025.
+- **Tiempo de reproducción** (`watchTimeSeconds`) y **tiempo de reproducción promedio** (`avgWatchSeconds`).
+- **Tasa de saltos** (`skipRate`): el porcentaje de quienes deslizaron para irse. Llegó en 2026, y todavía no aparece en los Trial Reels ni en las colaboraciones.
+
+Además de las métricas del carrusel (compartidos, guardados y seguidores por alcance, múltiplo sobre la mediana y alcance de no seguidores), en un Reel se miran dos más:
+
+| Métrica | Cómo | Qué dice |
+|---|---|---|
+| Tasa de saltos | la de Insights | Si el gancho funcionó: el primer cuadro y la primera frase. Es la nota del gancho |
+| Visto | tiempo promedio / duración | Si el medio sostuvo. Pocos saltos con poco visto es un video que se cae después del gancho |
+
+Los Trial Reels se muestran primero a quien no sigue la cuenta: se comparan entre ellos, no con los demás. En la revisión mensual, agrupa también por duración (menos de 30 s, de 30 a 60 s y más de 60 s).
+
 ## Una vez al mes: la revisión
 
 1. Pon lado a lado las 5 mejores piezas y las 5 peores por compartidos por alcance.

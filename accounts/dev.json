@@ -8,8 +8,8 @@
     "manifest": "assets/avatar/manifest.json"
   },
   "voice": {
-    "provider": null,
-    "voiceId": null,
-    "style": null
+    "provider": "gemini",
+    "voiceId": "Puck",
+    "style": "Español latinoamericano neutro. Cercano y con energía, como quien le explica tecnología a un amigo. Ritmo tranquilo, con una pausa breve después de cada frase."
   }
 }

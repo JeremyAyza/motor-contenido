@@ -10,3 +10,10 @@ __pycache__/
 .publisher/
 # Capturas de carruseles de terceros: solo para calibrar al crítico ciego
 skills/carrusel-taste/referencias/externas/
+# Voces, alineaciones, recursos bajados y whisper.cpp (se regeneran)
+.cache/
+packages/video/out/
+# Skills oficiales de Remotion: su repo no publica licencia y este es público.
+# Se instalan en cada máquina: npx skills experimental_install (lee skills-lock.json).
+.agents/skills/remotion-*/
+.claude/skills/remotion-*/

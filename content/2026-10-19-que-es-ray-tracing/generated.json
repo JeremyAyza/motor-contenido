@@ -1,0 +1,12 @@
+[
+  {
+    "file": "audio/cama.mp3",
+    "kind": "music",
+    "provider": "gemini",
+    "model": "lyria-3-clip-preview",
+    "prompt": "Calm, curious instrumental bed for a short tech explainer: soft electric piano, light brushed drums, warm bass, steady 90 bpm, gentle and optimistic, no vocals, no build-ups or drops, mixed low so a voice sits on top.",
+    "references": [],
+    "sha256": "231f290418fe615a161b0ce3eb2fa0d91be73d247ad35188a4884abd1a4e1550",
+    "createdAt": "2026-10-20T15:03:50.438Z"
+  }
+]

@@ -13,7 +13,8 @@
     "types": ["node"],
     "baseUrl": ".",
     "paths": {
-      "@motor/ui": ["packages/carousel/src/ui/index.tsx"]
+      "@motor/ui": ["packages/carousel/src/ui/index.tsx"],
+      "@motor/video": ["packages/video/src/kit/index.ts"]
     }
   },
   "include": ["packages/**/*.ts", "packages/**/*.tsx", "content/**/*.tsx"]

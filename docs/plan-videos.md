@@ -1,12 +1,63 @@
 # Plan: videos
 
-Segunda versión, del 20 de octubre de 2026, **sin aprobar**. Toma las cuatro decisiones de Jeremy sobre la primera:
+| Fase | Estado |
+|---|---|
+| 0. Base | Hecha el 20 de octubre de 2026. Remotion 4.0.537 y las 12 skills oficiales están instalados, y `packages/media` tiene el puerto de voz con Gemini, la caché y whisper.cpp. La escena de prueba del ray tracing sale en MP4 (9 s, 1080×1920). Jeremy eligió la voz Puck y el estilo de marco fijo con acento por tema |
+| Antes del piloto | Hecho el 20 de octubre de 2026. La letra chica de las primitivas tiene un piso de 22 px en video. Las puertas viven en `video.json`: la A antes de la voz y la B con el sha256 del video. El catálogo exige licencia revisada y hash. Se adelantó de la fase 3 para que ninguna pieza real salte las puertas |
+| 1. Proveedores y recursos | Hecha el 20 de octubre de 2026. Están los puertos de imagen (Nano Banana 2.1), música (Lyria, clip de 30 s) y búsqueda de efectos (Openverse y Freesound, solo CC0). También están `video:image` (con recorte por chroma), `video:music` con música de fondo que baja con la voz, `video:asset` y `generated.json`. Los tests con proveedores falsos muestran que cambiar de proveedor no toca el flujo |
+| 2. Piloto | Hecha el 20 de octubre de 2026, con las puertas A y B aprobadas ese día. Es el Reel del ray tracing: 7 escenas, 60.3 s, −14 LUFS y cama de Lyria. La puerta B se volvió a aprobar después de tres rondas del crítico ciego (3.95, 3.90 y 4.05), del final sostenido y de los subtítulos por frase; el inspector solo avisa que pasa 0.3 s de los 60. El inspector de video revisa zona segura, letra, gancho en el cuadro 1, palabras en pantalla, partes quietas, composición, subtítulos, volumen y duración. Antes de la puerta B se ajustó la composición a lo que Instagram deja ver; `video:render` deja una vista previa con la interfaz de la app encima. Después Jeremy cambió el estilo por el del carrusel, sin zona segura: el piloto se rehízo con la dirección de su carrusel, pasa el inspector y Jeremy lo volvió a aprobar en la puerta B (sha256 f29a5b2b…c301). El de Scion, con su propia dirección, también tiene la puerta B aprobada (c2e8030a…0e2e). Todavía no se publicó: eso es la fase 5 |
+| 3. Flujo editorial | Herramientas hechas el 20 de octubre de 2026. `video:script` corre `ig-reel` por sus wrappers en español (`hookscore_es --video` y `beats_es`, nuevo) y arma la carpeta del crítico ciego de ganchos. `video:critique` arma la del video: tiras de cuadros, la vista con la interfaz, lo que se oye y el brief aparte, con su rúbrica (`docs/critica-video.md`). `video-metrics.json` y `video:metrics` registran los Reels con los nombres de Insights de 2026 (vistas, tiempo promedio, tasa de saltos). Falta que un video nuevo salga de punta a punta, con sus dos puertas, y calibrar al crítico con Reels que Jeremy admira |
+| 4 y 5 | Pendientes |
+
+Lo que se aprendió en la fase 0:
+- **Movimiento.** Las animaciones CSS de las primitivas no se pueden adelantar desde JavaScript en el primer cuadro de cada pestaña del render paralelo, porque el navegador todavía no las creó. En video se pausan y su retraso sale del cuadro actual (`--t`), así que el navegador calcula cada cuadro solo con CSS.
+- **Color.** Con cuadros JPEG, Remotion entrega yuvj420p (rango completo). `setColorSpace("bt709")` lo deja en yuv420p de rango limitado, que es lo que esperan los celulares.
+- **Voz.** Gemini habla rápido en español (unas 220 palabras por minuto). Pedir "ritmo tranquilo, con una pausa breve después de cada frase" en el estilo la baja a unas 190.
+- **Remotion y zod.** Remotion avisa que quiere zod 4.5.4 y el repo usa 4.6.7. No usamos esquemas de zod en las composiciones, así que por ahora es solo un aviso.
+
+Lo que se aprendió en la fase 1:
+- **Nano Banana 2.1 solo entrega JPEG.** El comando lo convierte a PNG con ffmpeg y, con `--chroma`, quita el verde.
+- **Sin despill en el chroma.** Despill le saca el verde también a los amarillos: un foco amarillo salió naranja. Sin despill queda un filo muy fino, que tapa un borde blanco de sticker.
+- **Openverse estuvo inestable el 20 de octubre.** Respondía 500 o 504 con el filtro de licencia, o no respondía. El adaptador reintenta sin filtro y filtra CC0 de nuestro lado, y la búsqueda sigue con la biblioteca siguiente si una falla.
+- **Lyria.** El clip de 30 s sale en MP3 estéreo a 44.1 kHz.
+
+Lo que se aprendió en la fase 2:
+- **El inspector mide adentro del render de Remotion.** Una sonda en la composición le manda las medidas del DOM a un servidor local. Así se mide lo que de verdad se dibuja, sin otro render paralelo que pueda diferir.
+- **Escala.** Con `--scale=2`, Remotion agranda la composición con un transform y `getBoundingClientRect` devuelve píxeles reales. La sonda divide por la escala (el cociente con `offsetWidth`).
+- **El render tiene que ser asíncrono.** Con `spawnSync`, Node no podía atender al servidor de la sonda mientras Remotion renderizaba.
+- **La revisión de textos del carrusel sirve para el guion.** Pidió acortar la primera línea del texto del post (173 caracteres), variar el largo de las frases y nombrar algo concreto (Turner Whitted, 1980).
+- **El ritmo de la voz cambia entre generaciones.** Con el mismo estilo, Gemini habló entre 2.4 y 3.5 palabras por segundo según la escena. La estimación de 3.2 dio 51 s y el piloto salió en 62. Ahora cada escena termina 300 ms después de su última palabra, no al final del archivo de audio; con eso quedó en 59.7 s sin tocar el guion.
+- **El inspector encontró lo que a ojo se escapa.** Tres etiquetas pasaban el borde derecho, donde Instagram pone sus botones, y había 4.6 s de imagen quieta en el gancho.
+- **El punto de los trazos.** Antes de dibujarse, un trazo animado con punta redondeada deja un punto. En video ese punto se ve hasta que empieza el trazo, así que `VIDEO_MOTION_CSS` lo oculta. El carrusel no cambia.
+- **Composición (pedido de Jeremy: "abajo queda un gran espacio vacío").**
+  - **Lo medido:** el contenido quedaba centrado en y 390 de 960, con el 35 % de abajo vacío, y la portada era solo el título, con un 80 % vacío.
+  - **La investigación:** en un Reel, Instagram tapa entre el 25 y el 35 % de abajo (usuario, texto del post y audio). Lo recomendado es componer dentro de la franja visible, centrado en ella, con los subtítulos en el cuadrante central inferior.
+  - **Los cambios:** los subtítulos bajaron a y 640, justo encima de lo que tapa la app, y `SceneFrame` centra el dibujo entre el título y los subtítulos. La portada lleva el dibujo desde el cuadro 1. `video:render` deja una vista previa con una simulación de la interfaz encima, para juzgar como en la app, y el inspector avisa si una escena queda alta o si la portada se ve vacía.
+- **`freezedetect` no ve los trazos finos.** Promedia la diferencia de todo el cuadro, y una línea que se dibuja no lo mueve. El inspector cuenta ahora los píxeles que cambian cada medio segundo.
+- **La música de Lyria es un clip de 30.8 s.** En un video de 60 s se repite una vez, y el corte se nota poco porque va bajo la voz. Para videos largos conviene `lyria-3.5`, que hace canciones completas. Los términos de la API de Gemini dicen que Google no reclama la propiedad de lo generado y no restringen el uso comercial; puede generar algo parecido para otros.
+
+Lo que se aprendió en la fase 3:
+- **El ritmo real de la voz es de 2.7 palabras por segundo, no de 3.2.** En el piloto fueron 162 palabras en 59.6 s, con las pausas entre frases y el final de cada escena. Con 3.2, la puerta A estimaba 51 s; con 2.7 estima 60, lo que de verdad duró.
+- **`hookscore` le pone 30 (WEAK) al gancho del piloto.** "El ray tracing sigue la luz al revés" no tiene cifra ni nombre propio, y el original no cuenta "ray tracing" como algo concreto. Los otros dos ganchos sacan 52 y 56. El piloto ya estaba aprobado; en el próximo video, el aviso llega antes de la puerta A.
+- **`beats` marca frases largas para el oído.** La más larga del piloto dura 8.9 s ("Por eso tu RTX mezcla las dos cosas..."). En video eso pide un cambio en pantalla dentro de la frase, o partirla.
+- **El crítico encontró lo que el inspector no mide.** En el piloto puso 3.95, debajo del 4.5 de la puerta B, con Retención y Recurso visual en 3. Señaló dos partes que empiezan con el lienzo vacío mientras la voz ya habla (0:42 y 0:52) y la flecha del cierre, que entra al ojo cuando la tesis dice que el rayo sale de él. El inspector pasó limpio: solo avisa de más de 4 s sin cambio. El informe está en `content/2026-10-19-que-es-ray-tracing/video-critica.md`.
+- **El puntaje del crítico casi no se movió entre rondas: 3.95 y 3.90.** Los tres puntos de la ronda 1 se arreglaron, y Retención subió de 3 a 4. Cada contexto nuevo encuentra otros problemas: la ronda 2 marcó la columna de ray tracing, que tira los rayos desde la lámpara; la X que tacha también el rayo verde; y los relojes quietos. Por eso el promedio solo no alcanza para decidir; los arreglos concretos sí. Hasta calibrarlo con Jeremy, el crítico es una lista de problemas más que una nota.
+- **Tres rondas: 3.95, 3.90 y 4.05.** Cada ronda arregló lo que marcó la anterior, y la tesis llegó a 5, pero Recurso visual quedó en 3 en las tres. Lo que los tres críticos marcaron por separado es la señal más confiable:
+  - los subtítulos cortan frases y mezclan el final de una oración con el principio de la siguiente;
+  - los dibujos son chicos para un celular.
+
+  Las dos cosas son del motor, no de esta pieza. Los subtítulos ya se arreglaron: `createTikTokStyleCaptions` de Remotion agrupa palabras por tiempo, y ahora `src/captions.ts` corta por frase. El tamaño de los dibujos queda pendiente.
+- **La última frase queda menos de 1 s en pantalla.** Cada escena termina 300 ms después de su última palabra, y en el cierre eso cortaba el CTA. Ahora la última escena se sostiene 1 s (`END_TAIL_MS`), y el piloto dura 60.3 s.
+- **El crítico no ve video.** Claude lee imágenes, no MP4, así que la carpeta lleva un cuadro cada 2 s en tiras de 6 con la interfaz encima, y la transcripción con el segundo de cada parte. Un agente que sí ve video (Gemini) mira `video.mp4`.
+- **Un marco fijo hace iguales a todos los videos.** El de Scion, el segundo, salió casi igual al piloto: mismo papel, mismos titulares a mano y solo otro acento. Jeremy pidió que varíen como sus carruseles, y ahora cada pieza lleva su dirección de arte de la baraja (ver Estilo). Además, el diseño dejó de esquivar la interfaz de Instagram: con margen, los dibujos pasaron de 385 a 468 px de ancho, lo que también responde a "los dibujos son chicos para un celular".
+
+La segunda versión del plan es del 20 de octubre de 2026 y Jeremy la aprobó ese mismo día. Toma las cuatro decisiones de Jeremy sobre la primera:
 1. Remotion como motor.
 2. Sus skills oficiales.
 3. Bibliotecas de recursos (sonidos, PNG, chroma).
 4. La API de Gemini directa, detrás de puertos que permiten cambiar de proveedor.
 
-Si se aprueba, [workflows/video.md](../workflows/video.md) y [docs/contexto.md](contexto.md) se actualizan con esto.
+Lo que ya funciona está en [workflows/video.md](../workflows/video.md).
 
 ## Decisiones
 
@@ -14,11 +65,11 @@ Si se aprueba, [workflows/video.md](../workflows/video.md) y [docs/contexto.md](
 |---|---|
 | Motor | **Remotion 4.0.537.** Es gratis para Jeremy porque trabaja solo; la licencia de pago es para empresas de más de 3 personas |
 | Skills | Las 12 oficiales de Remotion, sin modificar, más una capa propia (`skills/video-es`) que dice qué cambia en este repo |
-| Voz | Gemini 3.8 Flash TTS por la API, detrás de `SpeechProvider`. ElevenLabs puede entrar después como otro adaptador |
+| Voz | Gemini 3.8 Flash TTS por la API, detrás de `SpeechProvider`, con la voz **Puck** (elegida por Jeremy el 20 de octubre de 2026). ElevenLabs puede entrar después como otro adaptador |
 | Imágenes | Nano Banana 2.1 por la API de Gemini, detrás de `ImageProvider` |
 | Recursos | Un catálogo propio, con la licencia de cada archivo, que se alimenta de las bibliotecas de abajo |
 | Etiqueta de IA | Todo Reel con voz sintética la lleva (Meta) |
-| Estilo | La dirección "cuaderno", con el avatar de Jeremy |
+| Estilo | El del carrusel: su marco (pestaña, puntos y firma) fijo, y por pieza la dirección de arte de la baraja, con su paleta, tipografías, ancla y composición. Sin esquivar la interfaz de Instagram, solo con margen (decisiones de Jeremy del 20 de octubre de 2026; reemplazan el marco fijo "cuaderno") |
 
 Una aclaración: **el carrusel no usa Remotion**, sino nuestro render con Playwright. Lo que se comparte es React, Tailwind y las primitivas, y su movimiento se adapta (ver abajo).
 
@@ -142,7 +193,7 @@ Los $10 mensuales de créditos de Google AI Pro cubren todo. Se activan en Googl
 - **Tamaños.** El titular va de 84 px o más y el texto de apoyo de 44 px o más (skill de Remotion, para 1080 de ancho).
 
 **Lo que tapa o recorta Instagram:**
-- **Zona segura.** La de `ig-reel`: nada importante fuera de y 230 a 1440 ni en los 230 px de la derecha. El Element Social Safe Zones la muestra en Studio.
+- **Zona segura.** La de `ig-reel` deja nada importante fuera de y 230 a 1440 ni en los 230 px de la derecha. Aquí no se usa: Jeremy prefirió componer con todo el lienzo y un margen (ver Estilo). La vista con la interfaz muestra lo que tapa.
 - **Portada.** La grilla del perfil es rectangular desde enero de 2025, así que el centro del primer cuadro funciona como portada.
 
 **Reglas de Instagram y de Meta:**
@@ -151,14 +202,21 @@ Los $10 mensuales de créditos de Google AI Pro cubren todo. Se activan en Googl
 
 ## Estilo
 
-**La dirección "cuaderno":** papel con cuadrícula, titulares a mano (Caveat), un acento cálido, tarjetas de borde fino, y flechas y bocetos a mano. Casi todo viene ya hecho:
-- los Elements de papel y de anotación;
-- `rough-notation`;
-- nuestro `Boceto` con rough.js.
+**El del carrusel** (decisión de Jeremy del 20 de octubre de 2026, después del piloto). Lo que identifica a la cuenta no cambia, y todo lo demás sale del tema, como en el feed de carruseles: se reconocen como de la cuenta y no se ven iguales.
 
-Lleva la firma de la cuenta y el avatar de Jeremy.
+| Fijo en todos los videos | Cambia con cada pieza |
+|---|---|
+| El marco de `<Slide>`: la pestaña de archivo, la textura de puntos y la firma | La **dirección de arte** (`video.json → art`), de la misma baraja del carrusel: `video:baraja` reparte 3 sin las dos últimas que usaron los videos. Si la pieza tiene carrusel, el Reel toma su `post.json → art` |
+| Los subtítulos, de una frase o un pedazo de frase, con la palabra que se dice marcada | La **paleta y las tipografías** de esa dirección. El acento tiene que llegar a 4.5:1 sobre `bg` y `surface`, porque los subtítulos lo usan; `video:prepare` lo revisa |
+| El margen del marco (36 px) y el avatar, cuando exista | El **ancla**, la **pestaña**, el **tono** de cada escena y la **composición**: libre, sin plantillas |
 
-De las referencias se toma la técnica (una idea por escena, pocas palabras, el dibujo acompañando a la voz), no la identidad: la paleta y el personaje son los de la cuenta. Logos y mascotas, como en el carrusel: el archivo oficial sin modificar.
+Por qué cambió. La primera versión fijaba un marco "cuaderno" (papel con cuadrícula, titulares en Caveat) y solo variaba el acento. El segundo video, el de Scion, salió casi igual al piloto, y Jeremy lo marcó: los Reels tenían que variar por tema como sus carruseles, con el del ray tracing como ejemplo. Ahora el piloto toma la dirección de su carrusel (línea continua, fondo casi negro, Archivo y el verde de NVIDIA) y el de Scion la suya (antes y después, papel marfil, Archivo condensada y el terracota de Claude).
+
+**Composición.** El diseño no esquiva los botones ni los textos de Instagram (también decisión de Jeremy): usa el lienzo dentro del margen, con dibujos de 468 px de ancho, los de una lámina del carrusel. El título empieza en y 128, dentro del recorte 3:4 de la grilla, y los subtítulos van de y 812 a 880, arriba de la firma. La vista con la interfaz sigue en la hoja para saber qué tapa la app.
+
+Las herramientas para el dibujo a mano ya están: los Elements de anotación, `rough-notation` y nuestro `Boceto` con rough.js.
+
+De las referencias se toma la técnica (una idea por escena, pocas palabras, el dibujo acompañando a la voz), no la identidad: la paleta sale de la dirección de la pieza y el personaje es el de la cuenta. Logos y mascotas, como en el carrusel: el archivo oficial sin modificar, y nada encima de ellos.
 
 ## Cómo queda el flujo
 
@@ -175,12 +233,12 @@ De las referencias se toma la técnica (una idea por escena, pocas palabras, el 
 5. **`video.tsx`.** Es la composición de Remotion:
    - `calculateMetadata` toma la duración de cada escena de su voz;
    - las escenas usan las primitivas y los Elements;
-   - los subtítulos van con `@remotion/captions`, en un estilo de palabra resaltada;
+   - los subtítulos resaltan la palabra que se dice, en páginas cortadas por frase (`src/captions.ts`);
    - los efectos de sonido salen del catálogo.
 6. **Vista previa.** El agente abre Remotion Studio, en el navegador integrado si lo hay. Jeremy puede ajustar textos y tiempos ahí, y los cambios quedan en el código.
 7. **`video:render`:** un MP4 de 1080×1920 a 30 fps y una hoja de revisión con un fotograma por escena.
 8. **Inspector de video.** Revisa:
-   - la zona segura y el tamaño de letra;
+   - el margen del marco y el tamaño de letra;
    - las palabras por escena;
    - que no haya más de 4 s sin cambio;
    - que los subtítulos estén completos;
@@ -203,16 +261,17 @@ De las referencias se toma la técnica (una idea por escena, pocas palabras, el 
 
 ## Lo que hace falta de Jeremy
 
-- `GEMINI_API_KEY` en `.env`, creada en AI Studio dentro del proyecto donde activó los créditos de AI Pro.
-- Escuchar la prueba de voces y elegir.
-- Confirmar el estilo "cuaderno" con la escena de prueba.
+Ya está todo lo de la fase 0:
+- `GEMINI_API_KEY` en `.env`;
+- la voz, Puck;
+- el estilo: el del carrusel, con la dirección de arte por pieza (cambió el 20 de octubre de 2026, después del piloto).
 
 ## Riesgos
 
 - **Primitivas:** adaptar su movimiento toca código del carrusel. Para cubrirlo, el modo CSS no cambia y las piezas aprobadas se vuelven a renderizar para comparar.
 - **Licencias de Remotion:** `@remotion/effects` y `@remotion/transitions` dicen "UNLICENSED" en npm, y caen en la licencia de Remotion, gratis para Jeremy. Si algún día trabaja con un equipo de más de 3 personas, se paga.
 - **Skills sin licencia publicada:** se instalan por máquina y no se versionan.
-- **Lyria:** sus términos de uso comercial están sin confirmar. Mientras tanto, música de una biblioteca con licencia, o ninguna.
+- **Lyria:** resuelto. Los [términos de la API de Gemini](https://ai.google.dev/gemini-api/terms) dicen que Google no reclama la propiedad de lo generado y no limitan el uso comercial. Lo que queda es que puede generar algo parecido para otros, así que la música no es exclusiva.
 - **Whisper en WebGPU:** necesita una GPU compatible. Si falla, whisper.cpp.
 - **Etiqueta de IA en la web de Instagram:** el ensayo dirá dónde está el interruptor.
 
