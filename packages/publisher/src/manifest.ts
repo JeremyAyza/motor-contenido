@@ -14,7 +14,10 @@ export const ManifestSchema = z.object({
   id: z.string().trim().min(1).describe("Stable id of the piece, such as its folder name"),
   account: slug.describe(`Account key from ${CONFIG_FILE}`),
   caption: z.string().describe("Post text, hashtags included"),
-  media: z.array(z.string().min(1)).min(1).describe("Image paths in posting order, relative to the manifest"),
+  media: z.array(z.string().min(1)).min(1).describe("Media paths in posting order, relative to the manifest"),
+  kind: z.enum(["carousel", "reel"]).optional().describe("Post type: carousel of images or a vertical reel"),
+  cover: z.string().optional().describe("Cover image path for a reel, relative to the manifest"),
+  aiLabel: z.boolean().optional().describe("Whether to turn on Meta's AI label"),
 });
 export type Manifest = z.infer<typeof ManifestSchema>;
 
@@ -65,7 +68,11 @@ export function loadProject(from: string): Project {
 export function loadManifest(file: string): Manifest {
   if (!existsSync(file)) throw new PublisherError(`Manifest not found: ${file}`);
   const manifest = readJson(file, ManifestSchema);
-  return { ...manifest, media: manifest.media.map((path) => resolve(dirname(file), path)) };
+  return {
+    ...manifest,
+    media: manifest.media.map((path) => resolve(dirname(file), path)),
+    cover: manifest.cover ? resolve(dirname(file), manifest.cover) : undefined,
+  };
 }
 
 export function assertAccount(config: Config, account: string): Record<string, string> {
@@ -87,7 +94,24 @@ const VIDEO_FORMATS = ["mp4", "mov"];
 /** Reasons the platform would reject the publication, one per item. Empty when it can go. */
 export function problemsWith(manifest: Manifest, limits: Limits): string[] {
   const problems: string[] = [];
-  if (manifest.media.length > limits.maxMedia) problems.push(`${manifest.media.length} images; the limit is ${limits.maxMedia}`);
+  if (manifest.kind === "reel") {
+    if (manifest.media.length !== 1) {
+      problems.push(`A reel needs exactly 1 video file; found ${manifest.media.length}`);
+    }
+    if (manifest.cover) {
+      if (!existsSync(manifest.cover)) {
+        problems.push(`Missing cover file: ${manifest.cover}`);
+      } else {
+        const coverFmt = extname(manifest.cover).slice(1).toLowerCase();
+        if (!["jpg", "jpeg", "png"].includes(coverFmt)) {
+          problems.push(`Unsupported cover format .${coverFmt}: ${manifest.cover} (use jpg, png)`);
+        }
+      }
+    }
+  } else if (manifest.media.length > limits.maxMedia) {
+    problems.push(`${manifest.media.length} images; the limit is ${limits.maxMedia}`);
+  }
+
   for (const file of manifest.media) {
     if (!existsSync(file)) {
       problems.push(`Missing file: ${file}`);
@@ -109,6 +133,9 @@ export function problemsWith(manifest: Manifest, limits: Limits): string[] {
 /** Hash of the caption and the image bytes: it tells whether a piece changed after it was posted. */
 export function fingerprintOf(manifest: Manifest): string {
   const hash = createHash("sha256").update(manifest.caption);
+  if (manifest.kind) hash.update("\0").update(manifest.kind);
+  if (manifest.aiLabel) hash.update("\0aiLabel");
+  if (manifest.cover && existsSync(manifest.cover)) hash.update("\0cover").update(readFileSync(manifest.cover));
   for (const file of manifest.media) hash.update("\0").update(readFileSync(file));
   return `sha256:${hash.digest("hex")}`;
 }

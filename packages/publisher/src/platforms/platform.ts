@@ -11,7 +11,14 @@ export type Limits = {
   maxHashtags: number;
 };
 
-export type PostInput = { caption: string; media: readonly string[]; handle: string };
+export type PostInput = {
+  caption: string;
+  media: readonly string[];
+  handle: string;
+  kind?: "carousel" | "reel";
+  cover?: string;
+  aiLabel?: boolean;
+};
 
 export type PostResult = { url?: string };
 

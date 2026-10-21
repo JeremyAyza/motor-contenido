@@ -88,4 +88,57 @@ describe("fingerprintOf", () => {
     writeFileSync(image, "dos");
     assert.notEqual(fingerprintOf(manifestWith([image])), before);
   });
+
+  it("changes when cover or aiLabel changes for a reel", () => {
+    const dir = tempDir();
+    const video = join(dir, "video.mp4");
+    const coverA = join(dir, "a.png");
+    const coverB = join(dir, "b.png");
+    writeFileSync(video, "v");
+    writeFileSync(coverA, "a");
+    writeFileSync(coverB, "b");
+    const base: Manifest = { id: "p", account: "dev", caption: "Hi", media: [video], kind: "reel", cover: coverA, aiLabel: true };
+    const fp1 = fingerprintOf(base);
+    assert.notEqual(fingerprintOf({ ...base, cover: coverB }), fp1);
+    assert.notEqual(fingerprintOf({ ...base, aiLabel: false }), fp1);
+    assert.notEqual(fingerprintOf({ ...base, kind: "carousel" }), fp1);
+  });
 });
+
+describe("problemsWith reels", () => {
+  it("accepts a valid reel with 1 video and valid cover", () => {
+    const dir = tempDir();
+    writeFileSync(join(dir, "video.mp4"), "mp4 content");
+    writeFileSync(join(dir, "cover.png"), "cover content");
+    const reelManifest: Manifest = {
+      id: "pieza",
+      account: "dev",
+      caption: "Hola Reel",
+      media: [join(dir, "video.mp4")],
+      kind: "reel",
+      cover: join(dir, "cover.png"),
+      aiLabel: true,
+    };
+    const videoLimits: Limits = { ...limits, formats: ["png", "mp4"], maxVideoBytes: 1000 };
+    assert.deepEqual(problemsWith(reelManifest, videoLimits), []);
+  });
+
+  it("rejects a reel with multiple videos or invalid cover format", () => {
+    const dir = tempDir();
+    writeFileSync(join(dir, "video1.mp4"), "1");
+    writeFileSync(join(dir, "video2.mp4"), "2");
+    writeFileSync(join(dir, "cover.bmp"), "bmp");
+    const reelManifest: Manifest = {
+      id: "pieza",
+      account: "dev",
+      caption: "Hola",
+      media: [join(dir, "video1.mp4"), join(dir, "video2.mp4")],
+      kind: "reel",
+      cover: join(dir, "cover.bmp"),
+    };
+    const problems = problemsWith(reelManifest, { ...limits, formats: ["mp4"], maxVideoBytes: 1000 });
+    assert.match(problems.join("\n"), /A reel needs exactly 1 video file/);
+    assert.match(problems.join("\n"), /Unsupported cover format \.bmp/);
+  });
+});
+

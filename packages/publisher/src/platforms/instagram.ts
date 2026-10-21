@@ -66,12 +66,22 @@ class InstagramPublisher implements Publisher {
   async post(input: PostInput, { dryRun, beforeShare }: PostOptions): Promise<PostResult> {
     await this.goHome();
     await this.dismissPrompts();
-    await this.openCreateDialog();
+    await this.openCreateDialog(input.kind);
     await this.upload(input.media);
-    await this.keepOriginalRatio();
-    await this.next(); // crop → filters
-    await this.next(); // filters → caption
+    if (input.kind === "reel") {
+      await this.keepReelRatio();
+      await this.next(); // video/crop → cover
+      if (input.cover) await this.uploadCover(input.cover);
+      await this.next(); // cover → caption/details
+    } else {
+      await this.keepOriginalRatio();
+      await this.next(); // crop → filters
+      await this.next(); // filters → caption
+    }
     await this.writeCaption(input.caption);
+    if (input.aiLabel) {
+      await this.enableAiLabel();
+    }
     if (dryRun) return {};
 
     beforeShare();
@@ -113,14 +123,17 @@ class InstagramPublisher implements Publisher {
     }
   }
 
-  private async openCreateDialog(): Promise<void> {
+  private async openCreateDialog(kind?: "carousel" | "reel"): Promise<void> {
     const create = this.page.getByRole("link", { name: IG.createLink }).or(this.page.locator(IG.newPostIcon)).first();
     await create.waitFor({ state: "visible", timeout: 15 * SECOND });
     await click(create);
     // "Create" opens a menu (Post, Reel...) or, in some versions, the dialog directly.
     const fileInput = this.page.locator(IG.fileInput).first();
+    const reelItem = this.page.getByRole("link", { name: IG.reelMenuItem }).or(this.page.getByText(IG.reelMenuItem)).first();
     const postItem = this.page.getByRole("link", { name: IG.postMenuItem }).or(this.page.getByText(IG.postMenuItem)).first();
-    if (await postItem.isVisible()) {
+    if (kind === "reel" && (await reelItem.isVisible())) {
+      await click(reelItem);
+    } else if (await postItem.isVisible()) {
       await click(postItem);
     } else if ((await fileInput.count()) === 0) {
       // The menu's first item is Post; the keyboard reaches it when its label can't be found.
@@ -134,7 +147,15 @@ class InstagramPublisher implements Publisher {
 
   private async upload(media: readonly string[]): Promise<void> {
     await this.page.locator(IG.fileInput).first().setInputFiles([...media]);
-    await this.page.locator(IG.cropIcon).first().waitFor({ state: "visible", timeout: 60 * SECOND });
+    const okBtn = this.page.getByRole("button", { name: IG.videoDismissOk }).first();
+    try {
+      await okBtn.waitFor({ state: "visible", timeout: 3 * SECOND });
+      await click(okBtn);
+    } catch {
+      // Prompt not shown, proceed
+    }
+    const ready = this.page.locator(IG.cropIcon).or(this.page.getByRole("button", { name: IG.next })).first();
+    await ready.waitFor({ state: "visible", timeout: 60 * SECOND });
     await beat();
   }
 
@@ -144,6 +165,65 @@ class InstagramPublisher implements Publisher {
     const original = this.page.getByText(IG.originalRatio).first();
     await original.waitFor({ state: "visible", timeout: 10 * SECOND });
     await click(original);
+  }
+
+  /** Keeps 9:16 vertical ratio for Reels if crop selection is present. */
+  private async keepReelRatio(): Promise<void> {
+    const crop = this.page.locator(IG.cropIcon).first();
+    if (await crop.isVisible()) {
+      await click(crop);
+      const ratio = this.page.getByText(IG.nineSixteenRatio).or(this.page.getByText(IG.originalRatio)).first();
+      if (await ratio.isVisible({ timeout: 3 * SECOND }).catch(() => false)) {
+        await click(ratio);
+      } else {
+        await click(crop);
+      }
+    }
+  }
+
+  private async uploadCover(coverPath: string): Promise<void> {
+    const uploadBtn = this.page.getByText(IG.uploadCoverBtn).first();
+    try {
+      await uploadBtn.waitFor({ state: "visible", timeout: 8 * SECOND });
+      const [fileChooser] = await Promise.all([
+        this.page.waitForEvent("filechooser", { timeout: 10 * SECOND }).catch(() => null),
+        click(uploadBtn),
+      ]);
+      if (fileChooser) {
+        await fileChooser.setFiles(coverPath);
+      } else {
+        const fileInputs = this.page.locator('input[type="file"]');
+        const count = await fileInputs.count();
+        if (count > 0) await fileInputs.nth(count - 1).setInputFiles(coverPath);
+      }
+      await beat();
+    } catch {
+      // Proceed with default frame if cover upload button is not interactable
+    }
+  }
+
+  private async enableAiLabel(): Promise<void> {
+    const advanced = this.page.getByText(IG.advancedSettings).first();
+    if (await advanced.isVisible({ timeout: 5 * SECOND }).catch(() => false)) {
+      await click(advanced);
+      await beat();
+    }
+    const labelSection = this.page.getByText(IG.aiLabelHeading).first();
+    if (await labelSection.isVisible({ timeout: 5 * SECOND }).catch(() => false)) {
+      const switchLocator = this.page.locator('input[type="checkbox"], div[role="switch"]').first();
+      if (await switchLocator.isVisible()) {
+        const isChecked = (await switchLocator.getAttribute("aria-checked")) === "true" || (await switchLocator.isChecked().catch(() => false));
+        if (!isChecked) {
+          await click(switchLocator);
+          await beat();
+          const confirm = this.page.getByRole("button", { name: IG.aiLabelConfirm }).first();
+          if (await confirm.isVisible({ timeout: 3 * SECOND }).catch(() => false)) {
+            await click(confirm);
+            await beat();
+          }
+        }
+      }
+    }
   }
 
   private async next(): Promise<void> {
@@ -186,12 +266,13 @@ class InstagramPublisher implements Publisher {
       const hrefs = await links.evaluateAll((anchors) => anchors.map((a) => a.getAttribute("href") ?? ""));
       const codes = [...new Set(hrefs.map((href) => IG.postCode.exec(href)?.[1]).filter((code) => code !== undefined))].slice(0, 6);
       for (const code of codes) {
-        await this.page.goto(IG.post(code));
+        const targetUrl = hrefs.find((h) => h.includes(`/reel/${code}`)) ? IG.reel(code) : IG.post(code);
+        await this.page.goto(targetUrl);
         await pause(800, 1600);
         const text = await this.page.evaluate(() =>
           [document.title, ...Array.from(document.querySelectorAll("meta[property^='og:'], meta[name='description']"), (m) => m.getAttribute("content") ?? "")].join(" "),
         );
-        if (squash(text).includes(start)) return IG.post(code);
+        if (squash(text).includes(start)) return targetUrl;
       }
     }
     return undefined;

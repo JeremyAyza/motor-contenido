@@ -98,7 +98,14 @@ export async function postPublication(req: PostRequest): Promise<PostOutcome> {
     log(`Posting ${manifest.id} to ${platform.id} as @${req.handle}${req.dryRun ? " (dry run)" : ""}`);
     started = true;
     const result = await publisher.post(
-      { caption: manifest.caption, media: manifest.media, handle: req.handle },
+      {
+        caption: manifest.caption,
+        media: manifest.media,
+        handle: req.handle,
+        kind: manifest.kind,
+        cover: manifest.cover,
+        aiLabel: manifest.aiLabel,
+      },
       {
         dryRun: req.dryRun,
         beforeShare: () => {

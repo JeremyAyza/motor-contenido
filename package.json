@@ -32,6 +32,7 @@
     "video:prepare": "tsx packages/video/src/cli.ts prepare",
     "video:studio": "tsx packages/video/src/cli.ts studio",
     "video:render": "tsx packages/video/src/cli.ts render",
+    "video:publicar": "tsx packages/video/src/cli.ts publicar",
     "video:image": "tsx packages/video/src/cli.ts image",
     "video:music": "tsx packages/video/src/cli.ts music",
     "video:asset": "tsx packages/video/src/cli.ts asset",

@@ -76,6 +76,7 @@ Es un flujo separado del carrusel: comparte la marca (`packages/brand`), las pri
 
    Arregla los tres problemas principales, vuelve a renderizar y vuelve a criticar con un contexto nuevo. Máximo tres rondas. Copia el informe final en `video-critica.md`, en la carpeta de la pieza. Si un arreglo cambia lo que dice la voz, vuelve a la puerta A.
 8. **Puerta B.** La persona ve el video y, después de su sí en el chat, el agente anota `video.json → gateB { approved: true, date, video: "<sha256>" }`. Se le muestran la vista con la interfaz de Instagram, la hoja y el informe del crítico. La aprobación vale para ese archivo: si un render posterior da otro video, `video:render` la vuelve a `false` y deja la razón en `notes`.
+9. **Publicar:** `npm run video:publicar -- content/<pieza> [--ensayo] [--forzar]`. Paso opcional, solo cuando la persona lo pide en el chat y con la puerta B aprobada. Exige que el sha256 de `out/video.mp4` coincida con `video.json → gateB.video`, extrae la portada limpia del cuadro 1 (`out/video-portada.png`), activa la etiqueta obligatoria de IA de Meta y sube el Reel con `packages/publisher`. Con `--ensayo` se detiene antes de compartir y guarda la captura en `.publisher/`.
 
 ## Después de publicar: métricas
 
@@ -146,5 +147,4 @@ Cada generación se paga, así que no pisa un archivo existente sin `--replace`.
 Está por fases en [docs/plan-videos.md](../docs/plan-videos.md):
 - publicar el piloto del ray tracing, que ya tiene las puertas A y B;
 - la calibración del crítico ciego con Reels que Jeremy admira;
-- el avatar;
-- publicar Reels.
+- el avatar (Fase 4).

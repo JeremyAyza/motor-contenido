@@ -28,7 +28,7 @@ Alrededor del carrusel hay dos flujos más: el [radar](workflows/radar.md) (qué
 9. **El inspector manda.** Corrige todos los errores del render; cada aviso es un error salvo que lo puedas defender en una frase.
 10. **Confidencialidad.** Nunca uses código, capturas, proyectos, clientes ni métricas del empleador de la persona.
 11. **Estilo de texto:** español neutro, en la voz de [docs/voz.md](docs/voz.md), sin guiones largos (—), sin frases de relleno, una afirmación por lámina.
-12. **Nada se publica sin que la persona lo pida.** Las skills escriben. Publicar es un paso opcional: solo con `carrusel:publicar`, solo cuando la persona lo pide en el chat y solo con la puerta B aprobada ([workflows/carrusel.md](workflows/carrusel.md), paso 14). El agente corre los comandos. La persona escribe su usuario y su contraseña en la ventana de Chrome que abren: el agente nunca los escribe ni los pide. No se automatizan DMs, comentarios ni solicitudes.
+12. **Nada se publica sin que la persona lo pida.** Las skills escriben. Publicar es un paso opcional: solo con `carrusel:publicar` o `video:publicar`, solo cuando la persona lo pide en el chat y solo con la puerta B aprobada ([workflows/carrusel.md](workflows/carrusel.md), paso 14; [workflows/video.md](workflows/video.md), paso 9). El agente corre los comandos. La persona escribe su usuario y su contraseña en la ventana de Chrome que abren: el agente nunca los escribe ni los pide. No se automatizan DMs, comentarios ni solicitudes.
 
 ## Contexto
 
@@ -89,6 +89,7 @@ npm run video:prepare -- content/<pieza>  # voz, tiempos por palabra y archivos 
 npm run video:studio -- content/<pieza>   # vista previa en Remotion Studio
 npm run video:render -- content/<pieza>   # MP4 1080×1920, hoja de revisión y sha256 para la puerta B
 npm run video:critique -- content/<pieza> # carpeta para el crítico ciego del video
+npm run video:publicar -- content/<pieza> [--ensayo] # publica el Reel (solo si la persona lo pide, con la puerta B)
 npm run video:metrics                     # informe de los Reels en docs/metricas-video.md
 npm run video:image -- content/<pieza> --name <n> --prompt "..." [--chroma]  # imagen generada (generated.json)
 npm run video:music -- content/<pieza> --name <n> --prompt "..."            # música de fondo generada

@@ -36,6 +36,8 @@ import { VideoMetricsSchema, writeMetricsReport } from "./metrics.ts";
 import { piecePalette } from "./palette.ts";
 import { reelWarnings, runReelChecks } from "./reel.ts";
 import { artOf, checkGateB, estimateWords, gateASheet, loadScript, saveScript, SCRIPT_FILE, scriptWarnings, tabOf, VideoScriptSchema, type VideoScript } from "./script.ts";
+import { postManifest } from "../../publisher/src/index.ts";
+import { prepararPublicacionVideo } from "./publicar.ts";
 import { FPS, HEIGHT, SCALE, timelineMs, WIDTH, type Timeline, type TimelineFont, type TimelineMusic, type TimelineScene } from "./timeline.ts";
 
 const USAGE = `Usage:
@@ -59,6 +61,8 @@ const USAGE = `Usage:
       MP4 at 1080×1920 (content/<piece>/out/video.mp4), a review sheet and the video's sha256 for gate B.
   npm run video:critique -- content/<piece>
       The folder for the blind critic (content/<piece>/out/video-critica/), after video:render.
+  npm run video:publicar -- content/<piece> [--ensayo] [--forzar]
+      Publishes the Reel to Instagram (gate B required). --ensayo stops right before sharing.
   npm run video:metrics
       Writes docs/metricas-video.md from every content/*/video-metrics.json.
   npm run video:voices [-- --voices Puck,Kore --text "..." --style "..."]
@@ -570,6 +574,33 @@ async function voices(args: string[]): Promise<void> {
   console.log(`${list.length} voices in ${out} (A to ${String.fromCharCode(64 + list.length)}). key.json says which is which: open it after choosing.`);
 }
 
+async function publicar(args: string[]): Promise<void> {
+  const target = args.find((a) => !a.startsWith("--"));
+  if (!target) throw new VideoError(`Missing the piece folder\n\nUsage: npm run video:publicar -- content/<piece> [--ensayo] [--forzar]`);
+  const dir = resolve(target);
+  const plataforma = flag(args, "--plataforma") ?? "instagram";
+  const { manifest } = asVideoError(() => prepararPublicacionVideo(dir));
+  const outcome = await postManifest({
+    from: dir,
+    platform: plataforma,
+    manifest,
+    dryRun: args.includes("--ensayo"),
+    force: args.includes("--forzar"),
+  });
+  if (outcome.kind === "skipped") {
+    const { status, at, url } = outcome.entry;
+    console.log(`Already on ${plataforma} (${status}, ${at}${url ? `, ${url}` : ""}). Use --forzar to post again.`);
+  } else if (outcome.kind === "dry-run") {
+    console.log(`Dry run ready: stopped before sharing. Captures: ${outcome.captures.join(", ")}`);
+  } else if (outcome.url) {
+    console.log(`Published: ${outcome.url}`);
+  } else {
+    console.log(
+      `Published, but URL wasn't found on profile. Record it with: npm run publisher -- mark ${plataforma} --id ${manifest.id} --account ${manifest.account} --url <url>`,
+    );
+  }
+}
+
 async function main(): Promise<void> {
   const [command, ...args] = process.argv.slice(2).filter((a) => a !== "--");
   if (command === "script") script(args);
@@ -584,6 +615,7 @@ async function main(): Promise<void> {
   else if (command === "baraja") deal(args);
   else if (command === "capture") capture(args);
   else if (command === "storyboard") await storyboard(args);
+  else if (command === "publicar") await publicar(args);
   else if (command === "metrics") metrics();
   else if (command === "voices") await voices(args);
   else throw new VideoError(command ? `Unknown command "${command}"\n\n${USAGE}` : USAGE);

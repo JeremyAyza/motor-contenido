@@ -42,7 +42,7 @@ function fakePlatform(behavior: Behavior = {}) {
   };
   const platform: Platform = {
     id: "instagram",
-    limits: { maxMedia: 20, formats: ["png"], maxBytes: 1024, maxCaption: 2200, maxHashtags: 30 },
+    limits: { maxMedia: 20, formats: ["png", "jpg", "mp4"], maxBytes: 1024, maxVideoBytes: 1024 * 1024, maxCaption: 2200, maxHashtags: 30 },
     async open() {
       calls.push("open");
       return publisher;
@@ -180,5 +180,28 @@ describe("postPublication", () => {
     request.manifest = { ...request.manifest, media: [...request.manifest.media, join(request.profileDir, "falta.png")] };
     await assert.rejects(postPublication(request), /Missing file/);
     assert.deepEqual(calls, []);
+  });
+
+  it("handles a reel publication with cover and aiLabel", async () => {
+    const dir = mkdtempSync(join(tmpdir(), "publisher-reel-"));
+    writeFileSync(join(dir, "video.mp4"), "mp4");
+    writeFileSync(join(dir, "cover.png"), "cover");
+    const { request, registry, calls } = setup(
+      {},
+      {
+        manifest: {
+          id: "reel-test",
+          account: "dev",
+          caption: "Reel caption",
+          media: [join(dir, "video.mp4")],
+          kind: "reel",
+          cover: join(dir, "cover.png"),
+          aiLabel: true,
+        },
+      },
+    );
+    const outcome = await postPublication(request);
+    assert.equal(outcome.kind, "published");
+    assert.deepEqual(calls, ["open", "post", "close"]);
   });
 });
