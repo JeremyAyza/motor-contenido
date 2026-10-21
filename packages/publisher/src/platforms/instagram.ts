@@ -203,14 +203,19 @@ class InstagramPublisher implements Publisher {
   }
 
   private async enableAiLabel(): Promise<void> {
-    const advanced = this.page.getByText(IG.advancedSettings).first();
-    if (await advanced.isVisible({ timeout: 5 * SECOND }).catch(() => false)) {
-      await click(advanced);
-      await beat();
+    let labelHeading = this.page.getByText(IG.aiLabelHeading).first();
+    if (!await labelHeading.isVisible({ timeout: 2 * SECOND }).catch(() => false)) {
+      const advanced = this.page.getByText(IG.advancedSettings).first();
+      if (await advanced.isVisible({ timeout: 2 * SECOND }).catch(() => false)) {
+        await click(advanced);
+        await beat();
+      }
+      labelHeading = this.page.getByText(IG.aiLabelHeading).first();
     }
-    const labelSection = this.page.getByText(IG.aiLabelHeading).first();
-    if (await labelSection.isVisible({ timeout: 5 * SECOND }).catch(() => false)) {
-      const switchLocator = this.page.locator('input[type="checkbox"], div[role="switch"]').first();
+    if (await labelHeading.isVisible({ timeout: 4 * SECOND }).catch(() => false)) {
+      const row = labelHeading.locator("xpath=ancestor::div[contains(@class, 'html-div')][.//input[@role='switch'] or .//div[@role='switch']]").first();
+      const switchInRow = row.locator('input[role="switch"], div[role="switch"]').first();
+      const switchLocator = (await switchInRow.count()) > 0 ? switchInRow : this.page.locator('input[role="switch"], div[role="switch"]').first();
       if (await switchLocator.isVisible()) {
         const isChecked = (await switchLocator.getAttribute("aria-checked")) === "true" || (await switchLocator.isChecked().catch(() => false));
         if (!isChecked) {

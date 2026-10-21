@@ -29,7 +29,7 @@ export const IG = {
   uploadCoverBtn: /(Subir de la computadora|Select from computer|Elegir de la computadora|Add from computer)/i,
   captionBox: 'div[aria-label^="Escribe un pie de foto"], div[aria-label^="Write a caption"], div[role="textbox"][contenteditable="true"]',
   advancedSettings: /(Configuración avanzada|Advanced settings)/i,
-  aiLabelHeading: /(Etiqueta de contenido de IA|Contenido de IA|AI label|Add AI label|Label as AI-generated)/i,
+  aiLabelHeading: /(Agregar etiqueta de IA|Etiqueta de contenido de IA|Contenido de IA|AI label|Add AI label|Label as AI-generated)/i,
   aiLabelConfirm: /^(Activar|Turn on|Guardar|Save)$/i,
   share: /^(Compartir|Share)$/,
   shared: /(se ha compartido|se compartió) tu (publicación|reel)|your (post|reel) has been shared/i,
