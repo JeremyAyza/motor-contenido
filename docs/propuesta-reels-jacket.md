@@ -53,14 +53,14 @@ Cada dato sale de `facts.json`. Donde dice "real", el agente lo corre y guarda l
 
 ## Cambios al motor, en orden
 
-1. **Las dos fórmulas** en `ganchos-es.json`, con sus patrones en español, para que `swipe_es` las clasifique.
-2. **Formato largo:** `format: "explicado"` en `video.json`, con su rango de duración (de 75 a 100 s en la prueba) en la puerta A y en el inspector.
-3. **`video:capture`:** corre comandos en una carpeta aislada y guarda la salida y la fecha en `facts.json`, para que `Terminal` muestre salidas reales y el texto del post pueda decir que todo corrió de verdad.
-4. **Aviso de tema repetido:** `video:script` avisa si el tema salió en los últimos 14 días.
+1. **Las dos fórmulas** en `ganchos-es.json`, con sus patrones en español, para que `swipe_es` las clasifique. Hecho el 20 de octubre de 2026 (28 y 29).
+2. **Formato largo:** `format: "explicado"` en `video.json`, con su rango de duración (de 75 a 100 s en la prueba) en la puerta A y en el inspector. Hecho.
+3. **`video:capture`:** corre comandos en una carpeta aislada y guarda la salida y la fecha en `captures.json`, que también va como dato a `facts.json`, para que `Terminal` muestre salidas reales y el texto del post pueda decir que todo corrió de verdad. Hecho.
+4. **Aviso de tema repetido:** `video:script` avisa si el tema salió en los últimos 14 días (`topic`). Hecho.
 5. **Mundos, escenario continuo y cámara:** los pasos 3 y 4 del plan del referente.
 6. **El avatar:** la fase 4.
 
-Los pasos 1 a 4 son chicos y alcanzan para el primer video del formato. El 5 y el 6 son los grandes.
+Los pasos 1 a 4 ya están, y el primer video del formato es el del `git push` (content/2026-10-20-git-push-por-dentro), de 93,3 s, con las puertas A y B aprobadas. El 5 y el 6 son los grandes.
 
 ## Cómo se mide
 

@@ -7,6 +7,7 @@ El flujo de video con Remotion 4.0.537. El código va en inglés. El plan está 
 ```bash
 npm run video:baraja -- content/<pieza>              # reparte 3 direcciones de arte para video.json → art
 npm run video:script -- content/<pieza>              # revisa video.json y arma la puerta A (out/gate-a.md)
+npm run video:capture -- content/<pieza> [<id>]     # corre los comandos de captures.json y guarda su salida real
 npm run video:storyboard -- content/<pieza>          # los visuales sin voz, al ritmo estimado: out/storyboard.png para la puerta A
 npm run video:prepare -- content/<pieza>             # voz, tiempos y archivos en content/<pieza>/out/video/ (pide la puerta A)
 npm run video:studio -- content/<pieza>              # vista previa en Remotion Studio
@@ -55,6 +56,8 @@ Los comandos de imagen, música y recursos están en `src/media-commands.ts`. La
     - **En la puerta A,** `video:script` arma `out/video-critica-ganchos/`.
     - **Antes de la puerta B,** `video:critique` arma `out/video-critica/`: el video con la interfaz, las tiras de cuadros (`filmstrips`), la portada en la grilla (`gridCover`), lo que se oye, el texto del post y el brief aparte.
 11. **Métricas** (`src/metrics.ts`): el esquema de `video-metrics.json` y el informe `docs/metricas-video.md`, ordenado por compartidos por alcance.
+12. **Salidas reales** (`src/capture.ts`): `video:capture` corre los comandos de `captures.json` en carpetas limpias, con autor y fecha de git fijos, limpia colores, progreso y rutas locales, y guarda la salida. `useCapture` y `captureLines` la llevan a una `Terminal`.
+13. **Formato y tema** (`src/script.ts`, `src/topics.ts`): `format` fija el rango de duración de la puerta A y del inspector (`FORMAT_SECONDS`), y `topic` deja avisar si una pieza de los últimos 14 días tuvo un tema parecido.
 
 ## Primitivas del carrusel en Remotion
 

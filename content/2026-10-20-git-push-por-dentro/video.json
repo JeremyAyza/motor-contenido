@@ -98,9 +98,14 @@
     "tab": "git-push.sh"
   },
   "gateA": {
-    "approved": false
+    "approved": true,
+    "date": "2026-10-20",
+    "notes": "Jeremy aprobó en el chat el gancho, el guion y el storyboard (out/storyboard.png). Es el primer video del formato explicado, con salidas reales de captures.json."
   },
   "gateB": {
-    "approved": false
+    "approved": true,
+    "date": "2026-10-20",
+    "video": "a52c0bf6061d60acb79ce3569abf0250c8b3367c676e05e8a1cb206645835fbd",
+    "notes": "Jeremy aprobó el video en el chat. Es el primero del formato explicado (93,3 s), con salidas reales de captures.json. No pasó por el crítico ciego."
   }
 }

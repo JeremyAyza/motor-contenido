@@ -196,7 +196,8 @@ export function captureLines(
     const output = step.output.filter((line) => keep(line, i));
     return [
       { text: step.cmd, kind: "cmd" as const, at: start },
-      ...output.map((line, j) => ({ text: line, kind: kind(line, i), at: typed + 0.1 + j * 0.12 })),
+      // A tab is up to 8 columns in a terminal; 2 spaces keep the columns in 468 px.
+      ...output.map((line, j) => ({ text: line.replace(/\t/g, "  "), kind: kind(line, i), at: typed + 0.1 + j * 0.12 })),
     ];
   });
 }

@@ -26,12 +26,32 @@ export function Probe({ url }: { url: string }) {
     const root = document.querySelector<HTMLElement>("[data-video-root]");
     if (!root) return;
     const handle = delayRender(`Inspecting frame ${frame}`);
-    const report: ProbeReport = { frame, texts: measureTexts(root) };
-    fetch(url, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain" }, body: JSON.stringify(report) })
+    // The first frame of a tab is laid out before its fonts and images arrive;
+    // the probe measures what gets captured, so it waits for them.
+    settled(root)
+      .then(() => {
+        const report: ProbeReport = { frame, texts: measureTexts(root) };
+        return fetch(url, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain" }, body: JSON.stringify(report) });
+      })
       .catch(() => undefined)
       .finally(() => continueRender(handle));
   }, [frame, fps, url]);
   return null;
+}
+
+/** Resolves when the fonts and the images of `root` are loaded (measuring forces the layout). */
+async function settled(root: HTMLElement): Promise<void> {
+  await document.fonts.ready;
+  const pending = [...root.querySelectorAll("img")].filter((img) => !img.complete);
+  await Promise.all(
+    pending.map(
+      (img) =>
+        new Promise((done) => {
+          img.addEventListener("load", done, { once: true });
+          img.addEventListener("error", done, { once: true });
+        }),
+    ),
+  );
 }
 
 function effectiveOpacity(el: Element | null): number {

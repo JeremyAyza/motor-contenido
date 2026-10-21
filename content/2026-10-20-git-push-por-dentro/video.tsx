@@ -57,12 +57,14 @@ function yaEscrito(step: { cmd: string; output: string[] }, keep: (line: string)
   return [{ text: step.cmd, kind: "cmd" }, ...step.output.filter(keep).map((text, i) => ({ text: text.replace(/\t/g, "  "), kind: kind(text), at: at + i * 0.25 }))];
 }
 
-const Prueba = () => <Nota className="mt-3">Repositorio local de prueba. Corrió el 20 de octubre de 2026.</Nota>;
+const Prueba = () => <Nota className="mt-3">Repo local de prueba, 20 de octubre de 2026.</Nota>;
+
+const PASOS = ["Pregunta", "Compara", "Empaqueta", "Envía", "Revisa", "Avisa"];
 
 /** Una máquina del diagrama: la de Valeria o el servidor. */
 function Lado({ icon, title, label, className }: { icon: string; title: string; label: string; className?: string }) {
   return (
-    <div data-ui className={`flex w-[190px] flex-col items-center rounded-2xl border border-ink/15 bg-surface px-4 py-4 ${className ?? ""}`}>
+    <div data-ui className={`flex ${className?.includes("w-[") ? "" : "w-[190px] "}flex-col items-center rounded-2xl border border-ink/15 bg-surface px-4 py-4 ${className ?? ""}`}>
       <Icono name={icon} size={52} strokeWidth={1.75} ancla={false} />
       <p className="mt-2 font-mono text-[17px] font-semibold">{title}</p>
       <p className="text-[14px] text-muted">{label}</p>
@@ -92,6 +94,11 @@ function Objetos({ total, nuevos, barrido, enciende }: { total: number; nuevos: 
 // 1. El gancho: la terminal de Valeria con el push, el segundo que dura y la
 // promesa de que todo corrió de verdad. Todo se ve desde el cuadro 1.
 function Gancho() {
+  const t = useSegundos();
+  const tarda = useCue("tarda");
+  const cuenta = interpolate(t, [tarda, tarda + 1], [0, 1], CLAMP);
+  const reloj = t < tarda ? "1 s" : `${cuenta.toFixed(1)} s`;
+  const seis = useCue("seis");
   const valeria = useCue("valeria");
   const push = useCue("push", 2);
   const verdad = useCue("verdad");
@@ -104,15 +111,23 @@ function Gancho() {
           { text: "git push --progress origin main", kind: "cmd", at: push },
         ]}
         small
+        wrap
       />
       <div className="mt-6 flex items-center gap-5">
         <Objeto nombre="stopwatch" size={92} />
         <div>
-          <p className="font-display text-[56px] font-black leading-none text-accent">1 s</p>
+          <p className="font-display text-[56px] font-black leading-none tabular-nums text-accent">{reloj}</p>
           <p className="mt-1 text-[22px] font-semibold text-muted">y seis pasos adentro</p>
         </div>
       </div>
-      <div className="mt-6">
+      <div className="mt-5 flex flex-wrap gap-2">
+        {PASOS.map((paso, i) => (
+          <Chip key={paso} at={seis + i * 0.12}>
+            {`0${i + 1} ${paso}`}
+          </Chip>
+        ))}
+      </div>
+      <div className="mt-5">
         <Chip tone="accent" dot at={verdad}>
           Todo corrió de verdad
         </Chip>
@@ -126,19 +141,27 @@ function Gancho() {
 function Pregunta() {
   const pregunta = useCue("pregunta");
   const ramas = useCue("ramas");
+  const commit = useCue("commit");
   const { lsRemote } = usePush();
+  const main = lsRemote.output.find((line) => line.endsWith("refs/heads/main"))?.slice(0, 7);
   return (
     <Escena titulo="Primero, pregunta">
-      <div className="relative flex items-center justify-between">
-        <Lado icon="laptop" title="tu máquina" label="Valeria" />
-        <Lado icon="server" title="servidor" label="origin" />
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-          <Chip tone="solid" at={pregunta}>
-            ¿Qué ramas tienes?
-          </Chip>
-        </div>
+      <div className="flex items-center justify-between">
+        <Lado icon="laptop" title="tu máquina" label="Valeria" className="w-[176px]" />
+        <Icono name="arrow-left-right" size={34} strokeWidth={2.25} ancla={false} className="text-accent" />
+        <Lado icon="server" title="servidor" label="origin" className="w-[176px]" />
+      </div>
+      <div className="mt-3 flex justify-center">
+        <Chip tone="solid" at={pregunta}>
+          ¿Qué ramas tienes?
+        </Chip>
       </div>
       <Terminal className="mt-5" lines={captureLines({ steps: [lsRemote] }, [ramas - 0.4], {})} small wrap />
+      <div className="mt-4">
+        <Chip tone="accent" dot at={commit}>
+          {`main está en ${main}`}
+        </Chip>
+      </div>
       <Prueba />
     </Escena>
   );
@@ -148,18 +171,20 @@ function Pregunta() {
 // todos. Los nuevos quedan encendidos; cuántos son se dice en el cierre.
 function Compara() {
   const calcula = useCue("calcula");
-  const objetos = useCue("objetos");
+  const repo = useCue("repo");
+  const trescientos = useCue("trescientos");
+  const servidor = useCue("servidor", 2);
   const casi = useCue("casi");
   const { countObjects, objetos: total, viajaron } = usePush();
   return (
     <Escena titulo="¿Qué le falta?">
       <Terminal lines={captureLines({ steps: [countObjects] }, [calcula], { keep: (line) => /^(count|size):/.test(line) })} small />
-      <div className="mt-5">
+      <Anim efecto="sube" en={repo} className="mt-5">
         <Objetos total={total} nuevos={viajaron} barrido={casi} />
-      </div>
+      </Anim>
       <div className="mt-4 flex gap-3">
-        <Chip at={objetos}>{total} objetos</Chip>
-        <Chip at={casi + 0.5}>El servidor ya los tiene</Chip>
+        <Chip at={trescientos}>{total} objetos</Chip>
+        <Chip at={servidor}>¿Y el servidor?</Chip>
       </div>
       <Prueba />
     </Escena>
@@ -170,6 +195,7 @@ function Compara() {
 // con las líneas reales del push.
 function Empaqueta() {
   const packfile = useCue("packfile");
+  const cambio = useCue("cambió");
   const diferencia = useCue("diferencia");
   const { gitPush, viajaron } = usePush();
   return (
@@ -191,7 +217,8 @@ function Empaqueta() {
         lines={yaEscrito(gitPush, (line) => /^(Enumerating|Counting|Delta|Compressing)/.test(line), packfile + 0.3)}
         small
       />
-      <div className="mt-4">
+      <div className="mt-4 flex gap-3">
+        <Chip at={cambio}>{`${viajaron} objetos nuevos`}</Chip>
         <Chip tone="accent" at={diferencia}>
           Diferencias, no copias
         </Chip>
@@ -221,7 +248,16 @@ function Envia() {
       </div>
       <Terminal
         className="mt-5"
-        lines={yaEscrito(gitPush, (line) => /^(Writing|To |\s+\w+\.\.\w+)/.test(line), viejo - 0.5, (line) => (/main -> main/.test(line) ? "ok" : "out"))}
+        lines={[
+          { text: gitPush.cmd, kind: "cmd" },
+          ...gitPush.output
+            .filter((line) => /^(Writing|To |\s+\w+\.\.\w+)/.test(line))
+            .map((text) => ({
+              text,
+              kind: /main -> main/.test(text) ? ("ok" as const) : ("out" as const),
+              at: /^Writing/.test(text) ? send : /^To /.test(text) ? receive : viejo - 0.3,
+            })),
+        ]}
         small
         wrap
       />
@@ -233,13 +269,20 @@ function Envia() {
 // 6. Revisa: el servidor no deja perder historia. La salida real de un push
 // rechazado porque otra persona subió algo antes.
 function Revisa() {
+  const revisa = useCue("revisa");
+  const alguien = useCue("alguien");
   const rechaza = useCue("rechaza");
   const bajar = useCue("baja");
   const rechazo = useCapture("rechazo");
   return (
     <Escena titulo="Revisa la historia">
+      <div className="mb-4">
+        <Chip dot at={revisa}>
+          Regla: solo fast-forward
+        </Chip>
+      </div>
       <Terminal
-        lines={captureLines(rechazo, [rechaza - 0.9], { kind: (line) => (/rejected|^error/.test(line) ? "error" : "out") })}
+        lines={captureLines(rechazo, [alguien], { kind: (line) => (/rejected|^error/.test(line) ? "error" : "out") })}
         small
         wrap
       />
@@ -248,7 +291,7 @@ function Revisa() {
           Fetch first: baja primero
         </Chip>
       </div>
-      <Nota className="mt-3">Otro repositorio de prueba, donde otra persona subió un commit antes.</Nota>
+      <Nota className="mt-3">Otro repo de prueba: alguien subió antes.</Nota>
     </Escena>
   );
 }
@@ -259,8 +302,10 @@ function Avisa() {
   const t = useSegundos();
   const mueve = useCue("mueve");
   const post = useCue("post-receive");
+  const github = useCue("github");
   const actions = useCue("actions");
   const paso = interpolate(t, [mueve + 0.2, mueve + 0.8], [0, 1], { ...CLAMP, easing: Easing.out(Easing.cubic) });
+  const { gitPush } = usePush();
   return (
     <Escena titulo="Mueve la rama y avisa">
       <div data-ui className="relative h-[86px]">
@@ -269,19 +314,20 @@ function Avisa() {
           <div
             key={i}
             className={`absolute top-[18px] size-[23px] rounded-full border-[3px] ${i === 6 ? "border-accent bg-accent" : "border-ink/60 bg-bg"}`}
-            style={{ left: 8 + i * 70, opacity: i === 6 ? paso : 1 }}
+            style={{ left: 8 + i * 64, opacity: i === 6 ? paso : 1 }}
           />
         ))}
-        <div className="absolute top-[54px]" style={{ left: 2 + (5 + paso) * 70 }}>
+        <div className="absolute top-[54px]" style={{ left: 2 + (5 + paso) * 64 }}>
           <Chip tone="accent">main</Chip>
         </div>
       </div>
+      <Terminal className="mt-4" lines={yaEscrito(gitPush, (line) => /main -> main/.test(line), mueve + 0.4, () => "ok")} small />
       <div className="mt-4">
         <Chip dot at={post}>
           Hook post-receive
         </Chip>
       </div>
-      <AppCard logo="githubactions" domain="GitHub Actions" label="on: push" at={actions - 0.3} className="mt-4">
+      <AppCard logo="githubactions" domain="GitHub Actions" label="on: push" at={github} className="mt-4">
         <div className="flex items-center gap-3">
           <Chip tone="accent" dot at={actions}>
             Workflow corriendo
@@ -312,7 +358,7 @@ function Cierre() {
         ]}
       />
       <Anim efecto="aparece" en={sube} className="mt-5 font-display text-[30px] font-black leading-[1.1]">
-        Git no sube tu proyecto. Sube lo que le falta.
+        No sube tu proyecto: sube lo que falta.
       </Anim>
       <div className="mt-5 flex items-center gap-4">
         <Anim efecto="salta" en={guardalo} dur={0.45}>

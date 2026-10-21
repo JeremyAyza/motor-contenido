@@ -57,7 +57,7 @@ packages/media/           voz, imágenes, música y búsqueda de efectos detrás
 media.config.json         proveedor y modelo de imágenes y música, y bibliotecas de efectos
 packages/video/           video con Remotion: composición, Studio y render (código en inglés)
 skills/video-es/          capa sobre las skills oficiales de Remotion: qué cambia en este repo
-schemas/                  JSON Schema de post.json, brief.json, metricas.json, video.json y video-metrics.json
+schemas/                  JSON Schema de post.json, brief.json, metricas.json, video.json, video-metrics.json y captures.json
 workflows/                guías paso a paso: carrusel, radar, métricas, video
 content/                  una carpeta por pieza
 ```
@@ -81,7 +81,10 @@ npm run publisher -- status               # qué se publicó, dónde y cuándo (
 npm run carrusel:metricas                 # informe en docs/metricas.md
 npm run carrusel:swipe -- docs/swipe/<mes>.tsv # carruseles de referencia en docs/swipe.md
 npm run carrusel:esquema                  # regenera schemas/
+npm run video:baraja -- content/<pieza>   # reparte 3 direcciones de arte para video.json → art
 npm run video:script -- content/<pieza>   # revisa video.json (con hookscore y beats de ig-reel) y arma la puerta A
+npm run video:capture -- content/<pieza>  # corre los comandos de captures.json y guarda su salida real
+npm run video:storyboard -- content/<pieza> # los visuales sin voz, para la puerta A
 npm run video:prepare -- content/<pieza>  # voz, tiempos por palabra y archivos (pide la puerta A)
 npm run video:studio -- content/<pieza>   # vista previa en Remotion Studio
 npm run video:render -- content/<pieza>   # MP4 1080×1920, hoja de revisión y sha256 para la puerta B
@@ -91,7 +94,7 @@ npm run video:image -- content/<pieza> --name <n> --prompt "..." [--chroma]  # i
 npm run video:music -- content/<pieza> --name <n> --prompt "..."            # música de fondo generada
 npm run video:asset -- search "<consulta>"  # efectos CC0 (catálogo, Openverse, Freesound); add <bib>:<id> --id <n>
 npm run video:voices                      # prueba a ciegas de voces de Gemini
-npm run video:schema                      # regenera schemas/video.schema.json y video-metrics.schema.json
+npm run video:schema                      # regenera schemas/video.schema.json, video-metrics.schema.json y captures.schema.json
 npm run py -- skills/ig-es/<script>.py    # corre un wrapper con el Python que haya
 npm run typecheck
 npm test

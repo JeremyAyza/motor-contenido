@@ -9,13 +9,16 @@ Es un flujo separado del carrusel: comparte la marca (`packages/brand`), las pri
    - las escenas (`scenes`): `id`, lo que dice la voz (`say`, escrito para el oído), lo que se ve (`see`, concreto) y el recurso visual (`resource`, de [recursos.json](../skills/carrusel-taste/recursos.json));
    - el texto del post (`caption`), opcional;
    - la dirección de arte (`art`), como `post.json → art`; si falta, se toma la del carrusel de la pieza;
+   - el formato (`format`): `corto` (de 30 a 60 s, por defecto) o `explicado` (de 75 a 100 s, en prueba; ver [docs/propuesta-reels-jacket.md](../docs/propuesta-reels-jacket.md));
+   - el tema (`topic`), en pocas palabras;
    - las puertas (`gateA`, `gateB`).
 
    La primera escena empieza con el gancho elegido. El esquema está en [schemas/video.schema.json](../schemas/video.schema.json) (`npm run video:schema`).
 2. **Puerta A:** `npm run video:script -- content/<pieza>`. Valida el guion, estima la duración y deja `out/gate-a.md`, la hoja que lee la persona. Avisa si:
    - el gancho tarda más de 3 s;
    - el texto en pantalla pasa de 6 palabras;
-   - el video sale de los 30 a 60 s.
+   - el video sale del rango de su formato (`corto`, de 30 a 60 s; `explicado`, de 75 a 100 s);
+   - el tema se parece al de una pieza de los últimos 14 días: al referente, repetir un tema a los pocos días le costó 10 veces menos vistas.
 
    Además corre dos revisiones, y todo lo que avisan entra en la hoja:
    - **Las herramientas de `ig-reel`,** por sus wrappers en español ([skills/ig-es](../skills/ig-es/SKILL.md)):
@@ -59,7 +62,7 @@ Es un flujo separado del carrusel: comparte la marca (`packages/brand`), las pri
      - una portada vacía: el cuadro 1 ocupa menos del 35 % del recorte 3:4;
      - más de 4 s sin cambio arriba de los subtítulos. Se mide en píxeles que cambian cada medio segundo, así que cuenta un trazo que se dibuja;
      - el volumen lejos de −14 LUFS;
-     - una duración fuera de 30 a 60 s.
+     - una duración fuera del rango del formato.
 
    Como en el carrusel, cada aviso es un error salvo que se pueda defender en una frase.
 7. **Crítico ciego:** `npm run video:critique -- content/<pieza>`. Arma `out/video-critica/` con lo que le llega a alguien en Instagram:
@@ -108,6 +111,8 @@ Igual que en el carrusel ([workflows/metricas.md](metricas.md)):
 - **Sin `height`,** `SceneFrame` apila lo que recibe en una columna centrada, que es lo cómodo para el kit; con `height`, el dibujo es un recuadro de coordenadas absolutas.
 - **El HUD:** con `chapters: true`, el marco suma debajo de la pestaña la barra de capítulos (número, nombre de la escena y un segmento por escena que se llena). Los `Chip` sirven de rótulos de sistema dentro de las escenas.
 - **Subtítulos:** `captions` elige el estilo. `"highlight"` pinta la palabra dicha en el acento; `"pill"` va en una píldora, con lo ya dicho en tinta y el resto apagado; `"marker"` pone la palabra dicha sobre una caja del acento.
+
+**Salidas reales.** Lo que muestra una `Terminal` sale de correr el comando de verdad, no de escribirlo a mano. Los comandos van en `content/<pieza>/captures.json` ([esquema](../schemas/captures.schema.json)), en pasos de preparación (`show: false`) y pasos que se muestran. `npm run video:capture -- content/<pieza>` corre cada captura en una carpeta limpia (`.cache/captures/`), con un autor y una fecha fijos para git, y guarda en el mismo archivo lo que imprimió, con la fecha. Saca las rutas locales: la carpeta de la captura queda como `~/demo`. En `video.tsx`, `useCapture("<id>")` lee la salida y `captureLines()` la pasa a una `Terminal`; las cifras de la pantalla se leen de esa salida. Cada captura es un dato de `facts.json`, y la pantalla dice que es un repositorio o un proyecto de prueba, con su fecha. `video:prepare` y `video:storyboard` no corren si una captura todavía no corrió.
 
 **Recursos de terceros:** solo los de `assets/catalog.json`. Para que `video:prepare` use uno, tiene que tener:
 - la licencia revisada en su fuente, con la fecha en `checkedAt`;
