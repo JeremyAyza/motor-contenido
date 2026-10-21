@@ -1,6 +1,6 @@
 {
   "version": "es-1",
-  "note": "Las 26 fórmulas de .agents/skills/ig-reel/hooks.json (mismos id y nombre) con patrones para reconocerlas en portadas en español, más la 27, que viene de workflows/carrusel.md. Lee la plantilla, el uso y la trampa de cada una en el archivo original. Los ejemplos son ilustrativos: no son datos. Las que tienen requiere solo se usan con lo que Jeremy dio de verdad (historia propia) o con una fuente citada.",
+  "note": "Las 26 fórmulas de .agents/skills/ig-reel/hooks.json (mismos id y nombre) con patrones para reconocerlas en portadas en español, más la 27, que viene de workflows/carrusel.md, y la 28 y la 29, que salen del análisis de @rick.theengineer (docs/analisis-rick-theengineer.md). Lee la plantilla, el uso y la trampa de cada una en el archivo original. Los ejemplos son ilustrativos: no son datos. Las que tienen requiere solo se usan con lo que Jeremy dio de verdad (historia propia) o con una fuente citada.",
   "hooks": [
     { "id": 1, "name": "Cost Confession", "ejemplo": "Esto me costó 3 semanas de trabajo", "requiere": "experiencia propia", "match": "\\b(?:me|nos) cost[óo]\\b|\\bperd[íi]\\b[^.!?]{0,25}(?:\\$|s/|\\d)" },
     { "id": 2, "name": "Negative Command", "ejemplo": "Deja de pegar todo el repo en el chat", "match": "^\\s*(?:deja de|dejen de|no (?:uses|hagas|pagues|copies|pegues|instales|conf[íi]es|abras))\\b" },
@@ -28,7 +28,9 @@
     { "id": 24, "name": "The Reveal", "ejemplo": "Este es el nuevo modelo de Google", "match": "^\\s*(?:este es|esta es|as[íi] es|lleg[óo]|presentamos)\\b" },
     { "id": 25, "name": "Someone Else's Result", "ejemplo": "Un equipo bajó su factura a la mitad", "requiere": "fuente", "match": "\\bun(?:a)? (?:dev|programador(?:a)?|equipo|empresa|persona)\\b[^.!?]{0,40}\\b(?:logr[óo]|pas[óo]|hizo|consigui[óo]|baj[óo]|subi[óo])\\b" },
     { "id": 26, "name": "The Superlative", "ejemplo": "El modelo más barato que programa bien", "match": "\\b(?:el|la|los|las) (?:m[áa]s (?:r[áa]pid|barat|grande|potente|f[áa]cil|nuev)\\w*|[úu]nic[oa]s?|mejor(?:es)?|peor(?:es)?)\\b" },
-    { "id": 27, "name": "El nombre real, enorme", "ejemplo": "/plugin", "match": "(?:^|\\s)[/`]\\w|(?-i:\\b[a-z]+[A-Z]\\w+\\b)|\\b\\w+\\.(?:md|json|ts|tsx|py|js|yaml|toml)\\b|(?:^|\\s)--\\w" }
+    { "id": 27, "name": "El nombre real, enorme", "ejemplo": "/plugin", "match": "(?:^|\\s)[/`]\\w|(?-i:\\b[a-z]+[A-Z]\\w+\\b)|\\b\\w+\\.(?:md|json|ts|tsx|py|js|yaml|toml)\\b|(?:^|\\s)--\\w" },
+    { "id": 28, "name": "Un segundo por dentro", "ejemplo": "Tu git push tarda un segundo. Esto es todo lo que pasa en ese segundo", "match": "\\btodo lo que pasa\\b|\\b(?:tarda|dura|toma|en)\\s+(?:un|1|menos de un)\\s+segundo\\b|\\bcada vez que\\b[^.!?]{0,60}\\b(?:pasa|viaja|recorre|ocurre)\\b|\\bpor dentro\\b" },
+    { "id": 29, "name": "La causa no es la que crees", "ejemplo": "Claude no se olvida de tu proyecto: nunca lo recordó", "match": "\\bnunca lo (?:record[óo]|supo|guard[óo]|vio)\\b|\\bnadie (?:escribi[óo]|program[óo])\\b|\\bno \\w+ porque\\b[^.!?]{0,80}\\bporque\\b|\\bno (?:\\w+ ){1,5}\\w+:\\s*(?:nunca|en realidad|baja|sube|es|son|lo|la)\\b" }
   ],
-  "classify_order": [1, 23, 5, 4, 3, 15, 20, 7, 9, 26, 25, 24, 18, 17, 8, 6, 16, 12, 10, 2, 13, 19, 21, 22, 27, 11, 14]
+  "classify_order": [28, 29, 1, 23, 5, 4, 3, 15, 20, 7, 9, 26, 25, 24, 18, 17, 8, 6, 16, 12, 10, 2, 13, 19, 21, 22, 27, 11, 14]
 }

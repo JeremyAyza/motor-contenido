@@ -3,7 +3,7 @@ import { createServer } from "node:http";
 import type { AddressInfo } from "node:net";
 import { normalizeWord, scriptWords } from "../../media/src/words.ts";
 import type { ProbeReport } from "./probe.tsx";
-import type { VideoScript } from "./script.ts";
+import { FORMAT_SECONDS, type VideoScript } from "./script.ts";
 import { CAPTIONS_TOP, CONTENT_BOX, GRID_CROP, HEIGHT, MIN_TEXT_PX, SCALE, TEXT_ZONE, timelineMs, WIDTH, type Timeline } from "./timeline.ts";
 
 /**
@@ -17,7 +17,8 @@ export type Issue = { level: "error" | "aviso"; message: string };
 
 const VISIBLE = 0.5;
 const MAX_WORDS_ON_SCREEN = 12;
-const DURATION_S: [number, number] = [30, 60];
+/** The smallest text of an interface of the stage kit (data-ui), in design px. */
+const MIN_UI_TEXT_PX = 12;
 const MAX_FREEZE_S = 4;
 export const TARGET_LUFS = -14;
 const LUFS_TOLERANCE = 1;
@@ -65,11 +66,14 @@ export function inspectFrames(reports: ProbeReport[], fps: number, hookOnScreen:
       if (outside) {
         report("error", `zone ${t.text}`, `Texto fuera del margen del marco en ${seconds(frame, fps)}: ${quote(t.text)} (va entre la pestaña, los subtítulos y ${TEXT_ZONE.left} px de cada lado)`);
       }
-      if (t.fontSize < MIN_TEXT_PX - 0.5) {
-        report("error", `size ${t.text}`, `Letra de ${t.fontSize}px en ${seconds(frame, fps)}: ${quote(t.text)}. En video, nada baja de ${MIN_TEXT_PX}px de diseño`);
+      const min = t.ui ? MIN_UI_TEXT_PX : MIN_TEXT_PX;
+      if (t.fontSize < min - 0.5) {
+        const what = t.ui ? "el texto de una interfaz" : "nada";
+        report("error", `size ${t.text}`, `Letra de ${t.fontSize}px en ${seconds(frame, fps)}: ${quote(t.text)}. En video, ${what} baja de ${min}px de diseño`);
       }
     }
-    const words = visible.reduce((sum, t) => sum + t.text.split(/\s+/).filter(Boolean).length, 0);
+    // The text of an interface (a phone, a terminal) is the stage, not something to read: it does not count.
+    const words = visible.filter((t) => !t.ui).reduce((sum, t) => sum + t.text.split(/\s+/).filter(Boolean).length, 0);
     if (words > MAX_WORDS_ON_SCREEN) {
       report("aviso", "words", `${words} palabras en pantalla a la vez en ${seconds(frame, fps)}, además de los subtítulos: más de ${MAX_WORDS_ON_SCREEN} se leen tarde`);
     }
@@ -105,8 +109,9 @@ export function inspectTimeline(timeline: Timeline, script: VideoScript): Issue[
     if (outOfOrder) issues.push({ level: "error", message: `Escena "${scene.id}": los tiempos de los subtítulos están desordenados` });
   }
   const total = timelineMs(timeline) / 1000;
-  if (total < DURATION_S[0] || total > DURATION_S[1]) {
-    issues.push({ level: "aviso", message: `Dura ${total.toFixed(1)} s: un explicativo funciona entre ${DURATION_S[0]} y ${DURATION_S[1]} s` });
+  const [min, max] = FORMAT_SECONDS[script.format];
+  if (total < min || total > max) {
+    issues.push({ level: "aviso", message: `Dura ${total.toFixed(1)} s: el formato ${script.format} va de ${min} a ${max} s` });
   }
   return issues;
 }
@@ -218,16 +223,20 @@ function inkRows(ffmpeg: string, video: string, seconds: number): number[] {
 
 /** How far from the background a gray counts as ink (the dots are at 13% of the ink). */
 const INK_DISTANCE = 45;
-/** The middle of the content area, and how far from it a composition can sit. */
-const CONTENT_CENTER = (CONTENT_BOX.top + CONTENT_BOX.bottom) / 2;
-const MAX_OFF_CENTER = 25;
+/**
+ * How much of the content area can stay empty under the drawing, in design
+ * px. SceneFrame keeps the title at the top and centers the drawing below
+ * it, so the center of everything always sits high; what shows a drawing too
+ * small or bunched at the top is the empty band left above the captions.
+ */
+const MAX_EMPTY_BELOW = 130;
 /** The cover has to fill at least this much of the 3:4 crop the profile grid shows. */
 const MIN_COVER_FILL = 0.35;
 
 /**
  * Where each scene sits when it is complete (the review frames), measured on
- * the pixels: a composition bunched at the top leaves the bottom of the
- * content area empty, and a cover with only a title looks empty in the grid.
+ * the pixels: a drawing too small or bunched at the top leaves the bottom of
+ * the content area empty, and a cover with only a title looks empty in the grid.
  * The tab, the captions and the signature are left out: they are the frame.
  */
 export function inspectComposition(ffmpeg: string, video: string, timeline: Timeline): Issue[] {
@@ -238,13 +247,13 @@ export function inspectComposition(ffmpeg: string, video: string, timeline: Time
     const seconds = frame / timeline.fps;
     const rows = inkRows(ffmpeg, video, seconds).filter((y) => y >= CONTENT_BOX.top && y <= CONTENT_BOX.bottom);
     if (!rows.length) continue;
-    const center = (rows[0] + rows[rows.length - 1]) / 2;
-    if (center < CONTENT_CENTER - MAX_OFF_CENTER) high.push(`${seconds.toFixed(1)} s`);
+    const emptyBelow = CONTENT_BOX.bottom - rows[rows.length - 1];
+    if (emptyBelow > MAX_EMPTY_BELOW) high.push(`${seconds.toFixed(1)} s (${Math.round(emptyBelow)} px)`);
   }
   if (high.length) {
     issues.push({
       level: "aviso",
-      message: `La composición queda alta en ${high.join(", ")}: abajo queda vacío el espacio hasta los subtítulos. Centra el dibujo entre el título y los subtítulos (SceneFrame)`,
+      message: `Abajo del dibujo quedan más de ${MAX_EMPTY_BELOW} px vacíos antes de los subtítulos en ${high.join(", ")}: agranda el dibujo o súmale una capa, y deja que SceneFrame lo centre`,
     });
   }
   const cover = inkRows(ffmpeg, video, 0).filter((y) => y >= Math.max(CONTENT_BOX.top, GRID_CROP.top) && y <= Math.min(CONTENT_BOX.bottom, GRID_CROP.bottom));

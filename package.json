@@ -27,6 +27,8 @@
     "video:script": "tsx packages/video/src/cli.ts script",
     "video:schema": "tsx packages/video/src/cli.ts schema",
     "video:voices": "tsx packages/video/src/cli.ts voices",
+    "video:capture": "tsx packages/video/src/cli.ts capture",
+    "video:storyboard": "tsx packages/video/src/cli.ts storyboard",
     "video:prepare": "tsx packages/video/src/cli.ts prepare",
     "video:studio": "tsx packages/video/src/cli.ts studio",
     "video:render": "tsx packages/video/src/cli.ts render",

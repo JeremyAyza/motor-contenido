@@ -5,6 +5,21 @@
     "$schema": {
       "type": "string"
     },
+    "format": {
+      "default": "corto",
+      "description": "The format, which sets the length the gate A sheet and the inspector check: corto (30 to 60 s) or explicado (75 to 100 s, on trial)",
+      "type": "string",
+      "enum": [
+        "corto",
+        "explicado"
+      ]
+    },
+    "topic": {
+      "description": "What the video is about, in a few words. video:script warns if a piece of the last 14 days had a similar topic",
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 120
+    },
     "hooks": {
       "minItems": 1,
       "maxItems": 3,
@@ -26,7 +41,7 @@
           "formula": {
             "type": "integer",
             "minimum": 1,
-            "maximum": 27,
+            "maximum": 29,
             "description": "Formula id from skills/ig-es/ganchos-es.json"
           }
         },

@@ -1,0 +1,147 @@
+{
+  "$schema": "../../schemas/captures.schema.json",
+  "captures": [
+    {
+      "id": "push",
+      "about": "un push a un repositorio local de prueba, con 6 commits de historia",
+      "steps": [
+        {
+          "cmd": "git init -q --bare -b main remoto.git",
+          "show": false
+        },
+        {
+          "cmd": "git init -q -b main app",
+          "show": false
+        },
+        {
+          "cmd": "mkdir -p src && for i in $(seq 1 150); do seq $i $((i + 400)) > src/modulo$i.ts; done && printf 'export function login(email, saved) {\\n  return email === saved;\\n}\\n' > src/login.ts && git add . && git commit -q -m 'Primera versión'",
+          "cwd": "app",
+          "show": false
+        },
+        {
+          "cmd": "for n in 1 2 3 4 5; do for i in $(seq $((n * 10)) $((n * 10 + 25))); do echo \"// cambio $n\" >> src/modulo$i.ts; done; git commit -qam \"Cambio $n\"; done",
+          "cwd": "app",
+          "show": false
+        },
+        {
+          "cmd": "git remote add origin ../remoto.git && git push -q origin main",
+          "cwd": "app",
+          "show": false
+        },
+        {
+          "cmd": "printf 'export function login(email, saved) {\\n  return email.toLowerCase() === saved.toLowerCase();\\n}\\n' > src/login.ts && git commit -qam 'Arregla el login con mayúsculas'",
+          "cwd": "app",
+          "show": false
+        },
+        {
+          "cmd": "git ls-remote origin",
+          "cwd": "app",
+          "show": true
+        },
+        {
+          "cmd": "git count-objects -v",
+          "cwd": "app",
+          "show": true
+        },
+        {
+          "cmd": "git push --progress origin main",
+          "cwd": "app",
+          "show": true
+        }
+      ],
+      "result": {
+        "ranAt": "2026-10-21T00:58:42.705Z",
+        "steps": [
+          {
+            "cmd": "git ls-remote origin",
+            "output": [
+              "49177cbb6d8e61f9c5a894afaac7cf17bc76f8a9\tHEAD",
+              "49177cbb6d8e61f9c5a894afaac7cf17bc76f8a9\trefs/heads/main"
+            ],
+            "exitCode": 0
+          },
+          {
+            "cmd": "git count-objects -v",
+            "output": [
+              "count: 303",
+              "size: 215",
+              "in-pack: 0",
+              "packs: 0",
+              "size-pack: 0",
+              "prune-packable: 0",
+              "garbage: 0",
+              "size-garbage: 0"
+            ],
+            "exitCode": 0
+          },
+          {
+            "cmd": "git push --progress origin main",
+            "output": [
+              "Enumerating objects: 7, done.",
+              "Counting objects: 100% (7/7), done.",
+              "Delta compression using up to 12 threads",
+              "Compressing objects: 100% (3/3), done.",
+              "Writing objects: 100% (4/4), 397 bytes | 397.00 KiB/s, done.",
+              "Total 4 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)",
+              "To ../remoto.git",
+              "   49177cb..5a05302  main -> main"
+            ],
+            "exitCode": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "rechazo",
+      "about": "un push rechazado porque otra persona subió algo antes, en el mismo repositorio de prueba",
+      "steps": [
+        {
+          "cmd": "git init -q --bare -b main remoto.git",
+          "show": false
+        },
+        {
+          "cmd": "git init -q -b main app",
+          "show": false
+        },
+        {
+          "cmd": "mkdir -p src && printf 'export function login(email, saved) {\\n  return email === saved;\\n}\\n' > src/login.ts && git add . && git commit -q -m 'Primera versión' && git remote add origin ../remoto.git && git push -q origin main",
+          "cwd": "app",
+          "show": false
+        },
+        {
+          "cmd": "git clone -q remoto.git otra && cd otra && echo '// cambio de otra persona' >> src/login.ts && git commit -qam 'Cambio de otra persona' && git push -q origin main",
+          "show": false
+        },
+        {
+          "cmd": "echo '// arreglo de Valeria' >> src/login.ts && git commit -qam 'Arregla el login'",
+          "cwd": "app",
+          "show": false
+        },
+        {
+          "cmd": "git push --progress origin main",
+          "cwd": "app",
+          "show": true
+        }
+      ],
+      "result": {
+        "ranAt": "2026-10-21T00:58:44.160Z",
+        "steps": [
+          {
+            "cmd": "git push --progress origin main",
+            "output": [
+              "To ../remoto.git",
+              " ! [rejected]        main -> main (fetch first)",
+              "error: failed to push some refs to '../remoto.git'",
+              "hint: Updates were rejected because the remote contains work that you do not",
+              "hint: have locally. This is usually caused by another repository pushing to",
+              "hint: the same ref. If you want to integrate the remote changes, use",
+              "hint: 'git pull' before pushing again.",
+              "hint: See the 'Note about fast-forwards' in 'git push --help' for details."
+            ],
+            "exitCode": 1
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -24,6 +24,8 @@ export type SceneDef = {
    * without leaving the palette.
    */
   tone?: Tone;
+  /** The scene's name in the chapter bar (VideoDef.chapters): one or two words. */
+  chapter?: string;
   sfx?: SceneSfx[];
   /**
    * What is seen, inside the frame (the tab, the dots and the signature come
@@ -48,10 +50,27 @@ export type VideoDef = {
    * 1, 0.12 by default: the voice comes first.
    */
   music?: { file?: string; asset?: string; volume?: number };
+  /**
+   * How the captions mark the voice: "highlight" (the word being said in the
+   * accent, by default), "pill" (a pill where the words said so far are in ink
+   * and the rest are dimmed) or "marker" (the word being said on an accent box).
+   * The art direction picks the one that fits its world.
+   */
+  captions?: CaptionStyle;
+  /**
+   * Shows the chapter bar under the frame's tab, a HUD of the video: one
+   * segment per scene that fills as it plays, and the number and `chapter`
+   * of the current one.
+   */
+  chapters?: boolean;
   scenes: SceneDef[];
 };
 
+export type CaptionStyle = "highlight" | "pill" | "marker";
+
 export const defineVideo = (video: VideoDef) => video;
 
-export { useCue } from "./scene.ts";
+export { useCapture, useCue } from "./scene.ts";
 export { DRAWING_WIDTH, SceneFrame } from "./scene-frame.tsx";
+export { AppCard, BrowserBar, captureLines, Chat, Chip, DataTable, Diff, Phone, Terminal } from "./stage.tsx";
+export type { ChatMessage, DataRow, DiffLine, TerminalLine } from "./stage.tsx";

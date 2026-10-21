@@ -4,9 +4,10 @@ import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync,
 import { basename, dirname, join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { z } from "zod";
-import { loadAccount, pieceFontIds, REPO_ROOT, type PieceFonts } from "../../brand/src/index.ts";
+import { loadAccount, pieceFontIds, REPO_ROOT, type Palette, type PieceFonts } from "../../brand/src/index.ts";
 import { FONTS, fontStack, MONO, type FontId } from "../../brand/src/fonts.ts";
 import { repartir } from "../../carousel/src/direcciones.ts";
+import type { Art } from "../../carousel/src/post.ts";
 import {
   assertUsable,
   cachedSpeech,
@@ -24,7 +25,9 @@ import {
 } from "../../media/src/index.ts";
 import { loadBrief } from "../../carousel/src/brief.ts";
 import { revisarTextos } from "../../carousel/src/texto.ts";
+import { CAPTURES_FILE, CapturesSchema, loadCaptures, runCapture, saveCaptures } from "./capture.ts";
 import { prepareCritique, writeHookCritic } from "./critique.ts";
+import { recentSimilar, REPEAT_DAYS } from "./topics.ts";
 import { asVideoError, VideoError } from "./errors.ts";
 import type { VideoDef } from "./kit/index.ts";
 import { assetCommand, flag, imageCommand, musicCommand } from "./media-commands.ts";
@@ -32,8 +35,8 @@ import { inspectComposition, inspectFrames, inspectFreezes, inspectLoudness, ins
 import { VideoMetricsSchema, writeMetricsReport } from "./metrics.ts";
 import { piecePalette } from "./palette.ts";
 import { reelWarnings, runReelChecks } from "./reel.ts";
-import { artOf, checkGateB, gateASheet, loadScript, saveScript, SCRIPT_FILE, scriptWarnings, tabOf, VideoScriptSchema, type VideoScript } from "./script.ts";
-import { FPS, HEIGHT, SCALE, WIDTH, type Timeline, type TimelineFont, type TimelineMusic, type TimelineScene } from "./timeline.ts";
+import { artOf, checkGateB, estimateWords, gateASheet, loadScript, saveScript, SCRIPT_FILE, scriptWarnings, tabOf, VideoScriptSchema, type VideoScript } from "./script.ts";
+import { FPS, HEIGHT, SCALE, timelineMs, WIDTH, type Timeline, type TimelineFont, type TimelineMusic, type TimelineScene } from "./timeline.ts";
 
 const USAGE = `Usage:
   npm run video:baraja -- content/<piece>
@@ -42,6 +45,12 @@ const USAGE = `Usage:
   npm run video:script -- content/<piece>
       Checks video.json (with ig-reel's hookscore and beats), writes the gate A sheet
       (content/<piece>/out/gate-a.md) and the blind hook critic folder.
+  npm run video:capture -- content/<piece> [<id>]
+      Runs the commands of content/<piece>/captures.json in clean folders and keeps their real
+      output and the date, for useCapture() in video.tsx.
+  npm run video:storyboard -- content/<piece>
+      The visuals with the script at the estimated pace, silent and without a voice, for gate A:
+      content/<piece>/out/storyboard.png and storyboard.mp4. Does not need gate A.
   npm run video:prepare -- content/<piece>
       Voice, word timing and files for Remotion, in content/<piece>/out/video/. Needs gate A.
   npm run video:studio -- content/<piece>
@@ -231,16 +240,26 @@ function reviewTexts(dir: string, videoScript: VideoScript): string[] {
   return issues.map((i) => `${i.level === "error" ? "Error" : "Aviso"} en ${i.where === "texto del post" ? "el texto del post" : "el guion"}: ${i.message}`);
 }
 
+/** A warning if a piece of the last two weeks had a similar topic (topics.ts). */
+function topicWarnings(piece: string, videoScript: VideoScript): string[] {
+  if (!videoScript.topic) return ["Falta video.json → topic: sin el tema no se puede avisar si se repite uno de las últimas dos semanas"];
+  return recentSimilar(join(REPO_ROOT, "content"), piece, videoScript.topic).map(
+    (other) =>
+      `El tema se parece al de ${other.piece} ("${other.topic}"), de los últimos ${REPEAT_DAYS} días. Al referente, repetir un tema a los pocos días le costó 10 veces menos vistas (docs/analisis-rick-theengineer.md)`,
+  );
+}
+
 function script(args: string[]): void {
   const { dir, piece } = pieceDir(args[0], [SCRIPT_FILE]);
   const videoScript = scriptOf(dir);
   mkdirSync(join(dir, "out"), { recursive: true });
   const reel = runReelChecks(dir);
-  const warnings = [...scriptWarnings(videoScript), ...reelWarnings(reel), ...reviewTexts(dir, videoScript)];
+  const warnings = [...scriptWarnings(videoScript), ...topicWarnings(piece, videoScript), ...reelWarnings(reel), ...reviewTexts(dir, videoScript)];
   const sheet = join(dir, "out/gate-a.md");
   writeFileSync(sheet, gateASheet(piece, videoScript, warnings, reel.hooks ?? undefined));
   for (const w of warnings) console.log(`Aviso: ${w}`);
   console.log(`Gate A: ${videoScript.gateA.approved ? "approved" : "pending"}. Sheet for the person: ${sheet}`);
+  if (!videoScript.gateA.approved) console.log(`Storyboard for the sheet, without a voice: npm run video:storyboard -- ${args[0]}`);
   console.log(`Blind hook critic (a fresh context, docs/critico-ciego-video.md): ${writeHookCritic(dir, videoScript)}`);
 }
 
@@ -252,6 +271,59 @@ function critique(args: string[]): void {
   const { folder, files } = asVideoError(() => prepareCritique(dir, scriptOf(dir), timeline, FFMPEG));
   console.log(`Blind critic folder (${files.length} files): ${folder}`);
   console.log("Give only that folder to a fresh context (docs/critico-ciego-video.md). It writes informe.md there.");
+}
+
+/**
+ * What the composition needs besides the voice: the look of the art direction
+ * (palette, fonts, tab) and the files it draws (objects, the piece's images,
+ * the fonts), copied to the public folder `out`.
+ */
+function stageOf(dir: string, piece: string, art: Art, palette: Palette, out: string) {
+  const captures = asVideoError(() => loadCaptures(dir));
+  const pending = captures?.captures.filter((c) => !c.result).map((c) => c.id) ?? [];
+  if (pending.length) throw new VideoError(`${CAPTURES_FILE}: ${pending.join(", ")} did not run yet. Run: npm run video:capture -- content/${piece}`);
+  copyFiles(join(REPO_ROOT, "assets/objetos"), join(out, "objetos"), (name) => IMAGE.test(name));
+  copyFiles(dir, join(out, "piece"), (name) => IMAGE.test(name));
+  copyFiles(join(dir, "img"), join(out, "piece/img"), (name) => IMAGE.test(name));
+  return {
+    piece,
+    fps: FPS,
+    width: WIDTH,
+    height: HEIGHT,
+    art,
+    palette,
+    fonts: {
+      display: fontStack(art.fonts.display),
+      text: fontStack(art.fonts.text),
+      notes: fontStack(art.fonts.notes ?? art.fonts.display),
+    },
+    faces: copyFonts(art.fonts, join(out, "fonts")),
+    tab: tabOf(art, piece),
+    ...(captures ? { captures: Object.fromEntries(captures.captures.map((c) => [c.id, { about: c.about, ...c.result! }])) } : {}),
+  };
+}
+
+/**
+ * Runs the commands of content/<piece>/captures.json, each capture in a clean
+ * folder of its own (.cache/captures/<piece>/<id>), and writes what they
+ * printed and the date into the same file. With an id, only that capture.
+ */
+function capture(args: string[]): void {
+  const { dir, piece } = pieceDir(args[0], [CAPTURES_FILE]);
+  const only = args[1];
+  const captures = asVideoError(() => loadCaptures(dir))!;
+  if (only && !captures.captures.some((c) => c.id === only)) throw new VideoError(`${CAPTURES_FILE} has no capture "${only}"`);
+  for (const c of captures.captures) {
+    if (only && c.id !== only) continue;
+    c.result = asVideoError(() => runCapture(c, join(CACHE, "captures", piece)));
+    console.log(`\n${c.id}: ${c.about} (${c.result.ranAt})`);
+    for (const step of c.result.steps) {
+      console.log(`$ ${step.cmd}${step.exitCode ? `   (exit ${step.exitCode})` : ""}`);
+      for (const line of step.output) console.log(`  ${line}`);
+    }
+  }
+  saveCaptures(dir, captures);
+  console.log(`\nSaved in ${join(dir, CAPTURES_FILE)}. Show them with useCapture("<id>") and captureLines().`);
 }
 
 async function prepare(args: string[]): Promise<void> {
@@ -300,23 +372,8 @@ async function prepare(args: string[]): Promise<void> {
     console.log(`  ${scene.id}: ${(durationMs / 1000).toFixed(1)} s, ${words.length} words${speech.cached ? " (cached voice)" : ""}`);
   }
 
-  copyFiles(join(REPO_ROOT, "assets/objetos"), join(out, "objetos"), (name) => IMAGE.test(name));
-  copyFiles(dir, join(out, "piece"), (name) => IMAGE.test(name));
-  copyFiles(join(dir, "img"), join(out, "piece/img"), (name) => IMAGE.test(name));
   const timeline: Timeline = {
-    piece,
-    fps: FPS,
-    width: WIDTH,
-    height: HEIGHT,
-    art,
-    palette,
-    fonts: {
-      display: fontStack(art.fonts.display),
-      text: fontStack(art.fonts.text),
-      notes: fontStack(art.fonts.notes ?? art.fonts.display),
-    },
-    faces: copyFonts(art.fonts, join(out, "fonts")),
-    tab: tabOf(art, piece),
+    ...stageOf(dir, piece, art, palette, out),
     brand: account,
     voice: { provider: provider.id, model: provider.model, voice },
     scenes,
@@ -327,8 +384,57 @@ async function prepare(args: string[]): Promise<void> {
   console.log(`Ready: ${total.toFixed(1)} s${timeline.music ? `, music ${timeline.music.src}` : ""} in ${join(out, "timeline.json")}`);
 }
 
-function remotionArgs(dir: string): string[] {
-  return [`--config=${CONFIG}`, `--public-dir=${join(dir, "out/video")}`];
+function remotionArgs(dir: string, publicDir = "out/video"): string[] {
+  return [`--config=${CONFIG}`, `--public-dir=${join(dir, publicDir)}`];
+}
+
+/**
+ * The storyboard for gate A: the visuals of video.tsx with the script's
+ * words at the account's estimated pace, rendered without sound and without
+ * spending on a voice. It leaves out/storyboard.png (the cover and the end of
+ * each scene) and what the inspector sees in the frames. The real timing comes
+ * later, from video:prepare.
+ */
+async function storyboard(args: string[]): Promise<void> {
+  const { dir, piece } = pieceDir(args[0], [SCRIPT_FILE, "video.tsx"]);
+  const videoScript = scriptOf(dir);
+  const video = (await import(pathToFileURL(join(dir, "video.tsx")).href)).default as VideoDef;
+  const scenesToShow = scenesOf(videoScript, video);
+  const { art, from } = asVideoError(() => artOf(dir, videoScript));
+  const palette = asVideoError(() => piecePalette(art.palette, from));
+  const out = join(dir, "out/storyboard");
+  rmSync(out, { recursive: true, force: true });
+  mkdirSync(out, { recursive: true });
+  const scenes: TimelineScene[] = scenesToShow.map((scene, i) => {
+    const words = estimateWords(scene.say);
+    const durationMs = Math.round((words.at(-1)?.endMs ?? 0) + (i === scenesToShow.length - 1 ? END_TAIL_MS : TAIL_MS));
+    return { id: scene.id, durationMs, words, sfx: [] };
+  });
+  const timeline: Timeline = { ...stageOf(dir, piece, art, palette, out), brand: loadAccount("dev"), scenes };
+  writeFileSync(join(out, "timeline.json"), JSON.stringify(timeline, null, 2));
+  console.log(`${piece}: storyboard of ${scenes.length} scene(s), ${(timelineMs(timeline) / 1000).toFixed(1)} s estimated, art direction ${art.direction} (${from})`);
+
+  const mp4 = join(dir, "out/storyboard.mp4");
+  const server = await probeServer();
+  const propsFile = join(dir, "out/storyboard-props.json");
+  writeFileSync(propsFile, JSON.stringify({ inspect: server.url }));
+  try {
+    await runAsync(process.execPath, [REMOTION, "render", ENTRY, piece, mp4, ...remotionArgs(dir, "out/storyboard"), "--scale=1", "--muted", `--props=${propsFile}`], {
+      REMOTION_PIECE: piece,
+    });
+  } finally {
+    await server.close();
+    rmSync(propsFile, { force: true });
+  }
+  const sheet = join(dir, "out/storyboard.png");
+  asVideoError(() => reviewSheet(FFMPEG, mp4, reviewFrames(timeline), sheet));
+  const issues = [
+    ...inspectFrames([...server.reports.values()], timeline.fps, videoScript.hooks[0].onScreen),
+    ...asVideoError(() => inspectComposition(FFMPEG, mp4, timeline)),
+  ];
+  const lines = issues.length ? issues.map((i) => `${i.level === "error" ? "✗" : "!"} ${i.message}`) : ["✓ Sin problemas"];
+  console.log(`\nInspector (storyboard):\n${lines.map((l) => `  ${l}`).join("\n")}\n`);
+  console.log(`Storyboard: ${sheet}\nSilent preview: ${mp4}`);
 }
 
 function studio(args: string[]): void {
@@ -420,6 +526,7 @@ function schema(): void {
   const schemas: Array<[string, z.ZodType]> = [
     ["schemas/video.schema.json", VideoScriptSchema],
     ["schemas/video-metrics.schema.json", VideoMetricsSchema],
+    ["schemas/captures.schema.json", CapturesSchema],
   ];
   for (const [file, zodSchema] of schemas) {
     const out = join(REPO_ROOT, file);
@@ -475,6 +582,8 @@ async function main(): Promise<void> {
   else if (command === "render") await render(args);
   else if (command === "critique") critique(args);
   else if (command === "baraja") deal(args);
+  else if (command === "capture") capture(args);
+  else if (command === "storyboard") await storyboard(args);
   else if (command === "metrics") metrics();
   else if (command === "voices") await voices(args);
   else throw new VideoError(command ? `Unknown command "${command}"\n\n${USAGE}` : USAGE);

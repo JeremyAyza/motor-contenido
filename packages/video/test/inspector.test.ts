@@ -35,6 +35,13 @@ describe("inspectFrames", () => {
     assert.match(messages(issues), /13 palabras en pantalla a la vez en 0\.5 s/);
   });
 
+  it("leaves the text of an interface out of the words, down to 12 px", () => {
+    const screen = text({ text: "uno dos tres cuatro cinco seis siete ocho nueve diez once doce trece", y: 300, h: 30, fontSize: 14, ui: true });
+    assert.deepEqual(inspectFrames([{ frame: 0, texts: [text({}), screen] }], 30, "La luz, al revés"), []);
+    const tiny = text({ text: "9:41", y: 300, fontSize: 9, ui: true });
+    assert.match(messages(inspectFrames([{ frame: 0, texts: [text({}), tiny] }], 30, "La luz, al revés")), /el texto de una interfaz baja de 12px/);
+  });
+
   it("reports each problem once, not once per frame", () => {
     const low = text({ text: "abajo", y: 790 });
     const issues = inspectFrames([0, 15, 30].map((frame) => ({ frame, texts: [text({}), low] })), 30, "La luz, al revés");

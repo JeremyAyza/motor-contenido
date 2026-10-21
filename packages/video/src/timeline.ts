@@ -1,5 +1,6 @@
 import type { AccountBrand, Palette } from "../../brand/src/index.ts";
 import type { Art } from "../../carousel/src/post.ts";
+import type { CaptureResult } from "./capture.ts";
 import type { WordTiming } from "../../media/src/speech.ts";
 
 export type { WordTiming };
@@ -9,8 +10,8 @@ export type TimelineSfx = { src: string; atMs: number; volume: number };
 
 export type TimelineScene = {
   id: string;
-  /** Narration audio, relative to the public folder. */
-  voice: string;
+  /** Narration audio, relative to the public folder. A storyboard has none. */
+  voice?: string;
   /** The voice plus a short pause, in ms. */
   durationMs: number;
   words: WordTiming[];
@@ -42,7 +43,10 @@ export type Timeline = {
   tab: string;
   /** The account, for the signature of the frame. */
   brand: AccountBrand;
-  voice: { provider: string; model: string; voice: string };
+  /** What the commands of captures.json printed (video:capture), by id, for useCapture. */
+  captures?: Record<string, CaptureResult & { about: string }>;
+  /** Who spoke; a storyboard (video:storyboard) has no voice yet. */
+  voice?: { provider: string; model: string; voice: string };
   scenes: TimelineScene[];
   music?: TimelineMusic;
 };

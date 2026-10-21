@@ -3,7 +3,7 @@ import { mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, it } from "node:test";
-import { artOf, checkGateB, gateASheet, scriptWarnings, tabOf, VideoScriptSchema } from "../src/script.ts";
+import { artOf, checkGateB, estimateWords, gateASheet, scriptWarnings, tabOf, VideoScriptSchema, WORDS_PER_SECOND } from "../src/script.ts";
 
 const base = {
   hooks: [{ said: "El ray tracing sigue la luz al revés.", onScreen: "La luz, al revés", formula: 22 }],
@@ -51,7 +51,12 @@ describe("scriptWarnings", () => {
     const warnings = scriptWarnings(script).join("\n");
     assert.match(warnings, /tiene que entrar en 3 s/);
     assert.match(warnings, /7 palabras en pantalla/);
-    assert.match(warnings, /entre 30 y 60 s/);
+    assert.match(warnings, /el formato corto va de 30 a 60 s/);
+  });
+
+  it("measures the length against the format of the video", () => {
+    const script = VideoScriptSchema.parse({ ...base, format: "explicado" });
+    assert.match(scriptWarnings(script).join("\n"), /el formato explicado va de 75 a 100 s/);
   });
 });
 
@@ -120,5 +125,14 @@ describe("artOf", () => {
     const parsed = VideoScriptSchema.parse({ ...base, art }).art!;
     assert.equal(tabOf(parsed, "2026-10-20-anthropic-scion-git"), "anthropic-scion-git.md");
     assert.equal(tabOf({ ...parsed, tab: "scion.rs" }, "2026-10-20-anthropic-scion-git"), "scion.rs");
+  });
+});
+
+describe("estimateWords", () => {
+  it("times every word of the script at the account's pace, with its punctuation", () => {
+    const words = estimateWords("Corre los tests. ¿Falla uno?");
+    assert.deepEqual(words.map((w) => w.text), ["Corre", "los", "tests.", "¿Falla", "uno?"]);
+    assert.equal(words[1].startMs, Math.round(1000 / WORDS_PER_SECOND));
+    assert.ok(words.every((w, i) => w.endMs > w.startMs && (i === 0 || w.startMs > words[i - 1].endMs)));
   });
 });

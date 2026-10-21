@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { z } from "zod";
 import { ArtSchema, type Art } from "../../carousel/src/post.ts";
 import { nombreRecurso, RECURSO_IDS } from "../../carousel/src/recursos.ts";
+import type { WordTiming } from "../../media/src/speech.ts";
 import { normalizeWord, scriptWords } from "../../media/src/words.ts";
 
 /**
@@ -15,7 +16,7 @@ import { normalizeWord, scriptWords } from "../../media/src/words.ts";
 export const HookSchema = z.object({
   said: z.string().trim().min(3).describe("The first line of the voice"),
   onScreen: z.string().trim().min(2).max(60).describe("The hook text, visible from frame 1; 6 words or fewer"),
-  formula: z.number().int().min(1).max(27).describe("Formula id from skills/ig-es/ganchos-es.json"),
+  formula: z.number().int().min(1).max(29).describe("Formula id from skills/ig-es/ganchos-es.json"),
 });
 
 export const ScriptSceneSchema = z.object({
@@ -39,9 +40,28 @@ export const GateBSchema = GateSchema.extend({
     .describe("sha256 of the out/video.mp4 the person approved (video:render prints it). If the video changes, the gate goes back to false"),
 });
 
+/**
+ * How long a video should last, by format: "corto" is the 30 to 60 s
+ * explainer of the pilot; "explicado" is the format of docs/propuesta-reels-jacket.md
+ * ("un segundo por dentro"), on trial at 75 to 100 s until the metrics decide.
+ */
+export const FORMAT_SECONDS = { corto: [30, 60], explicado: [75, 100] } as const satisfies Record<string, readonly [number, number]>;
+export type VideoFormat = keyof typeof FORMAT_SECONDS;
+
 export const VideoScriptSchema = z
   .object({
     $schema: z.string().optional(),
+    format: z
+      .enum(Object.keys(FORMAT_SECONDS) as [VideoFormat, ...VideoFormat[]])
+      .default("corto")
+      .describe("The format, which sets the length the gate A sheet and the inspector check: corto (30 to 60 s) or explicado (75 to 100 s, on trial)"),
+    topic: z
+      .string()
+      .trim()
+      .min(3)
+      .max(120)
+      .optional()
+      .describe("What the video is about, in a few words. video:script warns if a piece of the last 14 days had a similar topic"),
     hooks: z.array(HookSchema).min(1).max(3).describe("The first is the chosen one; the others are alternatives for gate A"),
     scenes: z.array(ScriptSceneSchema).min(1),
     caption: z.string().trim().max(2200).optional().describe("The post text"),
@@ -117,9 +137,21 @@ export const tabOf = (art: Art, piece: string) => art.tab ?? `${piece.replace(/^
 export const WORDS_PER_SECOND = 2.7;
 export const estimateSeconds = (text: string) => scriptWords(text).length / WORDS_PER_SECOND;
 
+/**
+ * Word timings at the account's pace, for the storyboard (video:storyboard),
+ * before there is a voice: one word every 1/WORDS_PER_SECOND s. Captions and
+ * useCue work with them as with the real ones.
+ */
+export function estimateWords(say: string): WordTiming[] {
+  const step = 1000 / WORDS_PER_SECOND;
+  return say
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((text, i) => ({ text, startMs: Math.round(i * step), endMs: Math.round((i + 0.85) * step) }));
+}
+
 const HOOK_MAX_SECONDS = 3;
 const ON_SCREEN_MAX_WORDS = 6;
-const TARGET_SECONDS: [number, number] = [30, 60];
 
 /**
  * What the schema cannot say: timing and length, estimated from the words.
@@ -135,8 +167,9 @@ export function scriptWarnings(script: VideoScript): string[] {
     if (words > ON_SCREEN_MAX_WORDS) warnings.push(`El gancho ${i + 1} tiene ${words} palabras en pantalla: ${ON_SCREEN_MAX_WORDS} o menos`);
   });
   const total = script.scenes.reduce((sum, s) => sum + estimateSeconds(s.say), 0);
-  if (total < TARGET_SECONDS[0] || total > TARGET_SECONDS[1]) {
-    warnings.push(`Dura unos ${Math.round(total)} s: un explicativo funciona entre ${TARGET_SECONDS[0]} y ${TARGET_SECONDS[1]} s`);
+  const [min, max] = FORMAT_SECONDS[script.format];
+  if (total < min || total > max) {
+    warnings.push(`Dura unos ${Math.round(total)} s: el formato ${script.format} va de ${min} a ${max} s`);
   }
   return warnings;
 }

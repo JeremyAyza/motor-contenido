@@ -7,6 +7,7 @@ El flujo de video con Remotion 4.0.537. El código va en inglés. El plan está 
 ```bash
 npm run video:baraja -- content/<pieza>              # reparte 3 direcciones de arte para video.json → art
 npm run video:script -- content/<pieza>              # revisa video.json y arma la puerta A (out/gate-a.md)
+npm run video:storyboard -- content/<pieza>          # los visuales sin voz, al ritmo estimado: out/storyboard.png para la puerta A
 npm run video:prepare -- content/<pieza>             # voz, tiempos y archivos en content/<pieza>/out/video/ (pide la puerta A)
 npm run video:studio -- content/<pieza>              # vista previa en Remotion Studio
 npm run video:render -- content/<pieza>              # MP4 1080×1920, hoja de revisión y sha256 para la puerta B
@@ -46,7 +47,9 @@ Los comandos de imagen, música y recursos están en `src/media-commands.ts`. La
    - **Composición:** mide en los píxeles de la hoja, sobre fondo claro u oscuro, si cada escena queda centrada entre el título y los subtítulos y si la portada llena el recorte 3:4.
    - **Partes quietas:** cuenta los píxeles que cambian cada medio segundo arriba de los subtítulos.
 7. **Vista previa con la interfaz:** `src/instagram-ui.tsx` es un still transparente que simula lo que Instagram dibuja encima de un Reel. El render lo pega sobre el video en `out/video-vista-instagram.mp4` y en la hoja; el MP4 que se publica queda limpio.
-8. **Marco de escena:** `SceneFrame` (en `src/kit/scene-frame.tsx`) pone el título arriba y centra el dibujo de 468 px entre el título y los subtítulos (`CONTENT_BOX` y `CAPTIONS_TOP`, en `src/timeline.ts`). El diseño no esquiva la interfaz de Instagram: solo deja el margen del marco (`FRAME_PAD`).
+8. **Marco de escena:** `SceneFrame` (en `src/kit/scene-frame.tsx`) pone el título arriba y centra el dibujo de 468 px entre el título y los subtítulos (`CONTENT_BOX` y `CAPTIONS_TOP`, en `src/timeline.ts`). Sin `height`, apila lo que recibe en una columna centrada. El diseño no esquiva la interfaz de Instagram: solo deja el margen del marco (`FRAME_PAD`).
+   - **Kit de escenario** (`src/kit/stage.tsx`): `Phone`, `BrowserBar`, `AppCard`, `Chat`, `Terminal`, `Diff`, `DataTable` y `Chip`, interfaces genéricas cuyo texto va marcado `data-ui`.
+   - **HUD y subtítulos** (`src/frame.tsx`): `ChapterBar` con `defineVideo({ chapters: true })`, y los estilos de `Captions` (`captions: "highlight" | "pill" | "marker"`).
 9. **ig-reel** (`src/reel.ts`): `video:script` corre `hookscore_es --video` y `beats_es --video` (en `skills/ig-es`) y traduce lo que marcan a avisos en español para la hoja de la puerta A. El ritmo de la voz es `WORDS_PER_SECOND`, en `src/script.ts`, medido en el piloto.
 10. **Crítico ciego** (`src/critique.ts`):
     - **En la puerta A,** `video:script` arma `out/video-critica-ganchos/`.

@@ -1,0 +1,61 @@
+{
+  "topic": "git-push-por-dentro",
+  "checkedAt": "2026-10-20",
+  "facts": [
+    {
+      "claim": "git push actualiza ramas, etiquetas u otras referencias del repositorio remoto y envía todos los datos que no estén ya en el remoto.",
+      "source": "Documentación de Git, git-push",
+      "url": "https://git-scm.com/docs/git-push",
+      "primary": true
+    },
+    {
+      "claim": "Para subir datos, Git usa dos procesos: send-pack corre en el cliente y se conecta con receive-pack en el servidor. El servidor responde primero con una línea por cada referencia que tiene, con su SHA-1.",
+      "source": "Pro Git, 10.6 Git Internals: Transfer Protocols",
+      "url": "https://git-scm.com/book/en/v2/Git-Internals-Transfer-Protocols",
+      "primary": true
+    },
+    {
+      "claim": "Por cada referencia que actualiza, el cliente envía el SHA-1 viejo y el nuevo; después envía un packfile con los objetos que el servidor todavía no tiene, y el servidor responde si salió bien o mal.",
+      "source": "Pro Git, 10.6 Git Internals: Transfer Protocols",
+      "url": "https://git-scm.com/book/en/v2/Git-Internals-Transfer-Protocols",
+      "primary": true
+    },
+    {
+      "claim": "Un packfile es un solo archivo binario que junta varios objetos para ahorrar espacio. Git guarda solo las diferencias (deltas) entre versiones parecidas de un archivo, y empaqueta, entre otros casos, cuando haces push a un servidor remoto.",
+      "source": "Pro Git, 10.4 Git Internals: Packfiles",
+      "url": "https://git-scm.com/book/en/v2/Git-Internals-Packfiles",
+      "primary": true
+    },
+    {
+      "claim": "Por defecto, git push no permite una actualización que no sea fast-forward, para no perder historia.",
+      "source": "Documentación de Git, git-push (Note about fast-forwards)",
+      "url": "https://git-scm.com/docs/git-push",
+      "primary": true
+    },
+    {
+      "claim": "En el servidor, el hook pre-receive puede rechazar todo el push, y post-receive corre cuando el push termina; se usa, por ejemplo, para avisar a un servidor de integración continua.",
+      "source": "Pro Git, 8.3 Customizing Git: Git Hooks",
+      "url": "https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks",
+      "primary": true
+    },
+    {
+      "claim": "En GitHub Actions, el evento push corre tu flujo de trabajo cuando haces push de un commit o de una etiqueta.",
+      "source": "GitHub Docs, Events that trigger workflows",
+      "url": "https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows",
+      "primary": true
+    },
+    {
+      "claim": "En un repositorio local de prueba con 303 objetos sueltos (215 KiB) y 6 commits de historia, un push con un commit nuevo envió 4 objetos y 397 bytes. Corrió el 20 de octubre de 2026 con git 2.53 (captures.json → push).",
+      "source": "Captura propia con video:capture (captures.json)",
+      "url": "https://git-scm.com/docs/git-count-objects",
+      "primary": true
+    },
+    {
+      "claim": "En el mismo tipo de repositorio de prueba, cuando otra persona subió un commit antes, git push respondió '! [rejected] main -> main (fetch first)' y pidió hacer git pull antes de volver a subir (captures.json → rechazo).",
+      "source": "Captura propia con video:capture (captures.json)",
+      "url": "https://git-scm.com/docs/git-push",
+      "primary": true
+    }
+  ],
+  "pendingToVerify": []
+}

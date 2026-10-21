@@ -82,7 +82,7 @@
           "formula": {
             "type": "integer",
             "minimum": 1,
-            "maximum": 27,
+            "maximum": 29,
             "description": "id de skills/ig-es/ganchos-es.json"
           }
         },

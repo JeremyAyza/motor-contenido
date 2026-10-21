@@ -1,0 +1,106 @@
+{
+  "$schema": "../../schemas/video.schema.json",
+  "format": "explicado",
+  "topic": "Qué pasa en un git push",
+  "hooks": [
+    {
+      "said": "Git no sube tu proyecto entero.",
+      "onScreen": "Git no sube tu proyecto",
+      "formula": 29
+    },
+    {
+      "said": "Tu git push tarda un segundo.",
+      "onScreen": "Un segundo de git push",
+      "formula": 28
+    },
+    {
+      "said": "Valeria hace push y se va. Mira lo que pasa.",
+      "onScreen": "Lo que pasa en un push",
+      "formula": 18
+    }
+  ],
+  "scenes": [
+    {
+      "id": "gancho",
+      "say": "Git no sube tu proyecto entero. Tu git push tarda un segundo. Adentro, seis cosas. Valeria arregla un bug del login y hace push antes de irse. Todo lo que vas a ver corrió de verdad.",
+      "see": "La terminal de Valeria con git push escrito, y al lado la barra de capítulos con los seis pasos. Un reloj marca un segundo. El chip dice que todo corrió de verdad.",
+      "resource": "artefacto"
+    },
+    {
+      "id": "pregunta",
+      "say": "Primero, pregunta. ¿Qué ramas tiene el servidor? ¿Y en qué commit está cada una? Es lo que ves con git ls-remote.",
+      "see": "Dos tarjetas, la máquina de Valeria y el servidor, con una flecha que pregunta. Abajo, la salida real de git ls-remote con la rama main y su commit.",
+      "resource": "proceso"
+    },
+    {
+      "id": "compara",
+      "say": "Con esa respuesta, Git calcula exactamente qué objetos le faltan al servidor. El repo de Valeria tiene trescientos tres objetos. ¿Y el servidor? Ya tiene casi todos.",
+      "see": "La salida real de git count-objects con 303 objetos, y una grilla de 303 cuadritos donde casi todos se marcan como que el servidor ya los tiene.",
+      "resource": "datos"
+    },
+    {
+      "id": "empaqueta",
+      "say": "Junta solo lo nuevo en un packfile, un archivo comprimido. Si un archivo cambió en el commit, guarda la diferencia. No una copia entera. Por eso pesa tan poco.",
+      "see": "Los pocos objetos nuevos entran en una caja, el packfile, y las líneas reales de Compressing objects y Delta compression de la terminal.",
+      "resource": "metafora"
+    },
+    {
+      "id": "envia",
+      "say": "Después, manda el packfile al servidor. Send-pack corre en su máquina, receive-pack en el servidor. Por cada rama, envía el commit viejo y el nuevo. El servidor responde. Bien.",
+      "see": "Las dos tarjetas con send-pack y receive-pack, el paquete que viaja entre ellas y la línea real de la rama main con el commit viejo y el nuevo.",
+      "resource": "proceso"
+    },
+    {
+      "id": "revisa",
+      "say": "Pero no siempre sale bien. El servidor revisa que nadie pierda historia. Si alguien subió algo antes, rechaza el push. Te lo dice así: fetch first. Baja primero esos cambios con git pull.",
+      "see": "La salida real de un push rechazado: rejected, fetch first, y la pista de hacer git pull antes.",
+      "resource": "artefacto"
+    },
+    {
+      "id": "avisa",
+      "say": "¿Todo bien? Entonces mueve la rama main al commit nuevo. El hook post-receive avisa a otros sistemas. En GitHub, ese push hace correr tus Actions.",
+      "see": "La rama main avanza un commit en el servidor y salen avisos hacia la tarjeta de GitHub Actions, que empieza a correr.",
+      "resource": "proceso"
+    },
+    {
+      "id": "cierre",
+      "say": "¿Y los trescientos tres objetos? Viajaron cuatro. Trescientos noventa y siete bytes. Git no sube tu proyecto. Sube lo que le falta. Guárdalo para tu próximo git push.",
+      "see": "La grilla de 303 objetos con solo 4 encendidos y la línea real de Writing objects con 397 bytes. Al decir guárdalo, el gesto de guardar en el acento.",
+      "resource": "cifra"
+    }
+  ],
+  "caption": "Git no sube tu proyecto entero. Tu git push tarda un segundo, y esto es lo que pasa adentro.\n\n1. Git le pregunta al servidor qué ramas tiene y en qué commit está cada una.\n2. Calcula qué objetos le faltan al servidor.\n3. Junta solo esos en un packfile, comprimido y con las diferencias en vez de copias enteras.\n4. Se envían con dos procesos: send-pack en tu máquina y receive-pack en el servidor.\n5. El servidor revisa que no se pierda historia. Si alguien subió algo antes, rechaza el push.\n6. Mueve la rama y avisa. En GitHub, ese push hace correr tus Actions.\n\nTodo corrió de verdad el 20 de octubre de 2026, en un repositorio local de prueba con 303 objetos: viajaron 4, y pesaron 397 bytes.\n\nGuárdalo para tu próximo push.\n\nFuentes: documentación de git push, Pro Git (protocolos de transferencia, packfiles y hooks) y documentación de GitHub Actions.\n\n#git #github #programacion #devtools #terminal",
+  "art": {
+    "direction": "terminal",
+    "dealt": [
+      "captura-anotada",
+      "collage",
+      "terminal"
+    ],
+    "reason": "El tema es un comando y lo que imprime: cada escena muestra una salida real de git, capturada con video:capture, y la explicación va fuera de la terminal.",
+    "palette": {
+      "bg": "#0D1117",
+      "ink": "#E6EDF3",
+      "accent": "#F03C2E",
+      "accentInk": "#0D1117",
+      "surface": "#141920",
+      "muted": "#8B949E"
+    },
+    "fonts": {
+      "display": "geist",
+      "text": "geist"
+    },
+    "anchor": {
+      "kind": "logo",
+      "ref": "git",
+      "source": "Ícono oficial de Git en Simple Icons (CC0), sin modificar; el color de acento es el de la marca"
+    },
+    "tab": "git-push.sh"
+  },
+  "gateA": {
+    "approved": false
+  },
+  "gateB": {
+    "approved": false
+  }
+}

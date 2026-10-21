@@ -25,8 +25,10 @@ Es un flujo separado del carrusel: comparte la marca (`packages/brand`), las pri
 
    También arma `out/video-critica-ganchos/`: el tema, el público y los ganchos, sin puntajes, para que un contexto nuevo los ordene ([docs/critico-ciego-video.md](../docs/critico-ciego-video.md), "Ganchos"). Ese orden va a la puerta A junto con los avisos.
 
+   **El storyboard** también va a la hoja. `npm run video:storyboard -- content/<pieza>` renderiza los visuales de un primer `video.tsx` con el guion al ritmo estimado de la voz, sin sonido y sin generar voz, y deja `out/storyboard.png` (la portada y el final de cada escena) y `out/storyboard.mp4`. También corre el inspector sobre esos cuadros. Si la persona cambia el guion, el `video.tsx` se ajusta antes de la voz.
+
    Solo el sí de la persona en el chat aprueba, y el agente lo anota en `video.json → gateA { approved: true, date }`.
-3. **Lo que se ve: `content/<pieza>/video.tsx`**, después de la puerta A. Antes, la dirección de arte: si la pieza tiene carrusel, el Reel toma su `post.json → art`; si no, `npm run video:baraja -- content/<pieza>` reparte 3 direcciones y la elegida va en `video.json → art` (ver **Estilo**, más abajo). `video.tsx` exporta `defineVideo` de `@motor/video` con una entrada por escena de `video.json`: el mismo `id`, el tono de la paleta (`tone`), los efectos (`sfx`) y lo que se ve (`Visual`). Lo que dice la voz no va aquí: sale de `video.json`, tal cual se aprobó. La guía para el agente está en [skills/video-es](../skills/video-es/SKILL.md).
+3. **Lo que se ve: `content/<pieza>/video.tsx`.** Un primer borrador va antes de la puerta A, para el storyboard; la versión final, después. Antes, la dirección de arte: si la pieza tiene carrusel, el Reel toma su `post.json → art`; si no, `npm run video:baraja -- content/<pieza>` reparte 3 direcciones y la elegida va en `video.json → art` (ver **Estilo**, más abajo). `video.tsx` exporta `defineVideo` de `@motor/video` con el estilo de los subtítulos (`captions`), la barra de capítulos (`chapters`) y una entrada por escena de `video.json`: el mismo `id`, el tono de la paleta (`tone`), el nombre del capítulo (`chapter`), los efectos (`sfx`) y lo que se ve (`Visual`). Las escenas se arman con el kit de escenario (ver **Escenario y HUD**, más abajo). Lo que dice la voz no va aquí: sale de `video.json`, tal cual se aprobó. La guía para el agente está en [skills/video-es](../skills/video-es/SKILL.md).
 4. **Voz y tiempos:** `npm run video:prepare -- content/<pieza>`. No corre sin la puerta A. Hace cuatro cosas:
    - genera la voz de cada escena con el proveedor y la voz de `accounts/dev.json → voice` (Gemini 3.8 Flash TTS, voz Puck);
    - calcula cuándo se dice cada palabra con whisper.cpp local;
@@ -47,13 +49,13 @@ Es un flujo separado del carrusel: comparte la marca (`packages/brand`), las pri
    **El inspector** lee lo que el render dibujó de verdad: durante el render, la composición le pasa el texto de un cuadro cada medio segundo, con su posición, su tamaño y su opacidad. También revisa el archivo con ffmpeg.
    - **Errores** (bloquean la puerta B y el comando sale con código 1):
      - texto fuera del margen del marco (36 px a cada lado, entre la pestaña y los subtítulos);
-     - letra de menos de 22 px de diseño;
+     - letra de menos de 22 px de diseño, o de 12 px en el texto de una interfaz del kit (`data-ui`);
      - el gancho elegido (`onScreen`) no se ve completo en el cuadro 1;
      - subtítulos que no tienen todas las palabras del guion.
    - **Avisos:**
-     - más de 12 palabras en pantalla a la vez, además de los subtítulos;
+     - más de 12 palabras en pantalla a la vez, sin contar los subtítulos ni el texto de las interfaces del kit;
      - el gancho fuera del centro 3:4 que muestra la grilla;
-     - una composición alta: el contenido de una escena centrado más de 25 px arriba del centro de lo que Instagram deja ver;
+     - un dibujo que deja vacío abajo: más de 130 px entre el final del dibujo y los subtítulos;
      - una portada vacía: el cuadro 1 ocupa menos del 35 % del recorte 3:4;
      - más de 4 s sin cambio arriba de los subtítulos. Se mide en píxeles que cambian cada medio segundo, así que cuenta un trazo que se dibuja;
      - el volumen lejos de −14 LUFS;
@@ -98,6 +100,14 @@ Igual que en el carrusel ([workflows/metricas.md](metricas.md)):
 - **Los subtítulos** van de y 812 a 880, justo arriba de la firma, en páginas de una frase o un pedazo de frase: nunca mezclan el final de una oración con el principio de la siguiente.
 - **La portada.** El cuadro 1 lleva el dibujo, no solo el título, porque la grilla del perfil lo recorta al centro 3:4 (de y 120 a 840). La pestaña queda fuera de ese recorte.
 - **La vista con la interfaz** (`video-vista-instagram.mp4` y la hoja) muestra qué tapa la app encima del diseño. Es para saberlo, no para acomodar el dibujo.
+
+**Escenario y HUD.** Como en el referente de [docs/analisis-rick-theengineer.md](../docs/analisis-rick-theengineer.md), lo que se explica pasa dentro de una interfaz que el público reconoce. El kit está en `packages/video/src/kit/stage.tsx` y se importa de `@motor/video`:
+- `Phone`, `BrowserBar`, `AppCard`, `Chat`, `Terminal`, `Diff`, `DataTable` y `Chip`. Cada uno recibe `at` (los segundos de `useCue`) para aparecer con la voz; `Terminal` escribe los comandos letra por letra.
+- **Son genéricos y propios.** Una marca aparece solo con su logo oficial, nunca como copia de su app. Los comandos de `Terminal` son reales; lo que muestran las pantallas (un issue, un diff, una salida) es un ejemplo y se rotula "Ejemplo ilustrativo".
+- **Su texto es interfaz** (`data-ui`): el inspector no lo cuenta como palabras en pantalla y le deja bajar a 12 px. La frase para leer sigue siendo el título o una etiqueta.
+- **Sin `height`,** `SceneFrame` apila lo que recibe en una columna centrada, que es lo cómodo para el kit; con `height`, el dibujo es un recuadro de coordenadas absolutas.
+- **El HUD:** con `chapters: true`, el marco suma debajo de la pestaña la barra de capítulos (número, nombre de la escena y un segmento por escena que se llena). Los `Chip` sirven de rótulos de sistema dentro de las escenas.
+- **Subtítulos:** `captions` elige el estilo. `"highlight"` pinta la palabra dicha en el acento; `"pill"` va en una píldora, con lo ya dicho en tinta y el resto apagado; `"marker"` pone la palabra dicha sobre una caja del acento.
 
 **Recursos de terceros:** solo los de `assets/catalog.json`. Para que `video:prepare` use uno, tiene que tener:
 - la licencia revisada en su fuente, con la fecha en `checkedAt`;

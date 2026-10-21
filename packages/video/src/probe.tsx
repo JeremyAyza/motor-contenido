@@ -1,8 +1,12 @@
 import { useLayoutEffect } from "react";
 import { continueRender, delayRender, useCurrentFrame, useVideoConfig } from "remotion";
 
-/** A piece of text as the browser lays it out, in design px. */
-export type ProbedText = { text: string; x: number; y: number; w: number; h: number; fontSize: number; opacity: number };
+/**
+ * A piece of text as the browser lays it out, in design px. `ui` marks the
+ * text of an interface of the stage kit (data-ui): a screen's chrome, not a
+ * sentence to read.
+ */
+export type ProbedText = { text: string; x: number; y: number; w: number; h: number; fontSize: number; opacity: number; ui?: boolean };
 export type ProbeReport = { frame: number; texts: ProbedText[] };
 
 /** Frames the probe reports: the first one and then every half second. */
@@ -66,6 +70,7 @@ function measureTexts(root: HTMLElement): ProbedText[] {
       h: rect.height / scale,
       fontSize: Number.parseFloat(getComputedStyle(el).fontSize),
       opacity: effectiveOpacity(el),
+      ui: Boolean(el.closest("[data-ui]")),
     });
   }
   return texts;

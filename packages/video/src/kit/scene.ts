@@ -1,8 +1,22 @@
 import { createContext, useContext } from "react";
 import { normalizeWord } from "../../../media/src/words.ts";
-import type { TimelineScene } from "../timeline.ts";
+import type { Timeline, TimelineScene } from "../timeline.ts";
 
 export const SceneContext = createContext<TimelineScene | null>(null);
+export const CapturesContext = createContext<Timeline["captures"]>(undefined);
+
+/**
+ * What a command of captures.json printed when video:capture ran it: its
+ * steps, each with the command and its output lines, and the date. Show it
+ * with captureLines() in a Terminal. Throws if the capture is missing or has
+ * not run yet.
+ */
+export function useCapture(id: string) {
+  const captures = useContext(CapturesContext);
+  const capture = captures?.[id];
+  if (!capture) throw new Error(`Capture "${id}" is not in captures.json, or it did not run: npm run video:capture -- content/<piece>`);
+  return capture;
+}
 
 /**
  * Seconds from the start of the scene to when `word` is said (its `nth` time).

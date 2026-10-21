@@ -7,8 +7,8 @@ import { AssetContext } from "../../carousel/src/ui/assets.ts";
 import { Slide, SlideContext } from "../../carousel/src/ui/index.tsx";
 import { MOTION_CSS } from "../../carousel/src/ui/motion.tsx";
 import { browserAssets } from "./assets-browser.ts";
-import { Captions } from "./frame.tsx";
-import { SceneContext } from "./kit/scene.ts";
+import { Captions, ChapterBar } from "./frame.tsx";
+import { CapturesContext, SceneContext } from "./kit/scene.ts";
 import { CssMotion, VIDEO_MOTION_CSS } from "./motion.tsx";
 import { PIECES } from "./pieces.ts";
 import { Probe } from "./probe.tsx";
@@ -70,6 +70,7 @@ export function PieceVideo({ piece, timeline, inspect }: PieceProps) {
   const video = PIECES.find((p) => p.id === piece)?.video;
   if (!video) throw new Error(`content/${piece}/video.tsx not found`);
   useFonts(timeline.faces);
+  const chapters = timeline.scenes.map((scene) => video.scenes.find((s) => s.id === scene.id)?.chapter);
   const { palette, fonts, fps } = timeline;
   const theme = {
     "--piece-bg": palette.bg,
@@ -88,35 +89,39 @@ export function PieceVideo({ piece, timeline, inspect }: PieceProps) {
     <AbsoluteFill data-video-root="" style={theme} className="bg-bg font-sans text-ink">
       <style>{`${MOTION_CSS}\n${VIDEO_MOTION_CSS}`}</style>
       <AssetContext.Provider value={browserAssets}>
-        <Series>
-          {timeline.scenes.map((scene, index) => {
-            const def = video.scenes.find((s) => s.id === scene.id);
-            if (!def) throw new Error(`Scene "${scene.id}" is in timeline.json but not in video.tsx. Run video:prepare again.`);
-            const { Visual, tone = "base" } = def;
-            const slide = { brand: timeline.brand, art: timeline.art, tab: timeline.tab, index, total: timeline.scenes.length, dir: "" };
-            return (
-              <Series.Sequence key={scene.id} name={scene.id} durationInFrames={framesFor(scene.durationMs, fps)}>
-                <SceneContext.Provider value={scene}>
-                  <SlideContext.Provider value={slide}>
-                    <CssMotion>
-                      {/* The content area is CONTENT_BOX (timeline.ts): pt from TAB_BOTTOM, pb up to FOOTER_TOP. */}
-                      <Slide tone={tone} className="pb-[107px] pt-[86px]">
-                        <Visual />
-                      </Slide>
-                    </CssMotion>
-                  </SlideContext.Provider>
-                  <Captions words={scene.words} tone={tone} />
-                </SceneContext.Provider>
-                <Audio src={staticFile(scene.voice)} />
-                {scene.sfx.map((sfx, i) => (
-                  <Sequence key={i} name={`sfx ${i + 1}`} from={frameAt(sfx.atMs, fps)} layout="none">
-                    <Audio src={staticFile(sfx.src)} volume={sfx.volume} />
-                  </Sequence>
-                ))}
-              </Series.Sequence>
-            );
-          })}
-        </Series>
+        <CapturesContext.Provider value={timeline.captures}>
+          <Series>
+            {timeline.scenes.map((scene, index) => {
+              const def = video.scenes.find((s) => s.id === scene.id);
+              const frames = framesFor(scene.durationMs, fps);
+              if (!def) throw new Error(`Scene "${scene.id}" is in timeline.json but not in video.tsx. Run video:prepare again.`);
+              const { Visual, tone = "base" } = def;
+              const slide = { brand: timeline.brand, art: timeline.art, tab: timeline.tab, index, total: timeline.scenes.length, dir: "" };
+              return (
+                <Series.Sequence key={scene.id} name={scene.id} durationInFrames={frames}>
+                  <SceneContext.Provider value={scene}>
+                    <SlideContext.Provider value={slide}>
+                      <CssMotion>
+                        {/* The content area is CONTENT_BOX (timeline.ts): pt from TAB_BOTTOM, pb up to FOOTER_TOP. */}
+                        <Slide tone={tone} className="pb-[107px] pt-[86px]">
+                          <Visual />
+                        </Slide>
+                      </CssMotion>
+                    </SlideContext.Provider>
+                    {video.chapters ? <ChapterBar chapters={chapters} index={index} frames={frames} tone={tone} /> : null}
+                    <Captions words={scene.words} tone={tone} style={video.captions} />
+                  </SceneContext.Provider>
+                  {scene.voice ? <Audio src={staticFile(scene.voice)} /> : null}
+                  {scene.sfx.map((sfx, i) => (
+                    <Sequence key={i} name={`sfx ${i + 1}`} from={frameAt(sfx.atMs, fps)} layout="none">
+                      <Audio src={staticFile(sfx.src)} volume={sfx.volume} />
+                    </Sequence>
+                  ))}
+                </Series.Sequence>
+              );
+            })}
+          </Series>
+        </CapturesContext.Provider>
       </AssetContext.Provider>
       {timeline.music ? <MusicBed timeline={timeline} /> : null}
       {inspect ? <Probe url={inspect} /> : null}

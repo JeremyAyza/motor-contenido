@@ -1,0 +1,108 @@
+{
+  "$schema": "../../schemas/video.schema.json",
+  "hooks": [
+    {
+      "said": "Deja de pegar errores: tu agente los lee.",
+      "onScreen": "Deja de pegar errores",
+      "formula": 2
+    },
+    {
+      "said": "Mira lo que hace un agente con un issue.",
+      "onScreen": "Del issue al pull request",
+      "formula": 18
+    },
+    {
+      "said": "Si usas un agente de código, mira esto.",
+      "onScreen": "Lo que hace tu agente",
+      "formula": 10
+    }
+  ],
+  "scenes": [
+    {
+      "id": "gancho",
+      "say": "Deja de pegar errores: tu agente los lee. Él solo va del issue al pull request.",
+      "see": "La barra del navegador en github.com con el issue 42. A la izquierda, un chat donde alguien pega un error a mano, apagado; a la derecha, la tarjeta de GitHub donde el issue se vuelve pull request.",
+      "resource": "comparacion"
+    },
+    {
+      "id": "lee",
+      "say": "Primero, el issue. Lo abre con gh, la CLI de GitHub.",
+      "see": "Una terminal donde se escribe gh issue view 42 y, al lado, la tarjeta del issue que se abre con su título y su etiqueta de bug.",
+      "resource": "artefacto"
+    },
+    {
+      "id": "busca",
+      "say": "Después busca en el repo. Lee login.ts y sus tests, como harías tú.",
+      "see": "Un panel con los archivos del repositorio: login.ts y su test se marcan como leídos uno por uno, mientras la búsqueda aparece arriba. Es un ejemplo ilustrativo.",
+      "resource": "proceso"
+    },
+    {
+      "id": "cambia",
+      "say": "Aplica el parche en login.ts. Nadie copia. Nadie pega.",
+      "see": "El diff de login.ts: una línea en rojo que sale y una en verde que entra. Es un ejemplo ilustrativo.",
+      "resource": "artefacto"
+    },
+    {
+      "id": "prueba",
+      "say": "Corre los tests. ¿Falla uno? Lee el error en la terminal y se corrige solo.",
+      "see": "La terminal corre los tests: primero uno falla en rojo, una flecha vuelve al código y la segunda vez todo pasa en verde.",
+      "resource": "proceso"
+    },
+    {
+      "id": "pr",
+      "say": "Cuando todo pasa, abre el pull request con su descripción. Tú lo revisas.",
+      "see": "Un teléfono con la notificación del pull request abierto, listo para revisar, con el logo de GitHub.",
+      "resource": "artefacto"
+    },
+    {
+      "id": "cierre",
+      "say": "SWE-bench los mide así. Les da issues reales y cuenta cuántos terminan en verde. Guárdalo, y deja de pegar errores.",
+      "see": "El camino completo en una fila, del issue a los tests en verde, con el chip de SWE-bench. Al decir guárdalo, el gesto de guardar en el acento.",
+      "resource": "proceso"
+    }
+  ],
+  "caption": "Deja de pegar errores en el chat: tu agente de código los lee solo.\n\nAsí va del issue al pull request:\n1. Lee el issue con gh, la CLI de GitHub.\n2. Busca en el repositorio y lee los archivos que tocan el bug.\n3. Aplica el cambio en tus archivos.\n4. Corre los tests. Si uno falla, lee el error en la terminal, cambia el código y los vuelve a correr hasta que pasan.\n5. Abre el pull request con su descripción.\n\nTú revisas. Él escribe.\n\nSWE-bench mide a estos agentes justo así.\n\nGuárdalo para tu próximo issue.\n\nFuentes: documentación de Claude Code y de tool use de Anthropic, manual de GitHub CLI y SWE-bench.\n\n#claudecode #github #agentesia #programacion #devtools",
+  "art": {
+    "direction": "linea-continua",
+    "dealt": [
+      "titular-gigante",
+      "diario-de-prueba",
+      "linea-continua"
+    ],
+    "reason": "La línea de desarrollo conecta las láminas mientras que los préstamos de collage, terminal y ficha técnica permiten mostrar interfaces y comandos reales en cada paso. En el video, la superficie es un poco más clara que en el carrusel (#EEF1F4 en vez de #EAEEF2) para que el azul llegue a 4.5:1 en los subtítulos.",
+    "borrowed": [
+      "collage",
+      "terminal",
+      "ficha-tecnica"
+    ],
+    "palette": {
+      "bg": "#F6F8FA",
+      "ink": "#1F2328",
+      "accent": "#0969DA",
+      "accentInk": "#FFFFFF",
+      "surface": "#EEF1F4",
+      "muted": "#59636E"
+    },
+    "fonts": {
+      "display": "bricolage",
+      "text": "geist"
+    },
+    "anchor": {
+      "kind": "logo",
+      "ref": "github",
+      "source": "Ícono oficial de GitHub en Simple Icons (CC0), tomado de github.com/logos; se usa sin modificar para identificar el tema"
+    },
+    "tab": "agente-dev-pipeline.ts"
+  },
+  "gateA": {
+    "approved": true,
+    "date": "2026-10-20",
+    "notes": "Jeremy aprobó en el chat el gancho, el guion y el storyboard (out/storyboard.png). Es el video de prueba del kit de escenario, el HUD de capítulos y los subtítulos en píldora."
+  },
+  "gateB": {
+    "approved": true,
+    "date": "2026-10-20",
+    "video": "11965a49c86f72411c95d4d54585086b90cb3b8b218704807af75305b29a710e",
+    "notes": "Jeremy aprobó el video en el chat. Es el primer video con el kit de escenario, el HUD de capítulos y los subtítulos en píldora. No pasó por el crítico ciego."
+  }
+}

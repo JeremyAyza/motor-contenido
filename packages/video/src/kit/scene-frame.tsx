@@ -9,8 +9,10 @@ export const DRAWING_WIDTH = WIDTH - 2 * FRAME_PAD;
  * The layout of a scene inside the frame (PieceVideo puts it in the content
  * area of <Slide>, CONTENT_BOX): the title at the top, visible from the
  * scene's first frame, and the drawing centered in the space left down to the
- * captions. The drawing is a box of DRAWING_WIDTH × `height` px; its children
- * position themselves inside it (absolute coordinates, like the carousel's).
+ * captions. With `height`, the drawing is a box of DRAWING_WIDTH × `height`
+ * px and its children position themselves inside it (absolute coordinates,
+ * like the carousel's). Without it, the children flow in a column (the stage
+ * kit: a terminal, a card, a chip) and the column is centered.
  */
 export function SceneFrame({
   title,
@@ -25,7 +27,7 @@ export function SceneFrame({
   anchor?: ReactNode;
   /** A hand-drawn underline in the accent, drawn 0.3 s into the scene. */
   underline?: boolean;
-  height: number;
+  height?: number;
   /** Classes for the title, over the default (the display font, 44 px, black weight). */
   titleClassName?: string;
   children: ReactNode;
@@ -39,11 +41,15 @@ export function SceneFrame({
       {underline ? (
         <Boceto ancho={290} alto={16} trazos={[{ d: "M4 10 C 90 4, 200 14, 286 7", tono: "accent" }]} grosor={3} className="mt-1" anim={{ en: 0.3, dur: 0.5 }} />
       ) : null}
-      <div className="flex min-h-0 flex-1 items-center">
-        <div className="relative w-full" style={{ height }}>
-          {children}
+      {height === undefined ? (
+        <div className="flex min-h-0 flex-1 flex-col justify-center">{children}</div>
+      ) : (
+        <div className="flex min-h-0 flex-1 items-center">
+          <div className="relative w-full" style={{ height }}>
+            {children}
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 }

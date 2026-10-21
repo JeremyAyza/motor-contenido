@@ -14,17 +14,19 @@ Las skills `remotion-*` son las oficiales de Remotion, sin modificar. Viven en `
   - por escena, lo que dice la voz (`say`), lo que se ve (`see`) y el recurso visual;
   - las puertas.
 
-  `video:script` arma la hoja de la puerta A (`out/gate-a.md`). No escribas `video.tsx` ni generes voz antes del sí de la persona: `video:prepare` no corre sin `gateA.approved`. Sigue el orden de [workflows/video.md](../../workflows/video.md).
+  `video:script` arma la hoja de la puerta A (`out/gate-a.md`) y `video:storyboard` le suma los cuadros de un primer `video.tsx`, sin voz. No generes voz antes del sí de la persona: `video:prepare` no corre sin `gateA.approved`. Sigue el orden de [workflows/video.md](../../workflows/video.md).
 - **La dirección de arte**, como en el carrusel: `video.json → art`, con la dirección que repartió `video:baraja`, la paleta, las tipografías, el ancla y la pestaña. Si la pieza tiene carrusel y `video.json` no trae `art`, el Reel toma `post.json → art` y se ve como su carrusel. Ver [Estilo](#estilo-el-del-carrusel).
-- **Lo que se ve.** `content/<pieza>/video.tsx` exporta `defineVideo({...})` de `@motor/video` con una entrada por escena de `video.json`, con cuatro campos:
+- **Lo que se ve.** `content/<pieza>/video.tsx` exporta `defineVideo({...})` de `@motor/video` con `captions` (el estilo de los subtítulos), `chapters` (la barra de capítulos) y una entrada por escena de `video.json`, con estos campos:
   - `id`: el mismo de `video.json`;
   - `tone`: el tono de la paleta para esa escena (`base`, `surface`, `accent` o `invert`), como en `<Slide>`;
+  - `chapter`: su nombre en la barra de capítulos;
   - `sfx`: los efectos de sonido;
-  - `Visual`: lo que se ve.
+  - `Visual`: lo que se ve, armado con el kit de escenario.
 
   Lo que dice la voz no se repite aquí. Si hace falta cambiar el texto, cambia `video.json`, y eso pide volver a la puerta A.
 - **Comandos:**
   - `video:baraja` reparte 3 direcciones de arte, sin las dos últimas que usaron los videos;
+  - `video:storyboard` renderiza el `video.tsx` sin voz, al ritmo estimado, para la puerta A;
   - `video:script` revisa el guion con las herramientas de `ig-reel` (hookscore y beats, por sus wrappers en español) y arma la puerta A;
   - `video:prepare` genera la voz, los tiempos por palabra y los archivos;
   - `video:studio` abre la vista previa;
@@ -45,6 +47,18 @@ Las skills `remotion-*` son las oficiales de Remotion, sin modificar. Viven en `
   SceneFrame pone el título arriba, desde y 128, y centra el dibujo en lo que queda hasta los subtítulos. Las coordenadas de las etiquetas son relativas al recuadro del dibujo, y su borde derecho es 468. Los dibujos de las láminas del carrusel, que también miden 468, entran sin cambiar sus coordenadas.
 - **La portada es el cuadro 1.** Lleva el dibujo además del título, porque la grilla del perfil la recorta al centro 3:4, de y 120 a 840. Lo que se anima en la primera escena empieza después.
 - **La vista con la interfaz.** `out/video-vista-instagram.mp4` y la hoja muestran el video con una simulación de la interfaz de Instagram. Sirve para ver qué tapa la app, no para acomodar el diseño.
+
+## Escenario y HUD
+
+El nivel de referencia es [docs/analisis-rick-theengineer.md](../../docs/analisis-rick-theengineer.md): lo que se explica pasa dentro de una interfaz que el público reconoce, con varias capas por cuadro.
+
+- **El kit** (`@motor/video`): `Phone`, `BrowserBar`, `AppCard`, `Chat`, `Terminal`, `Diff`, `DataTable` y `Chip`. Cada uno aparece con la voz por `at` (los segundos de `useCue`), y `Terminal` escribe sus comandos.
+- **Genéricos y propios.** Una marca va solo como su logo oficial (`AppCard logo="github"`), nunca como copia de su app. Los comandos son reales; lo que muestra una pantalla de ejemplo se rotula con `<Nota>Ejemplo ilustrativo.</Nota>`. Ningún número de una pantalla de ejemplo se presenta como dato.
+- **Su texto es interfaz** (`data-ui`): no cuenta en las 12 palabras del inspector y puede bajar a 12 px. La idea de la escena va en el título o en una etiqueta, no escondida en la pantalla.
+- **Capas.** Cada escena junta dos o tres piezas del kit (una barra del navegador y una terminal; un diff y lo que dijo el agente). Si el inspector avisa que queda vacío abajo, suma una capa o agranda la que hay.
+- **`SceneFrame` sin `height`** apila el kit en una columna centrada. Con `height` vuelve al recuadro de coordenadas absolutas, para dibujos.
+- **HUD:** `chapters: true` y un `chapter` por escena muestran la barra de capítulos bajo la pestaña. Los `Chip` hacen de rótulos de sistema.
+- **Subtítulos:** `captions: "highlight"` (por defecto), `"pill"` o `"marker"`. Elige el que pide el mundo de la dirección: la píldora va bien con interfaces, y el marcador con un mundo de época.
 
 ## Qué cambia respecto de las skills de Remotion
 

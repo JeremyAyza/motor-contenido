@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "captures": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$"
+          },
+          "about": {
+            "type": "string",
+            "minLength": 5,
+            "description": "What the capture is, as the video says it: 'un push a un repositorio local de prueba'"
+          },
+          "env": {
+            "description": "Variables for every step, over the fixed ones (CAPTURE_ENV)",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "steps": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "cmd": {
+                  "type": "string",
+                  "minLength": 1,
+                  "description": "A bash command, run in the capture's folder"
+                },
+                "cwd": {
+                  "description": "Subfolder of the capture's folder to run it in",
+                  "type": "string"
+                },
+                "show": {
+                  "default": true,
+                  "description": "false for setup steps: they run, but their output is not kept",
+                  "type": "boolean"
+                },
+                "env": {
+                  "type": "object",
+                  "propertyNames": {
+                    "type": "string"
+                  },
+                  "additionalProperties": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": [
+                "cmd"
+              ]
+            }
+          },
+          "result": {
+            "description": "Written by video:capture: do not edit it by hand",
+            "type": "object",
+            "properties": {
+              "ranAt": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
+              },
+              "steps": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "cmd": {
+                      "type": "string"
+                    },
+                    "output": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "exitCode": {
+                      "type": "integer",
+                      "minimum": -9007199254740991,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": [
+                    "cmd",
+                    "output",
+                    "exitCode"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "ranAt",
+              "steps"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "about",
+          "steps"
+        ]
+      }
+    }
+  },
+  "required": [
+    "captures"
+  ]
+}
