@@ -1,0 +1,26 @@
+[
+  {
+    "fact": "Superpowers es un framework de skills de código abierto creado por Jesse Vincent (obra) para agentes de código como Claude Code, que estructura el desarrollo en un flujo guiado de ingeniería: brainstorming socrático, especificación técnica (spec), plan en tareas atómicas, TDD estricto (Red-Green-Refactor), desarrollo con subagentes aislados, revisión de código (code review) y verificación final antes de integrar la rama.",
+    "source": "https://github.com/obra/superpowers",
+    "date": "2026-10-21",
+    "primary": true
+  },
+  {
+    "fact": "La skill de brainstorming de Superpowers prohíbe taxativamente al agente generar código o crear archivos antes de explorar el contexto, formular preguntas aclaratorias una a una y obtener la aprobación humana explícita del diseño.",
+    "source": "https://github.com/obra/superpowers",
+    "date": "2026-10-21",
+    "primary": true
+  },
+  {
+    "fact": "En la etapa de implementación, Superpowers impone Test-Driven Development: exige redactar una prueba automatizada, ejecutarla para comprobar que falla en rojo, y redactar únicamente el código mínimo para hacerla pasar en verde antes de refactorizar.",
+    "source": "https://github.com/obra/superpowers",
+    "date": "2026-10-21",
+    "primary": true
+  },
+  {
+    "fact": "Superpowers se instala en Claude Code registrando su marketplace oficial con /plugin marketplace add obra/superpowers-marketplace e instalando el plugin con /plugin install superpowers@superpowers-marketplace.",
+    "source": "https://github.com/obra/superpowers",
+    "date": "2026-10-21",
+    "primary": true
+  }
+]

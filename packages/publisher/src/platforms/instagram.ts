@@ -213,6 +213,7 @@ class InstagramPublisher implements Publisher {
       labelHeading = this.page.getByText(IG.aiLabelHeading).first();
     }
     if (await labelHeading.isVisible({ timeout: 4 * SECOND }).catch(() => false)) {
+      await labelHeading.scrollIntoViewIfNeeded().catch(() => {});
       const row = labelHeading.locator("xpath=ancestor::div[contains(@class, 'html-div')][.//input[@role='switch'] or .//div[@role='switch']]").first();
       const switchInRow = row.locator('input[role="switch"], div[role="switch"]').first();
       const switchLocator = (await switchInRow.count()) > 0 ? switchInRow : this.page.locator('input[role="switch"], div[role="switch"]').first();
@@ -244,6 +245,9 @@ class InstagramPublisher implements Publisher {
     if (squash(await box.innerText()) !== squash(caption)) {
       throw new PublisherError("The caption box doesn't match the manifest after pasting; nothing was shared");
     }
+    // Dismiss any autocomplete popovers (e.g. hashtag suggestions from ending with a #tag)
+    await box.evaluate((el) => (el as HTMLElement).blur()).catch(() => {});
+    await beat();
   }
 
   private async closeDialog(): Promise<void> {

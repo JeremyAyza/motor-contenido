@@ -15,9 +15,17 @@ export const beat = () => pause(500, 3000);
 
 /** Hovers, hesitates a moment, clicks and takes a beat. */
 export async function click(target: Locator): Promise<void> {
-  await target.hover();
-  await pause(150, 450);
-  await target.click();
+  try {
+    await target.hover({ timeout: 3000 });
+    await pause(150, 450);
+  } catch {
+    // Hover failed or element covered; proceed to click directly
+  }
+  try {
+    await target.click({ timeout: 5000 });
+  } catch {
+    await target.click({ force: true });
+  }
   await beat();
 }
 
