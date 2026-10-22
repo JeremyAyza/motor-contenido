@@ -108,6 +108,8 @@
     "date": "2026-10-21"
   },
   "gateB": {
-    "approved": false
+    "approved": true,
+    "date": "2026-10-21",
+    "video": "82edc48193448f512296f93df8ae61f7a27a65aca4a62edd4f1a29053fdd8286"
   }
 }

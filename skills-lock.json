@@ -1,6 +1,13 @@
 {
   "version": 1,
   "skills": {
+    "kie-models": {
+      "source": "kie.ai",
+      "sourceUrl": "https://kie.ai",
+      "sourceType": "well-known",
+      "computedHash": "9a8ed0bc28ef13ce38f33572ff7930104c23d343f94e0867ae222ff238fa9533",
+      "wellKnownDigest": "sha256:f6247b734033fad6ba75e0875bc105e2307c9b7e7790317a26c1b68838209f22"
+    },
     "remotion-best-practices": {
       "source": "remotion-dev/skills",
       "sourceType": "github",
