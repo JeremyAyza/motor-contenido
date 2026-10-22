@@ -1,0 +1,12 @@
+[
+  {
+    "file": "audio/cama.mp3",
+    "kind": "music",
+    "provider": "gemini",
+    "model": "lyria-3-clip-preview",
+    "prompt": "lo-fi synth ambient calm developer focus coding beat",
+    "references": [],
+    "sha256": "f3799a221541278f5e775f830f962f0ffdee9902a1b567fb92b6b20cf4edbf58",
+    "createdAt": "2026-10-21T03:59:42.641Z"
+  }
+]

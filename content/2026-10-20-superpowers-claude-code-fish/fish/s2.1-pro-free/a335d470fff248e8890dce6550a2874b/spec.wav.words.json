@@ -1,0 +1,102 @@
+[
+  {
+    "text": "Etapa",
+    "startMs": 20,
+    "endMs": 450
+  },
+  {
+    "text": "dos:",
+    "startMs": 450,
+    "endMs": 450
+  },
+  {
+    "text": "Spec.",
+    "startMs": 450,
+    "endMs": 2110
+  },
+  {
+    "text": "Redacta",
+    "startMs": 2110,
+    "endMs": 2370
+  },
+  {
+    "text": "la",
+    "startMs": 2370,
+    "endMs": 2470
+  },
+  {
+    "text": "especificación",
+    "startMs": 2470,
+    "endMs": 3200
+  },
+  {
+    "text": "en",
+    "startMs": 3200,
+    "endMs": 3280
+  },
+  {
+    "text": "spec.md,",
+    "startMs": 3280,
+    "endMs": 4720
+  },
+  {
+    "text": "fijando",
+    "startMs": 4860,
+    "endMs": 5320
+  },
+  {
+    "text": "el",
+    "startMs": 5320,
+    "endMs": 5430
+  },
+  {
+    "text": "modelo",
+    "startMs": 5430,
+    "endMs": 5760
+  },
+  {
+    "text": "Order",
+    "startMs": 5760,
+    "endMs": 6350
+  },
+  {
+    "text": "y",
+    "startMs": 6350,
+    "endMs": 6420
+  },
+  {
+    "text": "los",
+    "startMs": 6420,
+    "endMs": 6580
+  },
+  {
+    "text": "contratos",
+    "startMs": 6580,
+    "endMs": 7040
+  },
+  {
+    "text": "de",
+    "startMs": 7040,
+    "endMs": 7080
+  },
+  {
+    "text": "API",
+    "startMs": 7080,
+    "endMs": 7570
+  },
+  {
+    "text": "antes",
+    "startMs": 7570,
+    "endMs": 7880
+  },
+  {
+    "text": "de",
+    "startMs": 7880,
+    "endMs": 8010
+  },
+  {
+    "text": "construir.",
+    "startMs": 8010,
+    "endMs": 8660
+  }
+]

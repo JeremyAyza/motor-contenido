@@ -1,0 +1,102 @@
+[
+  {
+    "text": "Etapa",
+    "startMs": 40,
+    "endMs": 610
+  },
+  {
+    "text": "tres:",
+    "startMs": 610,
+    "endMs": 1210
+  },
+  {
+    "text": "Plan.",
+    "startMs": 1210,
+    "endMs": 1650
+  },
+  {
+    "text": "Descompone",
+    "startMs": 1650,
+    "endMs": 2150
+  },
+  {
+    "text": "la",
+    "startMs": 2150,
+    "endMs": 2280
+  },
+  {
+    "text": "plataforma",
+    "startMs": 2280,
+    "endMs": 2800
+  },
+  {
+    "text": "en",
+    "startMs": 2800,
+    "endMs": 2920
+  },
+  {
+    "text": "cinco",
+    "startMs": 2920,
+    "endMs": 3220
+  },
+  {
+    "text": "tareas",
+    "startMs": 3220,
+    "endMs": 3600
+  },
+  {
+    "text": "atómicas.",
+    "startMs": 3600,
+    "endMs": 4600
+  },
+  {
+    "text": "Cada",
+    "startMs": 4600,
+    "endMs": 4820
+  },
+  {
+    "text": "endpoint",
+    "startMs": 4820,
+    "endMs": 5350
+  },
+  {
+    "text": "y",
+    "startMs": 5350,
+    "endMs": 5360
+  },
+  {
+    "text": "migración",
+    "startMs": 5360,
+    "endMs": 5900
+  },
+  {
+    "text": "tiene",
+    "startMs": 5900,
+    "endMs": 6160
+  },
+  {
+    "text": "un",
+    "startMs": 6160,
+    "endMs": 6270
+  },
+  {
+    "text": "criterio",
+    "startMs": 6270,
+    "endMs": 6680
+  },
+  {
+    "text": "de",
+    "startMs": 6680,
+    "endMs": 6780
+  },
+  {
+    "text": "éxito",
+    "startMs": 6780,
+    "endMs": 7080
+  },
+  {
+    "text": "explícito.",
+    "startMs": 7080,
+    "endMs": 7820
+  }
+]

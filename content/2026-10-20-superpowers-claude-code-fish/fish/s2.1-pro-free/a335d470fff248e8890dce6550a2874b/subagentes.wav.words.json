@@ -1,0 +1,92 @@
+[
+  {
+    "text": "Etapa",
+    "startMs": 30,
+    "endMs": 620
+  },
+  {
+    "text": "cinco:",
+    "startMs": 620,
+    "endMs": 1230
+  },
+  {
+    "text": "Subagent",
+    "startMs": 1230,
+    "endMs": 1820
+  },
+  {
+    "text": "Development.",
+    "startMs": 1820,
+    "endMs": 2920
+  },
+  {
+    "text": "Delega",
+    "startMs": 2920,
+    "endMs": 3240
+  },
+  {
+    "text": "módulos",
+    "startMs": 3240,
+    "endMs": 3700
+  },
+  {
+    "text": "a",
+    "startMs": 3700,
+    "endMs": 3770
+  },
+  {
+    "text": "subagentes",
+    "startMs": 3770,
+    "endMs": 4340
+  },
+  {
+    "text": "en",
+    "startMs": 4340,
+    "endMs": 4440
+  },
+  {
+    "text": "ramas",
+    "startMs": 4440,
+    "endMs": 4720
+  },
+  {
+    "text": "limpias,",
+    "startMs": 4720,
+    "endMs": 5420
+  },
+  {
+    "text": "implementando",
+    "startMs": 5420,
+    "endMs": 6180
+  },
+  {
+    "text": "componentes",
+    "startMs": 6180,
+    "endMs": 6830
+  },
+  {
+    "text": "aislados",
+    "startMs": 6830,
+    "endMs": 7270
+  },
+  {
+    "text": "sin",
+    "startMs": 7270,
+    "endMs": 7440
+  },
+  {
+    "text": "saturar",
+    "startMs": 7440,
+    "endMs": 7840
+  },
+  {
+    "text": "el",
+    "startMs": 7840,
+    "endMs": 7950
+  },
+  {
+    "text": "contexto.",
+    "startMs": 7950,
+    "endMs": 8660
+  }
+]

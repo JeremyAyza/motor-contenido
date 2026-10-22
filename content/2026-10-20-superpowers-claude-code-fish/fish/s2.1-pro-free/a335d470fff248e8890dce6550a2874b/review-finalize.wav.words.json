@@ -1,0 +1,127 @@
+[
+  {
+    "text": "Etapas",
+    "startMs": 80,
+    "endMs": 690
+  },
+  {
+    "text": "seis",
+    "startMs": 690,
+    "endMs": 1110
+  },
+  {
+    "text": "y",
+    "startMs": 1110,
+    "endMs": 1250
+  },
+  {
+    "text": "siete:",
+    "startMs": 1250,
+    "endMs": 1950
+  },
+  {
+    "text": "Review",
+    "startMs": 1950,
+    "endMs": 2530
+  },
+  {
+    "text": "y",
+    "startMs": 2530,
+    "endMs": 2580
+  },
+  {
+    "text": "Finalize.",
+    "startMs": 2580,
+    "endMs": 3460
+  },
+  {
+    "text": "Un",
+    "startMs": 3460,
+    "endMs": 3600
+  },
+  {
+    "text": "subagente",
+    "startMs": 3600,
+    "endMs": 4000
+  },
+  {
+    "text": "audita",
+    "startMs": 4000,
+    "endMs": 4320
+  },
+  {
+    "text": "los",
+    "startMs": 4320,
+    "endMs": 4480
+  },
+  {
+    "text": "requisitos,",
+    "startMs": 4480,
+    "endMs": 5120
+  },
+  {
+    "text": "verifica",
+    "startMs": 5120,
+    "endMs": 5600
+  },
+  {
+    "text": "la",
+    "startMs": 5600,
+    "endMs": 5700
+  },
+  {
+    "text": "suite",
+    "startMs": 5700,
+    "endMs": 6020
+  },
+  {
+    "text": "completa",
+    "startMs": 6020,
+    "endMs": 6360
+  },
+  {
+    "text": "de",
+    "startMs": 6360,
+    "endMs": 6490
+  },
+  {
+    "text": "pruebas",
+    "startMs": 6490,
+    "endMs": 7030
+  },
+  {
+    "text": "y",
+    "startMs": 7030,
+    "endMs": 7090
+  },
+  {
+    "text": "prepara",
+    "startMs": 7090,
+    "endMs": 7500
+  },
+  {
+    "text": "el",
+    "startMs": 7500,
+    "endMs": 7630
+  },
+  {
+    "text": "merge",
+    "startMs": 7630,
+    "endMs": 7960
+  },
+  {
+    "text": "de",
+    "startMs": 7960,
+    "endMs": 8100
+  },
+  {
+    "text": "la",
+    "startMs": 8100,
+    "endMs": 8230
+  },
+  {
+    "text": "rama.",
+    "startMs": 8230,
+    "endMs": 8800
+  }
+]

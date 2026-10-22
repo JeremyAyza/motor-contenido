@@ -1,0 +1,91 @@
+{
+  "$schema": "../../schemas/video.schema.json",
+  "topic": "La crisis de seguridad en PHP explicada para cualquier desarrollador",
+  "format": "explicado",
+  "hooks": [
+    {
+      "said": "Todos dicen que PHP murió: es tu error.",
+      "onScreen": "Todos dicen que PHP murió",
+      "formula": 22
+    },
+    {
+      "said": "Si programas en la web, mira tus servidores.",
+      "onScreen": "Si programas web, mira esto",
+      "formula": 10
+    },
+    {
+      "said": "El setenta por ciento de Internet depende de este lenguaje.",
+      "onScreen": "PHP sostiene media web",
+      "formula": 23
+    }
+  ],
+  "scenes": [
+    {
+      "id": "gancho",
+      "say": "Todos dicen que PHP murió: es tu error. Crees que no te afecta. Pero sostiene cerca del setenta por ciento de los sitios con backend conocido, según datos oficiales de W3Techs. Nunca has tocado su código. Pero tus compras, tus lecturas y tus datos pasan a diario por sus servidores.",
+      "see": "Titular grande «Todos dicen que PHP murió» con el logo oficial de PHP en acento lila, revelando la cifra gigante de cerca del 70% y chips de WordPress y Wikipedia.",
+      "resource": "metafora"
+    },
+    {
+      "id": "crisis",
+      "say": "Esta semana, la fundación PHP encendió las alarmas con parches de emergencia para dos fallos críticos. Severidad nueve punto dos sobre diez en el estándar CVSS. Un atacante remoto puede ejecutar código en servidores vulnerables sin pedir usuario ni contraseña.",
+      "see": "Tarjeta de alerta crítica CVSS 9.2 con los identificadores CVE-2026-109618 y 109619, señalando el impacto de ejecución remota de código sin login.",
+      "resource": "cifra"
+    },
+    {
+      "id": "mecanismos",
+      "say": "El primer fallo ocurre por límite de memoria OOM al procesar peticiones entrantes. El proceso aborta de golpe, dejando estructuras internas rotas que permiten tomar el control del servidor. El segundo fallo vive en los workers persistentes de Apache. Un proceso atiende varias peticiones y confunde memoria ya liberada.",
+      "see": "Dos bloques con metáfora visual limpia: desbordamiento de memoria por límite OOM a la izquierda y estado residual en procesos persistentes a la derecha.",
+      "resource": "proceso"
+    },
+    {
+      "id": "versiones",
+      "say": "Las ramas oficiales de PHP ocho dos a ocho cinco ya tienen parches disponibles. El peligro real está en versiones viejas. Miles de servidores de empresas corren PHP ocho uno o anterior, sin parches oficiales de PHP.net y dependiendo por completo de paquetes retroportados en distribuciones como Ubuntu o Debian.",
+      "see": "Matriz comparativa: ramas activas 8.2 a 8.5 en verde con versiones corregidas frente a ramas antiguas sin soporte upstream en ámbar.",
+      "resource": "matriz"
+    },
+    {
+      "id": "cierre",
+      "say": "No importa tu lenguaje. La seguridad de Internet es una cadena y resiste lo que resiste su eslabón más viejo. Revisa tus contenedores. Comprueba qué versión corre tu servicio PHP-FPM. PHP no murió: sostiene tu web y necesita parches hoy mismo.",
+      "see": "Panel de infraestructura mostrando auditoría de contenedores Docker y servicios activos, cerrando con gesto animado de guardar y titular de cierre.",
+      "resource": "artefacto"
+    }
+  ],
+  "caption": "El meme dice que PHP murió. La realidad: sostiene cerca del 70% de la web con backend conocido, según datos de W3Techs.\n\nEsta semana, The PHP Foundation publicó parches urgentes para dos vulnerabilidades de RCE crítico (CVE-2026-109618 y CVE-2026-109619) con puntaje CVSS de 9.2.\n\nQué pasó exactamente:\n1. Corrupción por memoria OOM: cuando una petición supera el memory_limit configurado, PHP aborta abruptamente. Las rutinas de limpieza leen estructuras corruptas y abren la puerta a ejecución remota de código.\n2. Memoria residual en workers: en servidores con procesos persistentes (especialmente Apache con mod_php), un error fatal deja punteros huérfanos. La siguiente petición atendida por ese mismo proceso puede secuestrar la ejecución.\n\nVersiones oficiales corregidas en PHP.net:\nPHP 8.5.12, PHP 8.4.27, PHP 8.3.36 y PHP 8.2.35.\n\n¿Tienes servidores en PHP 8.1 o ramas anteriores? Esas versiones ya alcanzaron fin de ciclo upstream. Tu seguridad depende de verificar si tu distribución Linux (como Ubuntu ESM, Debian LTS o RHEL) tiene parches retroportados.\n\nNo te confíes de correr php -v en tu terminal, porque solo verifica la CLI local. Revisa el servicio activo de PHP-FPM o el tag de tus imágenes de Docker.\n\nGuarda este post para auditar tus servidores con tu equipo técnico.\n\n#php #ciberseguridad #programacion #devops",
+  "art": {
+    "direction": "titular-gigante",
+    "dealt": [
+      "titular-gigante",
+      "terminal",
+      "capa-por-capa"
+    ],
+    "reason": "Alerta crítica de infraestructura y ciberseguridad con impacto masivo: titular de alto impacto con datos duros y tablas de versiones seguras.",
+    "palette": {
+      "bg": "#0A0E17",
+      "ink": "#F1F5F9",
+      "accent": "#8E94F2",
+      "accentInk": "#0A0E17",
+      "surface": "#141C2B",
+      "muted": "#94A3B8"
+    },
+    "fonts": {
+      "display": "archivo",
+      "text": "geist"
+    },
+    "anchor": {
+      "kind": "logo",
+      "ref": "php",
+      "source": "Ícono oficial de PHP en Simple Icons (CC0), con acento lila calibrado para alto contraste"
+    },
+    "tab": "php-security.advisory"
+  },
+  "gateA": {
+    "approved": true,
+    "date": "2026-10-22"
+  },
+  "gateB": {
+    "approved": true,
+    "date": "2026-10-22",
+    "video": "5f7e0175852417da437a5d94e440700c414d32bcfbe8d385300900908185284b"
+  }
+}

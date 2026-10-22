@@ -42,6 +42,8 @@ export function Probe({ url }: { url: string }) {
 /** Resolves when the fonts and the images of `root` are loaded (measuring forces the layout). */
 async function settled(root: HTMLElement): Promise<void> {
   await document.fonts.ready;
+  await new Promise((done) => setTimeout(done, 100));
+  void root.offsetHeight;
   const pending = [...root.querySelectorAll("img")].filter((img) => !img.complete);
   await Promise.all(
     pending.map(

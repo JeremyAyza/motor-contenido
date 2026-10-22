@@ -1,0 +1,107 @@
+[
+  {
+    "text": "Tu",
+    "startMs": 10,
+    "endMs": 180
+  },
+  {
+    "text": "jefe",
+    "startMs": 180,
+    "endMs": 410
+  },
+  {
+    "text": "pide",
+    "startMs": 410,
+    "endMs": 700
+  },
+  {
+    "text": "código:",
+    "startMs": 700,
+    "endMs": 1340
+  },
+  {
+    "text": "no",
+    "startMs": 1340,
+    "endMs": 1520
+  },
+  {
+    "text": "abras",
+    "startMs": 1520,
+    "endMs": 1970
+  },
+  {
+    "text": "VS",
+    "startMs": 1970,
+    "endMs": 2240
+  },
+  {
+    "text": "Code.",
+    "startMs": 2240,
+    "endMs": 2810
+  },
+  {
+    "text": "Te",
+    "startMs": 2810,
+    "endMs": 2920
+  },
+  {
+    "text": "dice:",
+    "startMs": 2920,
+    "endMs": 3450
+  },
+  {
+    "text": "«haz",
+    "startMs": 3450,
+    "endMs": 3620
+  },
+  {
+    "text": "una",
+    "startMs": 3620,
+    "endMs": 3880
+  },
+  {
+    "text": "plataforma",
+    "startMs": 3880,
+    "endMs": 4440
+  },
+  {
+    "text": "de",
+    "startMs": 4440,
+    "endMs": 4560
+  },
+  {
+    "text": "pedidos,",
+    "startMs": 4560,
+    "endMs": 5240
+  },
+  {
+    "text": "sencilla",
+    "startMs": 5240,
+    "endMs": 5800
+  },
+  {
+    "text": "pero",
+    "startMs": 5800,
+    "endMs": 6080
+  },
+  {
+    "text": "escalable».",
+    "startMs": 6080,
+    "endMs": 6880
+  },
+  {
+    "text": "Y",
+    "startMs": 6880,
+    "endMs": 6920
+  },
+  {
+    "text": "se",
+    "startMs": 6920,
+    "endMs": 7060
+  },
+  {
+    "text": "va.",
+    "startMs": 7060,
+    "endMs": 7440
+  }
+]

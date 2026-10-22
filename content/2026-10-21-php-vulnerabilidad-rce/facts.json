@@ -1,0 +1,44 @@
+[
+  {
+    "fact": "El 21 de octubre de 2026, The PHP Foundation y los desarrolladores del core de PHP publicaron parches de emergencia para dos vulnerabilidades críticas de ejecución remota de código sin autenticación (CVE-2026-109618 y CVE-2026-109619), con puntaje de severidad CVSS v4.0 de 9.2.",
+    "source": "https://thephp.foundation/blog/2026/10/21/security-advisory/",
+    "date": "2026-10-21",
+    "primary": true
+  },
+  {
+    "fact": "CVE-2026-109618 es una vulnerabilidad de corrupción de memoria por límite de memoria (OOM): cuando una petición supera el memory_limit configurado, PHP aborta con longjmp() dejando estructuras internas sin inicializar que las rutinas de limpieza posteriores procesan como válidas, permitiendo RCE.",
+    "source": "https://nvd.nist.gov/vuln/detail/CVE-2026-109618",
+    "date": "2026-10-21",
+    "primary": true
+  },
+  {
+    "fact": "CVE-2026-109619 es una vulnerabilidad de punteros huérfanos (use-after-free) en el estado global tras errores fatales, permitiendo que peticiones sucesivas atendidas por el mismo proceso secuestren la ejecución. El aviso oficial de PHP señala un riesgo especialmente alto en Apache con mod_php.",
+    "source": "https://nvd.nist.gov/vuln/detail/CVE-2026-109619",
+    "date": "2026-10-21",
+    "primary": true
+  },
+  {
+    "fact": "Las versiones oficiales corregidas y publicadas en las ramas soportadas de PHP.net son PHP 8.5.12, PHP 8.4.27, PHP 8.3.36 y PHP 8.2.35.",
+    "source": "https://www.php.net/ChangeLog-8.php",
+    "date": "2026-10-21",
+    "primary": true
+  },
+  {
+    "fact": "Las ramas PHP 8.1 y anteriores alcanzaron su fin de ciclo de vida (EOL) oficial y no reciben parches upstream de la PHP Foundation; su seguridad depende de parches retroportados (backports) mantenidos por distribuciones Linux LTS como Ubuntu Pro/ESM, Debian LTS o RHEL.",
+    "source": "https://www.php.net/supported-versions.php",
+    "date": "2026-10-21",
+    "primary": true
+  },
+  {
+    "fact": "Según datos de W3Techs, PHP impulsa cerca del 70% de los sitios web con tecnología de servidor conocida. La existencia de esta cuota de mercado dimensiona el impacto del lenguaje, pero no indica que todos esos sitios sean vulnerables, ya que el riesgo real depende de la versión y la configuración del servidor.",
+    "source": "https://w3techs.com/technologies/details/pl-php",
+    "date": "2026-10-21",
+    "primary": true
+  },
+  {
+    "fact": "El comando de consola php -v únicamente verifica el binario CLI y no garantiza la versión que ejecuta el servidor web o el pool de PHP-FPM. La comprobación segura requiere auditar el servicio del servidor web, las imágenes de contenedores o el panel de hosting; phpinfo() no debe dejarse accesible públicamente en producción.",
+    "source": "https://www.php.net/manual/es/features.commandline.php",
+    "date": "2026-10-21",
+    "primary": true
+  }
+]

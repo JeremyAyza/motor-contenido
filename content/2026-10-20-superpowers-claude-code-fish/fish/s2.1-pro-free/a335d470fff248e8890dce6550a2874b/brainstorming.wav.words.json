@@ -1,0 +1,117 @@
+[
+  {
+    "text": "Etapa",
+    "startMs": 20,
+    "endMs": 620
+  },
+  {
+    "text": "uno:",
+    "startMs": 620,
+    "endMs": 1000
+  },
+  {
+    "text": "Brainstorming.",
+    "startMs": 1000,
+    "endMs": 2240
+  },
+  {
+    "text": "El",
+    "startMs": 2240,
+    "endMs": 2370
+  },
+  {
+    "text": "agente",
+    "startMs": 2370,
+    "endMs": 2790
+  },
+  {
+    "text": "no",
+    "startMs": 2790,
+    "endMs": 2850
+  },
+  {
+    "text": "toca",
+    "startMs": 2850,
+    "endMs": 3100
+  },
+  {
+    "text": "código.",
+    "startMs": 3100,
+    "endMs": 3620
+  },
+  {
+    "text": "Te",
+    "startMs": 3620,
+    "endMs": 3770
+  },
+  {
+    "text": "pregunta",
+    "startMs": 3770,
+    "endMs": 4280
+  },
+  {
+    "text": "una",
+    "startMs": 4280,
+    "endMs": 4480
+  },
+  {
+    "text": "a",
+    "startMs": 4480,
+    "endMs": 4540
+  },
+  {
+    "text": "una",
+    "startMs": 4540,
+    "endMs": 4740
+  },
+  {
+    "text": "cómo",
+    "startMs": 4740,
+    "endMs": 5070
+  },
+  {
+    "text": "entran",
+    "startMs": 5070,
+    "endMs": 5470
+  },
+  {
+    "text": "los",
+    "startMs": 5470,
+    "endMs": 5710
+  },
+  {
+    "text": "pedidos",
+    "startMs": 5710,
+    "endMs": 6180
+  },
+  {
+    "text": "y",
+    "startMs": 6180,
+    "endMs": 6220
+  },
+  {
+    "text": "qué",
+    "startMs": 6220,
+    "endMs": 6420
+  },
+  {
+    "text": "pasarelas",
+    "startMs": 6420,
+    "endMs": 6860
+  },
+  {
+    "text": "de",
+    "startMs": 6860,
+    "endMs": 6940
+  },
+  {
+    "text": "pago",
+    "startMs": 6940,
+    "endMs": 7200
+  },
+  {
+    "text": "admitir.",
+    "startMs": 7200,
+    "endMs": 7760
+  }
+]
