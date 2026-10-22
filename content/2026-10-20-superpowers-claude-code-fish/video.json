@@ -1,0 +1,113 @@
+{
+  "$schema": "../../schemas/video.schema.json",
+  "topic": "Superpowers: cómo arrancar un proyecto de principio a fin en Claude Code",
+  "format": "explicado",
+  "hooks": [
+    {
+      "said": "Tu jefe pide código: no abras VS Code.",
+      "onScreen": "Tu jefe te pidió un proyecto",
+      "formula": 2
+    },
+    {
+      "said": "No programes para tu jefe sin Superpowers.",
+      "onScreen": "No programes sin esta skill",
+      "formula": 2
+    },
+    {
+      "said": "Si tu jefe pide código, no abras VS Code.",
+      "onScreen": "Tu jefe te pide código",
+      "formula": 10
+    }
+  ],
+  "scenes": [
+    {
+      "id": "gancho",
+      "say": "Tu jefe pide código: no abras VS Code. Te dice: «haz una plataforma de pedidos, sencilla pero escalable». Y se va.",
+      "see": "En la parte superior, el titular «Tu jefe te pidió un proyecto» con el logo de Claude Code. Abajo, un mock de chat con el mensaje difuso del jefe y un cursor parpadeando listo para codear a ciegas.",
+      "resource": "metafora"
+    },
+    {
+      "id": "el-problema",
+      "say": "Codear a ciegas es la trampa del vibe coding. Superpowers hace lo opuesto: guía a Claude Code en siete etapas de ingeniería antes de tocar el teclado.",
+      "see": "Dos columnas enfrentadas: a la izquierda el código improvisado que falla en producción, a la derecha el flujo metódico de Superpowers guiado en siete etapas.",
+      "resource": "comparacion"
+    },
+    {
+      "id": "brainstorming",
+      "say": "Etapa uno: Brainstorming. El agente no toca código. Te pregunta una a una cómo entran los pedidos y qué pasarelas de pago admitir.",
+      "see": "Terminal ejecutando preguntas socráticas interactivas para desambiguar requerimientos del negocio antes de tocar el teclado.",
+      "resource": "proceso"
+    },
+    {
+      "id": "spec",
+      "say": "Etapa dos: Spec. Redacta la especificación en spec.md, fijando el modelo Order y los contratos de API antes de construir.",
+      "see": "El documento spec.md resaltando el modelo Order, los estados del pedido y los contratos de endpoints con sus respuestas JSON.",
+      "resource": "anatomia"
+    },
+    {
+      "id": "plan",
+      "say": "Etapa tres: Plan. Descompone la plataforma en cinco tareas atómicas. Cada endpoint y migración tiene un criterio de éxito explícito.",
+      "see": "Un checklist estructurado de tareas atómicas numeradas con criterios de aceptación claros para cada módulo de la plataforma.",
+      "resource": "proceso"
+    },
+    {
+      "id": "tdd",
+      "say": "Etapa cuatro: TDD. Escribe la prueba automatizada y comprueba que falla en rojo. Solo entonces escribe el código mínimo para pasarla a verde.",
+      "see": "Terminal dividida: primero la salida con fallo en rojo (FAIL test/order.test.ts) y luego la prueba pasando limpia en verde.",
+      "resource": "artefacto"
+    },
+    {
+      "id": "subagentes",
+      "say": "Etapa cinco: Subagent Development. Delega módulos a subagentes en ramas limpias, implementando componentes aislados sin saturar el contexto.",
+      "see": "Diagrama de subagentes trabajando en tareas específicas del sistema de pedidos en contextos independientes.",
+      "resource": "capas"
+    },
+    {
+      "id": "review-finalize",
+      "say": "Etapas seis y siete: Review y Finalize. Un subagente audita los requisitos, verifica la suite completa de pruebas y prepara el merge de la rama.",
+      "see": "Terminal mostrando la revisión de código aprobada y la suite completa de pruebas verificada al 100% lista para merge.",
+      "resource": "proceso"
+    },
+    {
+      "id": "cierre",
+      "say": "El resultado: tu plataforma de pedidos lista, con especificación y pruebas. Instala Superpowers en Claude Code y pruébalo en tu próximo proyecto.",
+      "see": "La terminal ejecutando la instalación oficial de Superpowers desde su marketplace, chip de estado verificado y el gesto de guardar.",
+      "resource": "artefacto"
+    }
+  ],
+  "caption": "Tu jefe te pide una plataforma de pedidos para 10.000 usuarios y tienes a Claude Code en la terminal. Lo peor que puedes hacer es lanzarte a ciegas.\n\nLa reacción habitual del vibe coding es abrir el editor y tirar código improvisado. El resultado ya lo conoces: funciones inventadas, requisitos asumidos y bugs en producción.\n\nSuperpowers (obra/superpowers) convierte al agente en un desarrollador senior guiando el proyecto en 7 etapas de ingeniería:\n\n1. Brainstorming: preguntas socráticas una a una para aclarar pagos, autenticación y escala.\n2. Spec: redacción de la especificación técnica (spec.md) con contratos y esquemas antes de codear.\n3. Plan: división en cinco tareas atómicas y verificables.\n4. TDD: ciclo estricto (test primero en rojo, código mínimo y paso a verde).\n5. Subagent Development: delegación de componentes en ramas limpias sin saturar el contexto.\n6. Review: auditoría de código contra los requisitos iniciales.\n7. Finalize: verificación de la suite completa y opciones para integrar la rama.\n\nEl resultado: tu plataforma de pedidos terminada, documentada y testeada con rigor profesional.\n\nInstálalo en Claude Code:\n/plugin marketplace add obra/superpowers-marketplace\n/plugin install superpowers@superpowers-marketplace\n\nGuárdalo para cuando tu jefe vuelva con el próximo encargo.\n\nFuente: obra/superpowers (GitHub, MIT).\n\n#claudecode #anthropic #programacion #desarrolloweb #softwareengineering",
+  "art": {
+    "direction": "terminal",
+    "dealt": [
+      "terminal",
+      "titular-gigante",
+      "elige-tu-camino"
+    ],
+    "reason": "Superpowers es una extensión de CLI para Claude Code y se opera directamente con comandos y flujos en consola. La dirección terminal refleja el entorno real de trabajo.",
+    "palette": {
+      "bg": "#0D1117",
+      "ink": "#E6EDF3",
+      "accent": "#D97757",
+      "accentInk": "#0D1117",
+      "surface": "#161B22",
+      "muted": "#8B949E"
+    },
+    "fonts": {
+      "display": "geist",
+      "text": "geist"
+    },
+    "anchor": {
+      "kind": "logo",
+      "ref": "claudecode",
+      "source": "Ícono oficial de Claude Code en Simple Icons (CC0), con acento oficial terracotta de la marca"
+    },
+    "tab": "superpowers.sh"
+  },
+  "gateA": {
+    "approved": true,
+    "date": "2026-10-21"
+  },
+  "gateB": {
+    "approved": false
+  }
+}
