@@ -58,6 +58,21 @@ describe("scriptWarnings", () => {
     const script = VideoScriptSchema.parse({ ...base, format: "explicado" });
     assert.match(scriptWarnings(script).join("\n"), /el formato explicado va de 75 a 100 s/);
   });
+
+  it("asks for the world, the meter and the cover", () => {
+    const warnings = scriptWarnings(VideoScriptSchema.parse(base)).join("\n");
+    assert.match(warnings, /Falta world/);
+    assert.match(warnings, /Falta meter/);
+    assert.match(warnings, /Falta cover/);
+    const full = VideoScriptSchema.parse({ ...base, world: "Un edificio de tres pisos en corte", meter: { label: "Pisos", from: "0", to: "3" }, cover: { scene: "luz" } });
+    assert.doesNotMatch(scriptWarnings(full).join("\n"), /Falta/);
+  });
+});
+
+describe("cover", () => {
+  it("has to point at a scene of the script", () => {
+    assert.equal(parse({ cover: { scene: "otra" } }).success, false);
+  });
 });
 
 describe("gateASheet", () => {
@@ -67,6 +82,14 @@ describe("gateASheet", () => {
     assert.match(sheet, /\*\*Elegido:\*\* dice "El ray tracing sigue la luz al revés\."/);
     assert.match(sheet, /\| luz \| El ray tracing sigue/);
     assert.match(sheet, /- Un aviso/);
+  });
+
+  it("shows the world, what is at stake and the cover", () => {
+    const script = VideoScriptSchema.parse({ ...base, world: "Un edificio de tres pisos en corte", meter: { label: "Pisos revisados", from: "0", to: "3" }, cover: { scene: "luz", at: 2 } });
+    const sheet = gateASheet("pieza", script, []);
+    assert.match(sheet, /\*\*Mundo:\*\* Un edificio de tres pisos en corte/);
+    assert.match(sheet, /Pisos revisados, de 0 a 3/);
+    assert.match(sheet, /escena luz, a los 2 s/);
   });
 });
 

@@ -31,7 +31,7 @@ import { recentSimilar, REPEAT_DAYS } from "./topics.ts";
 import { asVideoError, VideoError } from "./errors.ts";
 import type { VideoDef } from "./kit/index.ts";
 import { assetCommand, flag, imageCommand, musicCommand } from "./media-commands.ts";
-import { inspectComposition, inspectFrames, inspectFreezes, inspectLoudness, inspectTimeline, measureLoudness, normalizeLoudness, overlayInterface, probeServer, reviewFrames, reviewSheet } from "./inspector.ts";
+import { inspectComposition, inspectFrames, inspectFreezes, inspectLoudness, inspectTimeline, measureLoudness, normalizeLoudness, overlayInterface, probeServer, reviewSheet, sheetFrames, cameraMoving } from "./inspector.ts";
 import { VideoMetricsSchema, writeMetricsReport } from "./metrics.ts";
 import { piecePalette } from "./palette.ts";
 import { reelWarnings, runReelChecks } from "./reel.ts";
@@ -431,9 +431,9 @@ async function storyboard(args: string[]): Promise<void> {
     rmSync(propsFile, { force: true });
   }
   const sheet = join(dir, "out/storyboard.png");
-  asVideoError(() => reviewSheet(FFMPEG, mp4, reviewFrames(timeline), sheet));
+  asVideoError(() => reviewSheet(FFMPEG, mp4, sheetFrames(timeline), sheet));
   const issues = [
-    ...inspectFrames([...server.reports.values()], timeline.fps, videoScript.hooks[0].onScreen),
+    ...inspectFrames([...server.reports.values()], timeline.fps, videoScript.hooks[0].onScreen, cameraMoving(timeline)),
     ...asVideoError(() => inspectComposition(FFMPEG, mp4, timeline)),
   ];
   const lines = issues.length ? issues.map((i) => `${i.level === "error" ? "✗" : "!"} ${i.message}`) : ["✓ Sin problemas"];
@@ -493,10 +493,10 @@ async function render(args: string[]): Promise<void> {
   const preview = join(dir, "out/video-vista-instagram.mp4");
   asVideoError(() => overlayInterface(FFMPEG, output, overlay, preview));
   const sheet = join(dir, "out/video-hoja.png");
-  asVideoError(() => reviewSheet(FFMPEG, preview, reviewFrames(timeline), sheet));
+  asVideoError(() => reviewSheet(FFMPEG, preview, sheetFrames(timeline), sheet));
 
   const issues = [
-    ...inspectFrames([...server.reports.values()], timeline.fps, videoScript.hooks[0].onScreen),
+    ...inspectFrames([...server.reports.values()], timeline.fps, videoScript.hooks[0].onScreen, cameraMoving(timeline)),
     ...inspectTimeline(timeline, videoScript),
     ...asVideoError(() => inspectComposition(FFMPEG, output, timeline)),
     ...asVideoError(() => inspectFreezes(FFMPEG, output)),

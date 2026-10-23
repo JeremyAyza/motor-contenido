@@ -4,15 +4,37 @@ import { basename, join } from "node:path";
 import { spawnSync } from "node:child_process";
 import type { Manifest } from "../../publisher/src/index.ts";
 import { VideoError } from "./errors.ts";
-import { loadScript } from "./script.ts";
+import { loadScript, type VideoScript } from "./script.ts";
+import type { Timeline } from "./timeline.ts";
 
 const FFMPEG = process.env.FFMPEG_PATH || "ffmpeg";
 
-/** Extrae el primer cuadro limpio del video como imagen de portada (1080x1920). */
-export function extraerPortada(videoPath: string, coverPath: string): void {
+/** Lo que tarda una escena en quedar completa: la portada sin `at` sale este margen antes de su final. */
+const SETTLED_BEFORE_END_MS = 300;
+
+/**
+ * El segundo del video que va de portada: video.json → cover (una escena y,
+ * opcionalmente, los segundos desde su inicio), o el cuadro 1 si no hay cover.
+ * Sin `at`, el final de la escena, cuando ya está completa.
+ */
+export function coverSeconds(script: VideoScript, timeline: Pick<Timeline, "scenes">): number {
+  if (!script.cover) return 0;
+  let offset = 0;
+  for (const scene of timeline.scenes) {
+    if (scene.id === script.cover.scene) {
+      const within = script.cover.at === undefined ? scene.durationMs - SETTLED_BEFORE_END_MS : Math.min(script.cover.at * 1000, scene.durationMs - 1);
+      return (offset + Math.max(0, within)) / 1000;
+    }
+    offset += scene.durationMs;
+  }
+  throw new VideoError(`video.json → cover.scene "${script.cover.scene}" no está en out/video/timeline.json: corre video:prepare otra vez`);
+}
+
+/** Extrae un cuadro limpio del video como imagen de portada (1080x1920): el 1, o el del segundo que se pida. */
+export function extraerPortada(videoPath: string, coverPath: string, seconds = 0): void {
   const result = spawnSync(
     FFMPEG,
-    ["-loglevel", "error", "-y", "-ss", "00:00:00", "-i", videoPath, "-vframes", "1", "-q:v", "2", coverPath],
+    ["-loglevel", "error", "-y", "-ss", seconds.toFixed(3), "-i", videoPath, "-vframes", "1", "-q:v", "2", coverPath],
     { encoding: "utf8" },
   );
   if (result.status !== 0) {
@@ -61,18 +83,14 @@ export function prepararPublicacionVideo(dir: string): { manifest: Manifest; fil
     throw new VideoError(`No se puede publicar ${pieza}:\n- ${problemas.join("\n- ")}`);
   }
 
-  // Portada: cuadro 1 limpio extraído del video
+  // Portada: el cuadro de video.json → cover (o el 1), extraído cada vez para que no quede una vieja
   const coverFile = join(outDir, "video-portada.png");
-  if (!existsSync(coverFile)) {
-    try {
-      extraerPortada(videoFile, coverFile);
-    } catch {
-      // Si ffmpeg no está disponible o falla, intentamos usar out/video-hoja.png si existe
-      const fallbackSheet = join(outDir, "video-hoja.png");
-      if (existsSync(fallbackSheet)) {
-        // Usa la hoja de revisión como alternativa de portada
-      }
-    }
+  const timelineFile = join(outDir, "video/timeline.json");
+  const seconds = script.cover && existsSync(timelineFile) ? coverSeconds(script, JSON.parse(readFileSync(timelineFile, "utf8")) as Timeline) : 0;
+  try {
+    extraerPortada(videoFile, coverFile, seconds);
+  } catch {
+    // Sin ffmpeg, queda la portada que ya hubiera; si no hay, Instagram usa la suya
   }
 
   const coverToUse = existsSync(coverFile) ? coverFile : undefined;

@@ -20,6 +20,60 @@
       "minLength": 3,
       "maxLength": 120
     },
+    "world": {
+      "description": "The physical metaphor that lasts the whole video, in one line: 'a three-floor building in cutaway: your app, the PHP runtime and the server; the crack is in the middle floor'. The stage of video.tsx draws it",
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 200
+    },
+    "meter": {
+      "description": "What is at stake, planted at the hook and paid off at the close",
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 32,
+          "description": "What the meter counts, in 1 to 4 words"
+        },
+        "from": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 24,
+          "description": "Its value at the hook"
+        },
+        "to": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 24,
+          "description": "Its value at the close, where the video pays it off"
+        }
+      },
+      "required": [
+        "label",
+        "from",
+        "to"
+      ]
+    },
+    "cover": {
+      "description": "The frame for the cover. Without it, frame 1",
+      "type": "object",
+      "properties": {
+        "scene": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$",
+          "description": "The scene id"
+        },
+        "at": {
+          "description": "Seconds from the start of the scene. Without it, the end of the scene, when it is complete",
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "scene"
+      ]
+    },
     "hooks": {
       "minItems": 1,
       "maxItems": 3,
@@ -41,7 +95,7 @@
           "formula": {
             "type": "integer",
             "minimum": 1,
-            "maximum": 29,
+            "maximum": 30,
             "description": "Formula id from skills/ig-es/ganchos-es.json"
           }
         },

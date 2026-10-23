@@ -15,7 +15,7 @@ export const PALANCAS = ["que-cambia", "oficial-vs-independiente", "cuentas-hech
 export const GanchoSchema = z.object({
   texto: z.string().trim().min(3).max(120).describe("Texto de la portada; lo ideal son 3 a 8 palabras"),
   promesa: z.string().trim().max(140).optional().describe("Línea de promesa debajo del gancho"),
-  formula: z.number().int().min(1).max(29).describe("id de skills/ig-es/ganchos-es.json"),
+  formula: z.number().int().min(1).max(30).describe("id de skills/ig-es/ganchos-es.json"),
 });
 
 export const CtaSchema = z

@@ -2,7 +2,8 @@ import { spawnSync } from "node:child_process";
 import { createServer } from "node:http";
 import type { AddressInfo } from "node:net";
 import { normalizeWord, scriptWords } from "../../media/src/words.ts";
-import type { ProbeReport } from "./probe.tsx";
+import type { ProbedText, ProbeReport } from "./probe.tsx";
+import { MOVE_MS } from "./kit/camera.ts";
 import { FORMAT_SECONDS, type VideoScript } from "./script.ts";
 import { CAPTIONS_TOP, CONTENT_BOX, GRID_CROP, HEIGHT, MIN_TEXT_PX, SCALE, TEXT_ZONE, timelineMs, WIDTH, type Timeline } from "./timeline.ts";
 
@@ -16,10 +17,12 @@ import { CAPTIONS_TOP, CONTENT_BOX, GRID_CROP, HEIGHT, MIN_TEXT_PX, SCALE, TEXT_
 export type Issue = { level: "error" | "aviso"; message: string };
 
 const VISIBLE = 0.5;
-const MAX_WORDS_ON_SCREEN = 12;
+/** Text outside the captions and the interfaces (docs/analisis-reels-2026-10-22.md: short labels and one sentence, the one being said). */
+const MAX_WORDS_ON_SCREEN = 6;
 /** The smallest text of an interface of the stage kit (data-ui), in design px. */
 const MIN_UI_TEXT_PX = 12;
-const MAX_FREEZE_S = 4;
+/** The Reels that work change something every 1 to 2 s without cutting (docs/analisis-reels-2026-10-22.md). */
+const MAX_FREEZE_S = 2;
 export const TARGET_LUFS = -14;
 const LUFS_TOLERANCE = 1;
 
@@ -47,8 +50,31 @@ export async function probeServer(): Promise<{ url: string; reports: Map<number,
 const seconds = (frame: number, fps: number) => `${(frame / fps).toFixed(1)} s`;
 const quote = (text: string) => `"${text.length > 40 ? `${text.slice(0, 40)}…` : text}"`;
 
-/** What the probe saw: the frame's padding, text size, words on screen and the hook in frame 1. */
-export function inspectFrames(reports: ProbeReport[], fps: number, hookOnScreen: string): Issue[] {
+/** A label of a stage's world: it does not count as text to read (docs/analisis-reels-2026-10-22.md, short labels). */
+const STAGE_LABEL_WORDS = 3;
+
+/**
+ * Frames where a stage's camera is moving to the next scene's shot: the
+ * world's text crosses the margin on its way, so it is not checked there.
+ */
+export function cameraMoving(timeline: Timeline): (frame: number) => boolean {
+  const starts: number[] = [];
+  let at = 0;
+  for (const scene of timeline.scenes) {
+    starts.push(at);
+    at += Math.max(1, Math.round((scene.durationMs / 1000) * timeline.fps));
+  }
+  const moveFrames = Math.ceil((MOVE_MS / 1000) * timeline.fps);
+  return (frame) => starts.slice(1).some((start) => frame >= start && frame < start + moveFrames);
+}
+
+/**
+ * What the probe saw: the frame's padding, text size, words on screen and the
+ * hook in frame 1. The text of a stage's world is checked only when the camera
+ * is still, against the interfaces' minimum size, and as a warning: a camera
+ * that frames one zone leaves the next one peeking in at the edge.
+ */
+export function inspectFrames(reports: ProbeReport[], fps: number, hookOnScreen: string, moving: (frame: number) => boolean = () => false): Issue[] {
   const issues: Issue[] = [];
   const once = new Set<string>();
   const report = (level: Issue["level"], key: string, message: string) => {
@@ -61,6 +87,13 @@ export function inspectFrames(reports: ProbeReport[], fps: number, hookOnScreen:
   for (const { frame, texts } of sorted) {
     const visible = texts.filter((t) => t.opacity > VISIBLE);
     for (const t of visible) {
+      if (t.stage) {
+        if (moving(frame)) continue;
+        const outsideView = t.x < TEXT_ZONE.left - 1 || t.x + t.w > TEXT_ZONE.right + 1 || t.y < TEXT_ZONE.top - 1 || t.y + t.h > TEXT_ZONE.bottom + 1;
+        if (outsideView) report("aviso", `stage zone ${t.text}`, `Texto del escenario fuera del margen con la cámara quieta en ${seconds(frame, fps)}: ${quote(t.text)}. Si es lo que encuadra la escena, ajusta camera o el spot`);
+        if (t.fontSize < MIN_UI_TEXT_PX - 0.5) report("aviso", `stage size ${t.text}`, `Texto del escenario de ${t.fontSize.toFixed(1)}px con el zoom de la cámara en ${seconds(frame, fps)}: ${quote(t.text)}. Con la cámara quieta no baja de ${MIN_UI_TEXT_PX}px`);
+        continue;
+      }
       const outside =
         t.x < TEXT_ZONE.left - 1 || t.x + t.w > TEXT_ZONE.right + 1 || t.y < TEXT_ZONE.top - 1 || t.y + t.h > TEXT_ZONE.bottom + 1;
       if (outside) {
@@ -73,7 +106,8 @@ export function inspectFrames(reports: ProbeReport[], fps: number, hookOnScreen:
       }
     }
     // The text of an interface (a phone, a terminal) is the stage, not something to read: it does not count.
-    const words = visible.filter((t) => !t.ui).reduce((sum, t) => sum + t.text.split(/\s+/).filter(Boolean).length, 0);
+    const count = (t: ProbedText) => t.text.split(/\s+/).filter(Boolean).length;
+    const words = visible.filter((t) => !t.ui && !(t.stage && count(t) <= STAGE_LABEL_WORDS)).reduce((sum, t) => sum + count(t), 0);
     if (words > MAX_WORDS_ON_SCREEN) {
       report("aviso", "words", `${words} palabras en pantalla a la vez en ${seconds(frame, fps)}, además de los subtítulos: más de ${MAX_WORDS_ON_SCREEN} se leen tarde`);
     }
@@ -88,6 +122,12 @@ export function inspectFrames(reports: ProbeReport[], fps: number, hookOnScreen:
     if (!words.includes(hook)) {
       issues.push({ level: "error", message: `El gancho ${quote(hookOnScreen)} no se ve completo en el cuadro 1: es lo primero que se lee y la portada` });
     } else {
+      if (shown.some((t) => t.title)) {
+        issues.push({
+          level: "aviso",
+          message: "La escena 1 abre con el título de SceneFrame: el primer cuadro es un objeto que se mueve y el gancho va como rótulo encima del escenario, no una lámina con título",
+        });
+      }
       const outsideGrid = shown.some((t) => hook.includes(scriptWords(t.text).map(normalizeWord).join(" ")) && (t.y < GRID_CROP.top || t.y + t.h > GRID_CROP.bottom));
       if (outsideGrid) issues.push({ level: "aviso", message: "El gancho queda fuera del centro 3:4 del cuadro 1, que es lo que muestra la grilla del perfil" });
     }
@@ -268,6 +308,26 @@ export function inspectComposition(ffmpeg: string, video: string, timeline: Time
 export function overlayInterface(ffmpeg: string, video: string, overlay: string, output: string): void {
   ffmpegStderr(ffmpeg, ["-y", "-i", video, "-i", overlay, "-filter_complex", "[0:v][1:v]overlay=0:0:format=auto,format=yuv420p", "-c:v", "libx264", "-crf", "20", "-preset", "veryfast", "-c:a", "copy", "-movflags", "+faststart", output]);
 }
+
+/**
+ * A moment right after each scene starts (from the second on), when the
+ * camera or the change of scene is halfway: a crossfade of two busy layouts
+ * shows here as a muddy double exposure.
+ */
+export function transitionFrames(timeline: Timeline): number[] {
+  const frames: number[] = [];
+  let offset = 0;
+  for (const [i, scene] of timeline.scenes.entries()) {
+    if (i > 0) frames.push(Math.round(((offset + TRANSITION_PROBE_MS) / 1000) * timeline.fps));
+    offset += scene.durationMs;
+  }
+  return frames;
+}
+
+const TRANSITION_PROBE_MS = 300;
+
+/** The frames of the review sheet: the cover, the end of each scene and the middle of each change, in order. */
+export const sheetFrames = (timeline: Timeline) => [...new Set([...reviewFrames(timeline), ...transitionFrames(timeline)])].sort((a, b) => a - b);
 
 /** The review sheet: the first frame (the cover) and the last moment of each scene, when it is complete. */
 export function reviewFrames(timeline: Timeline): number[] {

@@ -16,7 +16,23 @@ import { normalizeWord, scriptWords } from "../../media/src/words.ts";
 export const HookSchema = z.object({
   said: z.string().trim().min(3).describe("The first line of the voice"),
   onScreen: z.string().trim().min(2).max(60).describe("The hook text, visible from frame 1; 6 words or fewer"),
-  formula: z.number().int().min(1).max(29).describe("Formula id from skills/ig-es/ganchos-es.json"),
+  formula: z.number().int().min(1).max(30).describe("Formula id from skills/ig-es/ganchos-es.json"),
+});
+
+/**
+ * What is at stake, shown by the HUD meter (`defineVideo({ meter })`) from
+ * the hook to the close: "servers exposed", from "1" to "50 millones".
+ */
+export const MeterSchema = z.object({
+  label: z.string().trim().min(2).max(32).describe("What the meter counts, in 1 to 4 words"),
+  from: z.string().trim().min(1).max(24).describe("Its value at the hook"),
+  to: z.string().trim().min(1).max(24).describe("Its value at the close, where the video pays it off"),
+});
+
+/** The frame that becomes the cover (the profile grid shows it): the strongest one, settled. */
+export const CoverSchema = z.object({
+  scene: z.string().regex(/^[a-z0-9-]+$/).describe("The scene id"),
+  at: z.number().min(0).optional().describe("Seconds from the start of the scene. Without it, the end of the scene, when it is complete"),
 });
 
 export const ScriptSceneSchema = z.object({
@@ -62,6 +78,17 @@ export const VideoScriptSchema = z
       .max(120)
       .optional()
       .describe("What the video is about, in a few words. video:script warns if a piece of the last 14 days had a similar topic"),
+    world: z
+      .string()
+      .trim()
+      .min(10)
+      .max(200)
+      .optional()
+      .describe(
+        "The physical metaphor that lasts the whole video, in one line: 'a three-floor building in cutaway: your app, the PHP runtime and the server; the crack is in the middle floor'. The stage of video.tsx draws it",
+      ),
+    meter: MeterSchema.optional().describe("What is at stake, planted at the hook and paid off at the close"),
+    cover: CoverSchema.optional().describe("The frame for the cover. Without it, frame 1"),
     hooks: z.array(HookSchema).min(1).max(3).describe("The first is the chosen one; the others are alternatives for gate A"),
     scenes: z.array(ScriptSceneSchema).min(1),
     caption: z.string().trim().max(2200).optional().describe("The post text"),
@@ -77,6 +104,9 @@ export const VideoScriptSchema = z
       if (seen.has(scene.id)) ctx.addIssue({ code: "custom", message: `Repeated scene id "${scene.id}"`, path: ["scenes", i, "id"] });
       seen.add(scene.id);
     });
+    if (script.cover && !seen.has(script.cover.scene)) {
+      ctx.addIssue({ code: "custom", message: `cover.scene "${script.cover.scene}" is not a scene of the script`, path: ["cover", "scene"] });
+    }
     const hook = scriptWords(script.hooks[0].said).map(normalizeWord);
     const opening = scriptWords(script.scenes[0].say).map(normalizeWord).slice(0, hook.length);
     if (hook.join(" ") !== opening.join(" ")) {
@@ -171,6 +201,10 @@ export function scriptWarnings(script: VideoScript): string[] {
   if (total < min || total > max) {
     warnings.push(`Dura unos ${Math.round(total)} s: el formato ${script.format} va de ${min} a ${max} s`);
   }
+  // docs/analisis-reels-2026-10-22.md: the Reels that work keep one world and one meter for the whole video.
+  if (!script.world) warnings.push("Falta world: la metáfora física que dura todo el video (un edificio en corte, una ciudad, un plano que crece)");
+  if (!script.meter) warnings.push("Falta meter: lo que está en juego, que se planta en el gancho y se paga en el cierre");
+  if (!script.cover) warnings.push("Falta cover: sin él, la portada es el cuadro 1 y no el cuadro más fuerte del video");
   return warnings;
 }
 
@@ -192,6 +226,12 @@ export function gateASheet(piece: string, script: VideoScript, warnings: string[
     "## Gancho",
     "",
     ...script.hooks.map((h, i) => `${i + 1}. ${i === 0 ? "**Elegido:** " : ""}dice "${h.said}" y en pantalla "${h.onScreen}" (fórmula ${h.formula}${scoreOf(i)})`),
+    "",
+    "## Mundo",
+    "",
+    `- **Mundo:** ${script.world ?? "falta"}`,
+    `- **Lo que está en juego:** ${script.meter ? `${script.meter.label}, de ${script.meter.from} a ${script.meter.to}` : "falta"}`,
+    `- **Portada:** ${script.cover ? `escena ${script.cover.scene}${script.cover.at === undefined ? ", al final" : `, a los ${script.cover.at} s`}` : "el cuadro 1"}`,
     "",
     `## Guion (unos ${Math.round(total)} s)`,
     "",

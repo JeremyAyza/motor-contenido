@@ -36,7 +36,7 @@ export const VideoMetricsSchema = z.object({
   trial: z.boolean().default(false).describe("Published as a Trial Reel: shown first to people who do not follow the account"),
   tags: z
     .object({
-      hookFormula: z.number().int().min(1).max(29).optional().describe("Formula id of the chosen hook; defaults to video.json → hooks[0].formula"),
+      hookFormula: z.number().int().min(1).max(30).optional().describe("Formula id of the chosen hook; defaults to video.json → hooks[0].formula"),
       seconds: z.number().positive().optional().describe("Length of the published video (video:render prints it)"),
       scenes: z.number().int().min(1).optional().describe("Defaults to the scenes in video.json"),
       music: z.boolean().optional(),

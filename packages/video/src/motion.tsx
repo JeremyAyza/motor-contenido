@@ -29,7 +29,8 @@ export const VIDEO_MOTION_CSS = `
  * in a video the dot sits there until the stroke is drawn, so it is hidden.
  */
 
-export function CssMotion({ children }: { children: ReactNode }) {
+/** `flow` keeps the children in the layout (a stage scene's labels inside the frame) instead of filling the frame. */
+export function CssMotion({ children, flow = false }: { children: ReactNode; flow?: boolean }) {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const ref = useRef<HTMLDivElement>(null);
@@ -37,8 +38,16 @@ export function CssMotion({ children }: { children: ReactNode }) {
   useLayoutEffect(() => {
     if (ref.current) seekCounters(ref.current, ms);
   });
+  const style = { "--t": `${ms / 1000}s` } as CSSProperties;
+  if (flow) {
+    return (
+      <div ref={ref} data-video-motion="" className="flex min-h-0 flex-1 flex-col" style={style}>
+        {children}
+      </div>
+    );
+  }
   return (
-    <AbsoluteFill ref={ref} data-video-motion="" style={{ "--t": `${ms / 1000}s` } as CSSProperties}>
+    <AbsoluteFill ref={ref} data-video-motion="" style={style}>
       {children}
     </AbsoluteFill>
   );

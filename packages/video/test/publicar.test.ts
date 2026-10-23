@@ -4,7 +4,8 @@ import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, it } from "node:test";
-import { prepararPublicacionVideo } from "../src/publicar.ts";
+import { coverSeconds, prepararPublicacionVideo } from "../src/publicar.ts";
+import { VideoScriptSchema } from "../src/script.ts";
 
 function setup(overrides: { approved?: boolean; hash?: string; caption?: string; videoContent?: string; hasVideo?: boolean } = {}) {
   const dir = mkdtempSync(join(tmpdir(), "video-publicar-"));
@@ -65,5 +66,23 @@ describe("prepararPublicacionVideo", () => {
     assert.equal(manifest.media.length, 1);
     assert.match(manifest.media[0], /video\.mp4$/);
     assert.match(file, /publication\.json$/);
+  });
+});
+
+describe("coverSeconds", () => {
+  const scenes = [
+    { id: "uno", say: "Hola mundo.", see: "Una pantalla de bienvenida", resource: "proceso" },
+    { id: "dos", say: "Chau mundo.", see: "Una pantalla de despedida", resource: "proceso" },
+  ];
+  const script = (cover?: object) => VideoScriptSchema.parse({ hooks: [{ said: "Hola mundo.", onScreen: "Hola", formula: 1 }], scenes, ...(cover ? { cover } : {}) });
+  const timeline = { scenes: [{ id: "uno", durationMs: 4000 }, { id: "dos", durationMs: 3000 }] } as never;
+
+  it("is frame 1 without a cover", () => {
+    assert.equal(coverSeconds(script(), timeline), 0);
+  });
+
+  it("takes the end of the scene, when it is complete, or the second asked", () => {
+    assert.equal(coverSeconds(script({ scene: "dos" }), timeline), 6.7);
+    assert.equal(coverSeconds(script({ scene: "dos", at: 1.5 }), timeline), 5.5);
   });
 });

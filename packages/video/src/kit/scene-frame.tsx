@@ -35,7 +35,7 @@ export function SceneFrame({
   return (
     <>
       <div className="flex items-start justify-between gap-4">
-        <h1 className={cx("font-display text-[44px] font-black leading-[1.02] tracking-tight", titleClassName)}>{title}</h1>
+        <h1 data-scene-title="" className={cx("font-display text-[44px] font-black leading-[1.02] tracking-tight", titleClassName)}>{title}</h1>
         {anchor ? <div className="shrink-0">{anchor}</div> : null}
       </div>
       {underline ? (

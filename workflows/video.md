@@ -11,6 +11,9 @@ Es un flujo separado del carrusel: comparte la marca (`packages/brand`), las pri
    - la dirección de arte (`art`), como `post.json → art`; si falta, se toma la del carrusel de la pieza;
    - el formato (`format`): `corto` (de 30 a 60 s, por defecto) o `explicado` (de 75 a 100 s, en prueba; ver [docs/propuesta-reels-jacket.md](../docs/propuesta-reels-jacket.md));
    - el tema (`topic`), en pocas palabras;
+   - el mundo (`world`): la metáfora física que dura todo el video, en una línea ("un edificio de tres pisos en corte: tu app, el runtime y el servidor; la grieta está en el del medio");
+   - lo que está en juego (`meter`): qué cuenta el medidor del HUD (`label`), su valor en el gancho (`from`) y en el cierre (`to`);
+   - la portada (`cover`): la escena con el cuadro más fuerte y, si hace falta, el segundo dentro de ella (`at`). Sin `at`, el final de la escena, cuando ya está completa. Sin `cover`, el cuadro 1;
    - las puertas (`gateA`, `gateB`).
 
    La primera escena empieza con el gancho elegido. El esquema está en [schemas/video.schema.json](../schemas/video.schema.json) (`npm run video:schema`).
@@ -18,7 +21,8 @@ Es un flujo separado del carrusel: comparte la marca (`packages/brand`), las pri
    - el gancho tarda más de 3 s;
    - el texto en pantalla pasa de 6 palabras;
    - el video sale del rango de su formato (`corto`, de 30 a 60 s; `explicado`, de 75 a 100 s);
-   - el tema se parece al de una pieza de los últimos 14 días: al referente, repetir un tema a los pocos días le costó 10 veces menos vistas.
+   - el tema se parece al de una pieza de los últimos 14 días: al referente, repetir un tema a los pocos días le costó 10 veces menos vistas;
+   - falta `world`, `meter` o `cover`. Los Reels que funcionan mantienen un mundo y un medidor todo el video ([docs/analisis-reels-2026-10-22.md](../docs/analisis-reels-2026-10-22.md)). La hoja muestra los tres en "Mundo".
 
    Además corre dos revisiones, y todo lo que avisan entra en la hoja:
    - **Las herramientas de `ig-reel`,** por sus wrappers en español ([skills/ig-es](../skills/ig-es/SKILL.md)):
@@ -28,10 +32,10 @@ Es un flujo separado del carrusel: comparte la marca (`packages/brand`), las pri
 
    También arma `out/video-critica-ganchos/`: el tema, el público y los ganchos, sin puntajes, para que un contexto nuevo los ordene ([docs/critico-ciego-video.md](../docs/critico-ciego-video.md), "Ganchos"). Ese orden va a la puerta A junto con los avisos.
 
-   **El storyboard** también va a la hoja. `npm run video:storyboard -- content/<pieza>` renderiza los visuales de un primer `video.tsx` con el guion al ritmo estimado de la voz, sin sonido y sin generar voz, y deja `out/storyboard.png` (la portada y el final de cada escena) y `out/storyboard.mp4`. También corre el inspector sobre esos cuadros. Si la persona cambia el guion, el `video.tsx` se ajusta antes de la voz.
+   **El storyboard** también va a la hoja. `npm run video:storyboard -- content/<pieza>` renderiza los visuales de un primer `video.tsx` con el guion al ritmo estimado de la voz, sin sonido y sin generar voz, y deja `out/storyboard.png` (la portada, el final de cada escena y el medio de cada cambio de escena) y `out/storyboard.mp4`. También corre el inspector sobre esos cuadros. Si la persona cambia el guion, el `video.tsx` se ajusta antes de la voz.
 
    Solo el sí de la persona en el chat aprueba, y el agente lo anota en `video.json → gateA { approved: true, date }`.
-3. **Lo que se ve: `content/<pieza>/video.tsx`.** Un primer borrador va antes de la puerta A, para el storyboard; la versión final, después. Antes, la dirección de arte: si la pieza tiene carrusel, el Reel toma su `post.json → art`; si no, `npm run video:baraja -- content/<pieza>` reparte 3 direcciones y la elegida va en `video.json → art` (ver **Estilo**, más abajo). `video.tsx` exporta `defineVideo` de `@motor/video` con el estilo de los subtítulos (`captions`), la barra de capítulos (`chapters`) y una entrada por escena de `video.json`: el mismo `id`, el tono de la paleta (`tone`), el nombre del capítulo (`chapter`), los efectos (`sfx`) y lo que se ve (`Visual`). Las escenas se arman con el kit de escenario (ver **Escenario y HUD**, más abajo). Lo que dice la voz no va aquí: sale de `video.json`, tal cual se aprobó. La guía para el agente está en [skills/video-es](../skills/video-es/SKILL.md).
+3. **Lo que se ve: `content/<pieza>/video.tsx`.** Un primer borrador va antes de la puerta A, para el storyboard; la versión final, después. Antes, la dirección de arte: si la pieza tiene carrusel, el Reel toma su `post.json → art`; si no, `npm run video:baraja -- content/<pieza>` reparte 3 direcciones y la elegida va en `video.json → art` (ver **Estilo**, más abajo). `video.tsx` exporta `defineVideo` de `@motor/video` con el estilo de los subtítulos (`captions`), la barra de capítulos (`chapters`) y una entrada por escena de `video.json`: el mismo `id`, el tono de la paleta (`tone`), el nombre del capítulo (`chapter`), los efectos (`sfx`) y lo que se ve (`Visual`). Con `stage`, el video tiene un mundo que dura de punta a punta y una cámara que se mueve entre escenas (`camera` en cada una), en vez de una lámina por escena: es lo que pide `world` ([skills/video-es](../skills/video-es/SKILL.md), "Escenario con cámara"). Las escenas se arman con el kit de escenario (ver **Escenario y HUD**, más abajo). Lo que dice la voz no va aquí: sale de `video.json`, tal cual se aprobó. La guía para el agente está en [skills/video-es](../skills/video-es/SKILL.md).
 4. **Voz y tiempos:** `npm run video:prepare -- content/<pieza>`. No corre sin la puerta A. Hace cuatro cosas:
    - genera la voz de cada escena con el proveedor y la voz de `accounts/dev.json → voice` (Gemini 3.8 Flash TTS, voz Puck);
    - calcula cuándo se dice cada palabra con whisper.cpp local;
@@ -43,7 +47,7 @@ Es un flujo separado del carrusel: comparte la marca (`packages/brand`), las pri
 6. **Render e inspector:** `npm run video:render -- content/<pieza>` deja cinco archivos:
    - `out/video.mp4`: 1080×1920 a 30 fps, H.264 yuv420p en BT.709 y AAC, con el volumen normalizado a −14 LUFS. Es el que se publica;
    - `out/video-vista-instagram.mp4`: el mismo video con una simulación de la interfaz de Instagram encima (barra, botones, usuario, texto del post y audio), para juzgar la composición como se ve en la app. Nunca se publica;
-   - `out/video-hoja.png`: la portada (el cuadro 1) y el final de cada escena, con esa interfaz encima;
+   - `out/video-hoja.png`: la portada (el cuadro 1), el final de cada escena y el medio de cada cambio de escena, con esa interfaz encima. En el medio de un cambio se ve si un fundido deja una doble exposición sucia;
    - `out/video-inspector.txt`: lo que encontró el inspector;
    - `out/video.sha256`: el hash del video, para la puerta B.
 
@@ -56,11 +60,13 @@ Es un flujo separado del carrusel: comparte la marca (`packages/brand`), las pri
      - el gancho elegido (`onScreen`) no se ve completo en el cuadro 1;
      - subtítulos que no tienen todas las palabras del guion.
    - **Avisos:**
-     - más de 12 palabras en pantalla a la vez, sin contar los subtítulos ni el texto de las interfaces del kit;
+     - más de 6 palabras en pantalla a la vez, sin contar los subtítulos, el texto de las interfaces del kit ni los rótulos de hasta 3 palabras de un escenario;
+     - la escena 1 abre con el título de `SceneFrame`: el primer cuadro es un objeto que se mueve, y el gancho va como rótulo;
+     - texto del escenario fuera del margen, o de menos de 12 px con el zoom de la cámara, cuando la cámara está quieta. Mientras se mueve no se revisa;
      - el gancho fuera del centro 3:4 que muestra la grilla;
      - un dibujo que deja vacío abajo: más de 130 px entre el final del dibujo y los subtítulos;
      - una portada vacía: el cuadro 1 ocupa menos del 35 % del recorte 3:4;
-     - más de 4 s sin cambio arriba de los subtítulos. Se mide en píxeles que cambian cada medio segundo, así que cuenta un trazo que se dibuja;
+     - más de 2 s sin cambio arriba de los subtítulos. Se mide en píxeles que cambian cada medio segundo, así que cuenta un trazo que se dibuja;
      - el volumen lejos de −14 LUFS;
      - una duración fuera del rango del formato.
 
@@ -76,7 +82,7 @@ Es un flujo separado del carrusel: comparte la marca (`packages/brand`), las pri
 
    Arregla los tres problemas principales, vuelve a renderizar y vuelve a criticar con un contexto nuevo. Máximo tres rondas. Copia el informe final en `video-critica.md`, en la carpeta de la pieza. Si un arreglo cambia lo que dice la voz, vuelve a la puerta A.
 8. **Puerta B.** La persona ve el video y, después de su sí en el chat, el agente anota `video.json → gateB { approved: true, date, video: "<sha256>" }`. Se le muestran la vista con la interfaz de Instagram, la hoja y el informe del crítico. La aprobación vale para ese archivo: si un render posterior da otro video, `video:render` la vuelve a `false` y deja la razón en `notes`.
-9. **Publicar:** `npm run video:publicar -- content/<pieza> [--ensayo] [--forzar]`. Paso opcional, solo cuando la persona lo pide en el chat y con la puerta B aprobada. Exige que el sha256 de `out/video.mp4` coincida con `video.json → gateB.video`, extrae la portada limpia del cuadro 1 (`out/video-portada.png`), activa la etiqueta obligatoria de IA de Meta y sube el Reel con `packages/publisher`. Con `--ensayo` se detiene antes de compartir y guarda la captura en `.publisher/`.
+9. **Publicar:** `npm run video:publicar -- content/<pieza> [--ensayo] [--forzar]`. Paso opcional, solo cuando la persona lo pide en el chat y con la puerta B aprobada. Exige que el sha256 de `out/video.mp4` coincida con `video.json → gateB.video`, extrae la portada limpia del cuadro de `video.json → cover`, o del cuadro 1 si no hay (`out/video-portada.png`), activa la etiqueta obligatoria de IA de Meta y sube el Reel con `packages/publisher`. Con `--ensayo` se detiene antes de compartir y guarda la captura en `.publisher/`.
 
 ## Después de publicar: métricas
 

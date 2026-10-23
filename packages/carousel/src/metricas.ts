@@ -28,7 +28,7 @@ export const MetricasSchema = z.object({
   publicado: z.iso.datetime({ offset: true }).describe("Fecha y hora de publicación, con zona horaria"),
   etiquetas: z.object({
     formato: z.enum(FORMATOS).optional(),
-    formulaGancho: z.number().int().min(1).max(29).optional().describe("id de skills/ig-es/ganchos-es.json"),
+    formulaGancho: z.number().int().min(1).max(30).optional().describe("id de skills/ig-es/ganchos-es.json"),
     direccion: z.string().optional(),
     laminas: z.number().int().min(1).max(20).optional(),
     cta: z.enum([...OBJETIVOS, "seguir"]).optional(),

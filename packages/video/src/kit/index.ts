@@ -1,5 +1,6 @@
 import type { ComponentType } from "react";
 import type { Tone } from "../../../carousel/src/ui/index.tsx";
+import type { Shot, SpotBox } from "./camera.ts";
 
 /**
  * What a piece's video.tsx uses (`@motor/video`). It imports nothing that
@@ -28,11 +29,37 @@ export type SceneDef = {
   chapter?: string;
   sfx?: SceneSfx[];
   /**
+   * What the camera frames in this scene, when the video has a stage: a spot
+   * of the stage (`{ focus: "memoria" }`), a point of its world, a zoom. The
+   * camera moves there when the scene starts; without it, it keeps the shot.
+   */
+  camera?: Shot;
+  /**
    * What is seen, inside the frame (the tab, the dots and the signature come
    * from it): usually a SceneFrame. Times are seconds from the start of the
-   * scene; useCue("word") says when a word is said.
+   * scene; useCue("word") says when a word is said. With a stage it is
+   * optional, and it goes over the world: the labels of this scene only.
    */
-  Visual: ComponentType;
+  Visual?: ComponentType;
+};
+
+/**
+ * A world that lasts the whole video (docs/plan-piloto-automatico.md, phase
+ * 1): mounted once, under the frame, with a camera that moves between the
+ * scenes' shots instead of cutting. Its components time themselves on the
+ * whole video with useStage() and useStageCue(); the carousel primitives'
+ * `anim` take seconds from the start of the video.
+ */
+export type StageDef = {
+  /** The world, drawn in its own coordinates (design px, from the top left). */
+  World: ComponentType;
+  /** The size of the world. By default, the frame's (540×960). */
+  width?: number;
+  height?: number;
+  /** Named zones the camera frames and <Spot> places things on: `{ memoria: { x, y, w, h } }`. */
+  spots?: Record<string, SpotBox>;
+  /** How much the camera closes in during each scene (0.04 by default; 0 keeps it still). */
+  drift?: number;
 };
 
 /**
@@ -63,6 +90,8 @@ export type VideoDef = {
    * of the current one.
    */
   chapters?: boolean;
+  /** The world of the video, with its camera. Without it, each scene is its own slide. */
+  stage?: StageDef;
   scenes: SceneDef[];
 };
 
@@ -70,7 +99,9 @@ export type CaptionStyle = "highlight" | "pill" | "marker";
 
 export const defineVideo = (video: VideoDef) => video;
 
-export { useCapture, useCue } from "./scene.ts";
+export { useCapture, useCue, useStage, useStageCue } from "./scene.ts";
+export type { Shot, SpotBox } from "./camera.ts";
+export { Spot } from "./world.tsx";
 export { DRAWING_WIDTH, SceneFrame } from "./scene-frame.tsx";
 export { AppCard, BrowserBar, captureLines, Chat, Chip, DataTable, Diff, Phone, Terminal } from "./stage.tsx";
 export type { ChatMessage, DataRow, DiffLine, TerminalLine } from "./stage.tsx";

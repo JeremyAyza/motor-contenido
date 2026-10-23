@@ -4,9 +4,11 @@ import { continueRender, delayRender, useCurrentFrame, useVideoConfig } from "re
 /**
  * A piece of text as the browser lays it out, in design px. `ui` marks the
  * text of an interface of the stage kit (data-ui): a screen's chrome, not a
- * sentence to read.
+ * sentence to read. `title` marks the title of a SceneFrame (data-scene-title).
+ * `stage` marks the text of a stage's world (data-camera): its size is the one
+ * seen, with the camera's zoom.
  */
-export type ProbedText = { text: string; x: number; y: number; w: number; h: number; fontSize: number; opacity: number; ui?: boolean };
+export type ProbedText = { text: string; x: number; y: number; w: number; h: number; fontSize: number; opacity: number; ui?: boolean; title?: boolean; stage?: boolean };
 export type ProbeReport = { frame: number; texts: ProbedText[] };
 
 /** Frames the probe reports: the first one and then every half second. */
@@ -84,15 +86,18 @@ function measureTexts(root: HTMLElement): ProbedText[] {
     range.selectNodeContents(node);
     const rect = range.getBoundingClientRect();
     if (!rect.width || !rect.height) continue;
+    const camera = el.closest<HTMLElement>("[data-camera]");
     texts.push({
       text,
       x: (rect.x - box.x) / scale,
       y: (rect.y - box.y) / scale,
       w: rect.width / scale,
       h: rect.height / scale,
-      fontSize: Number.parseFloat(getComputedStyle(el).fontSize),
+      fontSize: Number.parseFloat(getComputedStyle(el).fontSize) * (camera ? Number(camera.dataset.zoom) || 1 : 1),
       opacity: effectiveOpacity(el),
       ui: Boolean(el.closest("[data-ui]")),
+      title: Boolean(el.closest("[data-scene-title]")),
+      stage: Boolean(camera),
     });
   }
   return texts;

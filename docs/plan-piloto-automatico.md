@@ -37,12 +37,14 @@ Cada fase termina cuando una pieza de prueba real la usa, el inspector sale limp
 ### Fase 0: ordenar la casa
 
 - [x] Superpowers marcado como publicado.
-- [ ] **Perfil con `ig-profile`:** el agente escribe la bio nueva (con la tilde de "más"), elige los 3 fijados y define las 4 destacadas y el enlace. Jeremy lo aplica en la app: el agente no escribe en Instagram. Son 30 de los 94 puntos.
+- [x] **Perfil con `ig-profile`:** la bio nueva (con la tilde de "más"), los 3 fijados, las 4 destacadas y el enlace están en [perfil-jacket.md](perfil-jacket.md) desde el 22 de octubre. Falta que Jeremy los aplique en la app: el agente no escribe en Instagram. Son 30 de los 94 puntos.
 - [ ] **Métricas:** los Insights de los 6 Reels publicados en `video-metrics.json`, con capturas de Jeremy o leyéndolos en su Chrome si él lo autoriza.
 
 ### Fase 1: escenario y cámara (núcleo)
 
-El cambio grande. Hoy `PieceVideo.tsx` monta un `<Slide>` nuevo por escena dentro de una `<Series>`.
+**Hecha el 22 de octubre de 2026.** `PieceVideo.tsx` tiene dos caminos: láminas (como antes) y escenario. La cámara es una función pura en `kit/camera.ts`, con tests. `<Spot>`, `useStage()` y `useStageCue()` están en `@motor/video`. El inspector entiende el texto del mundo. Se probó con un storyboard de una pieza de demostración local (`content/zz-escenario-demo`, fuera de git), y el del git push confirmó que las piezas sin escenario siguen renderizando. Falta un render con voz real, que llega con la pieza de prueba. Lo que se hizo distinto del borrador de abajo: la cámara usa una curva suave (ease in-out) en vez de un `spring`, porque es determinista y se prueba sin navegador. Además, `<Spot>` ya existe (estaba en la fase 2).
+
+El borrador:
 
 - **`defineVideo({ stage })`:** un componente que se monta una sola vez, fuera de `<Series>`, y vive todo el video. Las escenas pasan a ser estados de ese escenario.
 - **`useStage()`:** dice la escena actual, su índice, el segundo global, el segundo dentro de la escena y su avance. Con **`useStageCue(sceneId, word)`**, el escenario sabe en qué segundo global se dice una palabra de cualquier escena.
@@ -58,7 +60,7 @@ Tamaño: grande.
 
 ### Fase 2: el kit del mundo
 
-- **`<Spot>`:** una zona con nombre que la cámara puede encuadrar y a la que se pegan los rótulos.
+- ~~**`<Spot>`**~~: hecho en la fase 1.
 - **`<Board>`:** un plano que crece. Nodos y flechas que aparecen por cue, cambian de estado (`ok`, `busy`, `fail` con una X roja, `off`), se reacomodan con un `spring` (de 1 servidor a 4) y llevan paquetes que viajan por las flechas.
 - **`<Meter>`:** el medidor del HUD, que vive todo el video. Su valor cambia en palabras de cualquier escena (`defineVideo({ meter })`) y tiene cuatro formas: contador (1 → 50 millones), barra o batería, casillas que se llenan (1/5) y cuenta en dinero.
 - **`<Label>`:** rótulos de 1 a 3 palabras pegados a un `<Spot>`.
@@ -88,7 +90,9 @@ Tamaño: mediano. Necesita el archivo original de Jeremy.
 
 ### Fase 5: reglas de guion, inspector y ganchos
 
-Es chica y puede ir en paralelo con la fase 1.
+**Hecha el 22 de octubre de 2026,** con un cambio respecto del borrador: la portada no se hornea como cuadro 0 del MP4. `video:publicar` extrae el cuadro de `cover` y lo sube como portada, que es lo que muestran la grilla y el Reel. Hornearlo cambiaría el sha256 del video aprobado sin ganar nada. Las piezas viejas ahora reciben los avisos nuevos (más palabras y título en la escena 1): la vara subió para todas.
+
+El borrador:
 
 - **`video.json`:** dos campos nuevos. `world` es la metáfora física de la pieza en una línea. `meter` es lo que está en juego, con su valor inicial y final. Los dos se aprueban en la puerta A, y la hoja de la puerta A los muestra.
 - **`skills/video-es`:**

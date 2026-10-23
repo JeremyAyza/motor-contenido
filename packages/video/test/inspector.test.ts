@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { inspectFrames, inspectLoudness, inspectTimeline, reviewFrames, stillStretches } from "../src/inspector.ts";
+import { cameraMoving, inspectFrames, inspectLoudness, inspectTimeline, reviewFrames, sheetFrames, stillStretches } from "../src/inspector.ts";
 import type { ProbedText } from "../src/probe.tsx";
 import { VideoScriptSchema } from "../src/script.ts";
 import type { Timeline } from "../src/timeline.ts";
@@ -76,14 +76,14 @@ describe("stillStretches", () => {
     return pixels;
   };
 
-  it("finds a stretch longer than 4 s without changes", () => {
-    const samples = Array.from({ length: 12 }, () => frame(0));
-    assert.deepEqual(stillStretches(samples), [{ start: 0, seconds: 5.5 }]);
+  it("finds a stretch longer than 2 s without changes", () => {
+    const samples = Array.from({ length: 6 }, () => frame(0));
+    assert.deepEqual(stillStretches(samples), [{ start: 0, seconds: 2.5 }]);
   });
 
   it("counts a small stroke as a change, not compression noise", () => {
-    const still = Array.from({ length: 12 }, () => frame(0));
-    const withStroke = [...still.slice(0, 6), frame(20), ...still.slice(7)];
+    const still = Array.from({ length: 8 }, () => frame(0));
+    const withStroke = [...still.slice(0, 4), frame(20), ...still.slice(5)];
     assert.deepEqual(stillStretches(withStroke), []);
     const noisy = still.map((f, i) => (i % 2 ? f.map((v) => v + 10) : f));
     assert.equal(stillStretches(noisy).length, 1);
@@ -98,8 +98,45 @@ describe("inspectLoudness", () => {
 });
 
 describe("reviewFrames", () => {
+  const timeline = { fps: 30, scenes: [{ durationMs: 5000 }, { durationMs: 4000 }] } as unknown as Timeline;
+
   it("takes the cover and the end of each scene", () => {
-    const timeline = { fps: 30, scenes: [{ durationMs: 5000 }, { durationMs: 4000 }] } as unknown as Timeline;
     assert.deepEqual(reviewFrames(timeline), [0, 141, 261]);
+  });
+
+  it("adds the middle of each change of scene to the sheet", () => {
+    assert.deepEqual(sheetFrames(timeline), [0, 141, 159, 261]);
+  });
+});
+
+describe("the text of a stage's world", () => {
+  const timeline = { fps: 30, scenes: [{ durationMs: 3000 }, { durationMs: 3000 }] } as unknown as Timeline;
+  const moving = cameraMoving(timeline);
+  const label = (overrides: Partial<ProbedText>) => text({ text: "Servidor", stage: true, fontSize: 22, ...overrides });
+
+  it("is not checked while the camera moves to the next shot", () => {
+    assert.equal(moving(95), true);
+    assert.equal(moving(60), false);
+    const issues = inspectFrames([{ frame: 0, texts: [text({})] }, { frame: 95, texts: [label({ x: 500 })] }], 30, "La luz, al revés", moving);
+    assert.deepEqual(issues, []);
+  });
+
+  it("warns, without blocking, about a label outside the margin or too small with the camera still", () => {
+    const issues = inspectFrames([{ frame: 0, texts: [text({}), label({ x: 520 }), label({ text: "Disco", fontSize: 9 })] }], 30, "La luz, al revés", moving);
+    assert.ok(issues.every((i) => i.level === "aviso"));
+    assert.match(messages(issues), /Texto del escenario fuera del margen con la cámara quieta en 0\.0 s: "Servidor"/);
+    assert.match(messages(issues), /Texto del escenario de 9\.0px/);
+  });
+
+  it("does not count short labels as words to read", () => {
+    const labels = ["Tu app", "Runtime", "Servidor", "Base de datos"].map((t, i) => label({ text: t, y: 200 + i * 100 }));
+    assert.deepEqual(inspectFrames([{ frame: 0, texts: [text({}), ...labels] }], 30, "La luz, al revés"), []);
+  });
+});
+
+describe("the first frame", () => {
+  it("warns when scene 1 opens with a SceneFrame title", () => {
+    const issues = inspectFrames([{ frame: 0, texts: [text({ title: true })] }], 30, "La luz, al revés");
+    assert.match(messages(issues), /La escena 1 abre con el título de SceneFrame/);
   });
 });

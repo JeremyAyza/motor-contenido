@@ -16,12 +16,14 @@ Las skills `remotion-*` son las oficiales de Remotion, sin modificar. Viven en `
 
   `video:script` arma la hoja de la puerta A (`out/gate-a.md`) y `video:storyboard` le suma los cuadros de un primer `video.tsx`, sin voz. No generes voz antes del sí de la persona: `video:prepare` no corre sin `gateA.approved`. Sigue el orden de [workflows/video.md](../../workflows/video.md).
 - **La dirección de arte**, como en el carrusel: `video.json → art`, con la dirección que repartió `video:baraja`, la paleta, las tipografías, el ancla y la pestaña. Si la pieza tiene carrusel y `video.json` no trae `art`, el Reel toma `post.json → art` y se ve como su carrusel. Ver [Estilo](#estilo-el-del-carrusel).
-- **Lo que se ve.** `content/<pieza>/video.tsx` exporta `defineVideo({...})` de `@motor/video` con `captions` (el estilo de los subtítulos), `chapters` (la barra de capítulos) y una entrada por escena de `video.json`, con estos campos:
+- **El mundo antes que las escenas.** `video.json` lleva `world` (la metáfora física que dura todo el video), `meter` (lo que está en juego, de `from` a `to`) y `cover` (el cuadro de la portada). Se aprueban en la puerta A, y `video:script` avisa si faltan.
+- **Lo que se ve.** `content/<pieza>/video.tsx` exporta `defineVideo({...})` de `@motor/video` con `captions` (el estilo de los subtítulos), `chapters` (la barra de capítulos), `stage` (el mundo con su cámara, ver [Escenario con cámara](#escenario-con-cámara)) y una entrada por escena de `video.json`, con estos campos:
   - `id`: el mismo de `video.json`;
   - `tone`: el tono de la paleta para esa escena (`base`, `surface`, `accent` o `invert`), como en `<Slide>`;
   - `chapter`: su nombre en la barra de capítulos;
   - `sfx`: los efectos de sonido;
-  - `Visual`: lo que se ve, armado con el kit de escenario.
+  - `camera`: con `stage`, lo que encuadra la escena;
+  - `Visual`: lo que se ve, armado con el kit de escenario. Con `stage` es opcional y va encima del mundo: los rótulos de esa escena.
 
   Lo que dice la voz no se repite aquí. Si hace falta cambiar el texto, cambia `video.json`, y eso pide volver a la puerta A.
 - **Comandos:**
@@ -36,7 +38,7 @@ Las skills `remotion-*` son las oficiales de Remotion, sin modificar. Viven en `
   - `video:metrics` arma el informe de los Reels publicados.
 - **El guion sigue a `ig-reel`.** Lee `.agents/skills/ig-reel/SKILL.md` para la forma (el gancho en 2 s, lo que está en juego, una idea por frase, el cierre que vuelve al gancho) y sus fórmulas. Lo que cambia aquí está en [skills/ig-es](../ig-es/SKILL.md), punto 9. Arregla lo que avisan `hookscore_es` y `beats_es` antes de la puerta A; un gancho elegido con menos de 50 se discute con la persona, no se esconde.
 - **Crítico ciego antes de la puerta B.** Después de `video:render`, corre `video:critique` y dale `out/video-critica/` a un contexto nuevo ([docs/critico-ciego-video.md](../../docs/critico-ciego-video.md)). Quien hizo el video no se califica a sí mismo.
-- **El inspector manda.** `video:render` corre el inspector de video (`out/video-inspector.txt`). Corrige todos sus errores antes de mostrar el video, y trata cada aviso como un error salvo que lo puedas defender en una frase. La hoja `out/video-hoja.png` (portada y final de cada escena) es lo primero que miras.
+- **El inspector manda.** `video:render` corre el inspector de video (`out/video-inspector.txt`). Corrige todos sus errores antes de mostrar el video, y trata cada aviso como un error salvo que lo puedas defender en una frase. La hoja `out/video-hoja.png` (portada, final de cada escena y medio de cada cambio) es lo primero que miras.
 - **Puerta B.** Después del sí de la persona al video, anota `gateB { approved: true, date, video: "<sha256 que imprimió video:render>" }`. Si un render posterior da otro archivo, `video:render` la vuelve a `false`.
 - **Lienzo.** Es de 540×960 px de diseño, como el ancho del carrusel, y se renderiza a 2x (1080×1920). Las cifras de las skills de Remotion están pensadas para 1080 de ancho y aquí se dividen por 2: el titular va de 42 px o más y el texto de apoyo de 22 px o más.
 - **Letra de las primitivas.** En video, la letra chica de las primitivas (`Etiqueta`, `Nodo`, `Barras`, `Nota`, `Code` y las demás) no baja de 22 px: su tamaño es `max(<tamaño del carrusel>, var(--min-text))` y el video pone `--min-text: 22px`. No lo arregles a mano con un `<span>`. Si una etiqueta de 22 px no entra, dale más `ancho` o acórtala. Tu propia clase de tamaño (`text-[26px]`) sigue ganando.
@@ -46,7 +48,7 @@ Las skills `remotion-*` son las oficiales de Remotion, sin modificar. Viven en `
   - un dibujo de 468 px de ancho, el mismo de una lámina del carrusel, con su `height`, en coordenadas absolutas dentro de ese recuadro.
 
   SceneFrame pone el título arriba, desde y 128, y centra el dibujo en lo que queda hasta los subtítulos. Las coordenadas de las etiquetas son relativas al recuadro del dibujo, y su borde derecho es 468. Los dibujos de las láminas del carrusel, que también miden 468, entran sin cambiar sus coordenadas.
-- **La portada es el cuadro 1.** Lleva el dibujo además del título, porque la grilla del perfil la recorta al centro 3:4, de y 120 a 840. Lo que se anima en la primera escena empieza después.
+- **El cuadro 1 lleva el gancho** y un objeto, no solo el título, porque la grilla del perfil lo recorta al centro 3:4, de y 120 a 840. **La portada que se sube** es la de `video.json → cover`: el cuadro más fuerte, ya asentado. Sin `cover`, el cuadro 1.
 - **La vista con la interfaz.** `out/video-vista-instagram.mp4` y la hoja muestran el video con una simulación de la interfaz de Instagram. Sirve para ver qué tapa la app, no para acomodar el diseño.
 
 ## Escenario y HUD
@@ -61,6 +63,34 @@ El nivel de referencia es [docs/analisis-rick-theengineer.md](../../docs/analisi
 - **`SceneFrame` sin `height`** apila el kit en una columna centrada. Con `height` vuelve al recuadro de coordenadas absolutas, para dibujos.
 - **HUD:** `chapters: true` y un `chapter` por escena muestran la barra de capítulos bajo la pestaña. Los `Chip` hacen de rótulos de sistema.
 - **Subtítulos:** `captions: "highlight"` (por defecto), `"pill"` o `"marker"`. Elige el que pide el mundo de la dirección: la píldora va bien con interfaces, y el marcador con un mundo de época.
+
+## Escenario con cámara
+
+El nivel de referencia es [docs/analisis-reels-2026-10-22.md](../../docs/analisis-reels-2026-10-22.md): los Reels que funcionan pasan en un solo mundo que dura todo el video, y el cuadro cambia cada 1 a 2 s sin cortar. `defineVideo({ stage })` lo hace posible:
+
+- **`stage: { World, width, height, spots, drift }`.** `World` es un componente que se monta una vez, debajo del marco, y vive de punta a punta. Se dibuja en sus propias coordenadas (px de diseño desde arriba a la izquierda) y puede ser más grande que el lienzo: por defecto mide 540×960. `spots` son zonas con nombre (`{ memoria: { x, y, w, h } }`).
+- **La cámara.** Cada escena dice qué encuadra con `camera: { focus: "memoria" }` (un spot, que llena la vista con un margen), `{ focus: { x, y }, zoom }` o solo `{ zoom }`. Al empezar la escena, la cámara va al encuadre nuevo en 0,9 s, sin saltos. Durante la escena se acerca un 4 % (`drift`), para que la imagen nunca quede quieta. Una escena sin `camera` mantiene el encuadre anterior; la primera, sin `camera`, muestra el mundo entero.
+- **`<Spot id>`** pone sus hijos sobre la zona con ese nombre, así la cámara encuadra justo lo que está dibujado ahí.
+- **El tiempo del mundo es el del video entero,** no el de una escena. `useStage()` da el momento (`ms`), la escena y su avance. `useStageCue("escena", "palabra")` da el segundo del video en que se dice una palabra de cualquier escena. El `anim` de las primitivas, dentro del mundo, también cuenta desde el inicio del video. Para el movimiento propio, `interpolate(ms, ...)`.
+- **El mundo cambia de estado, no se reemplaza.** Un servidor que se suma, una grieta que aparece y se queda, un paquete que viaja. Lo que pasó en una escena sigue ahí en la siguiente.
+- **`Visual` va encima**, en el área del marco y con el tiempo de su escena (`useCue`): el gancho como rótulo en la escena 1 y el cierre. Lo demás vive en el mundo.
+- **El marco no cambia.** La pestaña, los puntos, la firma, la barra de capítulos y los subtítulos se montan una vez y toman el tono de la escena en curso.
+- **El inspector** no cuenta como palabras los rótulos de hasta 3 palabras del mundo. Revisa su margen y su tamaño (12 px con el zoom) solo con la cámara quieta, y como aviso: al encuadrar un piso, el rótulo del piso vecino puede asomar en el borde.
+- **Sin `stage`,** cada escena es una lámina con su `SceneFrame`, como antes. Sirve para piezas cortas sin mundo, pero lo que pide la cuenta es el escenario.
+
+### Reglas de forma
+
+- **El primer cuadro es un objeto que se mueve**, no un título: el monitor que se enciende, la tecla en macro, la batería que baja. El gancho va como rótulo encima. El inspector avisa si la escena 1 abre con el título de `SceneFrame`.
+- **Algo cambia cada 2 s** como máximo (el inspector lo mide). La cámara y el `drift` ayudan, pero el cambio que importa es el del mundo: lo que la voz está diciendo.
+- **Fuera de los subtítulos, como mucho 6 palabras** a la vez. Los rótulos del mundo son de 1 a 3 palabras.
+- **El medidor** (`meter`) se planta en el gancho y se paga en el cierre.
+- **El cierre se puede capturar:** una tabla, una pila o un ciclo que resume el video y que alguien guardaría.
+- **Una línea que se lee** queda unos 0,3 s por palabra desde que está completa. El ritmo sale del movimiento, no de quitar el texto antes de tiempo.
+- **Las cosas aparecen una por una,** con clics, deslizamientos y tipeo simulados, en vez de entrar todas juntas.
+- **Cualquier cuadro congelado tiene que poder publicarse.** Mira en la hoja los cuadros de mitad de cambio. Si un fundido entre dos composiciones cargadas da una doble exposición, que salga lo viejo y después entre lo nuevo, o pasa por el fondo.
+- **Los efectos** van en la tonalidad de la música y por debajo de ella.
+
+Las últimas cinco salen del repo [`brag`](https://github.com/latent-spaces/brag) (MIT): se toman como reglas, sin instalarlo (ver el análisis, sección 7).
 
 ## El formato explicado
 
@@ -97,7 +127,7 @@ El nivel de referencia es [docs/analisis-rick-theengineer.md](../../docs/analisi
 ## Contenido: las reglas del carrusel
 
 - **Datos.** Cada dato sale de `facts.json` y nada se inventa (AGENTS.md, reglas 1 a 3).
-- **Una idea por escena.** Además de los subtítulos, van como mucho 6 palabras de texto en pantalla, y cada escena explica con un recurso visual ([recursos.json](../carrusel-taste/recursos.json)).
+- **Una idea por escena.** Además de los subtítulos, van como mucho 6 palabras de texto en pantalla, y cada escena explica con un recurso visual ([recursos.json](../carrusel-taste/recursos.json)). Con `stage`, el recurso es un estado del mundo.
 - **El gancho se ve desde el cuadro 1:** la primera escena no anima el titular.
 - **Logos y mascotas:** el archivo oficial sin modificar.
 - **Voz sintética:** el Reel lleva la etiqueta de IA de Meta al publicar.
@@ -106,7 +136,7 @@ El nivel de referencia es [docs/analisis-rick-theengineer.md](../../docs/analisi
 
 Cada Reel se ve como un carrusel de la cuenta: lo que identifica a la cuenta no cambia, y lo demás sale del tema. Dos videos seguidos no se parecen, igual que dos carruseles.
 
-- **Fijo: el marco del carrusel.** `PieceVideo` pone cada escena dentro de `<Slide>`: la pestaña de archivo arriba a la izquierda, la textura de puntos, la firma abajo y los subtítulos. No lo cambies por pieza.
+- **Fijo: el marco del carrusel.** `PieceVideo` pone el video dentro de `<Slide>`: la pestaña de archivo arriba a la izquierda, la textura de puntos, la firma abajo y los subtítulos. Sin `stage`, un `<Slide>` por escena; con `stage`, uno solo para todo el video, con el mundo debajo. No lo cambies por pieza.
 - **Por pieza: la dirección de arte (`art`).** Sale de la baraja del carrusel ([direcciones.json](../carrusel-taste/direcciones.json)):
   - **La dirección.** `video:baraja` reparte 3, sin las dos últimas que usaron los videos. Elige la que sirve al tema y anota `direction`, `dealt` y `reason`. Si la pieza tiene carrusel, el Reel puede tomar su `post.json → art` tal cual.
   - **La paleta y las tipografías** de esa dirección. El acento tiene que leerse a 4.5:1 sobre `bg` y sobre `surface`, porque los subtítulos marcan con él la palabra que se dice; `video:prepare` lo revisa.
