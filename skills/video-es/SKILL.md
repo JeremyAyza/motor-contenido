@@ -74,7 +74,28 @@ El nivel de referencia es [docs/analisis-reels-2026-10-22.md](../../docs/analisi
 - **El tiempo del mundo es el del video entero,** no el de una escena. `useStage()` da el momento (`ms`), la escena y su avance. `useStageCue("escena", "palabra")` da el segundo del video en que se dice una palabra de cualquier escena. El `anim` de las primitivas, dentro del mundo, también cuenta desde el inicio del video. Para el movimiento propio, `interpolate(ms, ...)`.
 - **El mundo cambia de estado, no se reemplaza.** Un servidor que se suma, una grieta que aparece y se queda, un paquete que viaja. Lo que pasó en una escena sigue ahí en la siguiente.
 - **`Visual` va encima**, en el área del marco y con el tiempo de su escena (`useCue`): el gancho como rótulo en la escena 1 y el cierre. Lo demás vive en el mundo.
-- **El marco no cambia.** La pestaña, los puntos, la firma, la barra de capítulos y los subtítulos se montan una vez y toman el tono de la escena en curso.
+- **El marco no cambia.** La pestaña, los puntos, la firma, la barra de capítulos, el medidor y los subtítulos se montan una vez y toman el tono de la escena en curso.
+
+### El kit del mundo
+
+- **`<Label spot at place tone>`:** un rótulo de 1 a 3 palabras pegado a un spot (TU APP, RUNTIME, GRIETA). Aparece en `at` (`useStageCue`); sin `at`, está desde el cuadro 1. `place` lo ubica en el spot (`top-left` por defecto, `top`, `center`, `bottom-right`...) y `tone` le da el color: `solid`, `line`, `accent` o `alert` (rojo, para lo que se rompe).
+- **`<Board nodes edges events packets icons width height>`:** un plano que crece, como el del Reel de system design. Los nodos (`{ id, x, y, label, at }`) aparecen en su `at`. Los `events` (`{ at, node, state, x, y, label }`) los cambian de estado (`ok`, `busy` con un pulso, `fail` con una X roja, `off` atenuado), los mueven o los renombran, y el cambio queda. Las flechas se dibujan cuando están sus dos puntas y siguen a los nodos. Los `packets` (`{ from, to, at, dur }`) viajan por una flecha. `icons` lleva un `<Logo>` oficial o un `<Icono>` por nodo. Va dentro de un `<Spot>` o del mundo, en sus propias coordenadas.
+- **El reloj:** `<Board>` y `<Label>` cuentan los segundos del lugar donde están. Dentro del `World`, el del video entero (sus `at` salen de `useStageCue`); dentro del `Visual` de una escena, el de la escena (`useCue`). `useClock()` da ese reloj para el movimiento propio.
+
+### El medidor
+
+`defineVideo({ meter })` pone a la derecha de la pestaña lo que `video.json → meter` dice que está en juego, y lo deja todo el video, con o sin escenario:
+
+```tsx
+meter: {
+  kind: "counter",            // counter, money, bar o slots
+  start: 1,                   // el valor del gancho (meter.from)
+  steps: [{ scene: "crece", word: "millones", value: 50_000_000 }],
+  // max: 5 para bar o slots; unit: "ms"; decimals: 2
+}
+```
+
+Cada paso cuenta desde el valor anterior hasta el nuevo cuando se dice su palabra (sin `word`, al empezar la escena). La etiqueta es `meter.label` de `video.json`, salvo que `defineVideo` traiga otra. `slots` dibuja `max` casillas que se llenan, con "?" en las vacías, como el "1/5" de los 5 plugins. El último paso es `meter.to`: se paga en el cierre. `video:storyboard` y `video:render` avisan si `video.json` tiene `meter` y `video.tsx` no lo muestra.
 - **El inspector** no cuenta como palabras los rótulos de hasta 3 palabras del mundo. Revisa su margen y su tamaño (12 px con el zoom) solo con la cámara quieta, y como aviso: al encuadrar un piso, el rótulo del piso vecino puede asomar en el borde.
 - **Sin `stage`,** cada escena es una lámina con su `SceneFrame`, como antes. Sirve para piezas cortas sin mundo, pero lo que pide la cuenta es el escenario.
 
@@ -83,7 +104,7 @@ El nivel de referencia es [docs/analisis-reels-2026-10-22.md](../../docs/analisi
 - **El primer cuadro es un objeto que se mueve**, no un título: el monitor que se enciende, la tecla en macro, la batería que baja. El gancho va como rótulo encima. El inspector avisa si la escena 1 abre con el título de `SceneFrame`.
 - **Algo cambia cada 2 s** como máximo (el inspector lo mide). La cámara y el `drift` ayudan, pero el cambio que importa es el del mundo: lo que la voz está diciendo.
 - **Fuera de los subtítulos, como mucho 6 palabras** a la vez. Los rótulos del mundo son de 1 a 3 palabras.
-- **El medidor** (`meter`) se planta en el gancho y se paga en el cierre.
+- **El medidor** (`meter`) se planta en el gancho y se paga en el cierre: `defineVideo({ meter })`, ver [El medidor](#el-medidor).
 - **El cierre se puede capturar:** una tabla, una pila o un ciclo que resume el video y que alguien guardaría.
 - **Una línea que se lee** queda unos 0,3 s por palabra desde que está completa. El ritmo sale del movimiento, no de quitar el texto antes de tiempo.
 - **Las cosas aparecen una por una,** con clics, deslizamientos y tipeo simulados, en vez de entrar todas juntas.

@@ -3,6 +3,7 @@ import { useCurrentFrame, useVideoConfig } from "remotion";
 import type { Tone } from "../../carousel/src/ui/index.tsx";
 import { captionPages } from "./captions.ts";
 import type { CaptionStyle } from "./kit/index.ts";
+import { formatMeter, type MeterDef } from "./kit/meter.ts";
 import type { WordTiming } from "./timeline.ts";
 
 /*
@@ -135,6 +136,44 @@ export function ChapterBar({
           </div>
         ))}
       </div>
+    </div>
+  );
+}
+
+/**
+ * The meter, a HUD at the right of the tab: what is at stake (video.json →
+ * meter), on screen the whole video. Like the tab, it is part of the frame
+ * (`data-frame`), so the inspector does not count it as text to read.
+ */
+// top-[10px] centers it on the tab's row (TAB_BOTTOM is 42); right-9 is FRAME_PAD.
+export function Meter({ def, label, value, tone = "base" }: { def: MeterDef; label: string; value: number; tone?: Tone }) {
+  const colors = FRAME_TONE[tone];
+  const kind = def.kind ?? "counter";
+  const max = def.max ?? 1;
+  return (
+    <div data-frame="medidor" className={`absolute right-9 top-[10px] z-20 flex flex-col items-end gap-1 ${colors.text}`}>
+      <span className="font-mono text-[11px] font-semibold uppercase leading-none tracking-[0.14em] opacity-70">{label}</span>
+      {kind === "slots" ? (
+        <span className="flex gap-1">
+          {Array.from({ length: max }, (_, i) => (
+            <span
+              key={i}
+              className={`flex h-[18px] w-[18px] items-center justify-center rounded-[4px] font-mono text-[11px] font-bold leading-none ${i < Math.round(value) ? `${colors.fill} text-bg` : "ring-1 ring-current/40"}`}
+            >
+              {i < Math.round(value) ? i + 1 : "?"}
+            </span>
+          ))}
+        </span>
+      ) : kind === "bar" ? (
+        <span className="flex items-center gap-2">
+          <span className="h-[8px] w-[92px] overflow-hidden rounded-full bg-current/15">
+            <span className={`block h-full rounded-full ${colors.fill}`} style={{ width: `${Math.max(0, Math.min(1, value / max)) * 100}%` }} />
+          </span>
+          <span className="font-mono text-[15px] font-bold tabular-nums leading-none">{formatMeter(value, def)}</span>
+        </span>
+      ) : (
+        <span className="font-mono text-[17px] font-bold tabular-nums leading-none">{formatMeter(value, def)}</span>
+      )}
     </div>
   );
 }

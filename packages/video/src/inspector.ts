@@ -138,6 +138,9 @@ export function inspectFrames(reports: ProbeReport[], fps: number, hookOnScreen:
 /** What the timeline says: captions for every word, timings in order, length. */
 export function inspectTimeline(timeline: Timeline, script: VideoScript): Issue[] {
   const issues: Issue[] = [];
+  if (script.meter && !timeline.meter) {
+    issues.push({ level: "aviso", message: "video.json tiene meter, pero el timeline no: corre video:prepare otra vez" });
+  }
   for (const scene of timeline.scenes) {
     const expected = script.scenes.find((s) => s.id === scene.id);
     if (!expected) continue;

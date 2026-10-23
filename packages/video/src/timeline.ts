@@ -49,6 +49,8 @@ export type Timeline = {
   voice?: { provider: string; model: string; voice: string };
   scenes: TimelineScene[];
   music?: TimelineMusic;
+  /** What is at stake (video.json → meter), for the label of the HUD meter. */
+  meter?: { label: string; from: string; to: string };
 };
 
 /** When the voice speaks across the whole video: [startMs, endMs] per word, scene offsets added. */

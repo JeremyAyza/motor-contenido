@@ -31,7 +31,7 @@ import { recentSimilar, REPEAT_DAYS } from "./topics.ts";
 import { asVideoError, VideoError } from "./errors.ts";
 import type { VideoDef } from "./kit/index.ts";
 import { assetCommand, flag, imageCommand, musicCommand } from "./media-commands.ts";
-import { inspectComposition, inspectFrames, inspectFreezes, inspectLoudness, inspectTimeline, measureLoudness, normalizeLoudness, overlayInterface, probeServer, reviewSheet, sheetFrames, cameraMoving } from "./inspector.ts";
+import { inspectComposition, inspectFrames, inspectFreezes, inspectLoudness, inspectTimeline, measureLoudness, normalizeLoudness, overlayInterface, probeServer, reviewSheet, sheetFrames, cameraMoving, type Issue } from "./inspector.ts";
 import { VideoMetricsSchema, writeMetricsReport } from "./metrics.ts";
 import { piecePalette } from "./palette.ts";
 import { reelWarnings, runReelChecks } from "./reel.ts";
@@ -282,7 +282,7 @@ function critique(args: string[]): void {
  * (palette, fonts, tab) and the files it draws (objects, the piece's images,
  * the fonts), copied to the public folder `out`.
  */
-function stageOf(dir: string, piece: string, art: Art, palette: Palette, out: string) {
+function stageOf(dir: string, piece: string, art: Art, palette: Palette, out: string, meter?: VideoScript["meter"]) {
   const captures = asVideoError(() => loadCaptures(dir));
   const pending = captures?.captures.filter((c) => !c.result).map((c) => c.id) ?? [];
   if (pending.length) throw new VideoError(`${CAPTURES_FILE}: ${pending.join(", ")} did not run yet. Run: npm run video:capture -- content/${piece}`);
@@ -303,6 +303,7 @@ function stageOf(dir: string, piece: string, art: Art, palette: Palette, out: st
     },
     faces: copyFonts(art.fonts, join(out, "fonts")),
     tab: tabOf(art, piece),
+    ...(meter ? { meter } : {}),
     ...(captures ? { captures: Object.fromEntries(captures.captures.map((c) => [c.id, { about: c.about, ...c.result! }])) } : {}),
   };
 }
@@ -377,7 +378,7 @@ async function prepare(args: string[]): Promise<void> {
   }
 
   const timeline: Timeline = {
-    ...stageOf(dir, piece, art, palette, out),
+    ...stageOf(dir, piece, art, palette, out, videoScript.meter),
     brand: account,
     voice: { provider: provider.id, model: provider.model, voice },
     scenes,
@@ -414,7 +415,7 @@ async function storyboard(args: string[]): Promise<void> {
     const durationMs = Math.round((words.at(-1)?.endMs ?? 0) + (i === scenesToShow.length - 1 ? END_TAIL_MS : TAIL_MS));
     return { id: scene.id, durationMs, words, sfx: [] };
   });
-  const timeline: Timeline = { ...stageOf(dir, piece, art, palette, out), brand: loadAccount("dev"), scenes };
+  const timeline: Timeline = { ...stageOf(dir, piece, art, palette, out, videoScript.meter), brand: loadAccount("dev"), scenes };
   writeFileSync(join(out, "timeline.json"), JSON.stringify(timeline, null, 2));
   console.log(`${piece}: storyboard of ${scenes.length} scene(s), ${(timelineMs(timeline) / 1000).toFixed(1)} s estimated, art direction ${art.direction} (${from})`);
 
@@ -435,10 +436,19 @@ async function storyboard(args: string[]): Promise<void> {
   const issues = [
     ...inspectFrames([...server.reports.values()], timeline.fps, videoScript.hooks[0].onScreen, cameraMoving(timeline)),
     ...asVideoError(() => inspectComposition(FFMPEG, mp4, timeline)),
+    ...videoWarnings(videoScript, video),
   ];
   const lines = issues.length ? issues.map((i) => `${i.level === "error" ? "✗" : "!"} ${i.message}`) : ["✓ Sin problemas"];
   console.log(`\nInspector (storyboard):\n${lines.map((l) => `  ${l}`).join("\n")}\n`);
   console.log(`Storyboard: ${sheet}\nSilent preview: ${mp4}`);
+}
+
+/** What the script approved that video.tsx has to show: the meter of the HUD. */
+function videoWarnings(videoScript: VideoScript, video: VideoDef): Issue[] {
+  if (videoScript.meter && !video.meter) {
+    return [{ level: "aviso", message: `video.json tiene meter ("${videoScript.meter.label}") y video.tsx no lo muestra: agrega defineVideo({ meter })` }];
+  }
+  return [];
 }
 
 function studio(args: string[]): void {
@@ -501,6 +511,7 @@ async function render(args: string[]): Promise<void> {
     ...asVideoError(() => inspectComposition(FFMPEG, output, timeline)),
     ...asVideoError(() => inspectFreezes(FFMPEG, output)),
     ...asVideoError(() => inspectLoudness(measureLoudness(FFMPEG, output))),
+    ...videoWarnings(videoScript, (await import(pathToFileURL(join(dir, "video.tsx")).href)).default as VideoDef),
   ];
   const lines = issues.length ? issues.map((i) => `${i.level === "error" ? "✗" : "!"} ${i.message}`) : ["✓ Sin problemas"];
   writeFileSync(join(dir, "out/video-inspector.txt"), `${lines.join("\n")}\n`);

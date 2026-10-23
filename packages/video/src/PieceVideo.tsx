@@ -7,10 +7,11 @@ import { AssetContext } from "../../carousel/src/ui/assets.ts";
 import { Slide, SlideContext } from "../../carousel/src/ui/index.tsx";
 import { MOTION_CSS } from "../../carousel/src/ui/motion.tsx";
 import { browserAssets } from "./assets-browser.ts";
-import { Captions, ChapterBar } from "./frame.tsx";
+import { Captions, ChapterBar, Meter } from "./frame.tsx";
 import { cameraAt, cameraTransform, DRIFT, resolveShots } from "./kit/camera.ts";
 import type { SceneDef, VideoDef } from "./kit/index.ts";
-import { CapturesContext, SceneContext, StageContext, type StageClock } from "./kit/scene.ts";
+import { meterValueAt, resolveMeter } from "./kit/meter.ts";
+import { CapturesContext, SceneContext, StageContext, WorldContext, type StageClock } from "./kit/scene.ts";
 import { CssMotion, VIDEO_MOTION_CSS } from "./motion.tsx";
 import { PIECES } from "./pieces.ts";
 import { Probe } from "./probe.tsx";
@@ -99,6 +100,7 @@ export function PieceVideo({ piece, timeline, inspect }: PieceProps) {
           {video.stage ? <StageVideo video={video} timeline={timeline} defs={defs} /> : <SlidesVideo video={video} timeline={timeline} defs={defs} />}
         </CapturesContext.Provider>
       </AssetContext.Provider>
+      {video.meter ? <MeterHud video={video} timeline={timeline} defs={defs} /> : null}
       {timeline.music ? <MusicBed timeline={timeline} /> : null}
       {inspect ? <Probe url={inspect} /> : null}
     </AbsoluteFill>
@@ -126,6 +128,19 @@ function SceneTracks({ video, timeline, defs, scene, index }: VideoProps & { sce
       ))}
     </>
   );
+}
+
+/** The HUD meter over the whole video, in the tone of the current scene. */
+function MeterHud({ video, timeline, defs }: VideoProps) {
+  const frame = useCurrentFrame();
+  const def = video.meter!;
+  const points = useMemo(() => resolveMeter(def, timeline.scenes), [def, timeline.scenes]);
+  const label = def.label ?? timeline.meter?.label;
+  if (!label) throw new Error("defineVideo({ meter }) needs a label, or video.json → meter");
+  const ms = (frame / timeline.fps) * 1000;
+  let index = 0;
+  for (let start = 0; index < timeline.scenes.length - 1 && ms >= start + timeline.scenes[index].durationMs; index++) start += timeline.scenes[index].durationMs;
+  return <Meter def={def} label={label} value={meterValueAt(def.start, points, ms)} tone={defs[index].tone ?? "base"} />;
 }
 
 /** Each scene is its own slide: a <Slide> per scene, with a cut between them. */
@@ -188,7 +203,9 @@ function StageVideo({ video, timeline, defs }: VideoProps) {
     <div data-stage="" className="absolute inset-0 overflow-hidden">
       <CssMotion>
         <div data-camera="" data-zoom={camera.zoom.toFixed(3)} className="absolute left-0 top-0" style={{ width: world.width, height: world.height, transform: cameraTransform(camera), transformOrigin: "0 0" }}>
-          <World />
+          <WorldContext.Provider value={true}>
+            <World />
+          </WorldContext.Provider>
         </div>
       </CssMotion>
     </div>

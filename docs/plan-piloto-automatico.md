@@ -60,6 +60,10 @@ Tamaño: grande.
 
 ### Fase 2: el kit del mundo
 
+**Hecha el 22 de octubre de 2026.** `<Label>`, `<Board>` y el medidor del HUD (`defineVideo({ meter })`, con `counter`, `money`, `bar` y `slots`) están en `@motor/video`, con su lógica pura en `kit/board.ts` y `kit/meter.ts` y sus tests. Se probaron en el storyboard de la demo: el medidor llena sus casillas en la palabra de cada piso, los rótulos aparecen en su palabra y el plano dibuja nodos, flechas, un paquete y la X roja. El rojo de `fail` y `alert` es fijo (`red-600`), no sale de la paleta: los colores con función de cada pieza quedan para cuando una lo pida.
+
+El borrador:
+
 - ~~**`<Spot>`**~~: hecho en la fase 1.
 - **`<Board>`:** un plano que crece. Nodos y flechas que aparecen por cue, cambian de estado (`ok`, `busy`, `fail` con una X roja, `off`), se reacomodan con un `spring` (de 1 servidor a 4) y llevan paquetes que viajan por las flechas.
 - **`<Meter>`:** el medidor del HUD, que vive todo el video. Su valor cambia en palabras de cualquier escena (`defineVideo({ meter })`) y tiene cuatro formas: contador (1 → 50 millones), barra o batería, casillas que se llenan (1/5) y cuenta en dinero.

@@ -1,4 +1,5 @@
 import { createContext, useContext } from "react";
+import { useCurrentFrame, useVideoConfig } from "remotion";
 import { normalizeWord } from "../../../media/src/words.ts";
 import type { Timeline, TimelineScene } from "../timeline.ts";
 import type { SpotBox } from "./camera.ts";
@@ -23,6 +24,22 @@ export type StageClock = {
 };
 
 export const StageContext = createContext<StageClock | null>(null);
+
+/** True inside a stage's World: there, time is the whole video's. */
+export const WorldContext = createContext(false);
+
+/**
+ * Seconds on the clock of where the component is: the whole video's inside a
+ * stage's World, the scene's inside a scene's Visual. <Board> and <Label>
+ * use it, so their `at` is useStageCue() in the world and useCue() in a scene.
+ */
+export function useClock(): number {
+  const inWorld = useContext(WorldContext);
+  const stage = useContext(StageContext);
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  return inWorld && stage ? stage.ms / 1000 : frame / fps;
+}
 
 /**
  * What a command of captures.json printed when video:capture ran it: its

@@ -1,6 +1,7 @@
 import type { ComponentType } from "react";
 import type { Tone } from "../../../carousel/src/ui/index.tsx";
 import type { Shot, SpotBox } from "./camera.ts";
+import type { MeterDef } from "./meter.ts";
 
 /**
  * What a piece's video.tsx uses (`@motor/video`). It imports nothing that
@@ -92,6 +93,12 @@ export type VideoDef = {
   chapters?: boolean;
   /** The world of the video, with its camera. Without it, each scene is its own slide. */
   stage?: StageDef;
+  /**
+   * The meter of the HUD, at the right of the tab: what video.json → meter
+   * says is at stake, from `start` at the hook through `steps` (a value when
+   * a word is said) to the close. Works with and without a stage.
+   */
+  meter?: MeterDef;
   scenes: SceneDef[];
 };
 
@@ -101,7 +108,11 @@ export const defineVideo = (video: VideoDef) => video;
 
 export { useCapture, useCue, useStage, useStageCue } from "./scene.ts";
 export type { Shot, SpotBox } from "./camera.ts";
-export { Spot } from "./world.tsx";
+export type { MeterDef, MeterKind, MeterStep } from "./meter.ts";
+export { Board, Label, Spot } from "./world.tsx";
+export type { LabelPlace, LabelTone } from "./world.tsx";
+export type { BoardEdge, BoardEvent, BoardNode, BoardPacket, NodeState } from "./board.ts";
+export { useClock } from "./scene.ts";
 export { DRAWING_WIDTH, SceneFrame } from "./scene-frame.tsx";
 export { AppCard, BrowserBar, captureLines, Chat, Chip, DataTable, Diff, Phone, Terminal } from "./stage.tsx";
 export type { ChatMessage, DataRow, DiffLine, TerminalLine } from "./stage.tsx";
