@@ -32,10 +32,11 @@ Alrededor del carrusel hay dos flujos más: el [radar](workflows/radar.md) (qué
 
 ## Contexto
 
-El porqué de las decisiones, el estado y los próximos pasos están en [docs/contexto.md](docs/contexto.md). Léelo al empezar un chat nuevo. Hay tres planes:
+El porqué de las decisiones, el estado y los próximos pasos están en [docs/contexto.md](docs/contexto.md). Léelo al empezar un chat nuevo. Hay cuatro planes:
 - el de mejoras del contenido, en [docs/plan-carrusel-9-5.md](docs/plan-carrusel-9-5.md);
 - el de recursos visuales y movimiento, en [docs/plan-visuales.md](docs/plan-visuales.md);
-- el de videos, en [docs/plan-videos.md](docs/plan-videos.md).
+- el de videos, en [docs/plan-videos.md](docs/plan-videos.md);
+- el de jacket.dev en piloto automático (escenario con cámara, kit del mundo, avatar y rutina semanal), en [docs/plan-piloto-automatico.md](docs/plan-piloto-automatico.md).
 
 ## Estructura
 

@@ -2,6 +2,8 @@
 
 Referente visual que eligió Jeremy el 20 de octubre de 2026 para los Reels. Se analizó con `ig-viral`, leyendo a ritmo humano en el navegador integrado, sin sesión y sin scraping. Los datos están en [swipe/2026-10-reels-rick-theengineer.tsv](swipe/2026-10-reels-rick-theengineer.tsv) y el ranking de la herramienta en [swipe-reels.md](swipe-reels.md).
 
+La continuación, con 6 Reels de referencia, 4 cuentas más, el perfil y los cambios al núcleo del motor, está en [analisis-reels-2026-10-22.md](analisis-reels-2026-10-22.md).
+
 ## La cuenta
 
 - **507 mil seguidores** al 20 de octubre de 2026. Según Jeremy, su primer video es de marzo.

@@ -108,6 +108,9 @@
     "date": "2026-10-21"
   },
   "gateB": {
-    "approved": false
+    "approved": true,
+    "date": "2026-10-22",
+    "video": "82edc48193448f512296f93df8ae61f7a27a65aca4a62edd4f1a29053fdd8286",
+    "notes": "Jeremy lo publicó a mano el 21 de octubre (https://www.instagram.com/reel/Dex304ih0xy/) y lo dio por completado en el chat el 22 de octubre. El sha256 es el de out/video.mp4 de ese día."
   }
 }

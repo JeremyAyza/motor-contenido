@@ -1,0 +1,28 @@
+# Reels de referentes y de @jacket.dev, leídos el 2026-10-22 a ritmo humano: vistas en la pestaña de Reels de cada perfil (Chrome de Jeremy, con su sesión),
+# texto y duración en la página de cada Reel, y gancho dicho transcrito de los subtítulos de los primeros 3 s (reproductor incrustado, sin sesión).
+# median = mediana de las últimas 12 publicaciones de la pestaña de Reels de cada cuenta (6 en @jacket.dev). length = segundos.
+# Gancho dicho (subtítulos de 0 a 3 s): PHP de Rick, el stack de $0, teclado, Uber, oficina de IA y los 5 plugins. En el resto va la primera línea del texto del post.
+# "…" al principio o al final = palabras que no se alcanzaron a leer.
+# El de PHP de Rick tenía horas al leerlo: sus vistas todavía crecían.
+account	followers	median	views	hook	length
+@rick.theengineer	516000	283000	640000	PHP is facing one of its most serious …	147
+@rick.theengineer	516000	283000	597000	Every time you hit send on WhatsApp, your message goes on a journey most people never see.	173
+@rick.theengineer	516000	283000	211000	Linux runs most of the internet, every Android phone, and the world's top 500 supercomputers. So what is it, really?	147
+@rick.theengineer	516000	283000	159000	Every game you've ever played is lying to you	136
+@rick.theengineer	516000	283000	129000	Your browser just used three different versions of HTTP to load one YouTube page.	161
+@rick.theengineer	516000	283000	119000	Your eyes don't shoot rays… but your graphics card does.	135
+@peterstewiestartup	85100	21150	192000	Here are five tools you can use to ship your startup for $0 a month.	143
+@peterstewiestartup	85100	21150	138000	Alex's co-founder quit after six months… and still owns 50% of the company.
+@resultaaquee	61900	331000	3500000	… del teclado de tu iPhone es más pequeña que tu pulgar. Y aun así aciertas casi siempre.	84
+@resultaaquee	61900	331000	516000	¿Por qué Uber no te manda el coche más cercano? Te lo explico con dos personas.	62
+@sebastiankra.ia	25700	6150	32700	Tu IA no es tonta. Tiene memoria de pez.
+@sebastiankra.ia	25700	6150	21700	Tu IA no lee letras. Lee fichas.
+@sebastiankra.ia	25700	6150	11500	Este vídeo no lo he hecho yo.	42
+@valentinpanizza	4850	3293	70000	No uses Claude Code si no instalaste estos 5 plugins.	61
+@valentinpanizza	4850	3293	4009	… acaba de matar a los gestores de redes sociales.	28
+@jacket.dev	12	194	1287	El ray tracing sigue la luz al revés. Y eso explica qué hace de verdad tu tarjeta RTX.	60
+@jacket.dev	12	194	280	Deja de pegar errores: tu agente los lee. Él solo va del issue al pull request.	43
+@jacket.dev	12	194	234	Anthropic reemplazó a Git con 30.000 merges diarios. Claude escribe tanto código que rompió su flujo.	45
+@jacket.dev	12	194	153	Tu jefe pide código: no abras VS Code. Te dice: «haz una plataforma de pedidos, sencilla pero escalable». Y se va.	90
+@jacket.dev	12	194	152	Todos dicen que PHP murió: es tu error. Crees que no te afecta.	97
+@jacket.dev	12	194	137	Git no sube tu proyecto entero. Tu git push tarda un segundo. Adentro, seis cosas.	93
