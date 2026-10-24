@@ -188,6 +188,7 @@ function StageVideo({ video, timeline, defs }: VideoProps) {
   let index = 0;
   let start = 0;
   while (index < durations.length - 1 && ms >= start + durations[index]) start += durations[index++];
+  const camera = cameraAt(shots, durations, ms, { drift: stage.drift ?? DRIFT });
   const clock: StageClock = {
     ms,
     sceneIndex: index,
@@ -196,8 +197,9 @@ function StageVideo({ video, timeline, defs }: VideoProps) {
     sceneDurationMs: durations[index],
     scenes: timeline.scenes,
     spots: world.spots,
+    world: { width: world.width, height: world.height },
+    camera,
   };
-  const camera = cameraAt(shots, durations, ms, { drift: stage.drift ?? DRIFT });
   const { World } = stage;
   const underlay = (
     <div data-stage="" className="absolute inset-0 overflow-hidden">

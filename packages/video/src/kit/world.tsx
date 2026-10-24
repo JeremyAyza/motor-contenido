@@ -1,6 +1,7 @@
 import type { CSSProperties, ReactNode } from "react";
+import { Img } from "remotion";
 import { edgeDrawn, nodeAt, packetAt, type BoardEdge, type BoardEvent, type BoardNode, type BoardPacket, type NodeState } from "./board.ts";
-import { cx } from "../../../carousel/src/ui/index.tsx";
+import { cx, useAssets } from "../../../carousel/src/ui/index.tsx";
 import { useClock, useStage } from "./scene.ts";
 
 /**
@@ -17,6 +18,51 @@ export function Spot({ id, className, style, children }: { id: string; className
     <div data-spot={id} className={cx("absolute", className)} style={{ left: box.x, top: box.y, width: box.w, height: box.h, ...style }}>
       {children}
     </div>
+  );
+}
+
+type Box = { x: number; y: number; w: number; h: number };
+
+/**
+ * An illustration of the world (video:image, with the account's world style)
+ * laid on the stage, in the world's coordinates: the whole world by default.
+ * - `clip` shows only a box of it (world coordinates): two generations that
+ *   only differ in one place (the doors closed and open) cross-fade there.
+ * - `depth` gives parallax under the camera: 0 moves with the world, a
+ *   negative value is farther (a sky, a backdrop) and a positive one nearer.
+ * Generated images carry no logos or brand interfaces: those go on top with
+ * <Logo> and their official file, never under anything.
+ */
+export function Plate({
+  src,
+  box,
+  clip,
+  opacity = 1,
+  depth = 0,
+  className,
+}: {
+  /** Relative to the piece folder: "img/hotel.png". */
+  src: string;
+  box?: Box;
+  clip?: Box;
+  opacity?: number;
+  depth?: number;
+  className?: string;
+}) {
+  const { world, camera } = useStage();
+  const url = useAssets().image(src);
+  const b = box ?? { x: 0, y: 0, w: world.width, h: world.height };
+  const shift = { x: -(camera.x - world.width / 2) * depth, y: -(camera.y - world.height / 2) * depth };
+  const clipPath = clip ? `inset(${clip.y - b.y}px ${b.x + b.w - clip.x - clip.w}px ${b.y + b.h - clip.y - clip.h}px ${clip.x - b.x}px)` : undefined;
+  if (opacity <= 0) return null;
+  return (
+    <Img
+      src={url}
+      alt=""
+      data-plate={src}
+      className={cx("absolute max-w-none select-none", className)}
+      style={{ left: b.x, top: b.y, width: b.w, height: b.h, opacity, clipPath, transform: depth ? `translate(${shift.x}px, ${shift.y}px)` : undefined }}
+    />
   );
 }
 

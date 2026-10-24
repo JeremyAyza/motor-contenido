@@ -1,6 +1,6 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { basename, extname, join, resolve } from "node:path";
-import { REPO_ROOT } from "../../brand/src/index.ts";
+import { loadAccount, REPO_ROOT } from "../../brand/src/index.ts";
 import {
   addToCatalog,
   CHROMA_PROMPT,
@@ -66,16 +66,31 @@ function refuseOverwrite(file: string, args: string[]): void {
 }
 
 /**
+ * The account's world style (accounts/dev.json → world.style) plus the piece's
+ * palette, so every image of every piece looks like the same world.
+ */
+function worldStyle(dir: string): string {
+  const style = loadAccount("dev").world?.style ?? "";
+  const videoFile = join(dir, "video.json");
+  const palette = existsSync(videoFile) ? JSON.parse(readFileSync(videoFile, "utf8")).art?.palette : undefined;
+  if (!palette) return style;
+  const colors = Object.entries(palette).map(([k, v]) => `${k} ${v}`).join(", ");
+  return `${style} Build the colors around this palette: ${colors}.`.trim();
+}
+
+/**
  * npm run video:image -- content/<piece> --name <name> --prompt "..."
- *   [--ref img/a.png,img/b.png] [--aspect 1:1] [--size 1K] [--chroma] [--replace]
+ *   [--ref img/a.png,img/b.png] [--aspect 1:1] [--size 1K] [--chroma] [--no-style] [--replace]
  * Writes content/<piece>/img/<name>.png. With --chroma the model draws on flat
- * green and the green is keyed out, for a transparent PNG.
+ * green and the green is keyed out, for a transparent PNG. The account's world
+ * style is always added, unless --no-style.
  */
 export async function imageCommand(args: string[], ffmpeg: string): Promise<void> {
   const dir = pieceArg(args[0]);
   const name = nameArg(args);
   const chroma = args.includes("--chroma");
-  const prompt = `${promptArg(args)}${chroma ? ` ${CHROMA_PROMPT}` : ""}`;
+  const style = args.includes("--no-style") ? "" : worldStyle(dir);
+  const prompt = `${promptArg(args)}${style ? ` ${style}` : ""}${chroma ? ` ${CHROMA_PROMPT}` : ""}`;
   const refs = (flag(args, "--ref") ?? "").split(",").filter(Boolean);
   const references: ImageReference[] = refs.map((ref) => {
     const file = join(dir, ref);

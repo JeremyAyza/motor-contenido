@@ -109,7 +109,7 @@ export const defineVideo = (video: VideoDef) => video;
 export { useCapture, useCue, useStage, useStageCue } from "./scene.ts";
 export type { Shot, SpotBox } from "./camera.ts";
 export type { MeterDef, MeterKind, MeterStep } from "./meter.ts";
-export { Board, Label, Spot } from "./world.tsx";
+export { Board, Label, Plate, Spot } from "./world.tsx";
 export type { LabelPlace, LabelTone } from "./world.tsx";
 export type { BoardEdge, BoardEvent, BoardNode, BoardPacket, NodeState } from "./board.ts";
 export { useClock } from "./scene.ts";

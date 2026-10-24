@@ -70,7 +70,7 @@ const USAGE = `Usage:
       The style is the account's (accounts/dev.json → voice.style) unless --style says otherwise.
   npm run video:schema
       Writes schemas/video.schema.json and schemas/video-metrics.schema.json.
-  npm run video:image -- content/<piece> --name <name> --prompt "..." [--ref img/a.png] [--aspect 1:1] [--size 1K] [--chroma] [--replace]
+  npm run video:image -- content/<piece> --name <name> --prompt "..." [--ref img/a.png] [--aspect 1:1] [--size 1K] [--chroma] [--no-style] [--replace]
       Generates content/<piece>/img/<name>.png with the image provider of media.config.json.
   npm run video:music -- content/<piece> --name <name> --prompt "..." [--replace]
       Generates content/<piece>/audio/<name>.mp3, a bed for music: { file } in video.tsx.

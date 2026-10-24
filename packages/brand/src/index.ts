@@ -25,6 +25,11 @@ export const AccountBrandSchema = z.object({
     voiceId: z.string().nullable(),
     style: z.string().nullable(),
   }),
+  world: z
+    .object({
+      style: z.string().min(1).describe("Trozo de prompt que video:image suma a cada imagen, para que todas parezcan del mismo mundo"),
+    })
+    .optional(),
 });
 export type AccountBrand = z.infer<typeof AccountBrandSchema>;
 

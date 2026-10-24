@@ -2,7 +2,7 @@ import { createContext, useContext } from "react";
 import { useCurrentFrame, useVideoConfig } from "remotion";
 import { normalizeWord } from "../../../media/src/words.ts";
 import type { Timeline, TimelineScene } from "../timeline.ts";
-import type { SpotBox } from "./camera.ts";
+import type { CameraState, SpotBox } from "./camera.ts";
 
 export const SceneContext = createContext<TimelineScene | null>(null);
 export const CapturesContext = createContext<Timeline["captures"]>(undefined);
@@ -21,6 +21,9 @@ export type StageClock = {
   sceneDurationMs: number;
   scenes: TimelineScene[];
   spots: Record<string, SpotBox>;
+  /** The world's size and where the camera is now: <Plate depth> moves against it. */
+  world: { width: number; height: number };
+  camera: CameraState;
 };
 
 export const StageContext = createContext<StageClock | null>(null);

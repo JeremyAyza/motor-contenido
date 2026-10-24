@@ -11,5 +11,8 @@
     "provider": "gemini",
     "voiceId": "Puck",
     "style": "Español latinoamericano neutro. Cercano y con energía, como quien le explica tecnología a un amigo. Ritmo tranquilo, con una pausa breve después de cada frase."
+  },
+  "world": {
+    "style": "Isometric 3D illustration in the style of a premium tech explainer: true orthographic isometric camera, soft global illumination with a warm key light from the upper left, gentle ambient occlusion and soft contact shadows, matte clay-like materials with a fine grain, slightly rounded bevelled edges, crisp clean silhouettes, small lived-in details that make each place recognizable at a glance. Saturated but harmonious colors. No text, no letters, no numbers, no logos, no brand interfaces, no watermark."
   }
 }
