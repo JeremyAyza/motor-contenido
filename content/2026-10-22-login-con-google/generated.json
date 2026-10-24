@@ -1,0 +1,58 @@
+[
+  {
+    "file": "img/hotel.png",
+    "kind": "image",
+    "provider": "gemini",
+    "model": "gemini-nano-banana-2.1",
+    "prompt": "A small boutique hotel shown as an isometric cutaway (the front walls are removed so we look inside), three stacked levels floating alone on a plain flat deep navy background (#13233A), with nothing else around the building. Top level: a hotel corridor with five room doors in a row along the back wall, each door with a blank brass plate and a small key-card reader with a red light, a patterned runner carpet and wall sconces. Middle level: the lobby with a long wooden reception desk whose front panel is plain and empty, a service bell, a key-card encoder machine, a rack of blank key cards on the back wall, a plant and warm pendant lamps. Bottom level: the entrance at street level with glass double doors, a welcome mat, a bench and a potted tree; the sidewalk in front is empty. Thick floor slabs clearly separate the levels. Warm golden interior light glowing against the night-blue background. No people anywhere. Isometric 3D illustration in the style of a premium tech explainer: true orthographic isometric camera, soft global illumination with a warm key light from the upper left, gentle ambient occlusion and soft contact shadows, matte clay-like materials with a fine grain, slightly rounded bevelled edges, crisp clean silhouettes, small lived-in details that make each place recognizable at a glance. Saturated but harmonious colors. No text, no letters, no numbers, no logos, no brand interfaces, no watermark. Build the colors around this palette: bg #13233A, ink #F6F1E7, accent #FF8A3D, accentInk #1A1208, surface #1E3250, muted #A9B4C4.",
+    "references": [],
+    "sha256": "2e5f1768864fdd55741925d9e958cad8976a56a3e4f88c5204f186fc78cbd2e9",
+    "createdAt": "2026-10-24T01:05:18.331Z"
+  },
+  {
+    "file": "img/hotel-base.png",
+    "kind": "image",
+    "provider": "gemini",
+    "model": "gemini-nano-banana-2.1",
+    "prompt": "Edit this exact illustration, keeping the same camera, building, layout, lighting and style. Changes only: the top corridor has exactly five identical room doors evenly spaced in a row (all closed, each with a blank brass plate and a small key-card reader with a red light); the welcome mat at the entrance is plain with no letters; remove the small sign next to the fire extinguisher. Isometric 3D illustration in the style of a premium tech explainer: true orthographic isometric camera, soft global illumination with a warm key light from the upper left, gentle ambient occlusion and soft contact shadows, matte clay-like materials with a fine grain, slightly rounded bevelled edges, crisp clean silhouettes, small lived-in details that make each place recognizable at a glance. Saturated but harmonious colors. No text, no letters, no numbers, no logos, no brand interfaces, no watermark. Build the colors around this palette: bg #13233A, ink #F6F1E7, accent #FF8A3D, accentInk #1A1208, surface #1E3250, muted #A9B4C4.",
+    "references": [
+      "img/hotel.png"
+    ],
+    "sha256": "2ab3a3f818664b84501a5f50180ef831d43cfa034b2f78e4c75a61a328ee8f6c",
+    "createdAt": "2026-10-24T01:06:28.857Z"
+  },
+  {
+    "file": "img/hotel-abierto.png",
+    "kind": "image",
+    "provider": "gemini",
+    "model": "gemini-nano-banana-2.1",
+    "prompt": "Edit this exact illustration, keeping every pixel of the camera, building, furniture, lighting and style the same. Change only the top corridor: the three doors on the long back wall swing open inward, each with warm golden light spilling out of the room onto the carpet, and the small card reader next to each of those three doors glows green instead of red. The door on the right side wall stays closed with its red light. Nothing else changes. Isometric 3D illustration in the style of a premium tech explainer: true orthographic isometric camera, soft global illumination with a warm key light from the upper left, gentle ambient occlusion and soft contact shadows, matte clay-like materials with a fine grain, slightly rounded bevelled edges, crisp clean silhouettes, small lived-in details that make each place recognizable at a glance. Saturated but harmonious colors. No text, no letters, no numbers, no logos, no brand interfaces, no watermark. Build the colors around this palette: bg #13233A, ink #F6F1E7, accent #FF8A3D, accentInk #1A1208, surface #1E3250, muted #A9B4C4.",
+    "references": [
+      "img/hotel-base.png"
+    ],
+    "sha256": "520b55109eb965537417ade7caef7c2f4c83a39d47fa1d1f17b9752eb8e17568",
+    "createdAt": "2026-10-24T01:07:56.004Z"
+  },
+  {
+    "file": "img/diego.png",
+    "kind": "image",
+    "provider": "gemini",
+    "model": "gemini-nano-banana-2.1",
+    "prompt": "A single small character for the same isometric world as the reference image, at the same scale and camera angle: a friendly young man with short dark hair, a teal hoodie, dark jeans and white sneakers, standing and looking down at the smartphone he holds in both hands, his body turned three-quarters toward the upper left. Full body, centered, nothing else in the image. Isometric 3D illustration in the style of a premium tech explainer: true orthographic isometric camera, soft global illumination with a warm key light from the upper left, gentle ambient occlusion and soft contact shadows, matte clay-like materials with a fine grain, slightly rounded bevelled edges, crisp clean silhouettes, small lived-in details that make each place recognizable at a glance. Saturated but harmonious colors. No text, no letters, no numbers, no logos, no brand interfaces, no watermark. Build the colors around this palette: bg #13233A, ink #F6F1E7, accent #FF8A3D, accentInk #1A1208, surface #1E3250, muted #A9B4C4. Draw it on a completely flat, pure green background (#00FF00), with no shadows, gradients, texture or ground on the background, and no green on the subject.",
+    "references": [
+      "img/hotel-base.png"
+    ],
+    "sha256": "d1410bc0398b92cf821a9ef015c4d45437c976871c123991c286175a5802fd7d",
+    "createdAt": "2026-10-24T01:08:52.408Z"
+  },
+  {
+    "file": "audio/cama.mp3",
+    "kind": "music",
+    "provider": "gemini",
+    "model": "lyria-3-clip-preview",
+    "prompt": "Warm, curious instrumental bed for a short tech explainer set in a cozy hotel at night: soft muted plucks, mellow electric piano, light brushed percussion with a gentle ticking pulse, warm bass, 95 bpm, playful and a little mysterious, no vocals, no big build-ups or drops, mixed low so a voice sits on top.",
+    "references": [],
+    "sha256": "6e79385d93640d8de47c9756544875e0607a6d694730a05ab608dc107df94889",
+    "createdAt": "2026-10-24T01:15:28.073Z"
+  }
+]

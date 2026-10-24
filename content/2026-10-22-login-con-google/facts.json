@@ -1,0 +1,70 @@
+{
+  "topic": "login-con-google",
+  "checkedAt": "2026-10-22",
+  "facts": [
+    {
+      "claim": "En OAuth 2.0, en vez de usar las credenciales del dueño de la cuenta para acceder a lo protegido, la app obtiene un token de acceso. El ejemplo del estándar: la usuaria le da acceso a sus fotos a un servicio de impresión sin compartirle su usuario ni su contraseña.",
+      "source": "RFC 6749, The OAuth 2.0 Authorization Framework, sección 1",
+      "url": "https://datatracker.ietf.org/doc/html/rfc6749#section-1",
+      "primary": true
+    },
+    {
+      "claim": "Un token de acceso es una cadena que representa una autorización entregada a la app (RFC 6749, sección 1.4).",
+      "source": "RFC 6749, sección 1.4 (Access Token)",
+      "url": "https://datatracker.ietf.org/doc/html/rfc6749#section-1.4",
+      "primary": true
+    },
+    {
+      "claim": "En OAuth 2.0 con Google, Google se encarga de autenticar al usuario, de elegir la sesión y de pedir su consentimiento.",
+      "source": "Google for Developers, Using OAuth 2.0 to Access Google APIs",
+      "url": "https://developers.google.com/identity/protocols/oauth2",
+      "primary": true
+    },
+    {
+      "claim": "Al presionar el botón de Acceder con Google, das tu consentimiento para compartir con la app el nombre, el correo electrónico y la foto de perfil de tu Cuenta de Google.",
+      "source": "Ayuda de Cuenta de Google, Acceder con Google",
+      "url": "https://support.google.com/accounts/answer/12849458?hl=es-419",
+      "primary": true
+    },
+    {
+      "claim": "En el acceso con OpenID Connect de Google, el parámetro scope empieza con openid y suma profile, email o ambos. Si está email, el ID token incluye el correo.",
+      "source": "Google for Developers, OpenID Connect",
+      "url": "https://developers.google.com/identity/openid-connect/openid-connect",
+      "primary": true
+    },
+    {
+      "claim": "Un ID token es un JWT (JSON Web Token): un objeto JSON firmado criptográficamente y codificado en Base64.",
+      "source": "Google for Developers, OpenID Connect (Obtain user information from the ID token)",
+      "url": "https://developers.google.com/identity/openid-connect/openid-connect",
+      "primary": true
+    },
+    {
+      "claim": "Para validar el ID token, la app verifica la firma, que el emisor (iss) sea accounts.google.com, que el destinatario (aud) sea su propio client ID y que no haya vencido (exp). El campo sub identifica a la cuenta de Google y nunca se reutiliza.",
+      "source": "Google for Developers, Verify the Google ID token on your server side",
+      "url": "https://developers.google.com/identity/gsi/web/guides/verify-google-id-token",
+      "primary": true
+    },
+    {
+      "claim": "El parámetro scope controla el conjunto de recursos y operaciones que permite un token de acceso. Con la autorización incremental, la app pide más scopes a medida que los necesita.",
+      "source": "Google for Developers, Using OAuth 2.0 to Access Google APIs y Using OAuth 2.0 for Web Server Applications",
+      "url": "https://developers.google.com/identity/protocols/oauth2/web-server",
+      "primary": true
+    },
+    {
+      "claim": "Los tokens de acceso de Google tienen una vida limitada. La respuesta del servidor dice en expires_in cuántos segundos le quedan.",
+      "source": "Google for Developers, Using OAuth 2.0 to Access Google APIs",
+      "url": "https://developers.google.com/identity/protocols/oauth2",
+      "primary": true
+    },
+    {
+      "claim": "En myaccount.google.com/linkedapps, con el filtro Acceder con Google, eliges la app y tocas Dejar de usar Acceder con Google. Eso no borra tus datos en la app.",
+      "source": "Ayuda de Cuenta de Google, Administra las vinculaciones entre tu Cuenta de Google y otros desarrolladores",
+      "url": "https://support.google.com/accounts/answer/13533235?hl=es-419",
+      "primary": true
+    }
+  ],
+  "illustrative": [
+    "Diego y la app de recetas son un ejemplo inventado: no son una persona ni una app real.",
+    "El hotel, la recepción, la tarjeta y las puertas son una metáfora del flujo, no una interfaz de Google."
+  ]
+}

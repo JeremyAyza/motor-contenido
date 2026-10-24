@@ -1,0 +1,118 @@
+{
+  "$schema": "../../schemas/video.schema.json",
+  "format": "explicado",
+  "topic": "Qué pasa cuando inicias sesión con Google",
+  "world": "Un hotel en corte: en la recepción (Google) se revisa la contraseña; la app solo recibe una tarjeta (el token) firmada, que abre las puertas que aceptaste y vence.",
+  "meter": {
+    "label": "Datos para la app",
+    "from": "0",
+    "to": "3"
+  },
+  "cover": {
+    "scene": "puertas"
+  },
+  "hooks": [
+    {
+      "said": "Con Google, la app no sabe tu contraseña.",
+      "onScreen": "Tu app tiene una tarjeta",
+      "formula": 30
+    },
+    {
+      "said": "Iniciar sesión con Google no le da tu contraseña a nadie.",
+      "onScreen": "Tu contraseña no viaja",
+      "formula": 29
+    },
+    {
+      "said": "Tocas Continuar con Google y en un segundo pasan cuatro cosas.",
+      "onScreen": "Un toque, cuatro pasos",
+      "formula": 28
+    }
+  ],
+  "scenes": [
+    {
+      "id": "gancho",
+      "say": "Con Google, la app no sabe tu contraseña. Tiene una tarjeta de hotel. Diego toca Continuar con Google en una app de recetas. Mira lo que pasa.",
+      "see": "El hotel entero en corte: la recepción abajo, un pasillo con puertas arriba, y el teléfono de Diego en la entrada con el botón de Continuar con Google",
+      "resource": "metafora"
+    },
+    {
+      "id": "recepcion",
+      "say": "La app no le pide la contraseña. Lo manda a la recepción, que es Google. Ahí Diego escribe su contraseña. Y es Google el que la revisa, no la app.",
+      "see": "La cámara baja a la recepción con el logo oficial de Google en el mostrador; Diego escribe su contraseña ahí y la app espera afuera",
+      "resource": "metafora"
+    },
+    {
+      "id": "permiso",
+      "say": "Antes, Google le muestra lo que pide la app. Su nombre, su correo y su foto de perfil. Diego acepta. Ese es el permiso: en OAuth se llama scope.",
+      "see": "Una hoja de permiso en el mostrador con tres casillas que se marcan una por una: nombre, correo y foto; el medidor llena sus tres casillas",
+      "resource": "metafora"
+    },
+    {
+      "id": "tarjeta",
+      "say": "Entonces Google le entrega a la app un token. Es como la tarjeta de una habitación. Dice quién es Diego. Su contraseña no va adentro.",
+      "see": "La tarjeta viaja de la recepción al teléfono; un rótulo muestra lo que lleva (nombre, correo, foto) y la contraseña tachada no está",
+      "resource": "metafora"
+    },
+    {
+      "id": "firma",
+      "say": "¿Y si alguien falsifica la tarjeta? No puede: viene firmada por Google. La app revisa la firma y que la emitió Google. Que sea para ella. Y que no haya vencido.",
+      "see": "Acercamiento a la tarjeta con su sello; cuatro controles se encienden en verde: firma, emitida por Google, para esta app, vigente",
+      "resource": "metafora"
+    },
+    {
+      "id": "puertas",
+      "say": "La tarjeta abre solo las puertas que Diego aceptó. Nombre, correo y foto. ¿Quiere leer su Gmail o sus archivos? Tiene que pedirle otro permiso.",
+      "see": "El pasillo: tres puertas se abren con la tarjeta (nombre, correo, foto) y dos quedan cerradas con candado (correo de Gmail, archivos)",
+      "resource": "metafora"
+    },
+    {
+      "id": "vence",
+      "say": "Y la tarjeta vence: dura un tiempo limitado. Si Diego se arrepiente, entra a su cuenta de Google. Busca apps vinculadas y la anula.",
+      "see": "Un reloj en la tarjeta que corre; después Diego entra a myaccount.google.com/linkedapps y la tarjeta queda anulada",
+      "resource": "metafora"
+    },
+    {
+      "id": "cierre",
+      "say": "Tres datos, cero contraseñas. La app tiene una tarjeta, no la llave de tu cuenta. Revisa en tu Google qué apps tienen tu tarjeta.",
+      "see": "La cámara se aleja hasta el hotel entero, con la tarjeta en el teléfono y la contraseña en la recepción; resumen capturable de los cuatro pasos",
+      "resource": "metafora"
+    }
+  ],
+  "caption": "Con Google, la app no sabe tu contraseña. Tiene una tarjeta de hotel.\n\nEsto pasa cuando tocas Continuar con Google:\n\n1. La app te manda a Google. La contraseña la escribes ahí, y la revisa Google, no la app.\n2. Google te muestra qué pide la app. Aceptas.\n3. Google le entrega a la app un token, como la tarjeta de una habitación de hotel: dice quién eres, pero tu contraseña no va adentro.\n4. Viene firmado. La app revisa la firma, quién lo emitió, que sea para ella y que no haya vencido.\n5. Abre solo lo que aceptaste. ¿Tu Gmail? Otro permiso.\n6. Vence. Y lo anulas cuando quieras.\n\nRevisa hoy qué apps tienen tu tarjeta: en tu cuenta de Google, busca apps vinculadas.\n\nDiego y la app de recetas son un ejemplo. Fuentes revisadas el 22 de octubre de 2026: RFC 6749 (OAuth 2.0), la documentación de OpenID Connect y de OAuth 2.0 de Google, y la Ayuda de Cuenta de Google.\n\n#ciberseguridad #oauth #google #programacion #seguridadinformatica",
+  "art": {
+    "direction": "ficha-tecnica",
+    "dealt": [
+      "captura-anotada",
+      "antes-despues",
+      "ficha-tecnica"
+    ],
+    "reason": "El hotel es una ilustración isométrica de noche, con interiores cálidos sobre azul profundo: se lee como un lugar y no como un plano. El naranja es solo para la tarjeta y lo que se abre, así la mirada sigue al token.",
+    "palette": {
+      "bg": "#1C2945",
+      "ink": "#F6F1E7",
+      "accent": "#FF8A3D",
+      "accentInk": "#1A1208",
+      "surface": "#27375A",
+      "muted": "#A9B4C4"
+    },
+    "fonts": {
+      "display": "archivo",
+      "text": "geist"
+    },
+    "anchor": {
+      "kind": "logo",
+      "ref": "google",
+      "source": "Ícono oficial de Google en Simple Icons (CC0), sin modificar, solo en el mostrador de la recepción y en el botón"
+    },
+    "tab": "acceso-con-google.md"
+  },
+  "gateA": {
+    "approved": true,
+    "date": "2026-10-23"
+  },
+  "gateB": {
+    "approved": true,
+    "date": "2026-10-24",
+    "video": "dcffb166a4820010a71d74bf83e509748e15f89ad88a086f003e7a25fa17c922"
+  }
+}
