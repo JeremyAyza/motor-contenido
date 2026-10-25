@@ -9,6 +9,14 @@ export type SpeechRequest = {
   style?: string;
   /** BCP 47 language tag. Leave it out to let the provider detect it from the text. */
   language?: string;
+  /**
+   * The lines around this one, so a voice made scene by scene keeps one tone
+   * (ElevenLabs request stitching). Providers without it ignore them.
+   */
+  previousText?: string;
+  nextText?: string;
+  /** Provider voice settings (accounts/<account>.json → voice.settings), e.g. ElevenLabs' stability. */
+  settings?: Record<string, number>;
 };
 
 export type SpeechResult = {

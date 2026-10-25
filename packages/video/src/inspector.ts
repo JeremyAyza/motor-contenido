@@ -4,7 +4,8 @@ import type { AddressInfo } from "node:net";
 import { normalizeWord, scriptWords } from "../../media/src/words.ts";
 import type { ProbedText, ProbeReport } from "./probe.tsx";
 import { MOVE_MS } from "./kit/camera.ts";
-import { FORMAT_SECONDS, type VideoScript } from "./script.ts";
+import { FORMAT_SECONDS, targetOff, type VideoScript } from "./script.ts";
+import { TRANSITION_FRAMES } from "./kit/scene-fx.tsx";
 import { CAPTIONS_TOP, CONTENT_BOX, GRID_CROP, HEIGHT, MIN_TEXT_PX, SCALE, TEXT_ZONE, timelineMs, WIDTH, type Timeline } from "./timeline.ts";
 
 /**
@@ -69,12 +70,32 @@ export function cameraMoving(timeline: Timeline): (frame: number) => boolean {
 }
 
 /**
+ * Frames where a scene is still coming in (SceneDef.transition): its text is
+ * sliding or blurred into place, so the frame's margin is not checked there.
+ */
+export function sceneEntering(timeline: Timeline, transitioned: Set<string>, frames = TRANSITION_FRAMES): (frame: number) => boolean {
+  const windows: Array<[number, number]> = [];
+  let at = 0;
+  for (const scene of timeline.scenes) {
+    if (transitioned.has(scene.id)) windows.push([at, at + frames]);
+    at += Math.max(1, Math.round((scene.durationMs / 1000) * timeline.fps));
+  }
+  return (frame) => windows.some(([start, end]) => frame >= start && frame < end);
+}
+
+/**
  * What the probe saw: the frame's padding, text size, words on screen and the
  * hook in frame 1. The text of a stage's world is checked only when the camera
  * is still, against the interfaces' minimum size, and as a warning: a camera
  * that frames one zone leaves the next one peeking in at the edge.
  */
-export function inspectFrames(reports: ProbeReport[], fps: number, hookOnScreen: string, moving: (frame: number) => boolean = () => false): Issue[] {
+export function inspectFrames(
+  reports: ProbeReport[],
+  fps: number,
+  hookOnScreen: string,
+  moving: (frame: number) => boolean = () => false,
+  entering: (frame: number) => boolean = () => false,
+): Issue[] {
   const issues: Issue[] = [];
   const once = new Set<string>();
   const report = (level: Issue["level"], key: string, message: string) => {
@@ -96,7 +117,7 @@ export function inspectFrames(reports: ProbeReport[], fps: number, hookOnScreen:
       }
       const outside =
         t.x < TEXT_ZONE.left - 1 || t.x + t.w > TEXT_ZONE.right + 1 || t.y < TEXT_ZONE.top - 1 || t.y + t.h > TEXT_ZONE.bottom + 1;
-      if (outside) {
+      if (outside && !entering(frame)) {
         report("error", `zone ${t.text}`, `Texto fuera del margen del marco en ${seconds(frame, fps)}: ${quote(t.text)} (va entre la pestaña, los subtítulos y ${TEXT_ZONE.left} px de cada lado)`);
       }
       const min = t.ui ? MIN_UI_TEXT_PX : MIN_TEXT_PX;
@@ -140,6 +161,11 @@ export function inspectTimeline(timeline: Timeline, script: VideoScript): Issue[
   const issues: Issue[] = [];
   if (script.meter && !timeline.meter) {
     issues.push({ level: "aviso", message: "video.json tiene meter, pero el timeline no: corre video:prepare otra vez" });
+  }
+  if (script.target !== undefined) {
+    const seconds = timeline.scenes.reduce((sum, s) => sum + s.durationMs, 0) / 1000;
+    const off = targetOff(seconds, script.target);
+    if (off) issues.push({ level: "aviso", message: `El video dura ${seconds.toFixed(1)} s y el objetivo es ${script.target} s (${off}): ajusta el guion o las pausas (hold) de las escenas` });
   }
   for (const scene of timeline.scenes) {
     const expected = script.scenes.find((s) => s.id === scene.id);
@@ -305,11 +331,6 @@ export function inspectComposition(ffmpeg: string, video: string, timeline: Time
     issues.push({ level: "aviso", message: `La portada (cuadro 1) ocupa ${Math.round(fill * 100)}% del recorte 3:4 de la grilla: con solo el título se ve vacía. Que el dibujo se vea desde el cuadro 1` });
   }
   return issues;
-}
-
-/** Lays the mock Instagram interface over the video, for the preview and the review sheet. */
-export function overlayInterface(ffmpeg: string, video: string, overlay: string, output: string): void {
-  ffmpegStderr(ffmpeg, ["-y", "-i", video, "-i", overlay, "-filter_complex", "[0:v][1:v]overlay=0:0:format=auto,format=yuv420p", "-c:v", "libx264", "-crf", "20", "-preset", "veryfast", "-c:a", "copy", "-movflags", "+faststart", output]);
 }
 
 /**

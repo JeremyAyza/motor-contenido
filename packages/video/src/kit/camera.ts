@@ -1,3 +1,4 @@
+import { getLength, getPointAtLength } from "@remotion/paths";
 import { CAPTIONS_TOP, HEIGHT, TAB_BOTTOM, WIDTH } from "../timeline.ts";
 
 /*
@@ -14,10 +15,28 @@ export type SpotBox = { x: number; y: number; w: number; h: number };
  * What a scene frames. `focus` is the id of a spot (stage.spots) or a point
  * of the world. Without `zoom`, a spot fills the view with a margin and a
  * point keeps the zoom it had. A scene without `camera` keeps the previous shot.
+ * `follow` travels along a path of the stage (stage.paths) during the scene,
+ * from one fraction of it to another (0 is its start, 1 its end), like the
+ * camera that follows the road in Rick's Reels. With `x`, it only travels
+ * down (or up) the path and keeps that x: a winding road stays in the frame.
  */
-export type Shot = { focus?: string | { x: number; y: number }; zoom?: number };
+export type Shot = { focus?: string | { x: number; y: number }; zoom?: number; follow?: { path: string; from: number; to: number; x?: number } };
 
-export type CameraState = { x: number; y: number; zoom: number };
+/** A camera position; `track` is the path it travels while the scene lasts. */
+export type CameraState = { x: number; y: number; zoom: number; track?: { d: string; from: number; to: number; x?: number } };
+
+/** Where a tracking camera is at fraction `f` of its path, with its x held if the shot says so. */
+function onTrack(track: NonNullable<CameraState["track"]>, f: number): { x: number; y: number } {
+  const p = pointOnPath(track.d, f);
+  return { x: track.x ?? p.x, y: p.y };
+}
+
+/** The point at fraction `f` (0 to 1) of an SVG path. */
+export function pointOnPath(d: string, f: number): { x: number; y: number } {
+  const point = getPointAtLength(d, getLength(d) * Math.max(0, Math.min(1, f)));
+  if (!point) throw new Error(`No point at ${f} of the path "${d.slice(0, 40)}"`);
+  return { x: point.x, y: point.y };
+}
 
 /** The part of the frame the camera aims at: between the tab and the captions, the full width. */
 export const VIEW = { x: 0, y: TAB_BOTTOM, w: WIDTH, h: CAPTIONS_TOP - TAB_BOTTOM };
@@ -40,7 +59,7 @@ export function fitZoom(box: { w: number; h: number }, margin = SPOT_MARGIN): nu
  */
 export function resolveShots(
   shots: Array<Shot | undefined>,
-  world: { width: number; height: number; spots?: Record<string, SpotBox> },
+  world: { width: number; height: number; spots?: Record<string, SpotBox>; paths?: Record<string, string> },
 ): CameraState[] {
   const whole: CameraState = { x: world.width / 2, y: world.height / 2, zoom: fitZoom({ w: world.width, h: world.height }, 0) };
   const resolved: CameraState[] = [];
@@ -50,7 +69,12 @@ export function resolveShots(
       resolved.push(previous);
       continue;
     }
-    if (typeof shot.focus === "string") {
+    if (shot.follow) {
+      const d = world.paths?.[shot.follow.path];
+      if (!d) throw new Error(`camera.follow "${shot.follow.path}" is not a path of the stage. Paths: ${Object.keys(world.paths ?? {}).join(", ") || "none"}`);
+      const track = { d, from: shot.follow.from, to: shot.follow.to, ...(shot.follow.x === undefined ? {} : { x: shot.follow.x }) };
+      resolved.push({ ...onTrack(track, track.from), zoom: shot.zoom ?? previous.zoom, track });
+    } else if (typeof shot.focus === "string") {
       const box = world.spots?.[shot.focus];
       if (!box) throw new Error(`camera.focus "${shot.focus}" is not a spot of the stage. Spots: ${Object.keys(world.spots ?? {}).join(", ") || "none"}`);
       resolved.push({ x: box.x + box.w / 2, y: box.y + box.h / 2, zoom: shot.zoom ?? fitZoom(box) });
@@ -80,12 +104,18 @@ export function cameraAt(shots: CameraState[], durationsMs: number[], ms: number
   }
   const within = Math.max(0, ms - start);
   const to = shots[index];
-  const from = index === 0 ? to : { ...shots[index - 1], zoom: shots[index - 1].zoom * (1 + drift) };
+  const before = shots[index - 1];
+  // A shot that followed a path ends where the path ends: the next move starts there.
+  const from = index === 0 ? to : { ...(before.track ? onTrack(before.track, before.track.to) : before), zoom: before.zoom * (1 + drift) };
   const p = easeInOut(Math.min(1, within / moveMs));
   const progress = Math.min(1, within / Math.max(1, durationsMs[index]));
+  // While it follows a path, the target travels along it once the move in is over.
+  const target = to.track
+    ? onTrack(to.track, to.track.from + (to.track.to - to.track.from) * easeInOut(Math.max(0, Math.min(1, (within - moveMs) / Math.max(1, durationsMs[index] - moveMs)))))
+    : to;
   return {
-    x: from.x + (to.x - from.x) * p,
-    y: from.y + (to.y - from.y) * p,
+    x: from.x + (target.x - from.x) * p,
+    y: from.y + (target.y - from.y) * p,
     zoom: from.zoom * Math.pow(to.zoom / from.zoom, p) * (1 + drift * progress),
   };
 }

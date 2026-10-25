@@ -38,6 +38,8 @@ El porqué de las decisiones, el estado y los próximos pasos están en [docs/co
 - el de videos, en [docs/plan-videos.md](docs/plan-videos.md);
 - el de jacket.dev en piloto automático (escenario con cámara, kit del mundo, avatar y rutina semanal), en [docs/plan-piloto-automatico.md](docs/plan-piloto-automatico.md).
 
+**Para cualquier Reel manda [docs/direccion-reels.md](docs/direccion-reels.md)** sobre esos planes: motion graphics plano con cámara dinámica por defecto, 3D solo si Jeremy lo pide, de 45 a 60 s, voz de ElevenLabs y música baja. Nada de esa página cambia sin el sí de Jeremy.
+
 ## Estructura
 
 ```

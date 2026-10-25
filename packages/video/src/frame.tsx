@@ -4,6 +4,7 @@ import type { Tone } from "../../carousel/src/ui/index.tsx";
 import { captionPages } from "./captions.ts";
 import type { CaptionStyle } from "./kit/index.ts";
 import { formatMeter, type MeterDef } from "./kit/meter.ts";
+import type { PanelDef } from "./kit/panel.ts";
 import type { WordTiming } from "./timeline.ts";
 
 /*
@@ -25,7 +26,7 @@ const FRAME_TONE: Record<Tone, { text: string; fill: string }> = {
  * surface the accent reads (piecePalette checks 4.5:1); on accent and invert
  * it does not, so "highlight" underlines there and "marker" swaps colors.
  */
-const SAID: Record<Exclude<CaptionStyle, "pill">, Record<Tone, string>> = {
+const SAID: Record<Exclude<CaptionStyle, "pill" | "card" | "none">, Record<Tone, string>> = {
   highlight: {
     base: "text-accent",
     surface: "text-accent",
@@ -57,6 +58,20 @@ export function Captions({ words, tone = "base", style = "highlight" }: { words:
   let page = null;
   for (const p of pages) if (p.startMs <= ms) page = p;
   if (!page) return null;
+  if (style === "card") {
+    // The phrase big on a dark card, at the right of the avatar: the line the presenter is saying.
+    return (
+      <div data-captions className="absolute left-[236px] right-9 top-[742px] z-20 flex min-h-[126px] items-center">
+        <p className="w-full rounded-2xl bg-[#0E1015]/92 px-5 py-3 font-sans text-[30px] font-bold leading-[1.2] text-[#F2F0EA] shadow-[0_10px_24px_rgba(0,0,0,0.35)] ring-1 ring-white/10">
+          {page.tokens.map((token, i) => (
+            <span key={i} className={token.fromMs <= ms ? undefined : "opacity-30"}>
+              {token.text}
+            </span>
+          ))}
+        </p>
+      </div>
+    );
+  }
   if (style === "pill") {
     return (
       <div data-captions className="absolute inset-x-9 top-[812px] z-20 flex h-[68px] items-center justify-center">
@@ -70,7 +85,7 @@ export function Captions({ words, tone = "base", style = "highlight" }: { words:
       </div>
     );
   }
-  const said = SAID[style][tone];
+  const said = SAID[style as Exclude<CaptionStyle, "pill" | "card" | "none">][tone];
   return (
     <div data-captions className="absolute inset-x-9 top-[812px] z-20 flex h-[68px] items-center justify-center">
       <p className={`text-center font-sans text-[27px] font-bold leading-[1.25] ${FRAME_TONE[tone].text}`}>
@@ -146,6 +161,37 @@ export function ChapterBar({
  * (`data-frame`), so the inspector does not count it as text to read.
  */
 // top-[10px] centers it on the tab's row (TAB_BOTTOM is 42); right-9 is FRAME_PAD.
+/**
+ * The HUD board (defineVideo({ panel })): legend rows with a dot on the active
+ * one, one or two counters that count live and a footer line. Part of the
+ * frame (`data-frame`), under the chapter bar.
+ */
+export function Panel({ def, active, values }: { def: PanelDef; active: number; values: number[] }) {
+  return (
+    <div data-frame="tablero" className="absolute inset-x-9 top-[90px] z-20 rounded-2xl bg-[#0E1015]/92 px-4 pb-2.5 pt-3 text-[#F2F0EA] shadow-[0_10px_24px_rgba(0,0,0,0.35)] ring-1 ring-white/10">
+      <div className="flex items-start gap-4">
+        {def.rows?.length ? (
+          <div className="flex flex-col gap-1 pt-0.5">
+            {def.rows.map((row, i) => (
+              <span key={row} className={`flex items-center gap-1.5 font-mono text-[11px] font-bold uppercase leading-none tracking-[0.08em] ${i === active ? "text-[#F2F0EA]" : "text-[#F2F0EA]/40"}`}>
+                <span className={`block h-[8px] w-[8px] rounded-full ${i === active ? "bg-accent" : "ring-1 ring-[#F2F0EA]/40"}`} />
+                {row}
+              </span>
+            ))}
+          </div>
+        ) : null}
+        {def.counters.map((counter, i) => (
+          <div key={counter.label} className={`flex flex-1 flex-col gap-1 ${i > 0 ? "items-end" : ""}`}>
+            <span className="font-mono text-[10px] font-bold uppercase leading-none tracking-[0.14em] text-[#F2F0EA]/55">{counter.label}</span>
+            <span className={`font-mono text-[30px] font-bold tabular-nums leading-none ${i > 0 ? "text-accent" : ""}`}>{formatMeter(values[i], counter)}</span>
+          </div>
+        ))}
+      </div>
+      {def.footer ? <p className="mt-2 border-t border-white/10 pt-1.5 font-mono text-[10px] font-bold uppercase leading-none tracking-[0.1em] text-[#F2F0EA]/55">{def.footer}</p> : null}
+    </div>
+  );
+}
+
 export function Meter({ def, label, value, tone = "base" }: { def: MeterDef; label: string; value: number; tone?: Tone }) {
   const colors = FRAME_TONE[tone];
   const kind = def.kind ?? "counter";

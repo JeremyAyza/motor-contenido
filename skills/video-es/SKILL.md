@@ -7,6 +7,8 @@ description: Capa de este repo sobre las skills oficiales de Remotion. Explica c
 
 Las skills `remotion-*` son las oficiales de Remotion, sin modificar. Viven en `.agents/skills/` y `.claude/skills/`, y se instalan en cada máquina con `npx skills experimental_install`, que lee `skills-lock.json`. Enseñan Remotion; esta capa dice qué cambia en este repo. Ante un conflicto, manda [AGENTS.md](../../AGENTS.md) y después esta skill.
 
+**Antes de armar un video, lee [docs/direccion-reels.md](../../docs/direccion-reels.md):** el estilo por defecto (motion graphics plano con cámara dinámica), cuándo va 3D (solo si se pide), la duración (45 a 60 s, formato `corto`), la voz y el volumen de la música. Manda sobre lo que sigue.
+
 ## Cómo es un video aquí
 
 - **Primero el guion.** `content/<pieza>/video.json` lleva:
@@ -49,7 +51,6 @@ Las skills `remotion-*` son las oficiales de Remotion, sin modificar. Viven en `
 
   SceneFrame pone el título arriba, desde y 128, y centra el dibujo en lo que queda hasta los subtítulos. Las coordenadas de las etiquetas son relativas al recuadro del dibujo, y su borde derecho es 468. Los dibujos de las láminas del carrusel, que también miden 468, entran sin cambiar sus coordenadas.
 - **El cuadro 1 lleva el gancho** y un objeto, no solo el título, porque la grilla del perfil lo recorta al centro 3:4, de y 120 a 840. **La portada que se sube** es la de `video.json → cover`: el cuadro más fuerte, ya asentado. Sin `cover`, el cuadro 1.
-- **La vista con la interfaz.** `out/video-vista-instagram.mp4` y la hoja muestran el video con una simulación de la interfaz de Instagram. Sirve para ver qué tapa la app, no para acomodar el diseño.
 
 ## Escenario y HUD
 
@@ -78,10 +79,38 @@ El nivel de referencia es [docs/analisis-reels-2026-10-22.md](../../docs/analisi
 
 ### El kit del mundo
 
+La pieza de ejemplo del kit completo es `content/2026-10-24-cuanto-cuesta-la-ia` (el plan está en [docs/plan-paridad-rick.md](../../docs/plan-paridad-rick.md)).
+
+- **Objetos** (`kit/props.tsx`), planos, sin contorno y con la paleta de la pieza:
+  - `Tree`, `Pine`, `Bush`, `Cloud`, `Building`, `House`, `StreetLamp`, `TrafficLight`, `Car`, `Truck` (con `cargo`), `Booth` (con barrera `open`), `Machine`, `Sign`, `Server`, `Document`, `Coin`, `Person`, `Laptop`, `Warehouse` y `Cone`;
+  - cada uno se ubica por su base `x, y` y escala con `s`;
+  - se mueven solos con el reloj del video: las ventanas se prenden, los árboles se mecen, las nubes avanzan, el engranaje gira y los LEDs parpadean.
+- **Recorridos:**
+  - `stage.paths` define trazados SVG (`{ ruta: "M ..." }`);
+  - `<RoadPath path>` dibuja la carretera con su línea que corre;
+  - `<Along path at rotate>` pone algo en una fracción del recorrido (0 a 1);
+  - `<Traffic path count speed>` hace circular autos sin parar.
+- **Cámara que viaja:** `camera: { follow: { path, from, to, x }, zoom }` recorre el trazado durante la escena; con `x`, solo baja por la ruta y no se va a los costados.
+- **Sonido solo:**
+  - `<Sfx id at>` toca un efecto del catálogo en `at`;
+  - `<Pop at x y>` hace entrar algo con rebote y su pop;
+  - `usePop(at)` da el mismo resorte para animar a mano;
+  - la cámara suena con un whoosh en cada cambio de encuadre (`stage.sfx: false` lo apaga);
+  - el medidor y el tablero suenan con una moneda o la caja registradora en cada paso.
+- **`<Banner at until tone>`:** la idea de la escena en una banda bajo el tablero, con un blip.
 - **`<Label spot at place tone>`:** un rótulo de 1 a 3 palabras pegado a un spot (TU APP, RUNTIME, GRIETA). Aparece en `at` (`useStageCue`); sin `at`, está desde el cuadro 1. `place` lo ubica en el spot (`top-left` por defecto, `top`, `center`, `bottom-right`...) y `tone` le da el color: `solid`, `line`, `accent` o `alert` (rojo, para lo que se rompe).
 - **`<Board nodes edges events packets icons width height>`:** un plano que crece, como el del Reel de system design. Los nodos (`{ id, x, y, label, at }`) aparecen en su `at`. Los `events` (`{ at, node, state, x, y, label }`) los cambian de estado (`ok`, `busy` con un pulso, `fail` con una X roja, `off` atenuado), los mueven o los renombran, y el cambio queda. Las flechas se dibujan cuando están sus dos puntas y siguen a los nodos. Los `packets` (`{ from, to, at, dur }`) viajan por una flecha. `icons` lleva un `<Logo>` oficial o un `<Icono>` por nodo. Va dentro de un `<Spot>` o del mundo, en sus propias coordenadas.
 - **`<Plate src box clip opacity depth>`:** una lámina generada del mundo (`video:image`), en las coordenadas del mundo. Sin `box`, cubre el mundo entero: el mundo se mide sobre la imagen (`width` y `height` con su proporción, y los spots sobre lo que se ve). `clip` muestra solo una zona: dos generaciones que solo difieren en un lugar (las puertas cerradas y abiertas, sacadas con `--ref` de la primera) se funden ahí. `depth` da parallax bajo la cámara: negativo es más lejos y positivo, más cerca. Los personajes y objetos que se mueven se generan aparte con `--chroma` y se ponen con su propio `<Plate box>`. La pieza de ejemplo es `content/2026-10-22-login-con-google`.
 - **El reloj:** `<Board>` y `<Label>` cuentan los segundos del lugar donde están. Dentro del `World`, el del video entero (sus `at` salen de `useStageCue`); dentro del `Visual` de una escena, el de la escena (`useCue`). `useClock()` da ese reloj para el movimiento propio.
+
+### El tablero
+
+`defineVideo({ panel })` es el taxímetro de los Reels de Rick y reemplaza al medidor:
+- **`rows`:** las filas ("Entrada", "Salida", "Caché"), con un punto en la activa (`active`: pasos con el índice de la fila);
+- **`counters`:** uno o dos contadores (`counter` o `money`) cuyos pasos pueden durar lo que dura lo que cuentan (`ramp` en segundos), para que suban en vivo;
+- **`footer`:** una línea de pie con el modelo y sus precios.
+
+Va bajo la barra de capítulos: el `Visual` de cada escena deja libres los primeros 116 px.
 
 ### El medidor
 
@@ -114,6 +143,24 @@ Cada paso cuenta desde el valor anterior hasta el nuevo cuando se dice su palabr
 
 Las últimas cinco salen del repo [`brag`](https://github.com/latent-spaces/brag) (MIT): se toman como reglas, sin instalarlo (ver el análisis, sección 7).
 
+## Duración de una réplica
+
+Cuando la pieza replica un Reel de referencia, `video.json → target` lleva los segundos de la referencia y `format` es el que la contiene. `video:script` avisa si la voz estimada se aleja más de un 10 %, y el render avisa con la duración real. Para llegar, suma frases con datos o pausas sin voz con `SceneDef.hold` (segundos de imagen después de la voz): un remate, una revelación, una transición. El `tempo` de la voz (`accounts/dev.json`) acorta todo un 12 %: tenlo en cuenta al escribir.
+
+## Escenas cortadas, sin marco (opcional, por pieza)
+
+Para un Reel cortado escena por escena, como el de @sebastiankra.ia sobre Replica (la pieza de ejemplo es `content/2026-10-24-replica-skills`). Todo esto es opcional: por defecto el marco y los subtítulos siguen como siempre.
+- **Marco:** `defineVideo({ frame: { tab: false, dots: false, signature: false } })` apaga la pestaña, los puntos o la firma.
+- **Subtítulos:** `captions: "none"` los quita, para que las palabras vayan en títulos grandes.
+- **Fondo de la escena:** `background` (`"grid"` o `"stripes"`) dibuja una trama sobre el tono de la escena.
+- **Entrada:** `transition` (`"blur"`, `"zoom"`, `"slide"` o `"whip"`) hace entrar la escena con un whoosh. La anterior corta, así que la voz no se desfasa, y el inspector no mide el margen mientras entra.
+- **`<PillTitle at tone>`:** el título grande en píldora ("2 · MONTA"), con pop.
+- **Avatar en burbuja:** `avatar: { ..., shape: "bubble", bubbleCrop }` muestra la cabeza en un círculo, como una cámara de cara. Solo aparece en las escenas que dicen dónde va (`SceneDef.avatar: { x, y, size }`).
+
+## El formato largo
+
+`format: "largo"` va de 90 a 180 s: una explicación de varios puntos, como la de Rick sobre lo que cuesta la IA. Solo funciona si algo cambia cada segundo: tablero, carretera con estaciones, tráfico, cámara que viaja y sonido del kit. Para el texto, `captions: "card"` pone la frase en una tarjeta grande junto al avatar.
+
 ## El formato explicado
 
 `video.json → format: "explicado"` es el formato de [docs/propuesta-reels-jacket.md](../../docs/propuesta-reels-jacket.md), "un segundo por dentro", en prueba de 75 a 100 s:
@@ -139,7 +186,7 @@ Las últimas cinco salen del repo [`brag`](https://github.com/latent-spaces/brag
 
 - **Primero lo que ya existe:** las primitivas, los objetos de Fluent Emoji (`carrusel:objeto`), los íconos y los logos oficiales. Una imagen generada es para lo que eso no da, como una escena de analogía o un sticker.
 - **Generar:** `video:image` y `video:music` usan el proveedor de `media.config.json` y registran todo en `generated.json`. Cada generación se paga: no repitas sin `--replace` ni generes variantes que nadie pidió.
-- **El estilo del mundo es de la cuenta:** `video:image` suma siempre `accounts/dev.json → world.style` (isométrico ilustrado, con luz y material) y la paleta de `video.json → art`, para que todos los videos parezcan del mismo mundo. El prompt describe solo el lugar y lo que pasa en él. `--no-style` lo quita, para una imagen que no es del mundo. El modelo a veces dibuja letras: pide que no haya y revisa la imagen antes de usarla.
+- **El mundo 3D es opcional:** solo cuando la persona pide el video en 3D (ver [docs/direccion-reels.md](../../docs/direccion-reels.md)). Entonces `video:image --world` suma `accounts/dev.json → world.style` (isométrico ilustrado) y la paleta de `video.json → art`. Sin `--world`, la imagen no lleva ese estilo. El modelo a veces dibuja letras: pide que no haya y revisa la imagen antes de usarla.
 - **Nunca generes logos, mascotas ni personajes de marcas.** Van como archivo oficial (regla 6). El avatar se genera solo a partir de la ilustración de Jeremy, pasada con `--ref`.
 - **Efectos:** busca con `video:asset search`, agrega con `video:asset add` y usa en `sfx` el id del catálogo.
 

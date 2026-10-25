@@ -1,0 +1,157 @@
+{
+  "formato": "ensenar",
+  "tesis": "Claude no anima nada: escribe la lámina como código, un navegador la graba cuadro por cuadro y ffmpeg arma el MP4. La skill que regalan por comentario es un SKILL.md que puedes escribir tú, y una ajena puede correr código.",
+  "palanca": "letra-chica",
+  "porQueAhora": "En octubre aparecen carruseles animados 'hechos con Claude' que regalan la skill a cambio de comentar una palabra (el de referencia es de @rayyan.pe). Ese no muestra qué hay dentro, cuánto se graba por lámina ni que una skill ajena puede correr código en tu máquina.",
+  "paraQuien": "Devs y creadores técnicos que ya usan Claude o Claude Code, vieron esos carruseles que se mueven y quieren armar el suyo sin After Effects y sin instalar la skill de un desconocido.",
+  "queGana": "Entiende el recorrido completo (código, navegador sin ventana, capturas, ffmpeg), cuántas capturas pide una lámina, las dos líneas que hacen el trabajo, qué trae una skill y qué revisar antes de instalar una ajena; decide entre armar su grabador o usar Remotion.",
+  "objetivo": "guardar",
+  "compartirCon": "Al amigo que ya comentó CLAUDE en uno de esos posts para que le pasen la skill y la va a instalar sin abrirla.",
+  "ganchos": [
+    {
+      "texto": "Claude no anima tu carrusel: escribe código",
+      "promesa": "Así se hace de verdad un carrusel que se mueve",
+      "formula": 29
+    },
+    {
+      "texto": "Tu carrusel animado son 180 capturas",
+      "promesa": "Claude escribe el código; un navegador toma las fotos",
+      "formula": 22
+    },
+    {
+      "texto": "¿Claude anima carruseles? No: escribe HTML",
+      "promesa": "Y un navegador sin ventana lo graba cuadro por cuadro",
+      "formula": 16
+    },
+    {
+      "texto": "6 segundos de lámina, 180 capturas",
+      "promesa": "Lo que pasa entre el código de Claude y tu carrusel",
+      "formula": 28
+    },
+    {
+      "texto": "No le pidas la skill a un desconocido",
+      "promesa": "Puede correr código en tu máquina, y la puedes escribir tú",
+      "formula": 2
+    },
+    {
+      "texto": "No necesitas pedir la skill por DM",
+      "promesa": "Es un SKILL.md, y el truco son dos líneas de código",
+      "formula": 20
+    },
+    {
+      "texto": "Un SKILL.md y 30 fotos por segundo",
+      "promesa": "Lo que hay detrás de un carrusel animado hecho con Claude",
+      "formula": 27
+    },
+    {
+      "texto": "Lo que nadie te dice de esa skill",
+      "promesa": "El carrusel que se mueve es código, y la skill puede ejecutarlo",
+      "formula": 3
+    },
+    {
+      "texto": "Si usas skills ajenas, lee esto primero",
+      "promesa": "Y cómo armar tu propio carrusel que se mueve",
+      "formula": 10
+    }
+  ],
+  "esqueleto": [
+    {
+      "afirmacion": "Portada: el gancho elegido sobre el logo de Claude, del que sale una tira de cuadros de película que avanza.",
+      "prueba": "Ancla: logo oficial de Claude (Simple Icons, #D97757). La tira de cuadros es la idea visual que recorre la pieza. Animada: solo avanza la tira; el gancho se lee desde el primer cuadro."
+    },
+    {
+      "afirmacion": "Claude no genera video: escribe la lámina como una página web, con la animación dentro del código.",
+      "prueba": "Docs de Claude (Vision, FAQ): Claude entiende imágenes pero no puede generarlas, editarlas ni crearlas. Lo que entrega es texto: HTML, CSS o React.",
+      "visual": {
+        "recurso": "comparacion",
+        "que": "Dos columnas con la misma composición: Claude con una flecha directa a un MP4, tachada; Claude, un archivo slide.tsx con su @keyframes y recién ahí el MP4, en el acento"
+      }
+    },
+    {
+      "afirmacion": "Un navegador sin ventana abre la lámina, la congela en cada instante y le toma una captura; ffmpeg une las capturas en un MP4.",
+      "prueba": "Remotion lo hace así: renderFrames() genera imágenes con Puppeteer y stitchFramesToVideo() las codifica en video. El motor de @jacket.dev hace lo mismo con Playwright y ffmpeg (código público).",
+      "visual": {
+        "recurso": "proceso",
+        "que": "Animada: cuatro nodos que aparecen en orden (código, navegador sin ventana, una captura por cuadro, ffmpeg) y terminan en un MP4 en el acento"
+      }
+    },
+    {
+      "afirmacion": "Una lámina de 6 segundos son 180 capturas.",
+      "prueba": "Cálculo propio: 6 s × 30 cuadros por segundo, el FPS del motor de @jacket.dev (movimiento.ts).",
+      "visual": {
+        "recurso": "escala",
+        "que": "Una hoja de contactos con los 180 cuadros en grilla, el cuadro 90 resaltado con la etiqueta 'segundo 3' y la cuenta 6 × 30 = 180 en una nota de cálculo propio"
+      }
+    },
+    {
+      "afirmacion": "El truco son dos líneas: fijar el reloj de la animación en cada cuadro y decirle a ffmpeg a cuántos cuadros por segundo va.",
+      "prueba": "MDN: getAnimations() trae las animaciones CSS y currentTime las fija en un milisegundo exacto. ffmpeg: sin -framerate usa 25, y 180 capturas duran 7,2 s en vez de 6 (cálculo propio). Código real del motor.",
+      "visual": {
+        "recurso": "artefacto",
+        "que": "Una ventana con el bucle real (a.pause(); a.currentTime = t) y debajo la línea real de ffmpeg; una etiqueta en currentTime y otra en -framerate 30: 'sin esto, 6 s duran 7,2'"
+      }
+    },
+    {
+      "afirmacion": "La skill que regalan es una carpeta con un SKILL.md: Claude lee su descripción siempre y el resto solo cuando le toca.",
+      "prueba": "Docs de Claude (Agent Skills): name y description, unos 100 tokens por skill al inicio; el cuerpo, menos de 5.000 tokens al activarse; en Claude Code vive en .claude/skills/<nombre>/SKILL.md. Ejemplo real: skills/carrusel-taste del motor, con 12 direcciones de arte.",
+      "visual": {
+        "recurso": "anatomia",
+        "que": "La carpeta real carrusel-taste/ abierta: SKILL.md con su frontmatter y direcciones.json; etiquetas en description ('cuándo la carga Claude'), el cuerpo ('las reglas') y direcciones.json ('los 12 estilos')"
+      }
+    },
+    {
+      "afirmacion": "Antes de instalar una skill ajena, léela: puede hacer que Claude corra código con el acceso que tenga en tu máquina.",
+      "prueba": "Docs de Claude (Agent Skills, Security): usar skills que hiciste tú o de Anthropic; una skill maliciosa puede hacer que Claude llame herramientas o corra código; en Claude Code tienen el mismo acceso a la red que cualquier programa.",
+      "visual": {
+        "recurso": "captura-anotada",
+        "que": "La sección de seguridad de la documentación oficial de Agent Skills, capturada de la página, con un círculo a mano en la frase de fuentes confiables y una flecha a la del acceso a la red"
+      }
+    },
+    {
+      "afirmacion": "Si no quieres armar tu grabador, Remotion ya lo hace con React y trae skills para agentes; la letra chica: gratis solo hasta empresas de 3 personas.",
+      "prueba": "Remotion Docs (Agent Skills): npx skills add remotion-dev/skills. LICENSE.md: gratis para personas, empresas con fines de lucro de hasta 3 empleados y organizaciones sin fines de lucro; el resto necesita Company License.",
+      "visual": {
+        "recurso": "cifra",
+        "que": "El 3 gigante con 'personas' y la línea 'desde la cuarta, licencia de empresa'; debajo, el comando real npx skills add remotion-dev/skills"
+      }
+    },
+    {
+      "afirmacion": "Resumen para capturar: la receta completa de un carrusel que se mueve, en cinco capas.",
+      "prueba": "SKILL.md (tus estilos y reglas), Claude (escribe la lámina), navegador sin ventana (180 capturas), ffmpeg (MP4 a 30 fps), Instagram (hasta 20 imágenes o videos por carrusel, según Meta).",
+      "visual": {
+        "recurso": "capas",
+        "que": "Cinco capas apiladas de abajo arriba: SKILL.md, Claude con su logo, navegador, ffmpeg y el carrusel de Instagram con 'hasta 20'; cada capa con lo que agrega en tres palabras"
+      }
+    },
+    {
+      "afirmacion": "Cierre: la tira de cuadros de la portada vuelve completa y su último cuadro es el gesto de guardar.",
+      "prueba": "Despedida de vuelta a la portada y CTA para guardar la lámina 9 (la receta)."
+    }
+  ],
+  "despedida": {
+    "jugada": "vuelta-a-la-portada",
+    "texto": "Claude escribe la lámina. Un navegador la graba, 30 fotos por segundo."
+  },
+  "cta": {
+    "tipo": "guardar",
+    "forma": "guardar-la-lamina",
+    "texto": "La lámina 9 es la receta completa: guárdala para cuando armes tu propia skill de carruseles."
+  },
+  "ctaAlternativas": [
+    {
+      "tipo": "enviar",
+      "forma": "enviar-ese-amigo",
+      "texto": "Mándaselo a ese amigo que ya comentó CLAUDE para que le pasen la skill."
+    },
+    {
+      "tipo": "comentar",
+      "forma": "comentar-dilema",
+      "texto": "¿Armarías tu propio grabador o te vas directo con Remotion?"
+    }
+  ],
+  "puertaA": {
+    "aprobado": true,
+    "fecha": "2026-10-24"
+  },
+  "ganchoElegido": "¿Claude anima carruseles? No: escribe HTML"
+}

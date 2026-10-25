@@ -61,7 +61,7 @@ export const GateBSchema = GateSchema.extend({
  * explainer of the pilot; "explicado" is the format of docs/propuesta-reels-jacket.md
  * ("un segundo por dentro"), on trial at 75 to 100 s until the metrics decide.
  */
-export const FORMAT_SECONDS = { corto: [30, 60], explicado: [75, 100] } as const satisfies Record<string, readonly [number, number]>;
+export const FORMAT_SECONDS = { corto: [30, 60], explicado: [75, 100], largo: [90, 180] } as const satisfies Record<string, readonly [number, number]>;
 export type VideoFormat = keyof typeof FORMAT_SECONDS;
 
 export const VideoScriptSchema = z
@@ -70,7 +70,7 @@ export const VideoScriptSchema = z
     format: z
       .enum(Object.keys(FORMAT_SECONDS) as [VideoFormat, ...VideoFormat[]])
       .default("corto")
-      .describe("The format, which sets the length the gate A sheet and the inspector check: corto (30 to 60 s) or explicado (75 to 100 s, on trial)"),
+      .describe("The format, which sets the length the gate A sheet and the inspector check: corto (30 to 60 s), explicado (75 to 100 s, on trial) or largo (90 to 180 s, an explainer of several points with something changing every second, docs/plan-paridad-rick.md)"),
     topic: z
       .string()
       .trim()
@@ -89,6 +89,12 @@ export const VideoScriptSchema = z
       ),
     meter: MeterSchema.optional().describe("What is at stake, planted at the hook and paid off at the close"),
     cover: CoverSchema.optional().describe("The frame for the cover. Without it, frame 1"),
+    target: z
+      .number()
+      .min(5)
+      .max(600)
+      .optional()
+      .describe("Seconds the video should last: the length of the Reel it replicates. video:script and the inspector warn when it is more than 10% off; scenes can hold silent beats (SceneDef.hold) to get there"),
     hooks: z.array(HookSchema).min(1).max(3).describe("The first is the chosen one; the others are alternatives for gate A"),
     scenes: z.array(ScriptSceneSchema).min(1),
     caption: z.string().trim().max(2200).optional().describe("The post text"),
@@ -187,6 +193,13 @@ const ON_SCREEN_MAX_WORDS = 6;
  * What the schema cannot say: timing and length, estimated from the words.
  * In Spanish, because they go into the sheet the person reads at gate A.
  */
+/** How far a length is from its target, when it is more than 10% off ("12% menos"); empty when it is within. */
+export function targetOff(seconds: number, target: number): string {
+  const ratio = (seconds - target) / target;
+  if (Math.abs(ratio) <= 0.1) return "";
+  return `${Math.round(Math.abs(ratio) * 100)}% ${ratio < 0 ? "menos" : "más"}`;
+}
+
 export function scriptWarnings(script: VideoScript): string[] {
   const warnings: string[] = [];
   const [hook] = script.hooks;
@@ -200,6 +213,12 @@ export function scriptWarnings(script: VideoScript): string[] {
   const [min, max] = FORMAT_SECONDS[script.format];
   if (total < min || total > max) {
     warnings.push(`Dura unos ${Math.round(total)} s: el formato ${script.format} va de ${min} a ${max} s`);
+  }
+  // A replica follows its reference's length (docs/direccion-reels.md), not the format's default.
+  if (script.target !== undefined) {
+    if (script.target < min || script.target > max) warnings.push(`El objetivo de ${script.target} s no entra en el formato ${script.format} (${min} a ${max} s): elige el formato que le toca a la referencia`);
+    const off = targetOff(total, script.target);
+    if (off) warnings.push(`La voz dura unos ${Math.round(total)} s y el objetivo es ${script.target} s (${off}): suma o quita frases, o deja pausas sin voz con hold en video.tsx`);
   }
   // docs/analisis-reels-2026-10-22.md: the Reels that work keep one world and one meter for the whole video.
   if (!script.world) warnings.push("Falta world: la metáfora física que dura todo el video (un edificio en corte, una ciudad, un plano que crece)");

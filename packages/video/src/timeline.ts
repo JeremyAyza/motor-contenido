@@ -16,6 +16,8 @@ export type TimelineScene = {
   durationMs: number;
   words: WordTiming[];
   sfx: TimelineSfx[];
+  /** How loud the voice is in each frame of the scene, 0 to 1: it moves the avatar's mouth. */
+  levels?: number[];
 };
 
 export type TimelineFont = { family: string; url: string; weight: string; style?: string; stretch?: string };
@@ -49,6 +51,8 @@ export type Timeline = {
   voice?: { provider: string; model: string; voice: string };
   scenes: TimelineScene[];
   music?: TimelineMusic;
+  /** The catalog's sound effects by id, relative to the public folder: the kit's <Sfx> plays them. */
+  sounds?: Record<string, string>;
   /** What is at stake (video.json → meter), for the label of the HUD meter. */
   meter?: { label: string; from: string; to: string };
 };
@@ -105,8 +109,7 @@ export const MIN_TEXT_PX = 22;
  * The frame is the carousel's <Slide>: the file tab at the top, the dot
  * texture and the signature at the bottom, with its side padding (px-9).
  * The layout does not dodge Instagram's buttons and texts (Jeremy's call, 20
- * October 2026): inside the padding, the content uses the whole canvas. The
- * preview with the interface (instagram-ui.tsx) still shows what it covers.
+ * October 2026): inside the padding, the content uses the whole canvas.
  */
 export const FRAME_PAD = 36;
 /** Where <Slide>'s tab ends and its signature starts, in design px. */

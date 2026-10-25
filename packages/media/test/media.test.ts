@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { speechProvider } from "../src/index.ts";
-import { wavDurationMs } from "../src/wav.ts";
+import { wavDurationMs, wavLevels } from "../src/wav.ts";
 
 /** A silent PCM WAV: 16-bit mono at `rate` Hz, `ms` long. */
 function silentWav(rate: number, ms: number): Uint8Array {
@@ -48,5 +48,16 @@ describe("speechProvider", () => {
     } finally {
       if (saved !== undefined) process.env.GEMINI_API_KEY = saved;
     }
+  });
+});
+
+describe("wavLevels", () => {
+  it("gives one level per frame, 1 for the loudest and 0 for silence", () => {
+    // One second at 3000 Hz and 3 fps: a silent frame, a loud one, a quiet one.
+    const wav = silentWav(3000, 1000);
+    const view = new DataView(wav.buffer);
+    for (let i = 0; i < 1000; i++) view.setInt16(44 + 2 * (1000 + i), i % 2 ? 16000 : -16000, true);
+    for (let i = 0; i < 1000; i++) view.setInt16(44 + 2 * (2000 + i), i % 2 ? 4000 : -4000, true);
+    assert.deepEqual(wavLevels(wav, 3), [0, 1, 0.25]);
   });
 });

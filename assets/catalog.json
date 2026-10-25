@@ -3,7 +3,11 @@
     {
       "id": "whoosh",
       "type": "sfx",
-      "tags": ["transición", "aire", "entrada"],
+      "tags": [
+        "transición",
+        "aire",
+        "entrada"
+      ],
       "url": "https://remotion.media/whoosh.wav",
       "source": "https://freesound.org/s/831936/",
       "author": "1bob",
@@ -16,7 +20,11 @@
     {
       "id": "page-turn",
       "type": "sfx",
-      "tags": ["papel", "trazo", "dibujo"],
+      "tags": [
+        "papel",
+        "trazo",
+        "dibujo"
+      ],
       "url": "https://remotion.media/page-turn.wav",
       "source": "https://kenney.nl/assets/rpg-audio",
       "author": "Kenney",
@@ -25,6 +33,176 @@
       "sha256": "72762a9dafd5f9dd4bdf365f373519a35a8786ae975de4e2bc339fcdcf6b5f6d",
       "checkedAt": "2026-10-20",
       "notes": "Remotion lo atribuye a Draw Knife 1 de Kenney (https://www.remotion.dev/docs/sfx/page-turn). El pack RPG Audio de Kenney es Creative Commons CC0."
+    },
+    {
+      "id": "pop",
+      "type": "sfx",
+      "tags": [
+        "aparece",
+        "burbuja",
+        "entrada"
+      ],
+      "url": "https://cdn.freesound.org/previews/319/319107_5422458-hq.mp3",
+      "source": "https://freesound.org/people/DuffyBro/sounds/319107",
+      "author": "DuffyBro",
+      "license": "CC0-1.0",
+      "attribution": "Pop (made by DuffyBro) by DuffyBro (openverse)",
+      "sha256": "408946edb51d8e50f465e422fd0e2416b8164cbfb66b8bbb777f80a9e18dc410",
+      "checkedAt": "2026-10-24",
+      "notes": "Licencia CC0 según la API de openverse; la fuente original está en source."
+    },
+    {
+      "id": "caja-registradora",
+      "type": "sfx",
+      "tags": [
+        "dinero",
+        "cobro",
+        "cuenta"
+      ],
+      "url": "https://cdn.freesound.org/previews/721/721774_15555277-hq.mp3",
+      "source": "https://freesound.org/people/MaoDin204/sounds/721774",
+      "author": "MaoDin204",
+      "license": "CC0-1.0",
+      "attribution": "Cash register by MaoDin204 (openverse)",
+      "sha256": "ca80e6048b08d9d5df561b1c5428a26bcd37beef35dcf847f39130a3fda6d231",
+      "checkedAt": "2026-10-24",
+      "notes": "Licencia CC0 según la API de openverse; la fuente original está en source."
+    },
+    {
+      "id": "moneda",
+      "type": "sfx",
+      "tags": [
+        "dinero",
+        "contador",
+        "sube"
+      ],
+      "url": "https://cdn.freesound.org/previews/242/242857_4284968-hq.mp3",
+      "source": "https://freesound.org/people/plasterbrain/sounds/242857",
+      "author": "plasterbrain",
+      "license": "CC0-1.0",
+      "attribution": "Coin GET! by plasterbrain (openverse)",
+      "sha256": "93775db5d9a77085676268e32391868d77c053cb8909a906d366602fe4ad661d",
+      "checkedAt": "2026-10-24",
+      "notes": "Licencia CC0 según la API de openverse; la fuente original está en source."
+    },
+    {
+      "id": "golpe",
+      "type": "sfx",
+      "tags": [
+        "sello",
+        "impacto",
+        "golpe"
+      ],
+      "url": "https://cdn.freesound.org/previews/683/683031_4257513-hq.mp3",
+      "source": "https://freesound.org/people/mpuffenbarger/sounds/683031",
+      "author": "mpuffenbarger",
+      "license": "CC0-1.0",
+      "attribution": "Thump.mp3 by mpuffenbarger (openverse)",
+      "sha256": "0a7e94d959a97548211da52edfb60914315a8cae549da98caab53137c7267544",
+      "checkedAt": "2026-10-24",
+      "notes": "Licencia CC0 según la API de openverse; la fuente original está en source."
+    },
+    {
+      "id": "auto-pasa",
+      "type": "sfx",
+      "tags": [
+        "auto",
+        "camion",
+        "trafico"
+      ],
+      "url": "https://cdn.freesound.org/previews/171/171447_3191786-hq.mp3",
+      "source": "https://freesound.org/people/hinzebeat/sounds/171447",
+      "author": "hinzebeat",
+      "license": "CC0-1.0",
+      "attribution": "Car passing by.wav by hinzebeat (openverse)",
+      "sha256": "d95bbd25def58aab3e53a5ac58b90b48048d1719249e66296ff67ddd52f43a32",
+      "checkedAt": "2026-10-24",
+      "notes": "Licencia CC0 según la API de openverse; la fuente original está en source."
+    },
+    {
+      "id": "blip",
+      "type": "sfx",
+      "tags": [
+        "aviso",
+        "interfaz",
+        "etiqueta"
+      ],
+      "url": "https://cdn.freesound.org/previews/350/350862_5450487-hq.mp3",
+      "source": "https://freesound.org/people/cabled_mess/sounds/350862",
+      "author": "cabled_mess",
+      "license": "CC0-1.0",
+      "attribution": "Blip_C_04 by cabled_mess (openverse)",
+      "sha256": "c62c0a835df3932bdd12a63fa055fc83d8bd93e57fb6e5a3cb7fb2b900534845",
+      "checkedAt": "2026-10-24",
+      "notes": "Licencia CC0 según la API de openverse; la fuente original está en source."
+    },
+    {
+      "id": "whip",
+      "type": "sfx",
+      "tags": [
+        "latigazo",
+        "rapido",
+        "transicion"
+      ],
+      "url": "https://remotion.media/whip.wav",
+      "source": "https://freesound.org/s/838766/",
+      "author": "JW_Audio",
+      "license": "CC0-1.0",
+      "attribution": "SWSH_Badminton Racquet_Recording_01_JW Audio by JW_Audio (Freesound)",
+      "sha256": "8713e68578c7f579bdfc24ff77fd3e3eefc1a9b5d1232a63c10800b81d0ead5f",
+      "checkedAt": "2026-10-24",
+      "notes": "Remotion lo atribuye así en https://www.remotion.dev/docs/sfx (License: Creative Commons 0)."
+    },
+    {
+      "id": "switch",
+      "type": "sfx",
+      "tags": [
+        "interruptor",
+        "interfaz",
+        "cambio"
+      ],
+      "url": "https://remotion.media/switch.wav",
+      "source": "https://kenney.nl/assets/ui-audio",
+      "author": "Kenney",
+      "license": "CC0-1.0",
+      "attribution": "UI Audio - Switch 35 by kenney.nl",
+      "sha256": "0d07c6daac595425c820d92966bbc35cbd6590f4bde8a59199743b9bf45da77e",
+      "checkedAt": "2026-10-24",
+      "notes": "Remotion lo atribuye así en https://www.remotion.dev/docs/sfx (License: Creative Commons 0)."
+    },
+    {
+      "id": "click",
+      "type": "sfx",
+      "tags": [
+        "clic",
+        "mouse",
+        "interfaz"
+      ],
+      "url": "https://remotion.media/mouse-click.wav",
+      "source": "https://freesound.org/s/678248/",
+      "author": "Pixeliota",
+      "license": "CC0-1.0",
+      "attribution": "Mouse Click Sound.mp3 by Pixeliota (Freesound)",
+      "sha256": "887a9259203cafa24ad90274029d574ba29438bcdc87e6f384e4472f85736348",
+      "checkedAt": "2026-10-24",
+      "notes": "Remotion lo atribuye así en https://www.remotion.dev/docs/sfx (License: Creative Commons 0)."
+    },
+    {
+      "id": "obturador",
+      "type": "sfx",
+      "tags": [
+        "foto",
+        "captura",
+        "corte"
+      ],
+      "url": "https://remotion.media/shutter-modern.wav",
+      "source": "https://freesound.org/s/539136/",
+      "author": "ristooooo1",
+      "license": "CC0-1.0",
+      "attribution": "DSLR Shutter fast 006.wav by ristooooo1 (Freesound)",
+      "sha256": "e9edb88765451ff07b247a22582f83048af5c260533d8b2e43613f45a3d1a898",
+      "checkedAt": "2026-10-24",
+      "notes": "Remotion lo atribuye así en https://www.remotion.dev/docs/sfx (License: Creative Commons 0)."
     }
   ]
 }

@@ -1,0 +1,121 @@
+{
+  "account": "dev",
+  "topic": "carrusel-que-se-mueve",
+  "infoDate": "2026-10-24",
+  "idea": "En este carrusel, las 180 capturas que graba el navegador se vuelven una tira de cuadros de película: sale del logo de Claude en la portada, cruza cada capa de la receta (código, navegador, ffmpeg, Instagram) y su último cuadro es el gesto de guardar.",
+  "art": {
+    "direction": "capa-por-capa",
+    "dealt": [
+      "chat",
+      "capa-por-capa",
+      "captura-anotada"
+    ],
+    "reason": "Un carrusel que se mueve es literalmente una pila: SKILL.md, Claude, navegador sin ventana, ffmpeg e Instagram. Capa por capa deja que cada lámina amplíe una capa y que el resumen sea la pila entera. Chat contaría el mito sin mostrar el recorrido, y captura anotada solo sirve para la lámina de seguridad, que la toma prestada.",
+    "borrowed": [
+      "captura-anotada"
+    ],
+    "tab": "slide.html",
+    "palette": {
+      "bg": "#1A1915",
+      "ink": "#F4EFE6",
+      "accent": "#D97757",
+      "accentInk": "#1A1915",
+      "surface": "#2A2822",
+      "muted": "#B3AC9F"
+    },
+    "fonts": {
+      "display": "geist",
+      "text": "geist",
+      "notes": "caveat"
+    },
+    "anchor": {
+      "kind": "logo",
+      "ref": "claude",
+      "source": "Simple Icons (CC0), logo oficial de Claude en su color #D97757, sin modificar"
+    },
+    "cierre": {
+      "tratamiento": "gesto-gigante",
+      "gesto": "guardar",
+      "porque": "La tira de cuadros de la portada vuelve y su último cuadro, a un tercio del alto, es el marcador de guardar: el gesto domina la lámina como el cuadro final de la película, sin repetir el gesto dentro del recurso de ray tracing ni el gesto tocado de PSeInt."
+    }
+  },
+  "caption": "¿Claude anima carruseles? No: escribe HTML, y un navegador lo graba cuadro por cuadro.\n\nUna lámina de 6 segundos son 180 capturas, y esta portada son 95. El navegador pausa la animación en cada cuadro, le toma una foto y ffmpeg las une en un MP4, que Instagram acepta dentro de un carrusel.\n\nSi quieres un carrusel animado con Claude, la skill que te regalan es una carpeta con un SKILL.md. Una skill de Claude Code la puedes escribir tú, y conviene: la documentación de Anthropic pide usar solo skills propias o de Anthropic, porque una ajena puede hacer que Claude corra código.\n\nSi no quieres armar tu grabador, Remotion hace lo mismo con React. Es gratis para personas y empresas de hasta 3 empleados.\n\nLa lámina 9 es la receta completa: guárdala para cuando armes tu propia skill de carruseles.\n\n#claude #claudecode #ffmpeg #remotion #carrusel",
+  "busqueda": [
+    "carrusel animado con Claude",
+    "skill de Claude Code"
+  ],
+  "alt": "Portada oscura con el texto '¿Claude anima carruseles? No: escribe HTML', el logo oficial de Claude en naranja y una tira de película que sale de él, con un cuadrado naranja que sube cuadro a cuadro.",
+  "slideCaptions": [
+    "Claude no anima: escribe la lámina en HTML y un navegador la graba.",
+    "Claude entiende imágenes pero no las genera. Lo que entrega es código.",
+    "El recorrido: código, navegador sin ventana, una foto por cuadro y ffmpeg.",
+    "A 30 cuadros por segundo, 6 segundos de lámina son 180 fotos.",
+    "Pausar cada animación en su milisegundo y decirle a ffmpeg que van 30 por segundo.",
+    "Remotion hace el navegador, las fotos y el video con React; es gratis hasta empresas de 3 empleados.",
+    "Una skill es una carpeta con un SKILL.md: la descripción se lee siempre y ahí van tus reglas, como animar solo con CSS.",
+    "La documentación de Anthropic pide usar solo skills propias o de Anthropic.",
+    "La receta completa: SKILL.md, Claude, navegador, ffmpeg e Instagram.",
+    "Guarda la lámina 9 para cuando armes tu propia skill de carruseles."
+  ],
+  "sources": [
+    {
+      "title": "Claude Platform Docs: Vision (FAQ)",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/vision",
+      "checkedAt": "2026-10-24"
+    },
+    {
+      "title": "Claude Platform Docs: Agent Skills",
+      "url": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview",
+      "checkedAt": "2026-10-24"
+    },
+    {
+      "title": "Claude Code Docs: Skills",
+      "url": "https://code.claude.com/docs/en/skills",
+      "checkedAt": "2026-10-24"
+    },
+    {
+      "title": "MDN: Animation.currentTime",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Animation/currentTime",
+      "checkedAt": "2026-10-24"
+    },
+    {
+      "title": "MDN: Document.getAnimations()",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Document/getAnimations",
+      "checkedAt": "2026-10-24"
+    },
+    {
+      "title": "FFmpeg Formats Documentation: image2 demuxer",
+      "url": "https://ffmpeg.org/ffmpeg-formats.html",
+      "checkedAt": "2026-10-24"
+    },
+    {
+      "title": "Remotion Docs: renderFrames()",
+      "url": "https://www.remotion.dev/docs/renderer/render-frames",
+      "checkedAt": "2026-10-24"
+    },
+    {
+      "title": "Remotion Docs: Agent Skills",
+      "url": "https://www.remotion.dev/docs/ai/skills",
+      "checkedAt": "2026-10-24"
+    },
+    {
+      "title": "Remotion LICENSE.md",
+      "url": "https://github.com/remotion-dev/remotion/blob/main/LICENSE.md",
+      "checkedAt": "2026-10-24"
+    },
+    {
+      "title": "Meta for Developers: Instagram Content Publishing",
+      "url": "https://developers.facebook.com/docs/instagram-platform/content-publishing/",
+      "checkedAt": "2026-10-24"
+    },
+    {
+      "title": "motor-contenido: packages/carousel/src/movimiento.ts",
+      "url": "https://github.com/JeremyAyza/motor-contenido/blob/main/packages/carousel/src/movimiento.ts",
+      "checkedAt": "2026-10-24"
+    }
+  ],
+  "puertaB": {
+    "aprobado": true,
+    "fecha": "2026-10-24"
+  }
+}

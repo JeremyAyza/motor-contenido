@@ -46,3 +46,12 @@ describe("formatMeter", () => {
     assert.equal(formatMeter(48, { unit: "peticiones" }), "48 peticiones");
   });
 });
+
+describe("a step with its own ramp", () => {
+  it("counts up for as long as the step says", () => {
+    const points = resolveMeter({ start: 0, steps: [{ scene: "crece", word: "millones", value: 100, ramp: 4 }] }, scenes);
+    assert.deepEqual(points, [{ ms: 4500, value: 100, rampMs: 4000 }]);
+    assert.ok(meterValueAt(0, points, 4500 + 2000) < 100);
+    assert.equal(meterValueAt(0, points, 4500 + 4000), 100);
+  });
+});

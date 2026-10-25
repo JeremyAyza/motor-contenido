@@ -47,17 +47,16 @@ Los comandos de imagen, música y recursos están en `src/media-commands.ts`. La
    - **Volumen.** Antes de inspeccionar, el render normaliza el volumen a −14 LUFS en dos pasadas (`loudnorm` lineal) y copia el video sin recodificarlo.
    - **Composición:** mide en los píxeles de la hoja, sobre fondo claro u oscuro, si cada escena queda centrada entre el título y los subtítulos y si la portada llena el recorte 3:4.
    - **Partes quietas:** cuenta los píxeles que cambian cada medio segundo arriba de los subtítulos.
-7. **Vista previa con la interfaz:** `src/instagram-ui.tsx` es un still transparente que simula lo que Instagram dibuja encima de un Reel. El render lo pega sobre el video en `out/video-vista-instagram.mp4` y en la hoja; el MP4 que se publica queda limpio.
-8. **Marco de escena:** `SceneFrame` (en `src/kit/scene-frame.tsx`) pone el título arriba y centra el dibujo de 468 px entre el título y los subtítulos (`CONTENT_BOX` y `CAPTIONS_TOP`, en `src/timeline.ts`). Sin `height`, apila lo que recibe en una columna centrada. El diseño no esquiva la interfaz de Instagram: solo deja el margen del marco (`FRAME_PAD`).
+7. **Marco de escena:** `SceneFrame` (en `src/kit/scene-frame.tsx`) pone el título arriba y centra el dibujo de 468 px entre el título y los subtítulos (`CONTENT_BOX` y `CAPTIONS_TOP`, en `src/timeline.ts`). Sin `height`, apila lo que recibe en una columna centrada. El diseño no esquiva la interfaz de Instagram: solo deja el margen del marco (`FRAME_PAD`).
    - **Kit de escenario** (`src/kit/stage.tsx`): `Phone`, `BrowserBar`, `AppCard`, `Chat`, `Terminal`, `Diff`, `DataTable` y `Chip`, interfaces genéricas cuyo texto va marcado `data-ui`.
    - **HUD y subtítulos** (`src/frame.tsx`): `ChapterBar` con `defineVideo({ chapters: true })`, y los estilos de `Captions` (`captions: "highlight" | "pill" | "marker"`).
-9. **ig-reel** (`src/reel.ts`): `video:script` corre `hookscore_es --video` y `beats_es --video` (en `skills/ig-es`) y traduce lo que marcan a avisos en español para la hoja de la puerta A. El ritmo de la voz es `WORDS_PER_SECOND`, en `src/script.ts`, medido en el piloto.
-10. **Crítico ciego** (`src/critique.ts`):
+8. **ig-reel** (`src/reel.ts`): `video:script` corre `hookscore_es --video` y `beats_es --video` (en `skills/ig-es`) y traduce lo que marcan a avisos en español para la hoja de la puerta A. El ritmo de la voz es `WORDS_PER_SECOND`, en `src/script.ts`, medido en el piloto.
+9. **Crítico ciego** (`src/critique.ts`):
     - **En la puerta A,** `video:script` arma `out/video-critica-ganchos/`.
     - **Antes de la puerta B,** `video:critique` arma `out/video-critica/`: el video con la interfaz, las tiras de cuadros (`filmstrips`), la portada en la grilla (`gridCover`), lo que se oye, el texto del post y el brief aparte.
-11. **Métricas** (`src/metrics.ts`): el esquema de `video-metrics.json` y el informe `docs/metricas-video.md`, ordenado por compartidos por alcance.
-12. **Salidas reales** (`src/capture.ts`): `video:capture` corre los comandos de `captures.json` en carpetas limpias, con autor y fecha de git fijos, limpia colores, progreso y rutas locales, y guarda la salida. `useCapture` y `captureLines` la llevan a una `Terminal`.
-13. **Formato y tema** (`src/script.ts`, `src/topics.ts`): `format` fija el rango de duración de la puerta A y del inspector (`FORMAT_SECONDS`), y `topic` deja avisar si una pieza de los últimos 14 días tuvo un tema parecido.
+10. **Métricas** (`src/metrics.ts`): el esquema de `video-metrics.json` y el informe `docs/metricas-video.md`, ordenado por compartidos por alcance.
+11. **Salidas reales** (`src/capture.ts`): `video:capture` corre los comandos de `captures.json` en carpetas limpias, con autor y fecha de git fijos, limpia colores, progreso y rutas locales, y guarda la salida. `useCapture` y `captureLines` la llevan a una `Terminal`.
+12. **Formato y tema** (`src/script.ts`, `src/topics.ts`): `format` fija el rango de duración de la puerta A y del inspector (`FORMAT_SECONDS`), y `topic` deja avisar si una pieza de los últimos 14 días tuvo un tema parecido.
 
 ## Primitivas del carrusel en Remotion
 

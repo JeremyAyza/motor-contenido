@@ -2,6 +2,8 @@ import { requireEnv } from "./env.ts";
 import type { ImageProvider } from "./image.ts";
 import type { MusicProvider } from "./music.ts";
 import { geminiImage, geminiMusic, geminiSpeech } from "./providers/gemini.ts";
+import { elevenLabsSpeech } from "./providers/elevenlabs.ts";
+import { kieSpeech } from "./providers/kie.ts";
 import { freesoundSearch, openverseSearch, type SoundSearch } from "./sounds.ts";
 import type { SpeechProvider } from "./speech.ts";
 
@@ -19,6 +21,8 @@ export * from "./speech.ts";
 export * from "./wav.ts";
 export * from "./words.ts";
 export { GEMINI_IMAGE_MODEL, GEMINI_MUSIC_MODEL, GEMINI_TTS_MODEL, geminiImage, geminiMusic, geminiSpeech } from "./providers/gemini.ts";
+export { ELEVENLABS_TTS_MODEL, elevenLabsSpeech } from "./providers/elevenlabs.ts";
+export { KIE_TTS_MODEL, kieSpeech } from "./providers/kie.ts";
 
 /*
  * Adapters by id. Switching providers is adding an entry here and changing
@@ -30,6 +34,8 @@ type Factory<T> = (model?: string) => T;
 
 export const SPEECH_PROVIDERS: Record<string, Factory<SpeechProvider>> = {
   gemini: (model) => geminiSpeech({ apiKey: requireEnv("GEMINI_API_KEY"), model }),
+  elevenlabs: (model) => elevenLabsSpeech({ apiKey: requireEnv("ELEVENLABS_API_KEY"), model }),
+  "kie-elevenlabs": (model) => kieSpeech({ apiKey: requireEnv("KEI_KEY"), model }),
 };
 
 export const IMAGE_PROVIDERS: Record<string, Factory<ImageProvider>> = {

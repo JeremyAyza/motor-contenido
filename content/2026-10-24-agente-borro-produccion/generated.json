@@ -1,0 +1,46 @@
+[
+  {
+    "file": "img/edificio.png",
+    "kind": "image",
+    "provider": "gemini",
+    "model": "gemini-nano-banana-2.1",
+    "prompt": "A small tech company's building shown as an isometric cutaway (the front walls are removed so we look inside), two stacked levels floating alone on a plain flat dark navy background (#1A1E2B), with nothing else around the building. Upper level: a cozy developer office at night with one desk and a glowing monitor, a corkboard with sticky notes, a desk lamp with warm light, plants, and a grey metal filing cabinet with its top drawer slightly open; on the side wall, a closed door with a small red lock panel. Lower level, bigger: a heavy vault room like a bank vault, with a huge round steel vault door standing open on the left, and inside rows of server racks with glowing blue lights that hold the company's data; on the same shelves, right next to the servers, a stack of backup drive cases. A thick concrete slab separates the two levels, and a vertical cable shaft runs from the office down into the vault. Warm light in the office, cool blue light in the vault. No people, no robots. Isometric 3D illustration in the style of a premium tech explainer: true orthographic isometric camera, soft global illumination with a warm key light from the upper left, gentle ambient occlusion and soft contact shadows, matte clay-like materials with a fine grain, slightly rounded bevelled edges, crisp clean silhouettes, small lived-in details that make each place recognizable at a glance. Saturated but harmonious colors. No text, no letters, no numbers, no logos, no brand interfaces, no watermark. Build the colors around this palette: bg #1A1E2B, ink #F4F1EA, accent #FF4D3D, accentInk #FFFFFF, surface #262C3D, muted #A7AFBF.",
+    "references": [],
+    "sha256": "25471bd2a0e700740efbad91ee5486dc81393851b4d6a2b8c302223ee1dc5808",
+    "createdAt": "2026-10-24T20:49:12.182Z"
+  },
+  {
+    "file": "img/robot.png",
+    "kind": "image",
+    "provider": "gemini",
+    "model": "gemini-nano-banana-2.1",
+    "prompt": "A single small friendly generic robot assistant for the same isometric world as the reference image, at the same scale and camera angle: a boxy white and light grey body with rounded edges, short legs, small arms, a dark screen face showing two simple glowing cyan eyes, no logos and no letters on it. Standing, body turned three-quarters toward the upper left. Full body, centered, nothing else in the image. Isometric 3D illustration in the style of a premium tech explainer: true orthographic isometric camera, soft global illumination with a warm key light from the upper left, gentle ambient occlusion and soft contact shadows, matte clay-like materials with a fine grain, slightly rounded bevelled edges, crisp clean silhouettes, small lived-in details that make each place recognizable at a glance. Saturated but harmonious colors. No text, no letters, no numbers, no logos, no brand interfaces, no watermark. Build the colors around this palette: bg #1A1E2B, ink #F4F1EA, accent #FF4D3D, accentInk #FFFFFF, surface #262C3D, muted #A7AFBF. Draw it on a completely flat, pure green background (#00FF00), with no shadows, gradients, texture or ground on the background, and no green on the subject.",
+    "references": [
+      "img/edificio.png"
+    ],
+    "sha256": "1b3ded04a2dac8fe257c047bf2b6184df71fd4eaad10eb5105fdd368c993743a",
+    "createdAt": "2026-10-24T20:49:44.855Z"
+  },
+  {
+    "file": "img/edificio-borrado.png",
+    "kind": "image",
+    "provider": "gemini",
+    "model": "gemini-nano-banana-2.1",
+    "prompt": "Edit this exact illustration, keeping every pixel of the camera, building, office, vault door, furniture and style the same. Change only the inside of the lower vault room: every server rack is switched off and dark, with no blue lights at all, the shelves with the backup drive cases are empty, and the room is lit only by a dim red emergency light. The upper office does not change. Isometric 3D illustration in the style of a premium tech explainer: true orthographic isometric camera, soft global illumination with a warm key light from the upper left, gentle ambient occlusion and soft contact shadows, matte clay-like materials with a fine grain, slightly rounded bevelled edges, crisp clean silhouettes, small lived-in details that make each place recognizable at a glance. Saturated but harmonious colors. No text, no letters, no numbers, no logos, no brand interfaces, no watermark. Build the colors around this palette: bg #1A1E2B, ink #F4F1EA, accent #FF4D3D, accentInk #FFFFFF, surface #262C3D, muted #A7AFBF.",
+    "references": [
+      "img/edificio.png"
+    ],
+    "sha256": "75e86893d62c6b451f8cb20687dc1c56e78ea3fd73cae4d35a193bcd4d55e68d",
+    "createdAt": "2026-10-24T20:50:27.112Z"
+  },
+  {
+    "file": "audio/cama.mp3",
+    "kind": "music",
+    "provider": "gemini",
+    "model": "lyria-3-clip-preview",
+    "prompt": "Tense, minimal instrumental bed for a short tech true-story explainer: low pulsing synth bass, soft ticking clock percussion, sparse dark piano notes, subtle risers, 100 bpm, suspenseful but not horror, no vocals, no big drops, mixed low so a voice sits on top.",
+    "references": [],
+    "sha256": "bbf4d0777eb6eb2063b136258a3f45f40913fa3903112f23b9d68abde9f407d1",
+    "createdAt": "2026-10-24T20:52:46.771Z"
+  }
+]

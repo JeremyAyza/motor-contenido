@@ -6,6 +6,8 @@ import { after, describe, it } from "node:test";
 import {
   cachedSpeech,
   IMAGE_PROVIDERS,
+  elevenLabsSpeech,
+  kieSpeech,
   imageProvider,
   loadGenerated,
   MUSIC_PROVIDERS,
@@ -101,5 +103,56 @@ describe("recordGenerated", () => {
     assert.equal(generated.length, 1);
     assert.equal(generated[0].prompt, "otro foco");
     assert.match(generated[0].sha256, /^[0-9a-f]{64}$/);
+  });
+});
+
+describe("kie-elevenlabs", () => {
+  it("creates the task with the neighbouring lines, polls it and downloads the mp3", async () => {
+    const bodies: unknown[] = [];
+    let polls = 0;
+    const doFetch = (async (url: string, init?: RequestInit) => {
+      if (url.endsWith("/createTask")) {
+        bodies.push(JSON.parse(String(init?.body)));
+        return Response.json({ code: 200, msg: "ok", data: { taskId: "t1" } });
+      }
+      if (url.includes("recordInfo")) {
+        polls++;
+        const done = polls > 1;
+        return Response.json({ code: 200, msg: "ok", data: { state: done ? "success" : "generating", resultJson: done ? JSON.stringify({ resultUrls: ["https://files/a.mp3"] }) : undefined } });
+      }
+      return new Response(new Uint8Array([1, 2, 3]));
+    }) as typeof fetch;
+    const provider = kieSpeech({ apiKey: "k", doFetch, pollMs: 1 });
+    const result = await provider.synthesize({ text: "Hola", voice: "v1", previousText: "Antes", nextText: "Después", settings: { stability: 0.7 } });
+    assert.equal(result.format, "mp3");
+    assert.deepEqual([...result.audio], [1, 2, 3]);
+    assert.equal(polls, 2);
+    assert.deepEqual(bodies[0], {
+      model: "elevenlabs/text-to-speech-multilingual-v2",
+      input: { text: "Hola", voice: "v1", stability: 0.7, similarity_boost: 0.8, style: 0, speed: 1, previous_text: "Antes", next_text: "Después" },
+    });
+  });
+
+  it("reports kie's error code, which comes with HTTP 200", async () => {
+    const doFetch = (async () => Response.json({ code: 402, msg: "Insufficient credits", data: null })) as unknown as typeof fetch;
+    await assert.rejects(kieSpeech({ apiKey: "k", doFetch, pollMs: 1 }).synthesize({ text: "Hola", voice: "v1" }), /402 Insufficient credits/);
+  });
+});
+
+describe("elevenlabs", () => {
+  it("asks for Spanish with a fixed seed, the neighbouring lines and only the settings v4 takes", async () => {
+    const calls: Array<[string, Record<string, unknown>]> = [];
+    const convert = async (voiceId: string, request: Record<string, unknown>) => {
+      calls.push([voiceId, request]);
+      return new Response(new Uint8Array([9, 8])).body!;
+    };
+    const provider = elevenLabsSpeech({ apiKey: "k", convert });
+    const result = await provider.synthesize({ text: "Hola", voice: "v1", previousText: "Antes", settings: { stability: 0.7, style: 0.3 } });
+    assert.equal(result.format, "mp3");
+    assert.deepEqual([...result.audio], [9, 8]);
+    assert.deepEqual(calls[0], [
+      "v1",
+      { text: "Hola", modelId: "eleven_v4", outputFormat: "mp3_44100_128", languageCode: "es", voiceSettings: { stability: 0.7, similarityBoost: 0.8 }, seed: 4242, previousText: "Antes" },
+    ]);
   });
 });

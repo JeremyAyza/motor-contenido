@@ -73,7 +73,7 @@ Tamaño: mediano.
 
 ### Fase 3: láminas de mundo
 
-**Avance del 23 de octubre de 2026:** Jeremy eligió el estilo isométrico ilustrado. Hecho: `accounts/dev.json → world.style`, que `video:image` suma con la paleta de la pieza (`--no-style` lo quita), y `<Plate>` (lámina con `clip` para fundir dos estados y `depth` para el parallax). Probado en la pieza de iniciar sesión con Google: el hotel en corte, las puertas abiertas como segunda lámina sacada con `--ref`, Diego aparte con `--chroma`, y la tarjeta, el sello y los paneles en código. Falta el estilo de `negocios`.
+**Avance del 23 de octubre de 2026:** Jeremy eligió el estilo isométrico ilustrado. Hecho: `accounts/dev.json → world.style`, que `video:image` suma con la paleta de la pieza (desde el 24 de octubre, solo con `--world`: por defecto los Reels son motion graphics planos, ver `docs/direccion-reels.md`), y `<Plate>` (lámina con `clip` para fundir dos estados y `depth` para el parallax). Probado en la pieza de iniciar sesión con Google: el hotel en corte, las puertas abiertas como segunda lámina sacada con `--ref`, Diego aparte con `--chroma`, y la tarjeta, el sello y los paneles en código. Falta el estilo de `negocios`.
 
 - **Un estilo fijo por cuenta** en `accounts/<cuenta>.json → world.style`: un trozo de prompt (por ejemplo, isométrico, limpio, con la paleta de la pieza) que `video:image` agrega siempre, para que todas las ilustraciones parezcan del mismo mundo.
 - **Capas:** el fondo y los objetos se generan por separado (`--chroma`, que ya existe) para que la cámara les dé profundidad.

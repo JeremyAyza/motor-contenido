@@ -71,6 +71,8 @@ const DOTS = `url("data:image/svg+xml,${encodeURIComponent(
  * - `underlay`: capa detrás del contenido y delante de los puntos, para campos
  *   a sangre (la pantalla partida de "antes y después", por ejemplo).
  * - `swipe`: muestra "Desliza" junto a la firma (solo en la portada).
+ * - `hide`: partes del marco que esta lámina no dibuja ("tab", "dots",
+ *   "signature"), para un video que las apaga; por defecto están todas.
  * Si post.json → art.contador es true, las láminas interiores muestran n/N en
  * el pie (experimento que se decide con las métricas).
  */
@@ -81,6 +83,7 @@ export function Slide({
   frameClassName,
   underlay,
   swipe = false,
+  hide = [],
 }: {
   children: ReactNode;
   tone?: Tone;
@@ -88,6 +91,7 @@ export function Slide({
   frameClassName?: string;
   underlay?: ReactNode;
   swipe?: boolean;
+  hide?: Array<"tab" | "dots" | "signature">;
 }) {
   const { brand, tab, art, index, total } = useRender();
   const counter = !swipe && art.contador && index > 0 ? `${index + 1}/${total}` : null;
@@ -100,9 +104,9 @@ export function Slide({
   };
   return (
     <main data-slide className={cx("relative flex h-full w-full flex-col overflow-hidden", TONE[tone], frameClassName)}>
-      <div aria-hidden data-frame="puntos" className="pointer-events-none absolute inset-0 opacity-[0.13]" style={dots} />
+      {hide.includes("dots") ? null : <div aria-hidden data-frame="puntos" className="pointer-events-none absolute inset-0 opacity-[0.13]" style={dots} />}
       {underlay}
-      <div className="relative z-10 px-9">
+      <div className="relative z-10 px-9" style={hide.includes("tab") ? { visibility: "hidden" } : undefined}>
         <span data-frame="pestaña" data-mono-ok className={cx("inline-block rounded-b-xl px-4 pb-2 pt-3 font-mono text-[14px] font-semibold", TAB[tone])}>
           {tab}
         </span>
@@ -110,7 +114,7 @@ export function Slide({
       <section data-content className={cx("relative z-10 flex min-h-0 flex-1 flex-col px-9 pt-7", className)}>
         {children}
       </section>
-      <footer data-brand className="relative z-10 flex items-center justify-between px-9 pb-7 pt-4 text-[13px] leading-none">
+      <footer data-brand className="relative z-10 flex items-center justify-between px-9 pb-7 pt-4 text-[13px] leading-none" style={hide.includes("signature") ? { visibility: "hidden" } : undefined}>
         <span className="flex items-center gap-2.5">
           <span className="font-mono font-semibold" data-mono-ok>
             {brand.glyph}

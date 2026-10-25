@@ -1,0 +1,113 @@
+{
+  "topic": "carrusel-que-se-mueve",
+  "checkedAt": "2026-10-24",
+  "referencia": {
+    "url": "https://www.instagram.com/p/Deam2stCkV4/",
+    "cuenta": "@rayyan.pe",
+    "nota": "Referencia de nivel y de tema, vista lámina por lámina desde /embed/captioned/ sin sesión el 24 de octubre de 2026. Siete láminas, todas en video de 6 a 7 s (720×900). No se copian textos ni imágenes. Su CTA es 'comenta CLAUDE y te paso la skill'."
+  },
+  "facts": [
+    {
+      "claim": "Claude no genera ni edita imágenes: es un modelo que solo entiende imágenes. Puede interpretarlas y analizarlas, pero no generarlas, producirlas, editarlas ni crearlas.",
+      "source": "Claude Platform Docs, Vision (FAQ: Can Claude generate or edit images?)",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/vision",
+      "primary": true
+    },
+    {
+      "claim": "Una skill es una carpeta con un archivo SKILL.md: un frontmatter YAML (name y description) y las instrucciones en markdown. La description dice qué hace y cuándo usarla; Claude la usa para decidir cuándo aplicarla.",
+      "source": "Claude Platform Docs, Agent Skills (Skill structure) y Claude Code Docs, Skills",
+      "url": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview",
+      "primary": true
+    },
+    {
+      "claim": "Las skills se cargan por etapas: el name y la description siempre (unos 100 tokens por skill, al inicio); el cuerpo de SKILL.md solo cuando se activa (menos de 5.000 tokens); los archivos y scripts de la carpeta solo si hacen falta. De un script solo entra al contexto su salida.",
+      "source": "Claude Platform Docs, Agent Skills (How Skills work, tabla de niveles)",
+      "url": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview",
+      "primary": true
+    },
+    {
+      "claim": "En Claude Code, una skill personal va en ~/.claude/skills/<nombre>/SKILL.md y una de proyecto en .claude/skills/<nombre>/SKILL.md. También se invoca a mano con /<nombre>.",
+      "source": "Claude Code Docs, Skills",
+      "url": "https://code.claude.com/docs/en/skills",
+      "primary": true
+    },
+    {
+      "claim": "Anthropic recomienda usar skills solo de fuentes confiables: las que hiciste tú o las de Anthropic. Una skill maliciosa puede hacer que Claude llame herramientas o corra código de formas que no coinciden con lo que dice hacer, y hay que revisarla como si se instalara software.",
+      "source": "Claude Platform Docs, Agent Skills (Security considerations)",
+      "url": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview",
+      "primary": true
+    },
+    {
+      "claim": "En Claude Code, las skills tienen el mismo acceso a la red que cualquier otro programa de la computadora del usuario.",
+      "source": "Claude Platform Docs, Agent Skills (Runtime environment constraints, Claude Code)",
+      "url": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview",
+      "primary": true
+    },
+    {
+      "claim": "Document.getAnimations() devuelve todas las animaciones en curso del documento, incluidas las animaciones y transiciones CSS. Animation.currentTime lee y fija el tiempo de una animación en milisegundos, corra o esté en pausa.",
+      "source": "MDN Web Docs, Document.getAnimations() y Animation.currentTime",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Animation/currentTime",
+      "primary": true,
+      "note": "Segunda URL: https://developer.mozilla.org/en-US/docs/Web/API/Document/getAnimations"
+    },
+    {
+      "claim": "El demuxer image2 de ffmpeg lee una lista de imágenes indicada con un patrón (por ejemplo img-%03d.bmp). Su opción -framerate fija los cuadros por segundo del video y vale 25 si no se indica.",
+      "source": "FFmpeg Formats Documentation, image2 demuxer",
+      "url": "https://ffmpeg.org/ffmpeg-formats.html",
+      "primary": true
+    },
+    {
+      "claim": "El motor de @jacket.dev graba las láminas animadas a 30 cuadros por segundo: en cada cuadro pausa las animaciones con a.pause() y a.currentTime = t, toma una captura con Playwright y después une las capturas con ffmpeg (-framerate 30 -i f%04d.png -c:v libx264 -pix_fmt yuv420p).",
+      "source": "Código del motor (repositorio público JeremyAyza/motor-contenido), packages/carousel/src/movimiento.ts",
+      "url": "https://github.com/JeremyAyza/motor-contenido/blob/main/packages/carousel/src/movimiento.ts",
+      "primary": true,
+      "note": "Artefacto propio y real; se cita como código del motor, no como dato de un tercero."
+    },
+    {
+      "claim": "La skill de dirección de arte del motor es una carpeta skills/carrusel-taste/ con SKILL.md (name: carrusel-taste; description: dirección de arte para carruseles de Instagram del motor) y direcciones.json con 12 direcciones de arte.",
+      "source": "Repositorio público JeremyAyza/motor-contenido, skills/carrusel-taste/",
+      "url": "https://github.com/JeremyAyza/motor-contenido/tree/main/skills/carrusel-taste",
+      "primary": true
+    },
+    {
+      "claim": "Remotion renderiza con renderFrames(), que genera una serie de imágenes con Puppeteer, y stitchFramesToVideo(), que toma esas imágenes y las codifica en un video.",
+      "source": "Remotion Docs, renderFrames() y stitchFramesToVideo()",
+      "url": "https://www.remotion.dev/docs/renderer/render-frames",
+      "primary": true,
+      "note": "Segunda URL: https://www.remotion.dev/docs/renderer/stitch-frames-to-video"
+    },
+    {
+      "claim": "Remotion mantiene Agent Skills con buenas prácticas para trabajar en proyectos de Remotion. Se instalan con npx skills add remotion-dev/skills.",
+      "source": "Remotion Docs, Agent Skills",
+      "url": "https://www.remotion.dev/docs/ai/skills",
+      "primary": true
+    },
+    {
+      "claim": "Remotion es gratis para personas, organizaciones con fines de lucro de hasta 3 empleados, organizaciones sin fines de lucro y para evaluarlo sin uso comercial. El resto necesita una Company License.",
+      "source": "Remotion, LICENSE.md (remotion.dev/license redirige aquí)",
+      "url": "https://github.com/remotion-dev/remotion/blob/main/LICENSE.md",
+      "primary": true
+    },
+    {
+      "claim": "Por la API de Instagram, un carrusel admite hasta 20 imágenes, videos o una mezcla de los dos.",
+      "source": "Meta for Developers, Instagram Platform, Content Publishing",
+      "url": "https://developers.facebook.com/docs/instagram-platform/content-publishing/",
+      "primary": true
+    },
+    {
+      "claim": "Las imágenes que se publican por la API de Instagram tienen que estar entre 4:5 y 1.91:1 (1080×1350 es 4:5) y en JPEG.",
+      "source": "Meta for Developers, IG User Media (Image Specifications)",
+      "url": "https://developers.facebook.com/docs/instagram-platform/instagram-graph-api/reference/ig-user/media",
+      "primary": true
+    }
+  ],
+  "calculos": [
+    "Una lámina animada de 6 segundos a 30 cuadros por segundo son 6 × 30 = 180 capturas. Cálculo propio con el FPS del motor; 6 s es un ejemplo (el motor graba entre 3 y 12 s por lámina).",
+    "Si ffmpeg recibe esas 180 capturas sin -framerate, usa 25 cuadros por segundo: 180 / 25 = 7,2 segundos. La animación queda un 20% más lenta de lo que se diseñó (7,2 / 6 = 1,2). Cálculo propio.",
+    "La portada animada de esta pieza (out/01.mp4) tiene 95 cuadros a 30 por segundo (3,15 s), contados con ffprobe -count_frames el 24-10-2026. Si cambia la animación de la portada, hay que volver a contarlos y corregir el '95' de la portada, el cierre y el texto del post."
+  ],
+  "pendingToVerify": [
+    "Duración mínima y máxima de un video dentro de un carrusel de Instagram: la referencia de Meta solo publica las especificaciones de Reels (3 s mínimo, H.264 o HEVC, 4:2:0, moov al inicio). No entra en la pieza.",
+    "Si las skills de la referencia (@rayyan.pe) usan este mismo método: no se sabe y no se afirma. La pieza explica el método general, no el de esa cuenta."
+  ]
+}

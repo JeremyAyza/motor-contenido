@@ -1,0 +1,130 @@
+{
+  "$schema": "../../schemas/video.schema.json",
+  "format": "corto",
+  "topic": "Replica: once skills gratis de Claude que clonan una app y la mejoran",
+  "world": "Un celular con una app de citas de ejemplo que se desarma, se vuelve a armar, se prueba y se mejora con lo que odian sus usuarios.",
+  "hooks": [
+    {
+      "said": "¿Pagas cada mes por una app?",
+      "onScreen": "¿Pagas esta app?",
+      "formula": 16
+    },
+    {
+      "said": "Once skills gratis para que Claude clone una app.",
+      "onScreen": "11 skills gratis",
+      "formula": 11
+    },
+    {
+      "said": "Claude puede clonar una app. Y mejorarla.",
+      "onScreen": "Clónala y mejórala",
+      "formula": 18
+    }
+  ],
+  "scenes": [
+    {
+      "id": "gancho",
+      "say": "¿Pagas cada mes por una app? Con once skills gratis, Claude la clona. Y la mejora.",
+      "see": "Un celular con una app de citas de ejemplo y su precio mensual; aparece una segunda versión, la tuya, que se ve mejor",
+      "resource": "metafora"
+    },
+    {
+      "id": "replica",
+      "say": "Se llama Replica. Son once skills para Claude. Gratis y con licencia MIT.",
+      "see": "Título 11 SKILLS y las once fichas con sus nombres que caen una por una",
+      "resource": "metafora"
+    },
+    {
+      "id": "desmonta",
+      "say": "Una, recon, desmonta la app: sus pantallas y sus flujos.",
+      "see": "1 · DESMONTA: el celular se abre en capas, pantalla, componentes y datos",
+      "resource": "metafora"
+    },
+    {
+      "id": "monta",
+      "say": "Otra la reconstruye, pantalla por pantalla.",
+      "see": "2 · MONTA: el celular nuevo se arma pieza por pieza",
+      "resource": "metafora"
+    },
+    {
+      "id": "prueba",
+      "say": "Otra la recorre buscando errores. Y otra le pone nota contra la original.",
+      "see": "3 · PRUEBA: bichos que aparecen sobre la app y se tachan; una nota de paridad que sube",
+      "resource": "metafora"
+    },
+    {
+      "id": "emprendedor",
+      "say": "La que cambia todo es Entrepreneur. Lee reseñas reales de la original, en la App Store o en Reddit. Y arregla en la tuya lo que la gente odia.",
+      "see": "LEE LAS RESEÑAS: fichas de una estrella con las quejas del ejemplo; cada una se vuelve un arreglo",
+      "resource": "metafora"
+    },
+    {
+      "id": "ojo",
+      "say": "Ojo: copia lo que la app hace. No lo que tiene. Ni su código ni su logo.",
+      "see": "OJO sobre franjas: dos columnas, lo que hace (reservar, calendario, recordatorios) y lo que tiene (código, logo, contenido) tachado",
+      "resource": "metafora"
+    },
+    {
+      "id": "gratis",
+      "say": "Es código abierto. Y ya pasa las cinco mil estrellas en GitHub.",
+      "see": "GRATIS y código abierto con el logo oficial de GitHub y un contador de estrellas que llega a 5.270",
+      "resource": "metafora"
+    },
+    {
+      "id": "instala",
+      "say": "Se instala pegándole el enlace a Claude. Pero antes, léela: una skill ajena trae código.",
+      "see": "ASÍ SE INSTALA: una ventana de chat donde se escribe el enlace del repo e install skill; un aviso de leerla antes",
+      "resource": "metafora"
+    },
+    {
+      "id": "cierre",
+      "say": "El enlace está en el post. Guárdalo para cuando quieras clonar tu próxima app.",
+      "see": "La ficha de @jacket.dev con el avatar y el enlace del repo; el gesto de guardar",
+      "resource": "metafora"
+    }
+  ],
+  "caption": "¿Pagas cada mes por una app? Replica son 11 skills gratis para Claude que la clonan. Y la mejoran.\n\nCómo funciona:\n1. Recon desmonta la app: sus pantallas y sus flujos.\n2. Build la reconstruye pantalla por pantalla.\n3. Test la recorre buscando errores, y Diff le pone nota contra la original.\n4. Entrepreneur lee reseñas reales de la original, en la App Store o en Reddit, y arregla en la tuya lo que la gente odia.\n\nOjo: copia lo que la app hace, no lo que tiene. Ni su código ni su logo.\n\nEs gratis y MIT. Al 24 de octubre de 2026, 5.270 estrellas en GitHub. Búscalo como Jakeschincariol/replica-skill.\n\nAntes de instalar una skill ajena, léela. Puede traer código.\n\nGuárdalo para cuando quieras clonar tu próxima app.\n\nLa app del video es un ejemplo inventado.\n\n#claude #claudecode #ia #programacion #opensource",
+  "art": {
+    "direction": "titular-gigante",
+    "dealt": [
+      "titular-gigante",
+      "collage",
+      "antes-despues"
+    ],
+    "reason": "Cada escena es un título gigante en píldora y un objeto que se mueve: el celular, las fichas, las reseñas. Fondos de cuadrícula y franjas que cambian de tono entre escenas.",
+    "palette": {
+      "bg": "#12141A",
+      "ink": "#F2F1EC",
+      "accent": "#8FA8FF",
+      "accentInk": "#0E1220",
+      "surface": "#1E2230",
+      "muted": "#A4A9B8"
+    },
+    "fonts": {
+      "display": "bricolage",
+      "text": "geist"
+    },
+    "anchor": {
+      "kind": "logo",
+      "ref": "github",
+      "source": "Ícono oficial de GitHub en Simple Icons (CC0), sin modificar, en la escena del código abierto"
+    },
+    "tab": "replica.md"
+  },
+  "gateA": {
+    "approved": true,
+    "date": "2026-10-24"
+  },
+  "gateB": {
+    "approved": true,
+    "date": "2026-10-24",
+    "video": "9d228c6d4bcb72ee69da46094291a9f12b9c69bb3b543ecd8b110ba6d61021a7"
+  },
+  "meter": {
+    "label": "Skills",
+    "from": "0",
+    "to": "11"
+  },
+  "cover": {
+    "scene": "emprendedor"
+  }
+}

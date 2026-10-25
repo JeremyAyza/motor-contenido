@@ -24,10 +24,12 @@ export const AccountBrandSchema = z.object({
     provider: z.string().nullable(),
     voiceId: z.string().nullable(),
     style: z.string().nullable(),
+    settings: z.record(z.string(), z.number()).optional().describe("Ajustes de la voz del proveedor, como stability en ElevenLabs"),
+    tempo: z.number().min(0.8).max(1.3).optional().describe("Acelera o frena la voz ya generada sin cambiar el tono (ffmpeg atempo); 1 la deja igual"),
   }),
   world: z
     .object({
-      style: z.string().min(1).describe("Trozo de prompt que video:image suma a cada imagen, para que todas parezcan del mismo mundo"),
+      style: z.string().min(1).describe("Estilo 3D del mundo: video:image lo suma con --world, solo en piezas pedidas en 3D"),
     })
     .optional(),
 });

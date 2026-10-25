@@ -1,0 +1,46 @@
+{
+  "topic": "replica-skills",
+  "checkedAt": "2026-10-24",
+  "facts": [
+    {
+      "claim": "Replica es un repositorio con once skills de Claude que clonan una app: una la desmonta (recon), otra la reconstruye (build), otra la prueba buscando errores (test), otra la compara con la original con una nota de paridad (diff) y otra, Entrepreneur, lee lo que odian sus usuarios en reseñas reales y lo convierte en arreglos.",
+      "source": "README de Jakeschincariol/replica-skill (GitHub)",
+      "url": "https://github.com/Jakeschincariol/replica-skill",
+      "primary": true
+    },
+    {
+      "claim": "El repositorio es gratis y tiene licencia MIT; no pide registro, clave de API ni conexiones.",
+      "source": "README y LICENSE de Jakeschincariol/replica-skill",
+      "url": "https://github.com/Jakeschincariol/replica-skill",
+      "primary": true
+    },
+    {
+      "claim": "Al 24 de octubre de 2026 el repositorio tenía 5.270 estrellas y 929 forks en GitHub.",
+      "source": "GitHub API, repos/Jakeschincariol/replica-skill (consultada el 24-10-2026)",
+      "url": "https://api.github.com/repos/Jakeschincariol/replica-skill",
+      "primary": true
+    },
+    {
+      "claim": "Reconstruye lo que una app hace, nunca lo que tiene: funciones y flujos, no su código, su logo, sus textos ni su contenido. Las skills lo hacen cumplir.",
+      "source": "README de Jakeschincariol/replica-skill",
+      "url": "https://github.com/Jakeschincariol/replica-skill",
+      "primary": true
+    },
+    {
+      "claim": "Se instala pegándole a Claude el enlace del repositorio y 'install skill', o como plugin de Claude Code. Sus herramientas necesitan Python 3.8 o más nuevo.",
+      "source": "README de Jakeschincariol/replica-skill (Install)",
+      "url": "https://github.com/Jakeschincariol/replica-skill",
+      "primary": true
+    },
+    {
+      "claim": "Una skill puede darle a Claude instrucciones y código: solo hay que usar skills de fuentes confiables y revisar las de fuentes desconocidas antes de usarlas.",
+      "source": "Claude Docs, Agent Skills (Security considerations)",
+      "url": "https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview",
+      "primary": true
+    }
+  ],
+  "illustrative": [
+    "La app de citas del video (CitasYa) y su precio son inventados: no es una app real.",
+    "Las quejas de las reseñas salen del ejemplo del README (precio por usuario que sube, sin recordatorios por SMS, confusión con las zonas horarias), no de una app real."
+  ]
+}

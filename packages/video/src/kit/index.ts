@@ -1,7 +1,10 @@
 import type { ComponentType } from "react";
 import type { Tone } from "../../../carousel/src/ui/index.tsx";
 import type { Shot, SpotBox } from "./camera.ts";
+import type { AvatarDef } from "./avatar.tsx";
 import type { MeterDef } from "./meter.ts";
+import type { PanelDef } from "./panel.ts";
+import type { SceneBackground, SceneTransition } from "./scene-fx.tsx";
 
 /**
  * What a piece's video.tsx uses (`@motor/video`). It imports nothing that
@@ -36,6 +39,20 @@ export type SceneDef = {
    */
   camera?: Shot;
   /**
+   * Seconds the scene stays on screen after the voice ends: a silent beat for
+   * a punchline, a reveal or a transition, as the references do. 0 by default.
+   */
+  hold?: number;
+  /** Without a stage: a pattern over the scene's tone ("grid", "stripes"). */
+  background?: SceneBackground;
+  /** Without a stage: how the scene comes in ("blur", "zoom", "slide", "whip"), with a whoosh. */
+  transition?: SceneTransition;
+  /**
+   * Where the avatar goes in this scene when it is a bubble (AvatarDef.shape
+   * "bubble"): its center and size in design px. Scenes without it have no avatar.
+   */
+  avatar?: { x: number; y: number; size: number };
+  /**
    * What is seen, inside the frame (the tab, the dots and the signature come
    * from it): usually a SceneFrame. Times are seconds from the start of the
    * scene; useCue("word") says when a word is said. With a stage it is
@@ -61,6 +78,14 @@ export type StageDef = {
   spots?: Record<string, SpotBox>;
   /** How much the camera closes in during each scene (0.04 by default; 0 keeps it still). */
   drift?: number;
+  /**
+   * Named SVG paths in the world's coordinates (`{ ruta: "M 0 300 C ..." }`):
+   * <RoadPath> draws them, <Along> and <Traffic> travel them, and a scene's
+   * camera can follow one (`camera: { follow: { path, from, to } }`).
+   */
+  paths?: Record<string, string>;
+  /** A whoosh each time the camera moves to a new shot: on by default, false to mute it. */
+  sfx?: boolean;
 };
 
 /**
@@ -75,13 +100,15 @@ export type VideoDef = {
    * A music bed under the whole video, looped if it is shorter: a file of the
    * piece (`file: "audio/bed.mp3"`, from video:music) or a catalog asset
    * (`asset: "<id>"`). It goes down while the voice speaks. Volume from 0 to
-   * 1, 0.12 by default: the voice comes first.
+   * 1, 0.06 by default: the voice comes first.
    */
   music?: { file?: string; asset?: string; volume?: number };
   /**
    * How the captions mark the voice: "highlight" (the word being said in the
    * accent, by default), "pill" (a pill where the words said so far are in ink
-   * and the rest are dimmed) or "marker" (the word being said on an accent box).
+   * and the rest are dimmed), "marker" (the word being said on an accent box) or
+   * "card" (the phrase big on a dark card, next to the avatar) or "none" (no
+   * captions: the scenes carry the words in big titles).
    * The art direction picks the one that fits its world.
    */
   captions?: CaptionStyle;
@@ -99,16 +126,36 @@ export type VideoDef = {
    * a word is said) to the close. Works with and without a stage.
    */
   meter?: MeterDef;
+  /** The account's avatar at the bottom left, its mouth moved by the voice (kit/avatar.tsx). */
+  avatar?: AvatarDef;
+  /**
+   * The HUD board under the chapter bar, like the taximeter of Rick's Reels:
+   * rows with the active one marked, counters that count live, a footer
+   * (kit/panel.ts). It replaces the meter.
+   */
+  panel?: PanelDef;
+  /**
+   * Which parts of the frame show: the file tab, the dot texture and the
+   * signature. All on by default; a piece turns some off for full-bleed
+   * scenes (docs/direccion-reels.md). It is per piece, not a rule.
+   */
+  frame?: { tab?: boolean; dots?: boolean; signature?: boolean };
   scenes: SceneDef[];
 };
 
-export type CaptionStyle = "highlight" | "pill" | "marker";
+export type CaptionStyle = "highlight" | "pill" | "marker" | "card" | "none";
 
 export const defineVideo = (video: VideoDef) => video;
 
 export { useCapture, useCue, useStage, useStageCue } from "./scene.ts";
 export type { Shot, SpotBox } from "./camera.ts";
 export type { MeterDef, MeterKind, MeterStep } from "./meter.ts";
+export type { AvatarDef } from "./avatar.tsx";
+export type { PanelCounter, PanelDef } from "./panel.ts";
+export { Pop, Sfx, usePop } from "./sfx.tsx";
+export { Banner, PillTitle } from "./text.tsx";
+export type { SceneBackground, SceneTransition } from "./scene-fx.tsx";
+export { Along, Booth, Building, Bush, Car, Cloud, Coin, Cone, Document, House, Laptop, Machine, Person, Pine, pointAlong, RoadPath, Server, Sign, StreetLamp, Traffic, TrafficLight, Tree, Truck, usePath, Warehouse } from "./props.tsx";
 export { Board, Label, Plate, Spot } from "./world.tsx";
 export type { LabelPlace, LabelTone } from "./world.tsx";
 export type { BoardEdge, BoardEvent, BoardNode, BoardPacket, NodeState } from "./board.ts";

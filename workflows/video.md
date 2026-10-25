@@ -9,7 +9,7 @@ Es un flujo separado del carrusel: comparte la marca (`packages/brand`), las pri
    - las escenas (`scenes`): `id`, lo que dice la voz (`say`, escrito para el oído), lo que se ve (`see`, concreto) y el recurso visual (`resource`, de [recursos.json](../skills/carrusel-taste/recursos.json));
    - el texto del post (`caption`), opcional;
    - la dirección de arte (`art`), como `post.json → art`; si falta, se toma la del carrusel de la pieza;
-   - el formato (`format`): `corto` (de 30 a 60 s, por defecto) o `explicado` (de 75 a 100 s, en prueba; ver [docs/propuesta-reels-jacket.md](../docs/propuesta-reels-jacket.md));
+   - el formato (`format`): `corto` (de 30 a 60 s, por defecto), `explicado` (de 75 a 100 s, en prueba; ver [docs/propuesta-reels-jacket.md](../docs/propuesta-reels-jacket.md)) o `largo` (de 90 a 180 s; ver [docs/plan-paridad-rick.md](../docs/plan-paridad-rick.md));
    - el tema (`topic`), en pocas palabras;
    - el mundo (`world`): la metáfora física que dura todo el video, en una línea ("un edificio de tres pisos en corte: tu app, el runtime y el servidor; la grieta está en el del medio");
    - lo que está en juego (`meter`): qué cuenta el medidor del HUD (`label`), su valor en el gancho (`from`) y en el cierre (`to`);
@@ -20,7 +20,7 @@ Es un flujo separado del carrusel: comparte la marca (`packages/brand`), las pri
 2. **Puerta A:** `npm run video:script -- content/<pieza>`. Valida el guion, estima la duración y deja `out/gate-a.md`, la hoja que lee la persona. Avisa si:
    - el gancho tarda más de 3 s;
    - el texto en pantalla pasa de 6 palabras;
-   - el video sale del rango de su formato (`corto`, de 30 a 60 s; `explicado`, de 75 a 100 s);
+   - el video sale del rango de su formato (`corto`, de 30 a 60 s; `explicado`, de 75 a 100 s; `largo`, de 90 a 180 s);
    - el tema se parece al de una pieza de los últimos 14 días: al referente, repetir un tema a los pocos días le costó 10 veces menos vistas;
    - falta `world`, `meter` o `cover`. Los Reels que funcionan mantienen un mundo y un medidor todo el video ([docs/analisis-reels-2026-10-22.md](../docs/analisis-reels-2026-10-22.md)). La hoja muestra los tres en "Mundo".
 
@@ -44,10 +44,9 @@ Es un flujo separado del carrusel: comparte la marca (`packages/brand`), las pri
 
    Las voces se guardan en caché: si el texto no cambia, no se vuelven a pagar.
 5. **Vista previa:** `npm run video:studio -- content/<pieza>` abre Remotion Studio con la pieza.
-6. **Render e inspector:** `npm run video:render -- content/<pieza>` deja cinco archivos:
+6. **Render e inspector:** `npm run video:render -- content/<pieza>` deja cuatro archivos:
    - `out/video.mp4`: 1080×1920 a 30 fps, H.264 yuv420p en BT.709 y AAC, con el volumen normalizado a −14 LUFS. Es el que se publica;
-   - `out/video-vista-instagram.mp4`: el mismo video con una simulación de la interfaz de Instagram encima (barra, botones, usuario, texto del post y audio), para juzgar la composición como se ve en la app. Nunca se publica;
-   - `out/video-hoja.png`: la portada (el cuadro 1), el final de cada escena y el medio de cada cambio de escena, con esa interfaz encima. En el medio de un cambio se ve si un fundido deja una doble exposición sucia;
+   - `out/video-hoja.png`: la portada (el cuadro 1), el final de cada escena y el medio de cada cambio de escena. En el medio de un cambio se ve si un fundido deja una doble exposición sucia;
    - `out/video-inspector.txt`: lo que encontró el inspector;
    - `out/video.sha256`: el hash del video, para la puerta B.
 
@@ -110,7 +109,6 @@ Igual que en el carrusel ([workflows/metricas.md](metricas.md)):
 - **El dibujo** va centrado entre el título y los subtítulos. `SceneFrame` (de `@motor/video`) lo hace solo: cada escena le da su dibujo de 468 px de ancho, el de una lámina del carrusel, y su alto.
 - **Los subtítulos** van de y 812 a 880, justo arriba de la firma, en páginas de una frase o un pedazo de frase: nunca mezclan el final de una oración con el principio de la siguiente.
 - **La portada.** El cuadro 1 lleva el dibujo, no solo el título, porque la grilla del perfil lo recorta al centro 3:4 (de y 120 a 840). La pestaña queda fuera de ese recorte.
-- **La vista con la interfaz** (`video-vista-instagram.mp4` y la hoja) muestra qué tapa la app encima del diseño. Es para saberlo, no para acomodar el dibujo.
 
 **Escenario y HUD.** Como en el referente de [docs/analisis-rick-theengineer.md](../docs/analisis-rick-theengineer.md), lo que se explica pasa dentro de una interfaz que el público reconoce. El kit está en `packages/video/src/kit/stage.tsx` y se importa de `@motor/video`:
 - `Phone`, `BrowserBar`, `AppCard`, `Chat`, `Terminal`, `Diff`, `DataTable` y `Chip`. Cada uno recibe `at` (los segundos de `useCue`) para aparecer con la voz; `Terminal` escribe los comandos letra por letra.

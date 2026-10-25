@@ -1,0 +1,59 @@
+{
+  "topic": "cuanto-cuesta-la-ia",
+  "checkedAt": "2026-10-24",
+  "facts": [
+    {
+      "claim": "Claude Sonnet 5.5 cuesta 2 dólares por millón de tokens de entrada y 10 dólares por millón de tokens de salida.",
+      "source": "Claude Platform Docs, Pricing (tabla de precios por modelo)",
+      "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "primary": true
+    },
+    {
+      "claim": "En Claude Opus 5.5 y Claude Sonnet 5.5, leer del caché (cache hit) cuesta el 5% del precio normal de entrada: 0,10 dólares por millón de tokens en Sonnet 5.5. Escribir en el caché de 5 minutos cuesta 1,25 veces el precio de entrada (2,50 dólares por millón en Sonnet 5.5).",
+      "source": "Claude Platform Docs, Pricing (Prompt caching)",
+      "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "primary": true
+    },
+    {
+      "claim": "La Batch API procesa pedidos de forma asíncrona con 50% de descuento en entrada y salida.",
+      "source": "Claude Platform Docs, Pricing (Batch processing)",
+      "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "primary": true
+    },
+    {
+      "claim": "Con el pensamiento extendido, los tokens de razonamiento interno se cobran como tokens de salida: la respuesta los informa en usage.output_tokens_details.thinking_tokens.",
+      "source": "Claude Platform Docs, Extended thinking",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/extended-thinking",
+      "primary": true
+    },
+    {
+      "claim": "La Messages API no tiene estado: siempre se envía el historial completo de la conversación.",
+      "source": "Claude Platform Docs, Working with messages",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/working-with-messages",
+      "primary": true
+    },
+    {
+      "claim": "Claude Haiku 5.5 cuesta 0,10 dólares por millón de tokens de entrada (prompts de hasta 100.000 tokens) y Claude Opus 5.5 cuesta 4 dólares por millón: 40 veces más.",
+      "source": "Claude Platform Docs, Pricing (tabla de precios por modelo)",
+      "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "primary": true
+    },
+    {
+      "claim": "Los multiplicadores del caché se suman a los demás modificadores de precio, incluido el descuento de la Batch API.",
+      "source": "Claude Platform Docs, Pricing (Prompt caching)",
+      "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "primary": true
+    },
+    {
+      "claim": "Escribir en el caché de 5 minutos cuesta 1,25 veces el precio de entrada; como leer cuesta mucho menos, el caché se paga después de una sola lectura.",
+      "source": "Claude Platform Docs, Pricing (Prompt caching)",
+      "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "primary": true
+    }
+  ],
+  "illustrative": [
+    "El ejemplo de la cuenta es un cálculo propio con los precios de Sonnet 5.5: un documento de 50.000 tokens enviado en 50 mensajes son 2,5 millones de tokens de entrada, 5 dólares. Con caché, una escritura (50.000 × 2,50 $/M = 0,125 $) y 49 lecturas (2,45 millones × 0,10 $/M = 0,245 $) suman unos 0,37 dólares. No cuenta los tokens de las preguntas ni de las respuestas. En el tablero, la primera lectura del PDF (50.000 tokens × 2 $/M) son 0,10 dólares; una respuesta de 1.000 tokens suma 0,01 y 3.000 tokens de razonamiento suman 0,03.",
+    "El taxímetro y la carretera son una metáfora de la facturación, no una interfaz de Anthropic.",
+    "El avatar es la ilustración de Jeremy, animada."
+  ]
+}

@@ -3,7 +3,7 @@ import { mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, it } from "node:test";
-import { artOf, checkGateB, estimateWords, gateASheet, scriptWarnings, tabOf, VideoScriptSchema, WORDS_PER_SECOND } from "../src/script.ts";
+import { artOf, checkGateB, estimateWords, gateASheet, scriptWarnings, tabOf, targetOff, VideoScriptSchema, WORDS_PER_SECOND } from "../src/script.ts";
 
 const base = {
   hooks: [{ said: "El ray tracing sigue la luz al revés.", onScreen: "La luz, al revés", formula: 22 }],
@@ -157,5 +157,13 @@ describe("estimateWords", () => {
     assert.deepEqual(words.map((w) => w.text), ["Corre", "los", "tests.", "¿Falla", "uno?"]);
     assert.equal(words[1].startMs, Math.round(1000 / WORDS_PER_SECOND));
     assert.ok(words.every((w, i) => w.endMs > w.startMs && (i === 0 || w.startMs > words[i - 1].endMs)));
+  });
+});
+
+describe("target", () => {
+  it("says how far the length is from the reference's, past 10%", () => {
+    assert.equal(targetOff(51, 56), "");
+    assert.equal(targetOff(45, 56), "20% menos");
+    assert.equal(targetOff(70, 56), "25% más");
   });
 });

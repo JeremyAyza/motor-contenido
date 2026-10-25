@@ -61,3 +61,33 @@ describe("cameraTransform", () => {
     assert.equal(t, `translate(${VIEW.x + VIEW.w / 2 - 200}px, ${VIEW.y + VIEW.h / 2 - 100}px) scale(2)`);
   });
 });
+
+describe("a shot that follows a path", () => {
+  const world = { width: 1000, height: 1000, paths: { road: "M 0 0 L 1000 0" } };
+  const shots = resolveShots([{ focus: { x: 0, y: 0 }, zoom: 1 }, { follow: { path: "road", from: 0.2, to: 0.8 }, zoom: 1 }, { focus: { x: 500, y: 500 } }], world);
+
+  it("starts where the path's `from` is", () => {
+    assert.equal(Math.round(shots[1].x), 200);
+  });
+
+  it("travels to `to` during the scene, and the next move starts there", () => {
+    const at = (ms: number) => cameraAt(shots, [1000, 3000, 2000], ms, { drift: 0 });
+    assert.equal(Math.round(at(1000 + 900).x), 200);
+    assert.equal(Math.round(at(1000 + 3000 - 1).x), 800);
+    assert.equal(Math.round(at(4000).x), 800);
+  });
+
+  it("says which paths the stage has when the name is wrong", () => {
+    assert.throws(() => resolveShots([{ follow: { path: "rio", from: 0, to: 1 } }], world), /"rio" is not a path of the stage. Paths: road/);
+  });
+});
+
+describe("a tracking shot that holds its x", () => {
+  const world = { width: 1000, height: 1000, paths: { s: "M 100 0 L 900 1000" } };
+  it("travels down the path but keeps the x", () => {
+    const shots = resolveShots([{ follow: { path: "s", from: 0, to: 1, x: 500 }, zoom: 1 }], world);
+    const end = cameraAt(shots, [2000], 1999, { drift: 0 });
+    assert.equal(Math.round(end.x), 500);
+    assert.ok(end.y > 990);
+  });
+});

@@ -18,6 +18,7 @@ import {
   normalizeWord,
   speechProvider,
   wavDurationMs,
+  wavLevels,
   whisperAligner,
   type Aligner,
   type Catalog,
@@ -31,7 +32,7 @@ import { recentSimilar, REPEAT_DAYS } from "./topics.ts";
 import { asVideoError, VideoError } from "./errors.ts";
 import type { VideoDef } from "./kit/index.ts";
 import { assetCommand, flag, imageCommand, musicCommand } from "./media-commands.ts";
-import { inspectComposition, inspectFrames, inspectFreezes, inspectLoudness, inspectTimeline, measureLoudness, normalizeLoudness, overlayInterface, probeServer, reviewSheet, sheetFrames, cameraMoving, type Issue } from "./inspector.ts";
+import { inspectComposition, inspectFrames, inspectFreezes, inspectLoudness, inspectTimeline, measureLoudness, normalizeLoudness, probeServer, sceneEntering, reviewSheet, sheetFrames, cameraMoving, type Issue } from "./inspector.ts";
 import { VideoMetricsSchema, writeMetricsReport } from "./metrics.ts";
 import { piecePalette } from "./palette.ts";
 import { reelWarnings, runReelChecks } from "./reel.ts";
@@ -70,7 +71,7 @@ const USAGE = `Usage:
       The style is the account's (accounts/dev.json → voice.style) unless --style says otherwise.
   npm run video:schema
       Writes schemas/video.schema.json and schemas/video-metrics.schema.json.
-  npm run video:image -- content/<piece> --name <name> --prompt "..." [--ref img/a.png] [--aspect 1:1] [--size 1K] [--chroma] [--no-style] [--replace]
+  npm run video:image -- content/<piece> --name <name> --prompt "..." [--ref img/a.png] [--aspect 1:1] [--size 1K] [--chroma] [--world] [--replace]
       Generates content/<piece>/img/<name>.png with the image provider of media.config.json.
   npm run video:music -- content/<piece> --name <name> --prompt "..." [--replace]
       Generates content/<piece>/audio/<name>.mp3, a bed for music: { file } in video.tsx.
@@ -124,7 +125,7 @@ function scenesOf(script: VideoScript, video: VideoDef) {
   return script.scenes.map((scene) => {
     const def = video.scenes.find((s) => s.id === scene.id);
     if (!def) throw new VideoError(`Scene "${scene.id}" of video.json has no visual in video.tsx`);
-    return { ...scene, sfx: def.sfx ?? [] };
+    return { ...scene, sfx: def.sfx ?? [], holdMs: (def.hold ?? 0) * 1000 };
   });
 }
 
@@ -134,7 +135,7 @@ function voiceFor(video: VideoDef) {
   const provider = account.voice.provider;
   const voice = video.voice?.voice ?? account.voice.voiceId;
   if (!provider || !voice) throw new VideoError("accounts/dev.json → voice needs provider and voiceId. Pick the voice with: npm run video:voices");
-  return { account, provider, voice, style: video.voice?.style ?? account.voice.style ?? undefined };
+  return { account, provider, voice, style: video.voice?.style ?? account.voice.style ?? undefined, settings: account.voice.settings, tempo: account.voice.tempo ?? 1 };
 }
 
 /** Directions of the account's videos, newest first, from their art (video.json or the carousel's). */
@@ -171,7 +172,8 @@ function deal(args: string[]): void {
 /** Where the music bed comes from: a file of the piece (video:music) or a catalog asset. */
 async function musicFor(video: VideoDef, dir: string, out: string, catalog: Catalog): Promise<TimelineMusic | undefined> {
   if (!video.music) return undefined;
-  const { file, asset, volume = 0.12 } = video.music;
+  // Low under the voice: it is a bed, not a track (docs/direccion-reels.md).
+  const { file, asset, volume = 0.06 } = video.music;
   if (!file === !asset) throw new VideoError("video.tsx → music needs either file (a file of the piece) or asset (an id of the catalog)");
   let source: string;
   if (file) {
@@ -344,7 +346,7 @@ async function prepare(args: string[]): Promise<void> {
   loadEnv(join(REPO_ROOT, ".env"));
   const { art, from } = asVideoError(() => artOf(dir, videoScript));
   const palette = asVideoError(() => piecePalette(art.palette, from));
-  const { account, provider: providerId, voice, style } = voiceFor(video);
+  const { account, provider: providerId, voice, style, settings, tempo } = voiceFor(video);
   const provider = speechProvider(providerId);
   const out = join(dir, "out/video");
   rmSync(out, { recursive: true, force: true });
@@ -355,11 +357,15 @@ async function prepare(args: string[]): Promise<void> {
 
   const scenes: TimelineScene[] = [];
   for (const [i, scene] of scenesToVoice.entries()) {
-    const speech = await cachedSpeech(provider, { text: scene.say, voice, style }, join(CACHE, "media/speech"));
-    if (speech.format !== "wav") throw new VideoError(`Scene "${scene.id}": only WAV voices are supported for now (got ${speech.format})`);
+    // The neighbouring lines keep one tone across scenes, for providers that use them (ElevenLabs).
+    const stitching = provider.id === "gemini" ? {} : { previousText: scenesToVoice[i - 1]?.say, nextText: scenesToVoice[i + 1]?.say };
+    const speech = await cachedSpeech(provider, { text: scene.say, voice, style, settings, ...stitching }, join(CACHE, "media/speech"));
     const voiceFile = `voice/${scene.id}.wav`;
-    copyFileSync(speech.file, join(out, voiceFile));
-    const words = speech.words ?? (await wordsFor(aligner, speech.file, scene.say));
+    // The tempo speeds the voice up after it is made (pitch untouched), so the cache keeps the original.
+    if (speech.format === "wav" && tempo === 1) copyFileSync(speech.file, join(out, voiceFile));
+    else ffmpeg(["-i", speech.file, ...(tempo === 1 ? [] : ["-filter:a", `atempo=${tempo}`]), "-ac", "1", "-ar", "44100", "-c:a", "pcm_s16le", join(out, voiceFile)]);
+    const wav = new Uint8Array(readFileSync(join(out, voiceFile)));
+    const words = speech.words ?? (await wordsFor(aligner, join(out, voiceFile), scene.say));
     const sfx = [];
     for (const effect of scene.sfx) {
       const asset = asVideoError(() => findAsset(catalog, effect.asset));
@@ -370,15 +376,24 @@ async function prepare(args: string[]): Promise<void> {
       const atMs = typeof effect.at === "number" ? effect.at * 1000 : wordStartMs(words, effect.at, scene.id);
       sfx.push({ src, atMs, volume: effect.volume ?? 0.5 });
     }
-    const audioMs = wavDurationMs(speech.audio);
+    const audioMs = wavDurationMs(wav);
     const speechEndMs = words.length ? Math.min(audioMs, words[words.length - 1].endMs) : audioMs;
-    const durationMs = Math.round(speechEndMs + (i === scenesToVoice.length - 1 ? END_TAIL_MS : TAIL_MS));
-    scenes.push({ id: scene.id, voice: voiceFile, durationMs, words, sfx });
+    const durationMs = Math.round(speechEndMs + (i === scenesToVoice.length - 1 ? END_TAIL_MS : TAIL_MS) + scene.holdMs);
+    scenes.push({ id: scene.id, voice: voiceFile, durationMs, words, sfx, levels: wavLevels(wav, FPS) });
     console.log(`  ${scene.id}: ${(durationMs / 1000).toFixed(1)} s, ${words.length} words${speech.cached ? " (cached voice)" : ""}`);
   }
 
+  // Every effect of the catalog goes to the public folder: the kit sounds by itself (<Sfx>, <Pop>, the camera, the board).
+  const sounds: Record<string, string> = {};
+  for (const asset of catalog.assets.filter((a) => a.type === "sfx")) {
+    asVideoError(() => assertUsable(asset));
+    const local = await fetchAsset(asset, join(CACHE, "assets"));
+    sounds[asset.id] = `sfx/${basename(local)}`;
+    copyFileSync(local, join(out, sounds[asset.id]));
+  }
   const timeline: Timeline = {
     ...stageOf(dir, piece, art, palette, out, videoScript.meter),
+    sounds,
     brand: account,
     voice: { provider: provider.id, model: provider.model, voice },
     scenes,
@@ -387,6 +402,12 @@ async function prepare(args: string[]): Promise<void> {
   writeFileSync(join(out, "timeline.json"), JSON.stringify(timeline, null, 2));
   const total = scenes.reduce((sum, s) => sum + s.durationMs, 0) / 1000;
   console.log(`Ready: ${total.toFixed(1)} s${timeline.music ? `, music ${timeline.music.src}` : ""} in ${join(out, "timeline.json")}`);
+}
+
+/** The scenes of video.tsx that come in with a transition (SceneDef.transition). */
+async function transitionedScenes(dir: string): Promise<Set<string>> {
+  const video = (await import(pathToFileURL(join(dir, "video.tsx")).href)).default as VideoDef;
+  return new Set(video.scenes.filter((s) => s.transition).map((s) => s.id));
 }
 
 function remotionArgs(dir: string, publicDir = "out/video"): string[] {
@@ -412,7 +433,7 @@ async function storyboard(args: string[]): Promise<void> {
   mkdirSync(out, { recursive: true });
   const scenes: TimelineScene[] = scenesToShow.map((scene, i) => {
     const words = estimateWords(scene.say);
-    const durationMs = Math.round((words.at(-1)?.endMs ?? 0) + (i === scenesToShow.length - 1 ? END_TAIL_MS : TAIL_MS));
+    const durationMs = Math.round((words.at(-1)?.endMs ?? 0) + (i === scenesToShow.length - 1 ? END_TAIL_MS : TAIL_MS) + scene.holdMs);
     return { id: scene.id, durationMs, words, sfx: [] };
   });
   const timeline: Timeline = { ...stageOf(dir, piece, art, palette, out, videoScript.meter), brand: loadAccount("dev"), scenes };
@@ -434,7 +455,7 @@ async function storyboard(args: string[]): Promise<void> {
   const sheet = join(dir, "out/storyboard.png");
   asVideoError(() => reviewSheet(FFMPEG, mp4, sheetFrames(timeline), sheet));
   const issues = [
-    ...inspectFrames([...server.reports.values()], timeline.fps, videoScript.hooks[0].onScreen, cameraMoving(timeline)),
+    ...inspectFrames([...server.reports.values()], timeline.fps, videoScript.hooks[0].onScreen, cameraMoving(timeline), sceneEntering(timeline, await transitionedScenes(dir))),
     ...asVideoError(() => inspectComposition(FFMPEG, mp4, timeline)),
     ...videoWarnings(videoScript, video),
   ];
@@ -489,24 +510,11 @@ async function render(args: string[]): Promise<void> {
   asVideoError(() => normalizeLoudness(FFMPEG, raw, output));
   rmSync(raw, { force: true });
 
-  // The preview and the sheet carry the mock Instagram interface: that is how the video is seen.
-  const overlay = join(dir, "out/instagram-ui.png");
-  const overlayProps = join(dir, "out/instagram-ui-props.json");
-  writeFileSync(overlayProps, JSON.stringify({ handle: loadAccount("dev").handle }));
-  try {
-    await runAsync(process.execPath, [REMOTION, "still", ENTRY, "instagram-ui", overlay, ...remotionArgs(dir), `--scale=${SCALE}`, "--image-format=png", `--props=${overlayProps}`], {
-      REMOTION_PIECE: piece,
-    });
-  } finally {
-    rmSync(overlayProps, { force: true });
-  }
-  const preview = join(dir, "out/video-vista-instagram.mp4");
-  asVideoError(() => overlayInterface(FFMPEG, output, overlay, preview));
   const sheet = join(dir, "out/video-hoja.png");
-  asVideoError(() => reviewSheet(FFMPEG, preview, sheetFrames(timeline), sheet));
+  asVideoError(() => reviewSheet(FFMPEG, output, sheetFrames(timeline), sheet));
 
   const issues = [
-    ...inspectFrames([...server.reports.values()], timeline.fps, videoScript.hooks[0].onScreen, cameraMoving(timeline)),
+    ...inspectFrames([...server.reports.values()], timeline.fps, videoScript.hooks[0].onScreen, cameraMoving(timeline), sceneEntering(timeline, await transitionedScenes(dir))),
     ...inspectTimeline(timeline, videoScript),
     ...asVideoError(() => inspectComposition(FFMPEG, output, timeline)),
     ...asVideoError(() => inspectFreezes(FFMPEG, output)),
@@ -519,7 +527,7 @@ async function render(args: string[]): Promise<void> {
 
   const sha256 = createHash("sha256").update(readFileSync(output)).digest("hex");
   writeFileSync(join(dir, "out/video.sha256"), `${sha256}\n`);
-  console.log(`Video: ${output}\nPreview with the Instagram interface: ${preview}\nSheet: ${sheet}\nsha256: ${sha256}`);
+  console.log(`Video: ${output}\nSheet: ${sheet}\nsha256: ${sha256}`);
   const errors = issues.filter((i) => i.level === "error").length;
   if (errors) {
     process.exitCode = 1;

@@ -1,0 +1,130 @@
+{
+  "$schema": "../../schemas/video.schema.json",
+  "format": "largo",
+  "topic": "Cuánto cuesta usar la IA: tokens, entrada y salida, razonamiento, historial y caché",
+  "world": "Una carretera de noche con estaciones: tokenizador, caseta de entrada y salida, camión del historial, depósito del caché, estacionamiento de lotes y edificios de modelos.",
+  "meter": {
+    "label": "Tu cuenta (ejemplo)",
+    "from": "$0",
+    "to": "$0,37"
+  },
+  "cover": {
+    "scene": "precios"
+  },
+  "hooks": [
+    {
+      "said": "La IA no cobra por respuesta. Cobra por token.",
+      "onScreen": "Pagas por tokens",
+      "formula": 29
+    },
+    {
+      "said": "Mismo chat: 5 dólares o 37 centavos.",
+      "onScreen": "$5 o $0,37",
+      "formula": 13
+    },
+    {
+      "said": "Cada vez que le hablas a una IA, corre un taxímetro.",
+      "onScreen": "Tu IA tiene taxímetro",
+      "formula": 30
+    }
+  ],
+  "scenes": [
+    {
+      "id": "gancho",
+      "say": "La IA no cobra por respuesta. Cobra por token. Y el mismo chat te puede costar 5 dólares. O 37 centavos.",
+      "see": "Tu casa al inicio de la carretera, con el tablero arriba en cero y el avatar abajo; un PDF sale hacia la ruta",
+      "resource": "metafora"
+    },
+    {
+      "id": "taximetro",
+      "say": "Imagina un taxímetro arriba de cada chat. Le mandas un PDF de cincuenta mil tokens. Solo leerlo cuesta diez centavos.",
+      "see": "La cámara sigue al PDF por la carretera; el tablero cuenta 50.000 tokens y la cuenta sube a 10 centavos",
+      "resource": "metafora"
+    },
+    {
+      "id": "tokens",
+      "say": "Primero, el texto pasa por un tokenizador. Lo corta en pedazos. Una palabra corta puede ser un solo token. Una larga se parte en varios.",
+      "see": "La máquina tokenizadora gira y escupe bloques: 'sol' sale entero y 'desafortunadamente' sale en cuatro bloques",
+      "resource": "metafora"
+    },
+    {
+      "id": "precios",
+      "say": "Y pagas dos veces. La entrada es todo lo que mandas: tu pregunta, el PDF y las instrucciones del sistema. La salida es lo que responde. En Claude Sonnet 5.5, la entrada cuesta dos dólares por millón de tokens. La salida, diez. Cinco veces más.",
+      "see": "La caseta con el cartel ENTRADA 2 dólares y SALIDA 10 dólares por millón; la barrera sube, los bloques azules entran y salen amarillos",
+      "resource": "metafora"
+    },
+    {
+      "id": "pensar",
+      "say": "Trampa uno: los modelos que razonan piensan antes de responder. Ese pensamiento se cobra como salida. Aunque no lo veas.",
+      "see": "Bloques grises de pensamiento salen por la puerta de salida antes de la respuesta; la fila SALIDA se enciende en el tablero",
+      "resource": "metafora"
+    },
+    {
+      "id": "memoria",
+      "say": "Trampa dos: la API no tiene memoria. Cada mensaje reenvía toda la conversación. Con tu PDF, cincuenta mensajes son dos millones y medio de tokens. Cinco dólares. Y eso es solo la entrada.",
+      "see": "Un camión que carga todos los mensajes anteriores y crece en cada viaje; el tablero llega a 2,5 millones de tokens y 5 dólares",
+      "resource": "metafora"
+    },
+    {
+      "id": "cache",
+      "say": "La salida es el caché. Guardas el PDF una vez. Esa primera escritura cuesta un veinticinco por ciento más. Pero cada lectura, en Sonnet 5.5, cuesta el cinco por ciento. Con una sola lectura ya ganaste. Los mismos cincuenta mensajes: treinta y siete centavos.",
+      "see": "El depósito CACHÉ guarda el PDF; los viajes siguientes salen livianos y la cuenta baja de 5 dólares a 37 centavos",
+      "resource": "metafora"
+    },
+    {
+      "id": "lotes",
+      "say": "¿No necesitas la respuesta ya? La API por lotes cobra la mitad. Y se suma al caché.",
+      "see": "Un estacionamiento con autobuses que esperan y un cartel de 50 por ciento menos",
+      "resource": "metafora"
+    },
+    {
+      "id": "modelos",
+      "say": "Y elige bien el modelo. Haiku 5.5 cobra diez centavos por millón de entrada. Opus 5.5, cuatro dólares. Cuarenta veces más. El más listo no siempre es el que necesitas.",
+      "see": "Dos edificios: Haiku chico con 0,10 dólares y Opus alto con 4 dólares; un sello de 40 veces",
+      "resource": "metafora"
+    },
+    {
+      "id": "cierre",
+      "say": "Repasemos. Pagas entrada y salida. El razonamiento cuenta como salida. El historial se reenvía. El caché y los lotes lo bajan. Y el modelo cambia todo. Con la IA no pagas por respuestas. Pagas por tokens. Guarda esto: la IA cobra cada token.",
+      "see": "La cámara se aleja a la carretera entera, con todas las estaciones; resumen de los siete puntos",
+      "resource": "metafora"
+    }
+  ],
+  "caption": "La IA no cobra por respuesta: cobra por token. Y el mismo chat te puede costar 5 dólares o 37 centavos.\n\nLo que de verdad aparece en tu cuenta:\n\n1. Tokens. El texto se corta en pedazos. Una palabra corta puede ser uno; una larga, varios.\n2. Pagas dos veces. En Claude Sonnet 5.5: 2 dólares por millón de tokens de entrada y 10 por millón de salida.\n3. Trampa uno: el razonamiento. Lo que el modelo piensa antes de responder se cobra como salida.\n4. Trampa dos: la API no tiene memoria. Cada mensaje reenvía toda la conversación. Un PDF de 50 mil tokens en 50 mensajes: 5 dólares solo de entrada.\n5. El caché. En Sonnet 5.5, leer del caché cuesta el 5% de la entrada normal. Los mismos 50 mensajes: unos 37 centavos.\n6. Lotes. Si puedes esperar, la Batch API cobra la mitad, y se suma al caché.\n7. El modelo. Haiku 5.5 cobra 0,10 dólares por millón de entrada; Opus 5.5, 4 dólares. 40 veces más.\n\nGuárdalo: la IA cobra cada token.\n\nPrecios de la documentación oficial de Anthropic, revisados el 24 de octubre de 2026 (tarifas estándar). El ejemplo del PDF es un cálculo propio.\n\n#ia #claude #programacion #llm #anthropic",
+  "art": {
+    "direction": "linea-continua",
+    "dealt": [
+      "linea-continua",
+      "titular-gigante",
+      "ficha-tecnica"
+    ],
+    "reason": "Una carretera atraviesa todo el video y la cámara la recorre: los tokens viajan por ella hasta la caseta del modelo. Motion graphics plano de noche, con el amarillo de taxi solo para el taxímetro y lo que se cobra.",
+    "palette": {
+      "bg": "#16181D",
+      "ink": "#F2F0EA",
+      "accent": "#F5B83D",
+      "accentInk": "#16181D",
+      "surface": "#23262E",
+      "muted": "#9BA0AA"
+    },
+    "fonts": {
+      "display": "archivo",
+      "text": "geist"
+    },
+    "anchor": {
+      "kind": "icono",
+      "ref": "gauge",
+      "source": "Lucide (ISC): el taxímetro"
+    },
+    "tab": "cuanto-cuesta-la-ia.md"
+  },
+  "gateA": {
+    "approved": true,
+    "date": "2026-10-24"
+  },
+  "gateB": {
+    "approved": true,
+    "date": "2026-10-24",
+    "video": "27cf4bd8e6cb00b5f1e2545eba1e70d16833606411b6493a2ac34e1a332345c4"
+  }
+}

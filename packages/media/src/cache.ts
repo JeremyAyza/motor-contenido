@@ -20,9 +20,10 @@ export type CachedSpeech = SpeechResult & { file: string; cached: boolean };
  * records what generated it: that is how a piece knows which parts are AI.
  */
 export async function cachedSpeech(provider: SpeechProvider, request: SpeechRequest, cacheDir: string): Promise<CachedSpeech> {
-  const { text, voice, style, language } = request;
+  const { text, voice, style, language, previousText, nextText, settings } = request;
+  // Fields left undefined drop out of the JSON, so older entries keep their keys.
   const key = createHash("sha256")
-    .update(JSON.stringify({ provider: provider.id, model: provider.model, text, voice, style, language }))
+    .update(JSON.stringify({ provider: provider.id, model: provider.model, text, voice, style, language, previousText, nextText, settings }))
     .digest("hex")
     .slice(0, 24);
   const metaFile = join(cacheDir, `${key}.json`);

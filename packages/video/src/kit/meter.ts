@@ -16,7 +16,14 @@ import type { TimelineScene } from "../timeline.ts";
 export type MeterKind = "counter" | "money" | "bar" | "slots";
 
 /** A moment the meter changes: when `word` is said in `scene` (its `nth` time), or at the scene's start. */
-export type MeterStep = { scene: string; word?: string; nth?: number; value: number };
+export type MeterStep = {
+  scene: string;
+  word?: string;
+  nth?: number;
+  value: number;
+  /** Seconds it takes to get there: long ones count up live, like tokens going through. METER_RAMP_MS by default. */
+  ramp?: number;
+};
 
 export type MeterDef = {
   kind?: MeterKind;
@@ -33,7 +40,7 @@ export type MeterDef = {
   decimals?: number;
 };
 
-export type MeterPoint = { ms: number; value: number };
+export type MeterPoint = { ms: number; value: number; rampMs?: number };
 
 /** How long the meter takes to go from one value to the next. */
 export const METER_RAMP_MS = 600;
@@ -44,11 +51,12 @@ export function resolveMeter(def: MeterDef, scenes: Array<Pick<TimelineScene, "i
     let offset = 0;
     for (const scene of scenes) {
       if (scene.id === step.scene) {
-        if (!step.word) return { ms: offset, value: step.value };
+        const ramp = step.ramp === undefined ? {} : { rampMs: step.ramp * 1000 };
+        if (!step.word) return { ms: offset, value: step.value, ...ramp };
         const target = normalizeWord(step.word);
         const hit = scene.words.filter((w) => normalizeWord(w.text) === target)[(step.nth ?? 1) - 1];
         if (!hit) throw new Error(`meter: "${step.word}" is not said in scene "${step.scene}". Words: ${scene.words.map((w) => w.text).join(" ")}`);
-        return { ms: offset + hit.startMs, value: step.value };
+        return { ms: offset + hit.startMs, value: step.value, ...ramp };
       }
       offset += scene.durationMs;
     }
@@ -64,7 +72,7 @@ export function meterValueAt(start: number, points: MeterPoint[], ms: number, ra
   let value = start;
   for (const point of points) {
     if (ms < point.ms) break;
-    const t = Math.min(1, (ms - point.ms) / rampMs);
+    const t = Math.min(1, (ms - point.ms) / (point.rampMs ?? rampMs));
     value = value + (point.value - value) * easeOut(t);
   }
   return value;

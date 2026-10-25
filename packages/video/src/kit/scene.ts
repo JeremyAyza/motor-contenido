@@ -24,6 +24,8 @@ export type StageClock = {
   /** The world's size and where the camera is now: <Plate depth> moves against it. */
   world: { width: number; height: number };
   camera: CameraState;
+  /** The stage's paths (stage.paths), for roads and what travels on them. */
+  paths: Record<string, string>;
 };
 
 export const StageContext = createContext<StageClock | null>(null);

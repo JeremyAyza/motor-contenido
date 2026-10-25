@@ -1,8 +1,11 @@
 import { existsSync } from "node:fs";
 
-/** Loads a .env file into process.env, if it exists. Keys live there, never in code or chat. */
+/**
+ * Loads a .env file into process.env, if it exists, and the .env.local next to
+ * it (where the ElevenLabs CLI keeps its key). Keys live there, never in code or chat.
+ */
 export function loadEnv(path: string): void {
-  if (existsSync(path)) process.loadEnvFile(path);
+  for (const file of [path, `${path}.local`]) if (existsSync(file)) process.loadEnvFile(file);
 }
 
 export function requireEnv(name: string): string {

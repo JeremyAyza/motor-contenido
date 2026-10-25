@@ -1,0 +1,12 @@
+[
+  {
+    "file": "audio/cama.mp3",
+    "kind": "music",
+    "provider": "gemini",
+    "model": "lyria-3-clip-preview",
+    "prompt": "Upbeat, punchy instrumental bed for a fast tech how-to reel: bouncy synth plucks, tight electronic drums with crisp claps, warm sub bass, bright and confident, 112 bpm, energetic but not aggressive, no vocals, no big drops, mixed low so a voice sits on top.",
+    "references": [],
+    "sha256": "37432790998b2be498ce1cfb7ac70f3a2a5085d83f3213e59e515eac21045f8d",
+    "createdAt": "2026-10-25T01:32:23.113Z"
+  }
+]

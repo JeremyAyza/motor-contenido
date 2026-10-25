@@ -7,11 +7,12 @@
     },
     "format": {
       "default": "corto",
-      "description": "The format, which sets the length the gate A sheet and the inspector check: corto (30 to 60 s) or explicado (75 to 100 s, on trial)",
+      "description": "The format, which sets the length the gate A sheet and the inspector check: corto (30 to 60 s), explicado (75 to 100 s, on trial) or largo (90 to 180 s, an explainer of several points with something changing every second, docs/plan-paridad-rick.md)",
       "type": "string",
       "enum": [
         "corto",
-        "explicado"
+        "explicado",
+        "largo"
       ]
     },
     "topic": {
@@ -73,6 +74,12 @@
       "required": [
         "scene"
       ]
+    },
+    "target": {
+      "description": "Seconds the video should last: the length of the Reel it replicates. video:script and the inspector warn when it is more than 10% off; scenes can hold silent beats (SceneDef.hold) to get there",
+      "type": "number",
+      "minimum": 5,
+      "maximum": 600
     },
     "hooks": {
       "minItems": 1,

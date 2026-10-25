@@ -49,6 +49,7 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "@elevenlabs/elevenlabs-js": "^2.74.0",
     "@fontsource-variable/archivo": "^5.3.0",
     "@fontsource-variable/bricolage-grotesque": "^5.3.0",
     "@fontsource-variable/fraunces": "^5.3.0",
@@ -60,6 +61,8 @@
     "@remotion/fonts": "4.0.537",
     "@remotion/install-whisper-cpp": "4.0.537",
     "@remotion/media": "4.0.537",
+    "@remotion/paths": "4.0.537",
+    "@remotion/sfx": "4.0.537",
     "@remotion/tailwind-v4": "4.0.537",
     "@tailwindcss/cli": "^4.3.3",
     "geist": "^1.8.1",

@@ -93,8 +93,8 @@ export function writeHookCritic(dir: string, script: VideoScript): string {
 /** After video:render: out/video-critica/ with the video, filmstrips, the cover, what is heard and the post text. */
 export function prepareCritique(dir: string, script: VideoScript, timeline: Timeline, ffmpeg: string): { folder: string; files: string[] } {
   const out = join(dir, "out");
-  const preview = join(out, "video-vista-instagram.mp4");
-  for (const needed of [preview, join(out, "video.mp4"), join(out, "video-hoja.png")]) {
+  const preview = join(out, "video.mp4");
+  for (const needed of [preview, join(out, "video-hoja.png")]) {
     if (!existsSync(needed)) throw new Error(`Primero renderiza la pieza: falta ${needed}`);
   }
   const folder = join(out, "video-critica");

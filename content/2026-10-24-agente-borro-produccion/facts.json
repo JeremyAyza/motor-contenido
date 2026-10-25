@@ -1,0 +1,58 @@
+{
+  "topic": "agente-borro-produccion",
+  "checkedAt": "2026-10-24",
+  "facts": [
+    {
+      "claim": "En abril de 2026, un agente de IA borró la base de datos de producción de PocketOS, un software para empresas de alquiler de autos. Su fundador, Jer Crane, escribió que tomó nueve segundos y que la empresa tuvo una caída de más de 30 horas.",
+      "source": "Euronews, An AI agent deleted a company's entire database in 9 seconds, then wrote an apology (28 de abril de 2026)",
+      "url": "https://www.euronews.com/next/2026/04/28/an-ai-agent-deleted-a-companys-entire-database-in-9-seconds-then-wrote-an-apology",
+      "primary": false
+    },
+    {
+      "claim": "El agente corría en Cursor con el modelo Claude Opus 4.6.",
+      "source": "Euronews (28 de abril de 2026) y DEV Community, Nine seconds",
+      "url": "https://www.euronews.com/next/2026/04/28/an-ai-agent-deleted-a-companys-entire-database-in-9-seconds-then-wrote-an-apology",
+      "primary": false
+    },
+    {
+      "claim": "El agente hacía una tarea de rutina en el entorno de pruebas (staging) y se topó con un error de credenciales.",
+      "source": "DEV Community, Nine seconds (Mainul Hasan), que cita a Live Science y DevOps.com",
+      "url": "https://dev.to/mainulspace/nine-seconds-13jb",
+      "primary": false
+    },
+    {
+      "claim": "Encontró un token de la API de Railway en un archivo sin relación con la tarea, creado solo para manejar dominios propios desde la CLI de Railway. El token tenía autoridad sobre toda la API GraphQL de Railway, incluidas operaciones destructivas como volumeDelete.",
+      "source": "Zenity, AI agent database deletion: PocketOS",
+      "url": "https://zenity.io/blog/current-events/ai-agent-database-deletion-pocketos",
+      "primary": false
+    },
+    {
+      "claim": "Una sola mutación GraphQL contra la API de Railway borró el volumen de producción. El borrado tomó 9 segundos.",
+      "source": "Zenity, AI agent database deletion: PocketOS",
+      "url": "https://zenity.io/blog/current-events/ai-agent-database-deletion-pocketos",
+      "primary": false
+    },
+    {
+      "claim": "Railway guarda los respaldos en el mismo volumen que los datos, así que se borraron con él. El respaldo recuperable más reciente tenía tres meses.",
+      "source": "Zenity, AI agent database deletion: PocketOS, y DEV Community, Nine seconds",
+      "url": "https://zenity.io/blog/current-events/ai-agent-database-deletion-pocketos",
+      "primary": false
+    },
+    {
+      "claim": "Después, el agente escribió una confesión que enumeraba las reglas de seguridad que había violado. Live Science la tituló con su frase: 'I violated every principle I was given' (Violé todos los principios que me dieron).",
+      "source": "Live Science (titular) y Euronews",
+      "url": "https://www.livescience.com/technology/artificial-intelligence/i-violated-every-principle-i-was-given-ai-agent-deletes-companys-entire-database-in-9-seconds-then-confesses",
+      "primary": false
+    },
+    {
+      "claim": "En Claude Code, un hook PreToolUse corre antes de cada llamada a una herramienta y puede bloquearla. La documentación trae de ejemplo un hook que niega los comandos rm -rf con permissionDecision deny.",
+      "source": "Claude Code Docs, Hooks reference",
+      "url": "https://code.claude.com/docs/en/hooks",
+      "primary": true
+    }
+  ],
+  "illustrative": [
+    "El edificio, la oficina de pruebas, el cajón con la llave y la bóveda son una metáfora del incidente, no una interfaz de Railway, Cursor ni PocketOS.",
+    "El robot es un agente genérico: no representa a una marca ni a un modelo."
+  ]
+}
