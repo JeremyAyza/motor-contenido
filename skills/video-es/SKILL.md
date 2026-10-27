@@ -9,6 +9,8 @@ Las skills `remotion-*` son las oficiales de Remotion, sin modificar. Viven en `
 
 **Antes de armar un video, lee [docs/direccion-reels.md](../../docs/direccion-reels.md):** el estilo por defecto (motion graphics plano con cámara dinámica), cuándo va 3D (solo si se pide), la duración (45 a 60 s, formato `corto`), la voz y el volumen de la música. Manda sobre lo que sigue.
 
+**Una sesión por fase** (guion, video, crítica), con el traspaso en `content/<pieza>/estado.md`: ver [workflows/video.md](../../workflows/video.md), "Una sesión por fase". Si la pieza ya tiene `estado.md`, léelo antes que nada. Los cambios al motor no se hacen a mitad de una pieza.
+
 ## Cómo es un video aquí
 
 - **Primero el guion.** `content/<pieza>/video.json` lleva:
@@ -39,7 +41,8 @@ Las skills `remotion-*` son las oficiales de Remotion, sin modificar. Viven en `
   - `video:critique` arma la carpeta del crítico ciego;
   - `video:metrics` arma el informe de los Reels publicados.
 - **El guion sigue a `ig-reel`.** Lee `.agents/skills/ig-reel/SKILL.md` para la forma (el gancho en 2 s, lo que está en juego, una idea por frase, el cierre que vuelve al gancho) y sus fórmulas. Lo que cambia aquí está en [skills/ig-es](../ig-es/SKILL.md), punto 9. Arregla lo que avisan `hookscore_es` y `beats_es` antes de la puerta A; un gancho elegido con menos de 50 se discute con la persona, no se esconde.
-- **Crítico ciego antes de la puerta B.** Después de `video:render`, corre `video:critique` y dale `out/video-critica/` a un contexto nuevo ([docs/critico-ciego-video.md](../../docs/critico-ciego-video.md)). Quien hizo el video no se califica a sí mismo.
+- **Crítico del guion antes de la puerta A.** Después del storyboard, `video:critique --guion --gemini`: Gemini lee el guion y `storyboard.png` y su informe va a la puerta A.
+- **Crítico ciego antes de la puerta B.** Después de `video:render`, corre `video:critique` y dale `out/video-critica/` al subagente `critico-ciego-video` (Sonnet 5.5). Es una ronda por defecto ([docs/critico-ciego-video.md](../../docs/critico-ciego-video.md)). Quien hizo el video no se califica a sí mismo.
 - **El inspector manda.** `video:render` corre el inspector de video (`out/video-inspector.txt`). Corrige todos sus errores antes de mostrar el video, y trata cada aviso como un error salvo que lo puedas defender en una frase. La hoja `out/video-hoja.png` (portada, final de cada escena y medio de cada cambio) es lo primero que miras.
 - **Puerta B.** Después del sí de la persona al video, anota `gateB { approved: true, date, video: "<sha256 que imprimió video:render>" }`. Si un render posterior da otro archivo, `video:render` la vuelve a `false`.
 - **Lienzo.** Es de 540×960 px de diseño, como el ancho del carrusel, y se renderiza a 2x (1080×1920). Las cifras de las skills de Remotion están pensadas para 1080 de ancho y aquí se dividen por 2: el titular va de 42 px o más y el texto de apoyo de 22 px o más.

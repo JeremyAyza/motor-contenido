@@ -3,7 +3,7 @@
 La hace el **crítico ciego** ([docs/critico-ciego-video.md](critico-ciego-video.md)): un contexto nuevo que solo ve y oye lo que le llegaría a alguien en Instagram. Quien hizo el video no se califica a sí mismo.
 
 Mira el video o las tiras, no el código. Si un problema se ve en una tira, en `hoja.png` o en `video.mp4`, es real:
-- **La interfaz.** Las tiras y el video llevan encima una simulación de la interfaz de Instagram: juzga la legibilidad y lo que queda tapado ahí.
+- **La interfaz.** El video no lleva encima la interfaz de Instagram, y el diseño usa todo el lienzo con 36 px de margen, sin esquivar los botones: es una decisión fija de la cuenta y no se juzga.
 - **La portada.** `grilla.png` muestra el primer cuadro como lo recorta la grilla del perfil.
 
 ## Puntaje: 70% contenido, 30% video
@@ -19,8 +19,8 @@ Califica cada punto de 1 a 5 y escribe una línea de por qué.
 | Compartible | 10% | Hay un momento que alguien mandaría por DM: un dato, una comparación o una frase que se entiende sin el resto |
 | Cierre y CTA | 10% | El final cumple lo que prometió el gancho y pide una sola acción, específica del tema. Si la última frase vuelve al gancho, verlo otra vez se siente natural. Un cierre que podría ir en cualquier otro video no pasa de 3 |
 | Voz y guion | 5% | Suena dicho, no leído: frases cortas, como en [docs/voz.md](voz.md), y la voz no tropieza ni corre |
-| Legibilidad en el celular | 10% | Los subtítulos y el texto en pantalla se leen a tamaño de celular, y nada importante queda debajo de la interfaz |
-| Recurso visual y composición | 10% | Cada parte explica con un dibujo, un dato o una metáfora antes de que lo diga la voz. Hay una sola cosa que se ve primero, y la imagen usa lo que la interfaz deja ver, sin un hueco grande |
+| Legibilidad en el celular | 10% | Los subtítulos y el texto en pantalla se leen a tamaño de celular, sin choques ni textos encimados |
+| Recurso visual y composición | 10% | Cada parte explica con un dibujo, un dato o una metáfora antes de que lo diga la voz. Hay una sola cosa que se ve primero, y la imagen usa todo el lienzo, sin un hueco grande |
 
 **Promedio ponderado** = suma de (puntaje × peso). Sobre 5.
 
@@ -60,7 +60,7 @@ Tres arreglos, en orden de impacto (con el segundo del video):
 ## Reglas
 
 - Arregla primero lo que tenga menor puntaje y más peso.
-- Máximo tres rondas. Si después de tres sigue debajo del umbral, dile a la persona qué falta y por qué.
+- Una ronda por defecto. La segunda, solo si un punto saca menos de 3 o hay un error grave. Si después sigue debajo del umbral, dile a la persona qué falta y por qué.
 - No subas un puntaje sin haber cambiado algo visible o audible.
 - Cambiar lo que dice la voz cambia el guion aprobado: vuelve a la puerta A.
 - La precisión de los datos no la juzga el crítico (no ve `facts.json`): la cuida quien escribe, con las reglas de AGENTS.md.

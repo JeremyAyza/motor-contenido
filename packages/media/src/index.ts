@@ -1,7 +1,8 @@
 import { requireEnv } from "./env.ts";
 import type { ImageProvider } from "./image.ts";
 import type { MusicProvider } from "./music.ts";
-import { geminiImage, geminiMusic, geminiSpeech } from "./providers/gemini.ts";
+import { geminiImage, geminiMusic, geminiReview, geminiSpeech } from "./providers/gemini.ts";
+import type { ReviewProvider } from "./review.ts";
 import { elevenLabsSpeech } from "./providers/elevenlabs.ts";
 import { kieSpeech } from "./providers/kie.ts";
 import { freesoundSearch, openverseSearch, type SoundSearch } from "./sounds.ts";
@@ -16,11 +17,12 @@ export * from "./env.ts";
 export * from "./image.ts";
 export * from "./music.ts";
 export * from "./provenance.ts";
+export * from "./review.ts";
 export * from "./sounds.ts";
 export * from "./speech.ts";
 export * from "./wav.ts";
 export * from "./words.ts";
-export { GEMINI_IMAGE_MODEL, GEMINI_MUSIC_MODEL, GEMINI_TTS_MODEL, geminiImage, geminiMusic, geminiSpeech } from "./providers/gemini.ts";
+export { GEMINI_IMAGE_MODEL, GEMINI_MUSIC_MODEL, GEMINI_REVIEW_MODEL, GEMINI_TTS_MODEL, geminiImage, geminiMusic, geminiReview, geminiSpeech } from "./providers/gemini.ts";
 export { ELEVENLABS_TTS_MODEL, elevenLabsSpeech } from "./providers/elevenlabs.ts";
 export { KIE_TTS_MODEL, kieSpeech } from "./providers/kie.ts";
 
@@ -52,6 +54,10 @@ export const MUSIC_PROVIDERS: Record<string, Factory<MusicProvider>> = {
   gemini: (model) => geminiMusic({ apiKey: requireEnv("GEMINI_API_KEY"), model }),
 };
 
+export const REVIEW_PROVIDERS: Record<string, Factory<ReviewProvider>> = {
+  gemini: (model) => geminiReview({ apiKey: requireEnv("GEMINI_API_KEY"), model }),
+};
+
 export const SOUND_SEARCHES: Record<string, () => SoundSearch> = {
   openverse: () => openverseSearch(),
   freesound: () => freesoundSearch({ apiKey: requireEnv("FREESOUND_API_KEY") }),
@@ -66,4 +72,5 @@ function pick<T>(kind: string, registry: Record<string, T>, id: string): T {
 export const speechProvider = (id: string, model?: string) => pick("speech", SPEECH_PROVIDERS, id)(model);
 export const imageProvider = (id: string, model?: string) => pick("image", IMAGE_PROVIDERS, id)(model);
 export const musicProvider = (id: string, model?: string) => pick("music", MUSIC_PROVIDERS, id)(model);
+export const reviewProvider = (id: string, model?: string) => pick("review", REVIEW_PROVIDERS, id)(model);
 export const soundSearch = (id: string) => pick("sound library", SOUND_SEARCHES, id)();

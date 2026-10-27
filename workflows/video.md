@@ -2,6 +2,27 @@
 
 Es un flujo separado del carrusel: comparte la marca (`packages/brand`), las primitivas (`@motor/ui`) y el avatar (`assets/avatar`). El plan completo está en [docs/plan-videos.md](../docs/plan-videos.md). Este archivo dice lo que ya funciona.
 
+## Una sesión por fase
+
+Lo que gasta la cuota no es lo que el agente escribe, sino el contexto que arrastra: el 27 de octubre de 2026, dos Reels en una sola sesión promediaron 537 k tokens por llamada, y el 75 % del costo fue releerlos ([docs/plan-consumo-y-tiempo.md](../docs/plan-consumo-y-tiempo.md)). Por eso cada pieza va en sesiones cortas:
+
+| Fase | Pasos | Termina en |
+|---|---|---|
+| A. Guion | tema, fuentes, `video.json`, storyboard, crítico del guion | la puerta A |
+| B. Video | `video.tsx` final, voz, render | el primer render limpio del inspector |
+| C. Crítica | crítico del video, arreglos | la puerta B |
+
+- **Una pieza por sesión, y una fase por sesión.** Si en medio de una pieza hace falta cambiar el motor (el kit, el inspector, un comando), se anota en `estado.md` y se hace en su propia sesión, que termina con `npm test` y un commit.
+- **El traspaso es `content/<pieza>/estado.md`,** no la conversación. Antes de cerrar una fase, el agente lo actualiza con:
+  - la fase en que quedó y el paso siguiente;
+  - las decisiones de Jeremy, con sus palabras cuando importan ("la burbuja le pareció rara");
+  - lo que se probó y no funcionó, y por qué;
+  - lo que quedó pendiente para el motor.
+
+  `video.json`, `facts.json` y `video.tsx` guardan el resto: no se repite ahí.
+- **La sesión siguiente empieza leyendo** `AGENTS.md`, [docs/direccion-reels.md](../docs/direccion-reels.md), esta guía y `estado.md`, y nada más de la conversación anterior.
+- **Lo que no es creativo se delega:** las fuentes, el análisis de un referente y los arreglos mecánicos del inspector van a un subagente o a `agy` ([docs/plan-consumo-y-tiempo.md](../docs/plan-consumo-y-tiempo.md), 1.2). La tesis, los ganchos, el guion, la dirección de arte y `video.tsx` los escribe el agente principal.
+
 ## Pasos
 
 1. **El guion: `content/<pieza>/video.json`.** Los campos van en inglés y el contenido en español. Lleva:
@@ -33,6 +54,8 @@ Es un flujo separado del carrusel: comparte la marca (`packages/brand`), las pri
    También arma `out/video-critica-ganchos/`: el tema, el público y los ganchos, sin puntajes, para que un contexto nuevo los ordene ([docs/critico-ciego-video.md](../docs/critico-ciego-video.md), "Ganchos"). Ese orden va a la puerta A junto con los avisos.
 
    **El storyboard** también va a la hoja. `npm run video:storyboard -- content/<pieza>` renderiza los visuales de un primer `video.tsx` con el guion al ritmo estimado de la voz, sin sonido y sin generar voz, y deja `out/storyboard.png` (la portada, el final de cada escena y el medio de cada cambio de escena) y `out/storyboard.mp4`. También corre el inspector sobre esos cuadros. Si la persona cambia el guion, el `video.tsx` se ajusta antes de la voz.
+
+   **El crítico del guion** va después del storyboard: `npm run video:critique -- content/<pieza> --guion --gemini`. Gemini lee lo que se oye y lo que se ve escena por escena, con `storyboard.png`, y escribe `out/video-critica-guion/informe.md` ([docs/critico-ciego-video.md](../docs/critico-ciego-video.md), "Guion"). Encuentra en el papel lo que después cuesta una voz y un render: un repaso largo, una lista que se estira o una parte que no responde al gancho. Su informe va a la puerta A; los arreglos los decide la persona.
 
    Solo el sí de la persona en el chat aprueba, y el agente lo anota en `video.json → gateA { approved: true, date }`.
 3. **Lo que se ve: `content/<pieza>/video.tsx`.** Un primer borrador va antes de la puerta A, para el storyboard; la versión final, después. Antes, la dirección de arte: si la pieza tiene carrusel, el Reel toma su `post.json → art`; si no, `npm run video:baraja -- content/<pieza>` reparte 3 direcciones y la elegida va en `video.json → art` (ver **Estilo**, más abajo). `video.tsx` exporta `defineVideo` de `@motor/video` con el estilo de los subtítulos (`captions`), la barra de capítulos (`chapters`) y una entrada por escena de `video.json`: el mismo `id`, el tono de la paleta (`tone`), el nombre del capítulo (`chapter`), los efectos (`sfx`) y lo que se ve (`Visual`). Con `stage`, el video tiene un mundo que dura de punta a punta y una cámara que se mueve entre escenas (`camera` en cada una), en vez de una lámina por escena: es lo que pide `world`. El mundo se arma con `<Spot>`, `<Label>` y `<Board>`, y `meter` pone en el HUD lo que está en juego ([skills/video-es](../skills/video-es/SKILL.md), "Escenario con cámara"). Las escenas se arman con el kit de escenario (ver **Escenario y HUD**, más abajo). Lo que dice la voz no va aquí: sale de `video.json`, tal cual se aprobó. La guía para el agente está en [skills/video-es](../skills/video-es/SKILL.md).
@@ -78,9 +101,14 @@ Es un flujo separado del carrusel: comparte la marca (`packages/brand`), las pri
    - lo que se oye, con el segundo en que empieza cada parte;
    - el texto del post.
 
-   Dale esa carpeta a un **contexto nuevo** (un subagente o una sesión nueva) siguiendo [docs/critico-ciego-video.md](../docs/critico-ciego-video.md). El crítico escribe `informe.md` con la rúbrica de [docs/critica-video.md](../docs/critica-video.md).
+   Dale esa carpeta a un **contexto nuevo**: en Claude Code, el subagente `critico-ciego-video` (Sonnet 5.5), siguiendo [docs/critico-ciego-video.md](../docs/critico-ciego-video.md). El crítico escribe `informe.md` con la rúbrica de [docs/critica-video.md](../docs/critica-video.md).
 
-   Arregla los tres problemas principales, vuelve a renderizar y vuelve a criticar con un contexto nuevo. Máximo tres rondas. Copia el informe final en `video-critica.md`, en la carpeta de la pieza. Si un arreglo cambia lo que dice la voz, vuelve a la puerta A.
+   - Arregla los tres problemas principales y vuelve a renderizar.
+   - **Una ronda por defecto.** La segunda, con un contexto nuevo, solo si un punto sacó menos de 3 o hubo un error grave.
+   - Copia el informe final en `video-critica.md`, en la carpeta de la pieza.
+   - Si un arreglo cambia lo que dice la voz, vuelve a la puerta A.
+
+   `--gemini` suma una segunda opinión que oye el audio, pero no decide: en la prueba del 27 de octubre de 2026 fue demasiado blando ([docs/critico-ciego-video.md](../docs/critico-ciego-video.md), "Quién critica").
 8. **Puerta B.** La persona ve el video y, después de su sí en el chat, el agente anota `video.json → gateB { approved: true, date, video: "<sha256>" }`. Se le muestran la vista con la interfaz de Instagram, la hoja y el informe del crítico. La aprobación vale para ese archivo: si un render posterior da otro video, `video:render` la vuelve a `false` y deja la razón en `notes`.
 9. **Publicar:** `npm run video:publicar -- content/<pieza> [--ensayo] [--forzar]`. Paso opcional, solo cuando la persona lo pide en el chat y con la puerta B aprobada. Exige que el sha256 de `out/video.mp4` coincida con `video.json → gateB.video`, extrae la portada limpia del cuadro de `video.json → cover`, o del cuadro 1 si no hay (`out/video-portada.png`), activa la etiqueta obligatoria de IA de Meta y sube el Reel con `packages/publisher`. Con `--ensayo` se detiene antes de compartir y guarda la captura en `.publisher/`.
 

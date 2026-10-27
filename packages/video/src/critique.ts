@@ -1,9 +1,10 @@
 import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
-import { basename, join } from "node:path";
+import { basename, extname, join } from "node:path";
 import { REPO_ROOT } from "../../brand/src/index.ts";
 import { loadBrief } from "../../carousel/src/brief.ts";
+import type { ReviewRequest } from "../../media/src/review.ts";
 import { filmstrips, gridCover } from "./inspector.ts";
-import type { VideoScript } from "./script.ts";
+import { estimateWords, type VideoScript } from "./script.ts";
 import { timelineMs, type Timeline } from "./timeline.ts";
 
 /**
@@ -122,7 +123,7 @@ export function prepareCritique(dir: string, script: VideoScript, timeline: Time
       "",
       "## Material de este video",
       "",
-      `- El video, con la interfaz de Instagram encima: video.mp4 (${clock(timelineMs(timeline) / 1000)})`,
+      `- El video, tal como se sube: video.mp4 (${clock(timelineMs(timeline) / 1000)})`,
       `- Un cuadro cada ${STRIP_EVERY_SECONDS} s, en tiras de ${PER_STRIP}:`,
       ...strips.map((s) => `  - ${s.file}: de ${clock(s.from)} a ${clock(s.to)}`),
       "- La portada y el final de cada parte: hoja.png",
@@ -135,6 +136,11 @@ export function prepareCritique(dir: string, script: VideoScript, timeline: Time
     ].join("\n"),
   );
 
+  writeBriefStep(dir, folder);
+  return { folder, files: readdirSync(folder) };
+}
+
+function writeBriefStep(dir: string, folder: string): void {
   const load = loadBrief(dir);
   writeFileSync(
     join(folder, "paso-2-brief.md"),
@@ -142,5 +148,84 @@ export function prepareCritique(dir: string, script: VideoScript, timeline: Time
       ? `# Lo que el video quería decir\n\n- **Tesis:** ${load.brief.tesis}\n- **Para quién:** ${load.brief.paraQuien}\n- **Objetivo:** ${load.brief.objetivo}\n- **Se lo mandaría a:** ${load.brief.compartirCon}\n\nCompara con tu resumen del paso 1. Si no coinciden, el video no pasa.\n`
       : `# Sin brief\n\nEsta pieza no tiene brief (${basename(dir)}). Juzga la tesis solo con lo que entendiste en el paso 1.\n`,
   );
+}
+
+/** The pause video:prepare leaves after the last word of a scene (cli.ts, TAIL_MS). */
+const SCENE_PAUSE_MS = 300;
+
+/**
+ * The script as someone would live it, for the script critic before gate A:
+ * the hook on screen, and per scene its estimated start, what is heard and what
+ * is seen. No ids, resources or reasons.
+ */
+export function scriptSheet(script: VideoScript): string {
+  const lines = ["# El guion", "", "Los segundos son estimados, al ritmo de la voz de la cuenta.", "", `En pantalla desde el cuadro 1: "${script.hooks[0].onScreen}"`, ""];
+  let offset = 0;
+  for (const scene of script.scenes) {
+    lines.push(`**${clock(offset / 1000)}** Se oye: ${scene.say}`, `Se ve: ${scene.see}`, "");
+    offset += (estimateWords(scene.say).at(-1)?.endMs ?? 0) + SCENE_PAUSE_MS;
+  }
+  lines.push(`Termina cerca de ${clock(offset / 1000)}.`, "");
+  return lines.join("\n");
+}
+
+/** Before gate A: out/video-critica-guion/ with the script, the storyboard sheet if there is one and the post text. */
+export function prepareScriptCritique(dir: string, script: VideoScript): { folder: string; files: string[] } {
+  const folder = join(dir, "out", "video-critica-guion");
+  rmSync(folder, { recursive: true, force: true });
+  mkdirSync(folder, { recursive: true });
+  writeFileSync(join(folder, "guion.md"), scriptSheet(script));
+  const storyboard = join(dir, "out", "storyboard.png");
+  if (existsSync(storyboard)) copyFileSync(storyboard, join(folder, "storyboard.png"));
+  if (script.caption) writeFileSync(join(folder, "texto-del-post.txt"), `${script.caption}\n`);
+  const rubric = readFileSync(join(REPO_ROOT, "docs/critica-video.md"), "utf8");
+  writeFileSync(
+    join(folder, "LEEME.md"),
+    [
+      "# Crítico ciego: el guion del video",
+      "",
+      section("docs/critico-ciego-video.md", "Guion"),
+      "---",
+      "",
+      rubric,
+      "---",
+      "",
+      "## Material de este guion",
+      "",
+      "- Lo que se oye y lo que se ve, escena por escena: guion.md",
+      existsSync(storyboard) ? "- Los visuales sin voz (la portada y el final de cada parte): storyboard.png" : "- Todavía no hay storyboard.",
+      script.caption ? "- Texto del post: texto-del-post.txt" : "- Este video no tiene texto del post todavía.",
+      "",
+      "No abras `paso-2-brief.md` hasta terminar el paso 1. Escribe tu informe en `informe.md`, en esta carpeta.",
+      "",
+    ].join("\n"),
+  );
+  writeBriefStep(dir, folder);
   return { folder, files: readdirSync(folder) };
+}
+
+const MIME: Record<string, string> = { ".mp4": "video/mp4", ".png": "image/png", ".md": "text/markdown", ".txt": "text/plain" };
+
+/**
+ * A critic folder as one request for a model that watches (video:critique
+ * --gemini): LEEME.md is the prompt; the video goes first, then the images,
+ * then the texts, and the brief last. The strips are left out: the model sees
+ * the whole video.
+ */
+export function reviewRequest(folder: string): ReviewRequest {
+  const rank = (name: string) => (name === "paso-2-brief.md" ? 3 : MIME[extname(name)]?.startsWith("video/") ? 0 : MIME[extname(name)]?.startsWith("image/") ? 1 : 2);
+  const names = readdirSync(folder)
+    .filter((name) => MIME[extname(name)] && !["LEEME.md", "informe.md"].includes(name) && !/^tira-\d+\.png$/.test(name))
+    .sort((a, b) => rank(a) - rank(b) || a.localeCompare(b));
+  const prompt = [
+    "No tienes acceso a archivos: el material va adjunto, en este orden:",
+    ...names.map((name, i) => `${i + 1}. ${name}`),
+    "",
+    "Los textos llegan con su nombre arriba. Si hay un video, lo ves y lo oyes entero: no hacen falta las tiras de cuadros que nombra el texto. Escribe el paso 1 sin usar paso-2-brief.md. Responde solo con el informe, en español y con el formato de la rúbrica.",
+    "",
+    "---",
+    "",
+    readFileSync(join(folder, "LEEME.md"), "utf8"),
+  ].join("\n");
+  return { prompt, files: names.map((name) => ({ path: join(folder, name), mimeType: MIME[extname(name)] })) };
 }

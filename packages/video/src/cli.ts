@@ -15,7 +15,9 @@ import {
   findAsset,
   loadCatalog,
   loadEnv,
+  loadMediaConfig,
   normalizeWord,
+  reviewProvider,
   speechProvider,
   wavDurationMs,
   wavLevels,
@@ -29,7 +31,7 @@ import { revisarTextos } from "../../carousel/src/texto.ts";
 import { stageAvatar } from "./avatar-manifest.ts";
 import { fetchLogos, type CatalogLogo } from "../../media/src/catalog.ts";
 import { CAPTURES_FILE, CapturesSchema, loadCaptures, runCapture, saveCaptures } from "./capture.ts";
-import { prepareCritique, writeHookCritic } from "./critique.ts";
+import { prepareCritique, prepareScriptCritique, reviewRequest, writeHookCritic } from "./critique.ts";
 import { recentSimilar, REPEAT_DAYS } from "./topics.ts";
 import { asVideoError, VideoError } from "./errors.ts";
 import type { VideoDef } from "./kit/index.ts";
@@ -62,8 +64,10 @@ const USAGE = `Usage:
       Remotion Studio with the piece (run video:prepare first).
   npm run video:render -- content/<piece>
       MP4 at 1080×1920 (content/<piece>/out/video.mp4), a review sheet and the video's sha256 for gate B.
-  npm run video:critique -- content/<piece>
+  npm run video:critique -- content/<piece> [--guion] [--gemini]
       The folder for the blind critic (content/<piece>/out/video-critica/), after video:render.
+      --guion: the script critic before gate A (out/video-critica-guion/), with the storyboard sheet.
+      --gemini: the critic of media.config.json → review watches the folder and writes informe.md.
   npm run video:publicar -- content/<piece> [--ensayo] [--forzar]
       Publishes the Reel to Instagram (gate B required). --ensayo stops right before sharing.
   npm run video:metrics
@@ -274,14 +278,36 @@ function script(args: string[]): void {
   console.log(`Blind hook critic (a fresh context, docs/critico-ciego-video.md): ${writeHookCritic(dir, videoScript)}`);
 }
 
-function critique(args: string[]): void {
+async function critique(args: string[]): Promise<void> {
   const { dir } = pieceDir(args[0], [SCRIPT_FILE]);
-  const timelineFile = join(dir, "out/video/timeline.json");
-  if (!existsSync(timelineFile)) throw new VideoError(`Run first: npm run video:prepare -- ${args[0]} and npm run video:render -- ${args[0]}`);
-  const timeline = JSON.parse(readFileSync(timelineFile, "utf8")) as Timeline;
-  const { folder, files } = asVideoError(() => prepareCritique(dir, scriptOf(dir), timeline, FFMPEG));
-  console.log(`Blind critic folder (${files.length} files): ${folder}`);
-  console.log("Give only that folder to a fresh context (docs/critico-ciego-video.md). It writes informe.md there.");
+  const videoScript = scriptOf(dir);
+  let folder: string;
+  if (args.includes("--guion")) {
+    const prepared = asVideoError(() => prepareScriptCritique(dir, videoScript));
+    folder = prepared.folder;
+    console.log(`Script critic folder (${prepared.files.length} files): ${folder}`);
+  } else {
+    const timelineFile = join(dir, "out/video/timeline.json");
+    if (!existsSync(timelineFile)) throw new VideoError(`Run first: npm run video:prepare -- ${args[0]} and npm run video:render -- ${args[0]}`);
+    const timeline = JSON.parse(readFileSync(timelineFile, "utf8")) as Timeline;
+    const prepared = asVideoError(() => prepareCritique(dir, videoScript, timeline, FFMPEG));
+    folder = prepared.folder;
+    console.log(`Blind critic folder (${prepared.files.length} files): ${folder}`);
+  }
+  if (!args.includes("--gemini")) {
+    console.log("Give only that folder to a fresh context (docs/critico-ciego-video.md). It writes informe.md there.");
+    return;
+  }
+  // The critic of media.config.json → review watches the folder in one request, with no context of the design.
+  loadEnv(join(REPO_ROOT, ".env"));
+  const { review } = asVideoError(() => loadMediaConfig(join(REPO_ROOT, "media.config.json")));
+  const reviewer = reviewProvider(review.provider, review.model);
+  console.log(`Blind critic: ${reviewer.id}/${reviewer.model}...`);
+  const started = Date.now();
+  const { text } = await reviewer.review(reviewRequest(folder));
+  const report = join(folder, "informe.md");
+  writeFileSync(report, `> Crítico ciego: ${reviewer.id}/${reviewer.model}, ${new Date().toLocaleDateString("sv-SE")}.\n\n${text}\n`);
+  console.log(`Report in ${((Date.now() - started) / 1000).toFixed(0)} s: ${report}`);
 }
 
 /**
@@ -642,7 +668,7 @@ async function main(): Promise<void> {
   else if (command === "prepare") await prepare(args);
   else if (command === "studio") studio(args);
   else if (command === "render") await render(args);
-  else if (command === "critique") critique(args);
+  else if (command === "critique") await critique(args);
   else if (command === "baraja") deal(args);
   else if (command === "capture") capture(args);
   else if (command === "storyboard") await storyboard(args);
