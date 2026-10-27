@@ -3,7 +3,7 @@ import { svgPathBbox } from "svg-path-bbox";
 import type { AccountBrand } from "../../../brand/src/index.ts";
 import { GESTOS, type Gesto as GestoId } from "../gestos.ts";
 import type { Art } from "../post.ts";
-import { useAssets } from "./assets.ts";
+import { useAssets, type SimpleIconData } from "./assets.ts";
 import { cx } from "./cx.ts";
 
 /**
@@ -152,7 +152,40 @@ export function Logo({
   /** Marca el elemento como ancla visual para el inspector. */
   ancla?: boolean;
 }) {
-  const icon = useAssets().simpleIcon(slug);
+  const assets = useAssets();
+  let icon: SimpleIconData | null = null;
+  let missing: unknown = null;
+  try {
+    icon = assets.simpleIcon(slug);
+  } catch (error) {
+    missing = error;
+  }
+  if (!icon) {
+    // Not in Simple Icons: the official file of the logo catalog (AGENTS.md, rule 6).
+    const brand = assets.brandLogo(slug);
+    if (!brand) throw missing;
+    const img = (
+      <img
+        src={brand.url}
+        alt={brand.title}
+        width={size}
+        height={size}
+        className={chip ? "block object-contain" : cx("block shrink-0 object-contain", className)}
+        style={{ width: size, height: size }}
+        data-ancla={!chip && ancla ? "logo" : undefined}
+      />
+    );
+    if (!chip) return img;
+    return (
+      <span
+        data-ancla={ancla ? "logo" : undefined}
+        className={cx("inline-flex shrink-0 items-center justify-center self-start rounded-[28%]", className)}
+        style={{ background: chip === true ? "#FFFFFF" : chip, padding: Math.round(size * 0.24) }}
+      >
+        {img}
+      </span>
+    );
+  }
   const [x0, y0, x1, y1] = svgPathBbox(icon.path);
   const w = x1 - x0;
   const h = y1 - y0;

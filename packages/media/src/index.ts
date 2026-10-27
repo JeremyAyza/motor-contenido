@@ -34,7 +34,13 @@ type Factory<T> = (model?: string) => T;
 
 export const SPEECH_PROVIDERS: Record<string, Factory<SpeechProvider>> = {
   gemini: (model) => geminiSpeech({ apiKey: requireEnv("GEMINI_API_KEY"), model }),
-  elevenlabs: (model) => elevenLabsSpeech({ apiKey: requireEnv("ELEVENLABS_API_KEY"), model }),
+  elevenlabs: (model) =>
+    elevenLabsSpeech({
+      apiKey: requireEnv("ELEVENLABS_API_KEY"),
+      // Other accounts for when the main one runs out of credits, comma separated.
+      fallbackKeys: (process.env.ELEVENLABS_API_KEY_FALLBACK ?? "").split(",").map((k) => k.trim()).filter(Boolean),
+      model,
+    }),
   "kie-elevenlabs": (model) => kieSpeech({ apiKey: requireEnv("KEI_KEY"), model }),
 };
 

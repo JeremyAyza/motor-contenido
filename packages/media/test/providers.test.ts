@@ -155,4 +155,24 @@ describe("elevenlabs", () => {
       { text: "Hola", modelId: "eleven_v4", outputFormat: "mp3_44100_128", languageCode: "es", voiceSettings: { stability: 0.7, similarityBoost: 0.8 }, seed: 4242, previousText: "Antes" },
     ]);
   });
+  it("moves to the fallback key when the main one runs out of credits, and stays there", async () => {
+    const used: string[] = [];
+    const convert = async (_voiceId: string, _request: Record<string, unknown>, key: string) => {
+      used.push(key);
+      if (key === "main") throw Object.assign(new Error("Status code: 401"), { body: { detail: { status: "quota_exceeded" } } });
+      return new Response(new Uint8Array([1])).body!;
+    };
+    const provider = elevenLabsSpeech({ apiKey: "main", fallbackKeys: ["spare"], convert });
+    await provider.synthesize({ text: "Uno", voice: "v1" });
+    await provider.synthesize({ text: "Dos", voice: "v1" });
+    assert.deepEqual(used, ["main", "spare", "spare"]);
+  });
+
+  it("does not hide other errors behind the fallback", async () => {
+    const convert = async () => {
+      throw new Error("Status code: 422 invalid voice");
+    };
+    const provider = elevenLabsSpeech({ apiKey: "main", fallbackKeys: ["spare"], convert });
+    await assert.rejects(provider.synthesize({ text: "Uno", voice: "nope" }), /invalid voice/);
+  });
 });

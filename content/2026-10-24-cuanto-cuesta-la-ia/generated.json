@@ -1,53 +1,5 @@
 [
   {
-    "file": "img/avatar-base.png",
-    "kind": "image",
-    "provider": "gemini",
-    "model": "gemini-nano-banana-2.1",
-    "prompt": "Edit this exact illustration. Keep the character pixel for pixel identical: same face, eyes, smile, cap, hoodie, the CLAUDE CODE letters, the same black ink lines and colors, same size and position. Only remove the soft colored halo and the white background around him. Draw it on a completely flat, pure green background (#00FF00), with no shadows, gradients, texture or ground on the background, and no green on the subject.",
-    "references": [
-      "img/jeremy-original.jpg"
-    ],
-    "sha256": "9dd9da07b7e66a34b30f6b80b069e63beff3036855e1075bdcf780346eb7f5d5",
-    "createdAt": "2026-10-24T21:24:06.350Z"
-  },
-  {
-    "file": "img/avatar-boca-media.png",
-    "kind": "image",
-    "provider": "gemini",
-    "model": "gemini-nano-banana-2.1",
-    "prompt": "Edit this exact illustration and keep every pixel identical: same pose, size, position, cap, hoodie with its CLAUDE CODE letters, ink lines and colors. Change only the mouth: slightly open, as if in the middle of saying a word, showing a little dark inside of the mouth, drawn in the same ink style. Draw it on a completely flat, pure green background (#00FF00), with no shadows, gradients, texture or ground on the background, and no green on the subject.",
-    "references": [
-      "img/avatar-base.png"
-    ],
-    "sha256": "68374a51339c785c82cac0e29fc9de9f03601c4026204ff140ff42fd87a6c8d8",
-    "createdAt": "2026-10-24T21:25:02.519Z"
-  },
-  {
-    "file": "img/avatar-boca-abierta.png",
-    "kind": "image",
-    "provider": "gemini",
-    "model": "gemini-nano-banana-2.1",
-    "prompt": "Edit this exact illustration and keep every pixel identical: same pose, size, position, cap, hoodie with its CLAUDE CODE letters, ink lines and colors. Change only the mouth: open wide and friendly, as if saying 'ah' while talking, showing the dark inside of the mouth and a hint of the tongue, drawn in the same ink style. Draw it on a completely flat, pure green background (#00FF00), with no shadows, gradients, texture or ground on the background, and no green on the subject.",
-    "references": [
-      "img/avatar-base.png"
-    ],
-    "sha256": "7ee574e7b2af55d8880bcf406ac34a3b215e4626c80449d1f92b0d66f7085c15",
-    "createdAt": "2026-10-24T21:25:03.035Z"
-  },
-  {
-    "file": "img/avatar-ojos-cerrados.png",
-    "kind": "image",
-    "provider": "gemini",
-    "model": "gemini-nano-banana-2.1",
-    "prompt": "Edit this exact illustration and keep every pixel identical: same pose, size, position, cap, hoodie with its CLAUDE CODE letters, ink lines and colors. Change only the eyes: both eyes closed in a relaxed blink, drawn as curved ink lines, same eyebrows. Draw it on a completely flat, pure green background (#00FF00), with no shadows, gradients, texture or ground on the background, and no green on the subject.",
-    "references": [
-      "img/avatar-base.png"
-    ],
-    "sha256": "47797b40a379bf288e14b4d690859827ff2fe3a6b90b0cf1e3f82aeb035b4529",
-    "createdAt": "2026-10-24T21:25:05.140Z"
-  },
-  {
     "file": "audio/cama.mp3",
     "kind": "music",
     "provider": "gemini",

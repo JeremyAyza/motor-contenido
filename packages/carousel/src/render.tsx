@@ -14,7 +14,8 @@ import { ffmpegDisponible, finalizarMovimiento, grabarLamina, prepararMovimiento
 import { PostSchema, type Post } from "./post.ts";
 import { revisarTextos } from "./texto.ts";
 import { AssetContext } from "./ui/assets.ts";
-import { nodeAssets } from "./ui/assets-node.ts";
+import { ASSET_CACHE, CATALOG_PATH, nodeAssets } from "./ui/assets-node.ts";
+import { fetchLogos, loadCatalog } from "../../media/src/catalog.ts";
 import { SlideContext } from "./ui/index.tsx";
 import { MOTION_CSS } from "./ui/motion.tsx";
 
@@ -407,6 +408,8 @@ export async function renderPiece(dir: string): Promise<{ files: string[]; issue
   let lastCta: string | null = null;
   let lastText = "";
   let lastGestos: string[] = [];
+  // The official logos of the catalog (rule 6) come down to the cache before the slides need them.
+  await fetchLogos(loadCatalog(CATALOG_PATH), ASSET_CACHE);
   const browser = await launchBrowser();
   const assets = nodeAssets(dir);
   const pngs: string[] = [];

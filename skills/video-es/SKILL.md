@@ -57,7 +57,7 @@ Las skills `remotion-*` son las oficiales de Remotion, sin modificar. Viven en `
 El nivel de referencia es [docs/analisis-rick-theengineer.md](../../docs/analisis-rick-theengineer.md): lo que se explica pasa dentro de una interfaz que el público reconoce, con varias capas por cuadro.
 
 - **El kit** (`@motor/video`): `Phone`, `BrowserBar`, `AppCard`, `Chat`, `Terminal`, `Diff`, `DataTable` y `Chip`. Cada uno aparece con la voz por `at` (los segundos de `useCue`), y `Terminal` escribe sus comandos.
-- **Genéricos y propios.** Una marca va solo como su logo oficial (`AppCard logo="github"`), nunca como copia de su app. Los comandos son reales; lo que muestra una pantalla de ejemplo se rotula con `<Nota>Ejemplo ilustrativo.</Nota>`. Ningún número de una pantalla de ejemplo se presenta como dato.
+- **Interfaces reales, fieles.** Una app que el público reconoce (la terminal de Claude Code, Zed, VS Code, T3 Code) se puede recrear, igual a su versión actual (regla 6). Su logo va con `<Logo>`, como en `AppCard logo="github"`. Los comandos son reales; lo que muestra una pantalla de ejemplo se rotula con `<Nota>Ejemplo ilustrativo.</Nota>`. Ningún número de una pantalla de ejemplo se presenta como dato.
 - **Mejor, salidas reales.** Si el tema tiene comandos, ponlos en `captures.json`, corre `video:capture` y muéstralos con `useCapture("<id>")` y `captureLines()`. Así la terminal muestra lo que corrió, y las cifras se leen de la salida en vez de escribirse a mano. La nota dice que es de prueba y su fecha.
 - **Su texto es interfaz** (`data-ui`): no cuenta en las 12 palabras del inspector y puede bajar a 12 px. La idea de la escena va en el título o en una etiqueta, no escondida en la pantalla.
 - **Capas.** Cada escena junta dos o tres piezas del kit (una barra del navegador y una terminal; un diff y lo que dijo el agente). Si el inspector avisa que queda vacío abajo, suma una capa o agranda la que hay.
@@ -99,7 +99,12 @@ La pieza de ejemplo del kit completo es `content/2026-10-24-cuanto-cuesta-la-ia`
   - el medidor y el tablero suenan con una moneda o la caja registradora en cada paso.
 - **`<Banner at until tone>`:** la idea de la escena en una banda bajo el tablero, con un blip.
 - **`<Label spot at place tone>`:** un rótulo de 1 a 3 palabras pegado a un spot (TU APP, RUNTIME, GRIETA). Aparece en `at` (`useStageCue`); sin `at`, está desde el cuadro 1. `place` lo ubica en el spot (`top-left` por defecto, `top`, `center`, `bottom-right`...) y `tone` le da el color: `solid`, `line`, `accent` o `alert` (rojo, para lo que se rompe).
-- **`<Board nodes edges events packets icons width height>`:** un plano que crece, como el del Reel de system design. Los nodos (`{ id, x, y, label, at }`) aparecen en su `at`. Los `events` (`{ at, node, state, x, y, label }`) los cambian de estado (`ok`, `busy` con un pulso, `fail` con una X roja, `off` atenuado), los mueven o los renombran, y el cambio queda. Las flechas se dibujan cuando están sus dos puntas y siguen a los nodos. Los `packets` (`{ from, to, at, dur }`) viajan por una flecha. `icons` lleva un `<Logo>` oficial o un `<Icono>` por nodo. Va dentro de un `<Spot>` o del mundo, en sus propias coordenadas.
+- **`<Board nodes edges events packets icons width height>`:** un plano que crece, como el del Reel de system design. Los nodos (`{ id, x, y, label, at }`) aparecen en su `at`. Los `events` (`{ at, node, state, x, y, label }`) los cambian de estado (`ok`, `busy` con un pulso, `fail` con una X roja, `off` atenuado), los mueven o los renombran, y el cambio queda. Las flechas se dibujan cuando están sus dos puntas y siguen a los nodos. Las opciones de cada flecha:
+  - `curve` la dobla (0,2 hacia la izquierda de su recorrido, -0,2 hacia la derecha);
+  - `glow` le da un color con halo, como un diagrama de neón;
+  - `pulse` hace correr una luz por ella cada tantos segundos.
+
+  `fan(["github", "postgres", "slack"], "agente", { glow, pulse })` arma el abanico de varias flechas hacia un nodo, con las de afuera más curvas, como el diagrama de MCP de Rick. Los `packets` (`{ from, to, at, dur }`) viajan por una flecha y siguen su curva. `icons` lleva un `<Logo>` oficial o un `<Icono>` por nodo. Va dentro de un `<Spot>` o del mundo, en sus propias coordenadas.
 - **`<Plate src box clip opacity depth>`:** una lámina generada del mundo (`video:image`), en las coordenadas del mundo. Sin `box`, cubre el mundo entero: el mundo se mide sobre la imagen (`width` y `height` con su proporción, y los spots sobre lo que se ve). `clip` muestra solo una zona: dos generaciones que solo difieren en un lugar (las puertas cerradas y abiertas, sacadas con `--ref` de la primera) se funden ahí. `depth` da parallax bajo la cámara: negativo es más lejos y positivo, más cerca. Los personajes y objetos que se mueven se generan aparte con `--chroma` y se ponen con su propio `<Plate box>`. La pieza de ejemplo es `content/2026-10-22-login-con-google`.
 - **El reloj:** `<Board>` y `<Label>` cuentan los segundos del lugar donde están. Dentro del `World`, el del video entero (sus `at` salen de `useStageCue`); dentro del `Visual` de una escena, el de la escena (`useCue`). `useClock()` da ese reloj para el movimiento propio.
 
@@ -155,7 +160,7 @@ Para un Reel cortado escena por escena, como el de @sebastiankra.ia sobre Replic
 - **Fondo de la escena:** `background` (`"grid"` o `"stripes"`) dibuja una trama sobre el tono de la escena.
 - **Entrada:** `transition` (`"blur"`, `"zoom"`, `"slide"` o `"whip"`) hace entrar la escena con un whoosh. La anterior corta, así que la voz no se desfasa, y el inspector no mide el margen mientras entra.
 - **`<PillTitle at tone>`:** el título grande en píldora ("2 · MONTA"), con pop.
-- **Avatar en burbuja:** `avatar: { ..., shape: "bubble", bubbleCrop }` muestra la cabeza en un círculo, como una cámara de cara. Solo aparece en las escenas que dicen dónde va (`SceneDef.avatar: { x, y, size }`).
+- **Avatar en burbuja:** `avatar: { shape: "bubble", bubbleCrop }` muestra la cabeza en un círculo, como una cámara de cara. Solo aparece en las escenas que dicen dónde va (`SceneDef.avatar: { x, y, size }`).
 
 ## El formato largo
 
@@ -187,7 +192,8 @@ Para un Reel cortado escena por escena, como el de @sebastiankra.ia sobre Replic
 - **Primero lo que ya existe:** las primitivas, los objetos de Fluent Emoji (`carrusel:objeto`), los íconos y los logos oficiales. Una imagen generada es para lo que eso no da, como una escena de analogía o un sticker.
 - **Generar:** `video:image` y `video:music` usan el proveedor de `media.config.json` y registran todo en `generated.json`. Cada generación se paga: no repitas sin `--replace` ni generes variantes que nadie pidió.
 - **El mundo 3D es opcional:** solo cuando la persona pide el video en 3D (ver [docs/direccion-reels.md](../../docs/direccion-reels.md)). Entonces `video:image --world` suma `accounts/dev.json → world.style` (isométrico ilustrado) y la paleta de `video.json → art`. Sin `--world`, la imagen no lleva ese estilo. El modelo a veces dibuja letras: pide que no haya y revisa la imagen antes de usarla.
-- **Nunca generes logos, mascotas ni personajes de marcas.** Van como archivo oficial (regla 6). El avatar se genera solo a partir de la ilustración de Jeremy, pasada con `--ref`.
+- **Logos y mascotas de marcas: primero el archivo.** Busca el oficial o uno de una fuente confiable (regla 6) y agrégalo al catálogo con `carrusel:logo add`. No los generes con `video:image`. El avatar se genera solo a partir de la ilustración de Jeremy, pasada con `--ref`.
+- **El avatar es de la cuenta:** `avatar: {}` en `defineVideo` dibuja el de [assets/avatar](../../assets/avatar/README.md), sin copiar sprites a la pieza. La pieza solo dice dónde va (`size`, `top`, `scenes`, `shape`).
 - **Efectos:** busca con `video:asset search`, agrega con `video:asset add` y usa en `sfx` el id del catálogo.
 
 ## Sincronizar con la voz
@@ -199,7 +205,7 @@ Para un Reel cortado escena por escena, como el de @sebastiankra.ia sobre Replic
 - **Datos.** Cada dato sale de `facts.json` y nada se inventa (AGENTS.md, reglas 1 a 3).
 - **Una idea por escena.** Además de los subtítulos, van como mucho 6 palabras de texto en pantalla, y cada escena explica con un recurso visual ([recursos.json](../carrusel-taste/recursos.json)). Con `stage`, el recurso es un estado del mundo.
 - **El gancho se ve desde el cuadro 1:** la primera escena no anima el titular.
-- **Logos y mascotas:** el archivo oficial sin modificar.
+- **Logos y mascotas:** el archivo oficial sin modificar; si no existe, la regla 6.
 - **Voz sintética:** el Reel lleva la etiqueta de IA de Meta al publicar.
 
 ## Estilo: el del carrusel

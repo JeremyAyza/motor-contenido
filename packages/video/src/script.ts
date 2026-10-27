@@ -171,19 +171,50 @@ export const tabOf = (art: Art, piece: string) => art.tab ?? `${piece.replace(/^
  * tail of each scene. About 163 words per minute.
  */
 export const WORDS_PER_SECOND = 2.7;
-export const estimateSeconds = (text: string) => scriptWords(text).length / WORDS_PER_SECOND;
+
+/**
+ * What the voice adds for a word it spells out (ElevenLabs, tempo 1.12): 0.21 s
+ * per letter. Fitted on 31 scenes of three Reels (sistemas de archivos, tokens
+ * and Replica, October 2026); it takes the mean error per scene from 1.2 to 0.8 s.
+ */
+export const SPELLED_SECONDS = 0.21;
+
+/**
+ * How many letters the voice spells in a word: the capitals of an acronym
+ * (NTFS, FAT32, exFAT) plus each group of digits in it, or 1 plus its digits
+ * for a name mixed with numbers (ext4). Plain words and plain numbers: 0.
+ */
+export function spelledLetters(word: string): number {
+  const text = word.replace(/[^\p{L}\p{N}]/gu, "");
+  const capitals = (text.match(/\p{Lu}/gu) ?? []).length;
+  const digits = (text.match(/\d+/g) ?? []).length;
+  if (capitals >= 2) return capitals + digits;
+  return digits && /\p{L}/u.test(text) ? 1 + digits : 0;
+}
+
+export const estimateSeconds = (text: string) => {
+  const words = scriptWords(text);
+  return words.length / WORDS_PER_SECOND + words.reduce((sum, w) => sum + spelledLetters(w), 0) * SPELLED_SECONDS;
+};
 
 /**
  * Word timings at the account's pace, for the storyboard (video:storyboard),
- * before there is a voice: one word every 1/WORDS_PER_SECOND s. Captions and
- * useCue work with them as with the real ones.
+ * before there is a voice: one word every 1/WORDS_PER_SECOND s, plus the
+ * letters the voice spells out. Captions and useCue work with them as with
+ * the real ones.
  */
 export function estimateWords(say: string): WordTiming[] {
   const step = 1000 / WORDS_PER_SECOND;
+  let at = 0;
   return say
     .split(/\s+/)
     .filter(Boolean)
-    .map((text, i) => ({ text, startMs: Math.round(i * step), endMs: Math.round((i + 0.85) * step) }));
+    .map((text) => {
+      const length = step + spelledLetters(text) * SPELLED_SECONDS * 1000;
+      const word = { text, startMs: Math.round(at), endMs: Math.round(at + length - 0.15 * step) };
+      at += length;
+      return word;
+    });
 }
 
 const HOOK_MAX_SECONDS = 3;

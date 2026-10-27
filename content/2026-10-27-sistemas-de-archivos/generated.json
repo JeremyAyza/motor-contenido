@@ -1,0 +1,12 @@
+[
+  {
+    "file": "audio/cama.mp3",
+    "kind": "music",
+    "provider": "gemini",
+    "model": "lyria-3-clip-preview",
+    "prompt": "Curious, steady lo-fi electronic instrumental bed for a calm tech explainer about how computers store files: soft muted synth arpeggio like tiny data blocks clicking into place, mellow electric piano chords, gentle dusty hip-hop beat with a light shaker, round warm bass, 90 bpm, focused and friendly, no vocals, no drops, no build-ups, mixed low so a voice sits on top.",
+    "references": [],
+    "sha256": "11dd153e33ac8d3913f1b341e646a6436ab511ea7a4a49cd79f01424da728c3e",
+    "createdAt": "2026-10-27T06:17:47.297Z"
+  }
+]

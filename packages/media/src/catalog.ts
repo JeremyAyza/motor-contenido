@@ -12,7 +12,8 @@ import { z } from "zod";
  */
 export const AssetSchema = z.object({
   id: z.string().regex(/^[a-z0-9-]+$/),
-  type: z.enum(["sfx", "music", "image", "animation", "video"]),
+  type: z.enum(["sfx", "music", "image", "animation", "video", "logo"]),
+  title: z.string().optional().describe("The brand's name, for a logo: what <Logo> says to screen readers"),
   tags: z.array(z.string()).default([]),
   url: z.url().describe("Where the file is downloaded from"),
   source: z.url().describe("The page that states the license"),
@@ -62,9 +63,12 @@ export function assertUsable(asset: Asset): asserts asset is Asset & { sha256: s
 
 const sha256 = (bytes: Uint8Array) => createHash("sha256").update(bytes).digest("hex");
 
+/** Where an asset lives in the cache: its id plus the extension of its URL. */
+export const cachedFile = (asset: Asset, cacheDir: string) => join(cacheDir, `${asset.id}${extname(new URL(asset.url).pathname) || ".bin"}`);
+
 /** Local path of an asset, downloading it to the cache the first time. */
 export async function fetchAsset(asset: Asset, cacheDir: string): Promise<string> {
-  const file = join(cacheDir, `${asset.id}${extname(new URL(asset.url).pathname) || ".bin"}`);
+  const file = cachedFile(asset, cacheDir);
   if (!existsSync(file)) {
     const response = await fetch(asset.url);
     if (!response.ok) throw new Error(`Could not download ${asset.id} from ${asset.url}: HTTP ${response.status}`);
@@ -74,4 +78,21 @@ export async function fetchAsset(asset: Asset, cacheDir: string): Promise<string
   const hash = sha256(readFileSync(file));
   if (asset.sha256 && hash !== asset.sha256) throw new Error(`${asset.id} changed: expected sha256 ${asset.sha256}, got ${hash}. Check the source before using it.`);
   return file;
+}
+
+/** A brand logo of the catalog, ready to draw: its name and its file in the cache. */
+export type CatalogLogo = { title: string; file: string };
+
+/**
+ * The official logos that Simple Icons does not have (AGENTS.md, rule 6):
+ * every `logo` of the catalog, downloaded to the cache and checked by its
+ * hash, by id. <Logo slug> falls back to them.
+ */
+export async function fetchLogos(catalog: Catalog, cacheDir: string): Promise<Record<string, CatalogLogo>> {
+  const logos: Record<string, CatalogLogo> = {};
+  for (const asset of catalog.assets.filter((a) => a.type === "logo")) {
+    assertUsable(asset);
+    logos[asset.id] = { title: asset.title ?? asset.id, file: await fetchAsset(asset, cacheDir) };
+  }
+  return logos;
 }

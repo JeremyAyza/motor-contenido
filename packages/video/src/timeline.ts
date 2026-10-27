@@ -1,6 +1,7 @@
 import type { AccountBrand, Palette } from "../../brand/src/index.ts";
 import type { Art } from "../../carousel/src/post.ts";
 import type { CaptureResult } from "./capture.ts";
+import type { AvatarSprites } from "./kit/avatar.tsx";
 import type { WordTiming } from "../../media/src/speech.ts";
 
 export type { WordTiming };
@@ -55,6 +56,10 @@ export type Timeline = {
   sounds?: Record<string, string>;
   /** What is at stake (video.json → meter), for the label of the HUD meter. */
   meter?: { label: string; from: string; to: string };
+  /** The account's avatar (assets/avatar/manifest.json), its files relative to the public folder. */
+  avatar?: AvatarSprites;
+  /** The official logos of the catalog (assets/catalog.json, type logo) by id, their files relative to the public folder. */
+  logos?: Record<string, { title: string; src: string }>;
 };
 
 /** When the voice speaks across the whole video: [startMs, endMs] per word, scene offsets added. */

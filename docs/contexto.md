@@ -157,11 +157,9 @@ Ver [AGENTS.md](../AGENTS.md#comandos).
 - Con el inspector nuevo da errores: contraste 4.3:1 en el texto chico de las láminas 3 y 7, y la fuente y el crédito sin `data-nota` (26px). No tiene CTA marcado ni `alt`. Arreglarlo es rápido, pero cambia una pieza aprobada: decide Jeremy.
 - Para subirla a 5 puntos más adelante: capturar un mod real instalado con `/plugin` y mencionar `/diff` en la portada.
 
-**Archivos sueltos en la raíz** (del commit `2579e4a`): `audio.wav` y `gato.png`. Ningún archivo los usa.
-
 **Nota de precisión:** el anuncio oficial lista lo que un mod puede hacer, pero no dice en qué momento corre cada acción. Separarlas en "antes" y "después" es una lectura propia. Jeremy la aprobó así.
 
-**Vistas previas locales** (`content/zz-*`, fuera de git por `.git/info/exclude`): existieron solo en el entorno de Claude y **no** están en el repo. Lo que se rescató de ellas está en `skills/carrusel-taste/referencias/`.
+**Vistas previas locales** (`content/zz-*`, fuera de git por `.gitignore`): existieron solo en el entorno de Claude y **no** están en el repo. Lo que se rescató de ellas está en `skills/carrusel-taste/referencias/`.
 
 ## 6. Investigación previa (revalidar antes de usar)
 

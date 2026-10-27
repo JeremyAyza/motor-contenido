@@ -1,0 +1,103 @@
+{
+  "topic": "mcp-vs-acp",
+  "checkedAt": "2026-10-27",
+  "reference": {
+    "account": "@rick.theengineer",
+    "url": "https://www.instagram.com/p/De48CTVsT7o/",
+    "seconds": 141.5,
+    "note": "Reel que se replica en estructura y nivel (MCP arriba, ACP abajo, el protocolo como reglas compartidas, antes y después de cada uno, la sesión de ACP en vivo, los adaptadores y el resumen). Ningún dato sale de ahí. Dos afirmaciones de la referencia no se usan por falta de fuente: que T3 Code usa ACP (su README no lo dice) y el modelo 'GPT-6 Astra'."
+  },
+  "facts": [
+    {
+      "claim": "Anthropic liberó el Model Context Protocol (MCP) el 25 de noviembre de 2024 como un estándar para conectar asistentes de IA con los sistemas donde están los datos. Antes, cada fuente de datos necesitaba su propia implementación a medida.",
+      "source": "Anthropic, Introducing the Model Context Protocol",
+      "url": "https://www.anthropic.com/news/model-context-protocol",
+      "primary": true
+    },
+    {
+      "claim": "MCP es un estándar abierto para conectar aplicaciones de IA con sistemas externos: fuentes de datos, herramientas y flujos de trabajo. Su documentación lo compara con un puerto USB-C. Lo soportan Claude, ChatGPT, VS Code y Cursor, entre otros.",
+      "source": "Model Context Protocol, What is MCP?",
+      "url": "https://modelcontextprotocol.io/docs/getting-started/intro",
+      "primary": true
+    },
+    {
+      "claim": "MCP usa JSON-RPC 2.0. Claude Code es un host de MCP: abre un cliente por cada servidor. Las herramientas se descubren con tools/list y se ejecutan con tools/call, con su nombre y sus argumentos.",
+      "source": "Model Context Protocol, Architecture overview",
+      "url": "https://modelcontextprotocol.io/docs/learn/architecture",
+      "primary": true
+    },
+    {
+      "claim": "Zed creó el Agent Client Protocol (ACP) y lo publicó el 27 de agosto de 2025, con licencia Apache, con Gemini CLI como primera implementación. Zed lo compara con LSP: así como LSP separó la inteligencia de los lenguajes de los IDE, ACP separa al agente del editor.",
+      "source": "Zed Blog, Bring Your Own Agent to Zed",
+      "url": "https://zed.dev/blog/bring-your-own-agent-to-zed",
+      "primary": true
+    },
+    {
+      "claim": "ACP estandariza la comunicación entre editores o IDE y agentes de código. Resuelve tres problemas: cada combinación de agente y editor pedía trabajo a medida, los agentes funcionaban solo con algunos editores y elegir un agente obligaba a usar sus interfaces. Los agentes locales corren como subprocesos del editor y hablan por JSON-RPC sobre stdio. ACP reutiliza las representaciones JSON de MCP donde puede.",
+      "source": "Agent Client Protocol, Introduction",
+      "url": "https://agentclientprotocol.com/overview/introduction",
+      "primary": true
+    },
+    {
+      "claim": "Los métodos de ACP: el cliente llama a initialize, authenticate, session/new, session/prompt y session/cancel. El agente envía session/update y session/request_permission, y puede pedir fs/read_text_file, fs/write_text_file y terminal/create. Sigue JSON-RPC 2.0.",
+      "source": "Agent Client Protocol, Protocol overview",
+      "url": "https://agentclientprotocol.com/protocol/overview",
+      "primary": true
+    },
+    {
+      "claim": "Un turno empieza con session/prompt. El agente informa en vivo con session/update (plan, agent_message_chunk, tool_call y tool_call_update) y termina con un stopReason, por ejemplo end_turn.",
+      "source": "Agent Client Protocol, Prompt Turn",
+      "url": "https://agentclientprotocol.com/protocol/prompt-turn",
+      "primary": true
+    },
+    {
+      "claim": "Antes de ejecutar una herramienta, el agente puede pedir permiso con session/request_permission, con opciones como allow_once ('Allow once') y reject_once ('Reject'). Los tipos de herramienta incluyen read, edit, delete y execute, y una llamada puede llevar un diff (path, oldText, newText).",
+      "source": "Agent Client Protocol, Tool Calls",
+      "url": "https://agentclientprotocol.com/protocol/tool-calls",
+      "primary": true
+    },
+    {
+      "claim": "La lista oficial de agentes de ACP nombra 48 agentes, entre ellos Gemini CLI, GitHub Copilot, Cursor, Goose, OpenCode, Cline y Junie. Claude Agent necesita el adaptador claude-agent-acp y Codex CLI, el adaptador codex-acp.",
+      "source": "Agent Client Protocol, Agents",
+      "url": "https://agentclientprotocol.com/overview/agents",
+      "primary": true
+    },
+    {
+      "claim": "La lista oficial de clientes de ACP nombra 21 editores e IDE, entre ellos Zed, JetBrains, Neovim (con plugins como CodeCompanion y avante.nvim), Emacs (con agent-shell.el), Sublime Text y Visual Studio Code (con extensiones).",
+      "source": "Agent Client Protocol, Clients",
+      "url": "https://agentclientprotocol.com/overview/clients",
+      "primary": true
+    },
+    {
+      "claim": "claude-agent-acp implementa un agente de ACP con el SDK oficial de Claude Agent (paquete @agentclientprotocol/claude-agent-acp, licencia Apache-2.0).",
+      "source": "GitHub, zed-industries/claude-agent-acp",
+      "url": "https://github.com/zed-industries/claude-agent-acp",
+      "primary": true
+    },
+    {
+      "claim": "En octubre de 2025, JetBrains anunció que desarrolla ACP junto con Zed y que lo lleva a sus IDE. IntelliJ IDEA ya trae agentes compatibles con ACP como Codex, Claude Agent y Junie.",
+      "source": "JetBrains Blog, JetBrains × Zed: Open Interoperability for AI Coding Agents in Your IDE",
+      "url": "https://blog.jetbrains.com/ai/2025/10/jetbrains-zed-open-interoperability-for-ai-coding-agents-in-your-ide/",
+      "primary": true
+    },
+    {
+      "claim": "Zed: JetBrains se suma a ACP y lo co-desarrolla.",
+      "source": "Zed Blog, ACP Brings JetBrains on Board",
+      "url": "https://zed.dev/blog/jetbrains-on-acp",
+      "primary": true
+    },
+    {
+      "claim": "Un mensaje de JSON-RPC 2.0 lleva jsonrpc ('2.0'), el método, sus parámetros y un id que empareja la respuesta con el pedido; sin id, es una notificación.",
+      "source": "JSON-RPC 2.0 Specification",
+      "url": "https://www.jsonrpc.org/specification",
+      "primary": true
+    }
+  ],
+  "illustrative": [
+    "El pedido que se escribe en la terminal y en el editor, y los archivos que aparecen en el diff.",
+    "Los archivos de integración a mano (github.ts, postgres.ts, slack.ts, figma.ts) del antes de MCP.",
+    "La sesión de ACP en pantalla: los métodos y los campos son los de la especificación, pero el pedido, el plan y el diff son un ejemplo.",
+    "La ventana del editor y la de la terminal: recrean la forma general, no una versión exacta de Zed ni de Claude Code."
+  ],
+  "pendingToVerify": []
+}

@@ -22,7 +22,7 @@ Alrededor del carrusel hay dos flujos más: el [radar](workflows/radar.md) (qué
 3. **No inventes** comandos, salidas de terminal, interfaces, versiones, cifras, casos ni testimonios. Lo ilustrativo se marca como ilustrativo.
 4. **Primero lo editorial.** Ningún `slides.tsx` se escribe sin un `brief.json` aprobado: tesis, público, objetivo, ganchos, esqueleto y CTA ([workflows/carrusel.md](workflows/carrusel.md), pasos 4 a 6). En video, ningún `video.tsx` ni ninguna voz sin el guion de `video.json` aprobado ([workflows/video.md](workflows/video.md)).
 5. **Diseño propio por tema** con [skills/carrusel-taste](skills/carrusel-taste/SKILL.md) y [docs/anti-slop.md](docs/anti-slop.md). Cada lámina interior explica con un recurso visual de [recursos.json](skills/carrusel-taste/recursos.json) (diagrama, dato, metáfora, captura), no solo con texto. La última lámina es una despedida que cierra la portada, con un solo CTA específico del tema.
-6. **Ancla visual con archivos reales.** Logos oficiales con `<Logo>` (Simple Icons), capturas reales o íconos genéricos. Nunca dibujes ni imites logos, mascotas o personajes de marcas.
+6. **Marcas, fieles al original.** Un logo o una mascota va con su archivo oficial, o con uno de una fuente confiable: Simple Icons, el kit de prensa, el repositorio oficial o una librería, a través de `<Logo>` y del catálogo [assets/logos](assets/logos/README.md). Si no hay archivo y recrearlo es muy difícil, pídele a la persona que lo agregue. Si no, recréalo idéntico al original y sin deformarlo. Una interfaz real (Claude Code, Zed, VS Code, T3 Code) se puede recrear para explicarla, igual a su versión actual. Lo que muestra por dentro es real, o lleva el rótulo "Ejemplo ilustrativo" (regla 3). Nunca sugieras un patrocinio ni uses una marca para burlarte de ella. Decidido con Jeremy el 27 de octubre de 2026 ([docs/plan-sin-limites.md](docs/plan-sin-limites.md)).
 7. **Dos puertas humanas.** La persona aprueba el brief en la **puerta A**, antes del diseño, y la pieza final en la **puerta B**. Solo el sí de la persona en el chat aprueba; el agente lo anota en `brief.json → puertaA` y en `post.json → puertaB`. En video, el guion y el video final van en `video.json → gateA` y `gateB`, y la puerta B guarda el sha256 del video aprobado.
 8. **Crítica ciega.** Quien diseña no se califica. La crítica la hace un contexto nuevo que solo ve las láminas y el texto ([docs/critico-ciego.md](docs/critico-ciego.md)). En video, ve las tiras de cuadros, el video con la interfaz de Instagram y lo que se oye ([docs/critico-ciego-video.md](docs/critico-ciego-video.md)).
 9. **El inspector manda.** Corrige todos los errores del render; cada aviso es un error salvo que lo puedas defender en una frase.
@@ -74,7 +74,8 @@ pnpm install                              # o npm install
 npm run carrusel:nuevo -- <tema>          # crea content/<fecha>-<tema>/ con brief.json
 npm run carrusel:brief -- content/<pieza> # filtra ganchos y arma la puerta A
 npm run carrusel:baraja -- --cuenta dev   # reparte 3 direcciones de arte
-npm run carrusel:logo -- <marca>          # slug y color oficial en Simple Icons
+npm run carrusel:logo -- <marca>          # slug y color oficial en Simple Icons y en el catálogo
+npm run carrusel:logo -- add <id> --url <svg> --title <marca> --source <página> --author <dueño>  # logo oficial que Simple Icons no tiene (assets/logos)
 npm run carrusel:objeto -- <nombre>       # objeto de Fluent Emoji para una metáfora (nombre en inglés)
 npm run carrusel:render -- content/<pieza>   # láminas, inspector y revisión de textos
 npm run carrusel:texto -- content/<pieza> # solo la revisión de textos

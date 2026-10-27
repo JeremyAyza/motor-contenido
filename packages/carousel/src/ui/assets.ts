@@ -13,6 +13,12 @@ export type AssetSource = {
   /** Inner markup of a Lucide icon, without the <svg> tag. */
   lucide(name: string): string;
   simpleIcon(slug: string): SimpleIconData;
+  /**
+   * An official logo of the catalog (assets/catalog.json, type "logo") that
+   * Simple Icons does not have: its name and the URL of its file. null if the
+   * catalog does not have it either.
+   */
+  brandLogo(slug: string): { title: string; url: string } | null;
   /** URL of an image of the piece; `src` is relative to the piece folder. */
   image(src: string): string;
   /** URL of an object from assets/objetos. */

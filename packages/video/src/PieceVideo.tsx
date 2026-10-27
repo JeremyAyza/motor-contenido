@@ -6,9 +6,9 @@ import { AbsoluteFill, Sequence, Series, staticFile, useCurrentFrame, type Calcu
 import { AssetContext } from "../../carousel/src/ui/assets.ts";
 import { Slide, SlideContext } from "../../carousel/src/ui/index.tsx";
 import { MOTION_CSS } from "../../carousel/src/ui/motion.tsx";
-import { browserAssets } from "./assets-browser.ts";
+import { browserAssets, withLogos } from "./assets-browser.ts";
 import { Captions, ChapterBar, Meter, Panel } from "./frame.tsx";
-import { Avatar, AvatarBubble } from "./kit/avatar.tsx";
+import { Avatar, AvatarBubble, drawnAvatar } from "./kit/avatar.tsx";
 import { enterStyle, SceneBackgroundLayer } from "./kit/scene-fx.tsx";
 import { cameraAt, cameraTransform, DRIFT, resolveShots } from "./kit/camera.ts";
 import type { SceneDef, VideoDef } from "./kit/index.ts";
@@ -91,6 +91,7 @@ export function PieceVideo({ piece, timeline, inspect }: PieceProps) {
     // The primitives' small text never goes under this (22 px of design, 44 at 1080 wide).
     "--min-text": `${MIN_TEXT_PX}px`,
   } as CSSProperties;
+  const assets = useMemo(() => withLogos(timeline.logos), [timeline.logos]);
   const defs = timeline.scenes.map((scene) => {
     const def = video.scenes.find((s) => s.id === scene.id);
     if (!def) throw new Error(`Scene "${scene.id}" is in timeline.json but not in video.tsx. Run video:prepare again.`);
@@ -100,7 +101,7 @@ export function PieceVideo({ piece, timeline, inspect }: PieceProps) {
     <AbsoluteFill data-video-root="" style={theme} className="bg-bg font-sans text-ink">
       <style>{`${MOTION_CSS}\n${VIDEO_MOTION_CSS}`}</style>
       <SoundsContext.Provider value={timeline.sounds ?? {}}>
-        <AssetContext.Provider value={browserAssets}>
+        <AssetContext.Provider value={assets}>
           <CapturesContext.Provider value={timeline.captures}>
             {video.stage ? <StageVideo video={video} timeline={timeline} defs={defs} /> : <SlidesVideo video={video} timeline={timeline} defs={defs} />}
           </CapturesContext.Provider>
@@ -122,11 +123,12 @@ function SceneTracks({ video, timeline, defs, scene, index }: VideoProps & { sce
   const { fps } = timeline;
   const tone = defs[index].tone ?? "base";
   const chapters = defs.map((d) => d.chapter);
+  const avatar = useMemo(() => (video.avatar ? drawnAvatar(video.avatar, timeline.avatar, { piece: browserAssets.image, account: staticFile }) : null), [video.avatar, timeline.avatar]);
   return (
     <>
       {video.chapters ? <ChapterBar chapters={chapters} index={index} frames={framesFor(scene.durationMs, fps)} tone={tone} /> : null}
-      {video.avatar ? <Avatar def={video.avatar} scene={scene} sceneIndex={index} fps={fps} /> : null}
-      {video.avatar?.shape === "bubble" && defs[index].avatar ? <AvatarBubble def={video.avatar} scene={scene} sceneIndex={index} fps={fps} place={defs[index].avatar!} /> : null}
+      {avatar ? <Avatar def={avatar} scene={scene} sceneIndex={index} fps={fps} /> : null}
+      {avatar?.shape === "bubble" && defs[index].avatar ? <AvatarBubble def={avatar} scene={scene} sceneIndex={index} fps={fps} place={defs[index].avatar!} /> : null}
       {video.captions === "none" ? null : <Captions words={scene.words} tone={tone} style={video.captions} />}
       {scene.voice ? <Audio src={staticFile(scene.voice)} /> : null}
       {scene.sfx.map((sfx, i) => (

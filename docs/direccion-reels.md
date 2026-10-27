@@ -32,6 +32,7 @@ Para que no quede "simplón", que fue la crítica a ese primer corte:
 - **ElevenLabs con la voz F** (Eric, `cjVigY5qzO86Huf0OWal`), modelo `eleven_v4`. Está en `accounts/dev.json → voice`.
 - **Estabilidad 0,5:** pareja entre escenas sin sonar plana.
 - **Ritmo: `tempo` 1,12.** `video:prepare` acelera la voz ya generada sin cambiar su tono. Si sigue lenta, se sube de a 0,04.
+- **`tempo` por pieza** (decidido el 27 de octubre de 2026). Una réplica que se pasa de la duración de su referencia puede subirlo en su `video.tsx` (`defineVideo({ voice: { tempo: 1.2 } })`), entre 0,75 y 1,4, en vez de recortar contenido. Para el resto de las piezas sigue el de la cuenta.
 - **Licencia:** el plan gratuito no da uso comercial. Para publicar hacen falta los 5 USD de créditos o un plan pago.
 - **No se prueban más proveedores** sin que Jeremy lo pida.
 

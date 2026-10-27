@@ -1,0 +1,8 @@
+{
+  "base": "v1/base.png",
+  "mouths": ["v1/mouth-half.png", "v1/mouth-open.png"],
+  "blink": "v1/eyes-closed.png",
+  "imageSize": 2048,
+  "mouthBox": { "x": 900, "y": 980, "w": 450, "h": 280 },
+  "eyesBox": { "x": 820, "y": 690, "w": 560, "h": 250 }
+}

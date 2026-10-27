@@ -3,7 +3,7 @@ import { mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, it } from "node:test";
-import { artOf, checkGateB, estimateWords, gateASheet, scriptWarnings, tabOf, targetOff, VideoScriptSchema, WORDS_PER_SECOND } from "../src/script.ts";
+import { artOf, checkGateB, estimateSeconds, estimateWords, gateASheet, scriptWarnings, spelledLetters, SPELLED_SECONDS, tabOf, targetOff, VideoScriptSchema, WORDS_PER_SECOND } from "../src/script.ts";
 
 const base = {
   hooks: [{ said: "El ray tracing sigue la luz al revés.", onScreen: "La luz, al revés", formula: 22 }],
@@ -157,6 +157,28 @@ describe("estimateWords", () => {
     assert.deepEqual(words.map((w) => w.text), ["Corre", "los", "tests.", "¿Falla", "uno?"]);
     assert.equal(words[1].startMs, Math.round(1000 / WORDS_PER_SECOND));
     assert.ok(words.every((w, i) => w.endMs > w.startMs && (i === 0 || w.startMs > words[i - 1].endMs)));
+  });
+
+  it("gives a spelled acronym the time of its letters", () => {
+    const words = estimateWords("Usa NTFS hoy");
+    const plain = words[0].endMs - words[0].startMs;
+    const acronym = words[1].endMs - words[1].startMs;
+    assert.equal(acronym - plain, Math.round(4 * SPELLED_SECONDS * 1000));
+  });
+});
+
+describe("spelledLetters", () => {
+  it("counts the letters the voice spells, not plain words or numbers", () => {
+    assert.equal(spelledLetters("NTFS:"), 4);
+    assert.equal(spelledLetters("FAT32"), 4);
+    assert.equal(spelledLetters("exFAT,"), 3);
+    assert.equal(spelledLetters("ext4."), 2);
+    assert.equal(spelledLetters("Windows"), 0);
+    assert.equal(spelledLetters("488.281.250"), 0);
+  });
+
+  it("makes a line full of acronyms longer than the same count of plain words", () => {
+    assert.ok(estimateSeconds("NTFS, APFS, ext4, FAT32.") > estimateSeconds("uno, dos, tres, cuatro."));
   });
 });
 

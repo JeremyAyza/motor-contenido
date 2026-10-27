@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { extname, isAbsolute, join } from "node:path";
 import { REPO_ROOT } from "../../../brand/src/index.ts";
+import { cachedFile, loadCatalog } from "../../../media/src/catalog.ts";
 import type { AssetSource, SimpleIconData } from "./assets.ts";
 
 let SIMPLE_ICONS: Omit<SimpleIconData, "path">[] | null = null;
@@ -9,7 +10,7 @@ let SIMPLE_ICONS: Omit<SimpleIconData, "path">[] | null = null;
 export function simpleIcon(slug: string): SimpleIconData {
   SIMPLE_ICONS ??= JSON.parse(readFileSync(join(REPO_ROOT, "node_modules/simple-icons/data/simple-icons.json"), "utf8")) as Omit<SimpleIconData, "path">[];
   const meta = SIMPLE_ICONS.find((i) => i.slug === slug);
-  if (!meta) throw new Error(`No existe "${slug}" en Simple Icons. Busca el slug con: npm run carrusel:logo -- <marca>`);
+  if (!meta) throw new Error(`No existe "${slug}" en Simple Icons ni en el catálogo de logos. Búscalo con: npm run carrusel:logo -- <marca>, o agrega el oficial con: npm run carrusel:logo -- add ${slug} --url <svg> --title <marca> --source <página> --author <dueño>`);
   const svg = readFileSync(join(REPO_ROOT, "node_modules/simple-icons/icons", `${slug}.svg`), "utf8");
   const path = svg.match(/ d="([^"]+)"/)?.[1];
   if (!path) throw new Error(`El SVG de ${slug} no tiene un path simple`);
@@ -26,6 +27,19 @@ function lucide(name: string): string {
 const MIME: Record<string, string> = { ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg", ".webp": "image/webp", ".svg": "image/svg+xml" };
 
 const OBJETOS_DIR = join(REPO_ROOT, "assets/objetos");
+export const CATALOG_PATH = join(REPO_ROOT, "assets/catalog.json");
+export const ASSET_CACHE = join(REPO_ROOT, ".cache/assets");
+
+/** Un logo oficial del catálogo (regla 6), como data URL. El render lo baja antes con fetchLogos. */
+function brandLogo(slug: string): { title: string; url: string } | null {
+  const asset = loadCatalog(CATALOG_PATH).assets.find((a) => a.type === "logo" && a.id === slug);
+  if (!asset) return null;
+  const file = cachedFile(asset, ASSET_CACHE);
+  if (!existsSync(file)) throw new Error(`El logo "${slug}" está en el catálogo pero no en .cache/assets: vuelve a correr el render, que lo baja`);
+  const mime = MIME[extname(file).toLowerCase()];
+  if (!mime) throw new Error(`Formato de logo no soportado: ${file}`);
+  return { title: asset.title ?? slug, url: `data:${mime};base64,${readFileSync(file).toString("base64")}` };
+}
 
 function object(nombre: string, estilo: "color" | "3d"): string {
   const archivo = join(OBJETOS_DIR, estilo === "3d" ? `${nombre}.3d.png` : `${nombre}.svg`);
@@ -44,6 +58,7 @@ export function nodeAssets(pieceDir: string): AssetSource {
   return {
     lucide,
     simpleIcon,
+    brandLogo,
     object,
     image(src) {
       const path = isAbsolute(src) ? src : join(pieceDir, src);

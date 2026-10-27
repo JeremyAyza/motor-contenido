@@ -203,6 +203,84 @@
       "sha256": "e9edb88765451ff07b247a22582f83048af5c260533d8b2e43613f45a3d1a898",
       "checkedAt": "2026-10-24",
       "notes": "Remotion lo atribuye así en https://www.remotion.dev/docs/sfx (License: Creative Commons 0)."
+    },
+    {
+      "id": "openai",
+      "type": "logo",
+      "title": "OpenAI",
+      "tags": [],
+      "url": "https://unpkg.com/@lobehub/icons-static-svg@1.73.0/icons/openai.svg",
+      "source": "https://openai.com/brand/",
+      "author": "OpenAI",
+      "license": "MIT (LobeHub Icons); marca registrada de OpenAI, uso nominativo",
+      "attribution": "LobeHub Icons (MIT)",
+      "sha256": "f3cf560e84bd85915e32b887cb2abd323529be62d8b4001d2f778669b77eda35",
+      "checkedAt": "2026-10-27"
+    },
+    {
+      "id": "goose",
+      "type": "logo",
+      "title": "Goose",
+      "tags": [],
+      "url": "https://unpkg.com/@lobehub/icons-static-svg@1.73.0/icons/goose.svg",
+      "source": "https://block.github.io/goose",
+      "author": "Block",
+      "license": "MIT (LobeHub Icons); marca de Block, uso nominativo",
+      "attribution": "LobeHub Icons (MIT)",
+      "sha256": "8779d9a61c5b0be78a3d36cab6843ba5af86218ba2ff1b18eb918c7a8d25bb99",
+      "checkedAt": "2026-10-27"
+    },
+    {
+      "id": "slack",
+      "type": "logo",
+      "title": "Slack",
+      "tags": [],
+      "url": "https://cdn.jsdelivr.net/gh/selfhst/icons/svg/slack.svg",
+      "source": "https://api.slack.com/brand-guidelines",
+      "author": "Slack Technologies (Salesforce)",
+      "license": "CC BY 4.0 (selfh.st/icons); marca registrada de Slack, uso nominativo",
+      "attribution": "Icono de selfh.st/icons (CC BY 4.0)",
+      "sha256": "62e556a75b94516fd8dcfa9c8ee4eae76268b4087ee927d91a5f2d3115d54118",
+      "checkedAt": "2026-10-27"
+    },
+    {
+      "id": "zed",
+      "type": "logo",
+      "title": "Zed",
+      "tags": [],
+      "url": "https://cdn.jsdelivr.net/gh/selfhst/icons/svg/zed.svg",
+      "source": "https://zed.dev/brand",
+      "author": "Zed Industries",
+      "license": "CC BY 4.0 (selfh.st/icons); marca de Zed, uso nominativo",
+      "attribution": "Icono de selfh.st/icons (CC BY 4.0)",
+      "sha256": "3541c8805ebe991a8001e2fc3e516719de02ec2619d21c47ba7e35eff42299f1",
+      "checkedAt": "2026-10-27"
+    },
+    {
+      "id": "t3-code",
+      "type": "logo",
+      "title": "T3 Code",
+      "tags": [],
+      "url": "https://cdn.jsdelivr.net/gh/selfhst/icons/svg/t3-code.svg",
+      "source": "https://github.com/pingdotgg/t3code",
+      "author": "Ping",
+      "license": "CC BY 4.0 (selfh.st/icons); marca de T3 Code, uso nominativo",
+      "attribution": "Icono de selfh.st/icons (CC BY 4.0)",
+      "sha256": "1eb612dc4344066cdf844a94ee560a44e9f2de1dd9d6ffe926d9960c72b415e2",
+      "checkedAt": "2026-10-27"
+    },
+    {
+      "id": "opencode",
+      "type": "logo",
+      "title": "OpenCode",
+      "tags": [],
+      "url": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/svg/opencode.svg",
+      "source": "https://opencode.ai",
+      "author": "SST (Anomaly)",
+      "license": "Apache-2.0 (Dashboard Icons); marca de OpenCode, uso nominativo",
+      "attribution": "Icono de Dashboard Icons (homarr-labs)",
+      "sha256": "5eeb3a5f14dbbccc03111296ecfd3cd05cc98844150d4f9d77ba921847953380",
+      "checkedAt": "2026-10-27"
     }
   ]
 }

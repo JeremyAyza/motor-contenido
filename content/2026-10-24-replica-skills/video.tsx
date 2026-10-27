@@ -377,12 +377,6 @@ export default defineVideo({
   music: { file: "audio/cama.mp3" },
   meter: { kind: "counter", start: 0, steps: [{ scene: "replica", word: "once", value: 11 }] },
   avatar: {
-    base: "img/avatar-base.png",
-    mouths: ["img/avatar-boca-media.png", "img/avatar-boca-abierta.png"],
-    blink: "img/avatar-ojos-cerrados.png",
-    mouthBox: { x: 900, y: 980, w: 450, h: 280 },
-    eyesBox: { x: 820, y: 690, w: 560, h: 250 },
-    imageSize: 2048,
     // No captions here: the avatar stands lower, on the footer, and the scenes keep clear of it.
     size: 190,
     top: 724,

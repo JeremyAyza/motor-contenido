@@ -1,0 +1,12 @@
+[
+  {
+    "file": "audio/cama.mp3",
+    "kind": "music",
+    "provider": "gemini",
+    "model": "lyria-3-clip-preview",
+    "prompt": "Sleek, focused electronic instrumental bed for a tech explainer about software protocols connecting AI agents: soft pulsing synth sequence like data packets, warm analog pads, light minimal techno-inspired beat with crisp hi-hats, deep round bass, 100 bpm, modern and calm, no vocals, no drops, no build-ups, mixed low so a voice sits on top.",
+    "references": [],
+    "sha256": "1c25e60169c097e37ab3bd6d09810d88ac0db1271e1969fb4285eee8951b117f",
+    "createdAt": "2026-10-27T14:44:29.142Z"
+  }
+]

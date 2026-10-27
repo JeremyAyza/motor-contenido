@@ -1,7 +1,10 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { z } from "zod";
+import { createHash } from "node:crypto";
 import { REPO_ROOT } from "../../brand/src/index.ts";
+import { addToCatalog, AssetSchema, cachedFile, loadCatalog } from "../../media/src/catalog.ts";
+import { ASSET_CACHE, CATALOG_PATH } from "./ui/assets-node.ts";
 import { postManifest } from "../../publisher/src/index.ts";
 import { BriefSchema, loadBrief } from "./brief.ts";
 import { prepararCritica } from "./critica.ts";
@@ -20,7 +23,9 @@ import { revisarTextos } from "./texto.ts";
  *   carrusel nuevo <slug> [--cuenta dev]       crea la carpeta de la pieza (con brief.json)
  *   carrusel brief <carpeta>                   valida el brief, filtra los ganchos y arma la puerta A
  *   carrusel baraja [--cuenta dev] [--todas]   reparte 3 direcciones de arte
- *   carrusel logo <marca>                      busca el slug y el color oficial en Simple Icons
+ *   carrusel logo <marca>                      busca el slug y el color oficial en Simple Icons y en el catálogo
+ *   carrusel logo add <id> --url <svg|png> --title <marca> --source <página> --author <dueño> [--license <texto>] [--attribution <crédito>]
+ *                                              baja un logo oficial que Simple Icons no tiene al catálogo (regla 6)
  *   carrusel objeto <nombre> [--3d]            baja un objeto de Fluent Emoji a assets/objetos (o lista parecidos)
  *   carrusel render <carpeta>                  valida, renderiza e inspecciona (láminas y textos)
  *   carrusel texto <carpeta>                   vuelve a revisar solo los textos, sin renderizar
@@ -58,6 +63,49 @@ function printDireccion(d: Direccion): void {
 
 function today(): string {
   return new Date().toISOString().slice(0, 10);
+}
+
+/**
+ * carrusel logo add <id> --url ... --title ... --source ... --author ...: baja
+ * el archivo oficial de un logo que Simple Icons no tiene, le calcula el hash
+ * y lo suma a assets/catalog.json (type logo). El archivo queda en .cache/assets,
+ * fuera de git: el repo es público (regla 6 y docs/plan-sin-limites.md).
+ */
+async function agregarLogo(args: string[]): Promise<number> {
+  const [id] = args;
+  const valor = (name: string) => {
+    const i = args.indexOf(name);
+    return i >= 0 && args[i + 1] && !args[i + 1].startsWith("--") ? args[i + 1] : undefined;
+  };
+  const url = valor("--url");
+  const title = valor("--title");
+  const source = valor("--source");
+  const author = valor("--author");
+  if (!id || !url || !title || !source || !author) {
+    throw new Error("Uso: carrusel logo add <id> --url <svg|png> --title <marca> --source <página con las reglas de uso> --author <dueño> [--license <texto>]");
+  }
+  if (!/\.(svg|png|webp)$/i.test(new URL(url).pathname)) throw new Error(`El logo tiene que ser SVG, PNG o WebP: ${url}`);
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`No se pudo bajar ${url}: HTTP ${response.status}`);
+  const bytes = new Uint8Array(await response.arrayBuffer());
+  const asset = AssetSchema.parse({
+    id,
+    type: "logo",
+    title,
+    url,
+    source,
+    author,
+    license: valor("--license") ?? "Marca registrada de su dueño: uso nominativo, según sus reglas de uso",
+    attribution: valor("--attribution"),
+    sha256: createHash("sha256").update(bytes).digest("hex"),
+    checkedAt: today(),
+  });
+  mkdirSync(ASSET_CACHE, { recursive: true });
+  writeFileSync(cachedFile(asset, ASSET_CACHE), bytes);
+  addToCatalog(CATALOG_PATH, asset);
+  console.log(`Logo "${title}" en el catálogo como <Logo slug="${id}" />. Archivo: ${cachedFile(asset, ASSET_CACHE)}`);
+  console.log("Ábrelo y revisa que sea el oficial, sin deformar, antes de usarlo.");
+  return 0;
 }
 
 async function main(): Promise<number> {
@@ -240,14 +288,19 @@ export default [
       return 0;
     }
     case "logo": {
-      if (!arg) throw new Error("Uso: carrusel logo <marca>");
+      if (!arg) throw new Error("Uso: carrusel logo <marca>   o   carrusel logo add <id> --url <svg|png> --title <marca> --source <página> --author <dueño>");
+      if (arg === "add") return await agregarLogo(rest);
       const all = JSON.parse(
         readFileSync(join(REPO_ROOT, "node_modules/simple-icons/data/simple-icons.json"), "utf8"),
       ) as { title: string; slug: string; hex: string; guidelines?: string }[];
       const q = arg.toLowerCase();
       const hits = all.filter((i) => i.slug.includes(q) || i.title.toLowerCase().includes(q)).slice(0, 15);
-      if (!hits.length) console.log("Sin resultados en Simple Icons. Usa una captura real o un <Icono> genérico.");
+      const propios = loadCatalog(CATALOG_PATH).assets.filter((a) => a.type === "logo" && (a.id.includes(q) || (a.title ?? "").toLowerCase().includes(q)));
+      if (!hits.length && !propios.length) {
+        console.log(`Sin resultados en Simple Icons ni en el catálogo. Busca el archivo oficial (kit de prensa, repositorio o una librería) y agrégalo con: npm run carrusel:logo -- add ${q} --url <svg> --title <marca> --source <página> --author <dueño>`);
+      }
       for (const h of hits) console.log(`${h.slug.padEnd(28)} #${h.hex}  ${h.title}${h.guidelines ? `  · guías: ${h.guidelines}` : ""}`);
+      for (const p of propios) console.log(`${p.id.padEnd(28)} catálogo  ${p.title ?? p.id}  · fuente: ${p.source}`);
       return 0;
     }
     case "objeto": {

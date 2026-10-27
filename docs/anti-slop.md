@@ -20,7 +20,7 @@ Estas reglas adaptan al formato carrusel los principios de [Taste Skill](https:/
 | La misma composición en dos láminas seguidas | Cambia escala, alineación, campo de color o recurso |
 | Una lista con flechas en cada lámina | Como mucho una lista por carrusel |
 | Dashboards falsos de barras grises o interfaces inventadas | Una captura real, código real, `<Barras>` con números de `facts.json` o nada |
-| Logos, mascotas o personajes de marcas dibujados o imitados | El archivo oficial (`<Logo>`) o una captura real |
+| Logos o mascotas de marcas deformados, inventados o "parecidos" | El archivo oficial (`<Logo>`, Simple Icons o `assets/logos`), una captura real o una recreación idéntica (regla 6) |
 | La misma dirección de arte que el carrusel anterior | La baraja (`npm run carrusel:baraja`) deja fuera las dos últimas |
 | Letra chica en el cuerpo (menos de 32px reales) | Menos texto y más grande; la letra chica es solo para fuente y fecha, con `<Nota>` |
 | Un cierre genérico ("compártelo con quien lo necesite", "sígueme para más") | Una despedida que cierra la portada y un CTA que nombra la situación concreta |

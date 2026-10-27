@@ -1,6 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 import { Img } from "remotion";
-import { edgeDrawn, nodeAt, packetAt, type BoardEdge, type BoardEvent, type BoardNode, type BoardPacket, type NodeState } from "./board.ts";
+import { DRAW_S, edgeDrawn, edgePath, edgeStart, nodeAt, packetAt, pointOnEdge, pulseAt, type BoardEdge, type BoardEvent, type BoardNode, type BoardPacket, type NodeState } from "./board.ts";
 import { cx, useAssets } from "../../../carousel/src/ui/index.tsx";
 import { useClock, useStage } from "./scene.ts";
 
@@ -129,6 +129,7 @@ export function Board({
   events = [],
   packets = [],
   icons = {},
+  drawNodes = true,
   width,
   height,
   className,
@@ -139,6 +140,8 @@ export function Board({
   packets?: BoardPacket[];
   /** An icon per node id: an official <Logo> or an <Icono>. */
   icons?: Record<string, ReactNode>;
+  /** false draws only the edges and packets: the piece puts its own art at the nodes' places. */
+  drawNodes?: boolean;
   width: number;
   height: number;
   className?: string;
@@ -159,30 +162,42 @@ export function Board({
           const [a, b] = [point(edge.from), point(edge.to)];
           const drawn = edgeDrawn(edge, byId, t);
           const off = a.state === "off" || b.state === "off";
+          const d = edgePath(a, b, edge.curve);
+          const color = edge.glow ?? "currentColor";
+          const start = edgeStart(edge, byId);
+          const light = off ? null : pulseAt(edge.pulse, start === -Infinity ? 0 : start + DRAW_S, t);
+          const at = light === null ? null : pointOnEdge(a, b, edge.curve, light);
           return (
-            <line
-              key={`${edge.from}-${edge.to}`}
-              x1={a.x}
-              y1={a.y}
-              x2={a.x + (b.x - a.x) * drawn}
-              y2={a.y + (b.y - a.y) * drawn}
-              stroke="currentColor"
-              strokeOpacity={off ? 0.2 : 0.55}
-              strokeWidth={3}
-              strokeDasharray={off ? "6 6" : undefined}
-            />
+            <g key={`${edge.from}-${edge.to}`}>
+              <path
+                d={d}
+                fill="none"
+                stroke={color}
+                strokeOpacity={off ? 0.2 : edge.glow ? 0.9 : 0.55}
+                strokeWidth={edge.glow ? 2.5 : 3}
+                strokeLinecap="round"
+                pathLength={1}
+                strokeDasharray={off ? "0.02 0.02" : `${drawn} 1`}
+                style={edge.glow && !off ? { filter: `drop-shadow(0 0 6px ${edge.glow})` } : undefined}
+              />
+              {at ? <circle cx={at.x} cy={at.y} r={5} fill={edge.glow ?? "var(--piece-accent)"} style={{ filter: `drop-shadow(0 0 8px ${edge.glow ?? "var(--piece-accent)"})` }} /> : null}
+            </g>
           );
         })}
         {packets.map((packet, i) => {
           const p = packetAt(packet, t);
           if (p === null) return null;
-          const [a, b] = [point(packet.from), point(packet.to)];
-          return <circle key={i} cx={a.x + (b.x - a.x) * p} cy={a.y + (b.y - a.y) * p} r={7} className="fill-accent" />;
+          // A packet rides its edge's curve, in either direction.
+          const edge = edges.find((e) => (e.from === packet.from && e.to === packet.to) || (e.from === packet.to && e.to === packet.from));
+          const forward = !edge || edge.from === packet.from;
+          const [a, b] = forward ? [point(packet.from), point(packet.to)] : [point(packet.to), point(packet.from)];
+          const at = pointOnEdge(a, b, edge?.curve, forward ? p : 1 - p);
+          return <circle key={i} cx={at.x} cy={at.y} r={7} className="fill-accent" />;
         })}
       </svg>
       {nodes.map((node) => {
         const view = point(node.id);
-        if (view.shown <= 0) return null;
+        if (!drawNodes || view.shown <= 0) return null;
         return (
           <div
             key={node.id}

@@ -1,0 +1,137 @@
+{
+  "$schema": "../../schemas/video.schema.json",
+  "format": "largo",
+  "target": 134,
+  "topic": "Sistemas de archivos: por qué tu USB de Mac no aparece en Windows (NTFS, APFS, ext4, Btrfs, ZFS, FAT32 y exFAT)",
+  "world": "Un fichero de madera con un cajón por sistema de archivos, del color de su sistema operativo, sobre un SSD que por dentro es una grilla de bloques.",
+  "meter": {
+    "label": "Sistemas de archivos",
+    "from": "0/7",
+    "to": "7/7"
+  },
+  "cover": {
+    "scene": "gancho"
+  },
+  "hooks": [
+    {
+      "said": "Tu USB no está roto.",
+      "onScreen": "Tu USB no está roto",
+      "formula": 29
+    },
+    {
+      "said": "¿Por qué hay tantos sistemas de archivos?",
+      "onScreen": "¿Por qué hay tantos?",
+      "formula": 16
+    },
+    {
+      "said": "En tu Mac abre. En Windows, nada.",
+      "onScreen": "Mac: sí. Windows: nada",
+      "formula": 13
+    }
+  ],
+  "scenes": [
+    {
+      "id": "gancho",
+      "say": "Tu USB no está roto. En tu Mac abre, y en Windows no aparece. ¿Por qué hay tantos sistemas de archivos? NTFS, APFS, ext4, FAT32, exFAT, Btrfs, ZFS.",
+      "see": "Un USB que se conecta y no muestra nada; detrás, un fichero de madera cuyos cajones se rotulan uno por uno con los siete nombres, pintados por sistema operativo, y la leyenda Windows, Apple, Linux y Todos",
+      "resource": "metafora"
+    },
+    {
+      "id": "disco",
+      "say": "Primero, el modelo mental. Un SSD de 2 terabytes son dos billones de bytes. Van en bloques de 4 kilobytes: casi quinientos millones. Cada bloque: unos y ceros. El SSD no sabe qué es un archivo.",
+      "see": "La cámara baja al SSD; las capas TUS ARCHIVOS, SISTEMA DE ARCHIVOS y BLOQUES con la flecha en BLOQUES; el contador de bloques sube hasta 488.281.250 y un bloque se abre en unos y ceros",
+      "resource": "capas"
+    },
+    {
+      "id": "catalogo",
+      "say": "Eso lo sabe el sistema de archivos: el fichero de la biblioteca. Anota: en qué bloques vive, cuánto pesa, quién lo abre y cuándo cambió. Sin fichero, esos 5,4 gigas siguen en el disco. Pero nadie los encuentra.",
+      "see": "Un cajón se posa sobre la grilla y saca la ficha de vacaciones.mp4, que se llena campo por campo; después la ficha se vacía en signos de pregunta y los bloques quedan sueltos",
+      "resource": "metafora"
+    },
+    {
+      "id": "windows",
+      "say": "Windows usa NTFS: archivos enormes, permisos, cifrado con BitLocker y un diario. Antes de escribir, anota lo que va a hacer. Si se corta la luz, repasa el diario y el catálogo vuelve a cuadrar.",
+      "see": "Se abre el cajón azul de NTFS con sus cuatro carpetas (archivos enormes, permisos, cifrado, diario); el diario escribe la entrada de vacaciones.mp4, cae el sello SIN LUZ, los bloques se ponen rojos y al repasar el diario quedan en orden",
+      "resource": "proceso"
+    },
+    {
+      "id": "apple",
+      "say": "Las Mac y los iPhone usan APFS. Está hecho para SSD y memoria flash, con cifrado, clones, instantáneas y espacio compartido.",
+      "see": "Se abre el cajón violeta de APFS; una laptop y un teléfono genéricos, el sello iOS 10.3, el SSD y cuatro carpetas que se llenan: cifrado, clones, instantáneas y espacio compartido",
+      "resource": "anatomia"
+    },
+    {
+      "id": "linux",
+      "say": "En Linux, el clásico es ext4. Btrfs y ZFS usan copia en escritura. No pisan tus datos: escriben el cambio en otro lugar y mueven el puntero. Así, una instantánea casi no ocupa espacio.",
+      "see": "Los cajones amarillos de ext4, Btrfs y ZFS; en la grilla, la versión 1 queda quieta, la versión 2 se escribe en bloques nuevos y la flecha de vacaciones.mp4 salta de una a otra; la instantánea apunta a la versión 1 con 0 bytes extra",
+      "resource": "proceso"
+    },
+    {
+      "id": "checksum",
+      "say": "Y Btrfs y ZFS guardan una suma de verificación por bloque. Si un bit cambia solo, la suma ya no coincide. Así detectan la corrupción silenciosa.",
+      "see": "Una fila de bloques con su suma debajo; al leer uno, la suma guardada y la de ahora no coinciden y aparece el sello DETECTADO",
+      "resource": "comparacion"
+    },
+    {
+      "id": "fat32",
+      "say": "Y el viejo que no muere: FAT32. Es simple, y viene en las tarjetas SD de hasta 32 gigas. Pero guarda el tamaño en 32 bits: máximo, 4 gigas. Tu video de 5,4 no entra.",
+      "see": "Se abre el cajón verde de FAT32; una cámara con su tarjeta SD de 32 GB; una fila de 32 interruptores se prende entera mientras el contador llega a 4.294.967.295 bytes y la copia de vacaciones.mp4 se frena con un error",
+      "resource": "cifra"
+    },
+    {
+      "id": "exfat",
+      "say": "Por eso existe exFAT, su sucesor. Usa 64 bits: sin límite de 4 gigas. Y Windows y Mac lo leen y lo escriben.",
+      "see": "La fila crece a 64 interruptores y el cajón de exFAT se abre; la copia de vacaciones.mp4 llega al 100 %; el sello SIN LÍMITE DE 4 GB",
+      "resource": "comparacion"
+    },
+    {
+      "id": "usb",
+      "say": "Ahora, tu USB. Lo formateaste en APFS, en tu Mac. Windows no trae APFS: no lo reconoce. Al revés, tu Mac lee NTFS, pero no escribe. Para los dos, exFAT es la opción segura.",
+      "see": "Una tabla Windows y macOS contra NTFS, APFS, FAT32 y exFAT que se llena celda por celda: APFS en Windows con una X, NTFS en Mac como solo lectura, FAT32 y exFAT con dos tildes; el USB de exFAT va de la laptop al monitor y cae el sello OPCIÓN SEGURA",
+      "resource": "comparacion"
+    },
+    {
+      "id": "cierre",
+      "say": "Entonces: Windows, NTFS. Apple, APFS. Linux, ext4. Y para todos: FAT32 y exFAT. Hay tantos porque cada uno elige: velocidad, seguridad, compatibilidad o funciones. Tu USB no estaba roto: hablaba APFS. Cuéntame en los comentarios qué formato tiene tu USB.",
+      "see": "La cámara llega a un segundo fichero con todos los cajones abiertos y la leyenda; cuatro carpetas apiladas (velocidad, seguridad, compatibilidad, funciones); el USB pasa de ? a APFS y cierra la pregunta ¿Qué formato tiene? en pantalla",
+      "resource": "metafora"
+    }
+  ],
+  "caption": "Tu USB no está roto. En tu Mac abre y en Windows no aparece, y la culpa es del sistema de archivos.\n\nTu disco no sabe qué es un archivo. Un SSD de 2 TB son 2 billones de bytes, que el sistema ve como unos 488 millones de bloques de 4 KB. El sistema de archivos es el fichero que anota dónde vive cada archivo, cuánto pesa, quién lo abre y cuándo cambió.\n\nCada sistema operativo armó el suyo:\n- Windows: NTFS. Permisos, cifrado con BitLocker y un diario que deja el catálogo en orden después de un corte de luz.\n- Apple: APFS. Hecho para SSD, con cifrado, clones e instantáneas.\n- Linux: ext4, el clásico. Btrfs y ZFS suman copia en escritura y sumas de verificación contra la corrupción silenciosa.\n- Para todos: FAT32 y exFAT.\n\nFAT32 guarda el tamaño en 32 bits, así que no acepta archivos de 4 GB. exFAT usa 64 y no tiene ese límite.\n\nTu Mac lee NTFS pero no escribe, y Windows no trae APFS. Si el disco va y viene entre los dos, formatéalo en exFAT.\n\n¿Qué formato tiene tu USB? Cuéntamelo en los comentarios.\n\nFuentes: Microsoft Learn, Apple Support y Apple Developer, la documentación del kernel de Linux, de Btrfs y de OpenZFS, la wiki de Fedora y la SD Association, revisadas el 27 de octubre de 2026. El archivo del ejemplo es ilustrativo.\n\n#sistemasdearchivos #programacion #linux #windows #mac",
+  "art": {
+    "direction": "capa-por-capa",
+    "dealt": [
+      "elige-tu-camino",
+      "capa-por-capa",
+      "terminal"
+    ],
+    "reason": "El tema es literalmente un stack: tus archivos sobre el sistema de archivos sobre los bloques del disco. Y el fichero tiene un cajón por sistema, cada uno con el color de su sistema operativo, como pide la dirección: fondo oscuro y cada marca en su bloque. Terminal no aplica: no hay comandos que mostrar.",
+    "palette": {
+      "bg": "#1B1F2A",
+      "ink": "#F3EDE2",
+      "accent": "#C4F25A",
+      "accentInk": "#1B1F2A",
+      "surface": "#262B38",
+      "muted": "#9AA1B2"
+    },
+    "fonts": {
+      "display": "geist",
+      "text": "geist"
+    },
+    "anchor": {
+      "kind": "icono",
+      "ref": "hard-drive",
+      "source": "Lucide (ISC): el disco"
+    },
+    "tab": "sistemas-de-archivos.md"
+  },
+  "gateA": {
+    "approved": true,
+    "date": "2026-10-27"
+  },
+  "gateB": {
+    "approved": true,
+    "date": "2026-10-27",
+    "video": "2d12849eb068534a242407d367bde48c7e0b617ef63f7d00c05561faa1b0004d"
+  }
+}

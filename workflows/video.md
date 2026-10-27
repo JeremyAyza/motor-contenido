@@ -112,7 +112,7 @@ Igual que en el carrusel ([workflows/metricas.md](metricas.md)):
 
 **Escenario y HUD.** Como en el referente de [docs/analisis-rick-theengineer.md](../docs/analisis-rick-theengineer.md), lo que se explica pasa dentro de una interfaz que el público reconoce. El kit está en `packages/video/src/kit/stage.tsx` y se importa de `@motor/video`:
 - `Phone`, `BrowserBar`, `AppCard`, `Chat`, `Terminal`, `Diff`, `DataTable` y `Chip`. Cada uno recibe `at` (los segundos de `useCue`) para aparecer con la voz; `Terminal` escribe los comandos letra por letra.
-- **Son genéricos y propios.** Una marca aparece solo con su logo oficial, nunca como copia de su app. Los comandos de `Terminal` son reales; lo que muestran las pantallas (un issue, un diff, una salida) es un ejemplo y se rotula "Ejemplo ilustrativo".
+- **Interfaces reales, fieles.** Una app que el público reconoce se puede recrear igual a su versión actual, con su logo de `<Logo>` (regla 6 de AGENTS.md). Los comandos de `Terminal` son reales; lo que muestran las pantallas (un issue, un diff, una salida) es un ejemplo y se rotula "Ejemplo ilustrativo".
 - **Su texto es interfaz** (`data-ui`): el inspector no lo cuenta como palabras en pantalla y le deja bajar a 12 px. La frase para leer sigue siendo el título o una etiqueta.
 - **Sin `height`,** `SceneFrame` apila lo que recibe en una columna centrada, que es lo cómodo para el kit; con `height`, el dibujo es un recuadro de coordenadas absolutas.
 - **El HUD:** con `chapters: true`, el marco suma debajo de la pestaña la barra de capítulos (número, nombre de la escena y un segmento por escena que se llena). Los `Chip` sirven de rótulos de sistema dentro de las escenas.

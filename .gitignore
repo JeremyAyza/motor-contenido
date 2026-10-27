@@ -17,3 +17,7 @@ packages/video/out/
 # Se instalan en cada máquina: npx skills experimental_install (lee skills-lock.json).
 .agents/skills/remotion-*/
 .claude/skills/remotion-*/
+# Piezas de prueba locales (content/zz-*): no se publican ni se commitean
+content/zz-*/
+# Capturas de páginas de terceros: el repo es público y no hay licencia para redistribuirlas
+content/2026-10-24-carrusel-que-se-mueve/captura-seguridad-skills.png

@@ -1,0 +1,120 @@
+{
+  "topic": "sistemas-de-archivos",
+  "checkedAt": "2026-10-27",
+  "reference": {
+    "account": "@rick.theengineer",
+    "url": "https://www.instagram.com/p/De9wZcRMN6u/",
+    "seconds": 133.8,
+    "note": "Reel que se replica en estructura y nivel visual (un fichero que dura todo el video, un cajón por sistema operativo, el disco en bloques, el diario de NTFS, copia en escritura, los 32 bits de FAT32 y la tabla de compatibilidad). Ningún dato sale de ahí: todos tienen su fuente abajo."
+  },
+  "facts": [
+    {
+      "claim": "NTFS es el sistema de archivos por defecto de Windows. Asigna permisos a archivos y carpetas con listas de control de acceso (ACL) y funciona con el cifrado de BitLocker.",
+      "source": "Microsoft Learn, NTFS overview",
+      "url": "https://learn.microsoft.com/en-us/windows-server/storage/file-server/ntfs-overview",
+      "primary": true
+    },
+    {
+      "claim": "NTFS lleva un registro de transacciones (log). Si el sistema falla, al arrancar lo vuelve a aplicar y restaura la consistencia del sistema de archivos: 'NTFS can recover changes by replaying its transaction log'.",
+      "source": "Microsoft Learn, NTFS overview (Increased reliability)",
+      "url": "https://learn.microsoft.com/en-us/windows-server/storage/file-server/ntfs-overview",
+      "primary": true
+    },
+    {
+      "claim": "El tamaño de clúster por defecto de NTFS es 4 KB.",
+      "source": "Microsoft Learn, NTFS overview (Support for large volumes)",
+      "url": "https://learn.microsoft.com/en-us/windows-server/storage/file-server/ntfs-overview",
+      "primary": true
+    },
+    {
+      "claim": "Microsoft llama a NTFS, exFAT, UDF y FAT32 'los cuatro sistemas de archivos principales de Windows'. Tamaño máximo de archivo: NTFS y exFAT, 2^64–1 bytes; FAT32, 4 GiB. NTFS tiene journaling de metadatos; exFAT y FAT32, no.",
+      "source": "Microsoft Learn, File System Functionality Comparison",
+      "url": "https://learn.microsoft.com/en-us/windows/win32/fileio/filesystem-functionality-comparison",
+      "primary": true
+    },
+    {
+      "claim": "exFAT es el sucesor de FAT32 en la familia FAT. Uno de sus objetivos de diseño es permitir archivos y dispositivos muy grandes. El campo DataLength, que guarda el tamaño, ocupa 8 bytes (64 bits).",
+      "source": "Microsoft Learn, exFAT file system specification (1.1 y tabla 18)",
+      "url": "https://learn.microsoft.com/en-us/windows/win32/fileio/exfat-specification",
+      "primary": true
+    },
+    {
+      "claim": "APFS reemplazó a HFS+ como sistema de archivos por defecto desde iOS 10.3 y macOS High Sierra. Está optimizado para almacenamiento flash y SSD, y trae cifrado fuerte, clonación de archivos y carpetas, e instantáneas (snapshots).",
+      "source": "Apple Developer, Apple File System Guide (Introduction)",
+      "url": "https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/APFS_Guide/Introduction/Introduction.html",
+      "primary": true
+    },
+    {
+      "claim": "APFS protege sus actualizaciones contra caídas con un esquema de metadatos de copia en escritura, sin el doble trabajo de escribir un diario.",
+      "source": "Apple Developer, Apple File System Guide (Features)",
+      "url": "https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/APFS_Guide/Features/Features.html",
+      "primary": true
+    },
+    {
+      "claim": "Una Mac puede leer discos en NTFS, pero no escribir en ellos: 'Disk Utility does not support NTFS format, which your Mac might be able to read from, but not write to.'",
+      "source": "Apple Support, If your Mac can't save files to an external drive",
+      "url": "https://support.apple.com/en-us/101830",
+      "primary": true
+    },
+    {
+      "claim": "Para un disco que se usa con Windows y con Mac, la Utilidad de Discos ofrece MS-DOS (FAT), para 32 GB o menos, y exFAT, para más de 32 GB.",
+      "source": "Apple Support, Format a disk for Windows computers in Disk Utility on Mac",
+      "url": "https://support.apple.com/guide/disk-utility/format-a-disk-for-windows-computers-dskutl1010/mac",
+      "primary": true
+    },
+    {
+      "claim": "Los fabricantes miden en sistema decimal: 1 TB son un billón de bytes (10^12).",
+      "source": "Apple Support, How iOS and macOS report storage capacity",
+      "url": "https://support.apple.com/en-us/102119",
+      "primary": true
+    },
+    {
+      "claim": "Ext4 es una evolución de ext3, con mejoras de escala y confiabilidad para sistemas de archivos grandes (64 bits). En su modo por defecto lleva diario de los metadatos.",
+      "source": "The Linux Kernel documentation, ext4 General Information",
+      "url": "https://docs.kernel.org/admin-guide/ext4.html",
+      "primary": true
+    },
+    {
+      "claim": "Btrfs es un sistema de archivos de copia en escritura (COW): los cambios se escriben en otro lugar y el original no se toca. Tiene instantáneas que no copian los archivos completos y sumas de verificación de datos y metadatos, con detección automática de la corrupción silenciosa.",
+      "source": "BTRFS documentation, Introduction",
+      "url": "https://btrfs.readthedocs.io/en/latest/Introduction.html",
+      "primary": true
+    },
+    {
+      "claim": "ZFS es de copia en escritura: un bloque en uso nunca se sobrescribe; el cambio se escribe en un lugar nuevo y después se cambian los punteros. Crear una instantánea no copia nada: solo evita que se liberen los bloques viejos.",
+      "source": "OpenZFS documentation, Copy-on-Write",
+      "url": "https://openzfs.github.io/openzfs-docs/Basic%20Concepts/Copy-on-write.html",
+      "primary": true
+    },
+    {
+      "claim": "ZFS calcula la suma de verificación de cada bloque cuando lo escribe y la guarda en el puntero al bloque. Al leer detecta la corrupción, y si el pool tiene redundancia, repara el bloque solo.",
+      "source": "OpenZFS documentation, Checksums and Their Use in ZFS",
+      "url": "https://openzfs.github.io/openzfs-docs/Basic%20Concepts/Data%20Storage/Checksums.html",
+      "primary": true
+    },
+    {
+      "claim": "Btrfs es el sistema de archivos por defecto de las ediciones de escritorio de Fedora desde Fedora 33.",
+      "source": "Fedora Project Wiki, Changes/BtrfsByDefault",
+      "url": "https://fedoraproject.org/wiki/Changes/BtrfsByDefault",
+      "primary": true
+    },
+    {
+      "claim": "Las tarjetas SDHC (de más de 2 GB hasta 32 GB) usan FAT32. Las SDXC (de más de 32 GB hasta 2 TB) usan exFAT.",
+      "source": "SD Association, Capacity (SD/SDHC/SDXC/SDUC)",
+      "url": "https://www.sdcard.org/developers/sd-standard-overview/capacity-sd-sdhc-sdxc-sduc/",
+      "primary": true
+    }
+  ],
+  "calculations": [
+    "2 TB = 2.000.000.000.000 bytes. En bloques de 4 KB (4.096 bytes): 2.000.000.000.000 / 4.096 = 488.281.250 bloques.",
+    "Lo más grande que cabe en 32 bits es 2^32 − 1 = 4.294.967.295 bytes: casi 4,3 GB. Por eso FAT32 no acepta archivos de 4 GiB o más.",
+    "Con 64 bits, el máximo es 2^64 − 1 bytes, el mismo que da Microsoft para NTFS y exFAT."
+  ],
+  "illustrative": [
+    "El archivo de ejemplo, vacaciones.mp4, de 5.400.000.000 bytes (5,4 GB), con sus números de bloque, su dueño y su fecha.",
+    "La entrada del diario de NTFS, el corte de luz y los bloques que se repiten.",
+    "Los diálogos de copia y de formato: son genéricos, no copian la interfaz de macOS ni la de Windows.",
+    "Las sumas de verificación que se ven en pantalla."
+  ],
+  "pendingToVerify": []
+}

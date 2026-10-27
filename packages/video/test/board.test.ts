@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { APPEAR_S, DRAW_S, edgeDrawn, MOVE_S, nodeAt, packetAt, type BoardNode } from "../src/kit/board.ts";
+import { APPEAR_S, DRAW_S, edgeDrawn, edgePath, fan, MOVE_S, nodeAt, packetAt, pointOnEdge, PULSE_RUN_S, pulseAt, type BoardNode } from "../src/kit/board.ts";
 
 const server: BoardNode = { id: "server", x: 100, y: 100, label: "Servidor", at: 2 };
 
@@ -52,5 +52,42 @@ describe("packetAt", () => {
     assert.equal(packetAt({ from: "a", to: "b", at: 1 }, 0.5), null);
     assert.equal(packetAt({ from: "a", to: "b", at: 1, dur: 1 }, 1.5), 0.5);
     assert.equal(packetAt({ from: "a", to: "b", at: 1 }, 3), null);
+  });
+});
+
+describe("curved edges", () => {
+  const a = { x: 0, y: 0 };
+  const b = { x: 100, y: 0 };
+
+  it("a straight edge is the line between its ends", () => {
+    assert.deepEqual(pointOnEdge(a, b, 0, 0.5), { x: 50, y: 0 });
+    assert.equal(edgePath(a, b), "M 0 0 Q 50 0 100 0");
+  });
+
+  it("a curve bows square to the line and still meets both ends", () => {
+    const mid = pointOnEdge(a, b, 0.2, 0.5);
+    assert.equal(mid.x, 50);
+    assert.ok(Math.abs(mid.y - 10) < 1e-9);
+    assert.deepEqual(pointOnEdge(a, b, 0.2, 0), a);
+    assert.deepEqual(pointOnEdge(a, b, 0.2, 1), b);
+  });
+
+  it("a pulse runs the line after it is drawn, once per period", () => {
+    assert.equal(pulseAt(2, 5, 4.9), null);
+    assert.equal(pulseAt(2, 5, 5), 0);
+    assert.ok(Math.abs((pulseAt(2, 5, 5 + PULSE_RUN_S / 2) ?? -1) - 0.5) < 1e-9);
+    assert.equal(pulseAt(2, 5, 5 + PULSE_RUN_S + 0.1), null);
+    assert.equal(pulseAt(2, 5, 7), 0);
+    assert.equal(pulseAt(undefined, 5, 6), null);
+  });
+
+  it("a fan bows its outer lines the most and keeps the middle straight", () => {
+    const edges = fan(["a", "b", "c"], "agent", { curve: 0.3, glow: "#8B7CF6" });
+    assert.deepEqual(
+      edges.map((e) => e.curve),
+      [-0.3, 0, 0.3],
+    );
+    assert.ok(edges.every((e) => e.to === "agent" && e.glow === "#8B7CF6"));
+    assert.equal(fan(["solo"], "agent")[0].curve, 0);
   });
 });

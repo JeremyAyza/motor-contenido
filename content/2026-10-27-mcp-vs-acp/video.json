@@ -1,0 +1,137 @@
+{
+  "$schema": "../../schemas/video.schema.json",
+  "format": "largo",
+  "target": 141,
+  "topic": "MCP contra ACP: MCP conecta al agente con sus herramientas, ACP lo conecta con el editor donde lo usas",
+  "world": "Un agente al centro: arriba, sus herramientas conectadas por líneas violetas (MCP); abajo, los editores conectados por líneas verdes (ACP).",
+  "meter": {
+    "label": "Protocolos del agente",
+    "from": "0/2",
+    "to": "2/2"
+  },
+  "cover": {
+    "scene": "gancho"
+  },
+  "hooks": [
+    {
+      "said": "Tu agente usa MCP. Le falta ACP.",
+      "onScreen": "Tu agente necesita dos",
+      "formula": 29
+    },
+    {
+      "said": "Todos hablan de MCP. ACP es otra cosa.",
+      "onScreen": "MCP no es ACP",
+      "formula": 22
+    },
+    {
+      "said": "¿Cuál es la diferencia entre MCP y ACP?",
+      "onScreen": "¿MCP o ACP?",
+      "formula": 16
+    }
+  ],
+  "scenes": [
+    {
+      "id": "gancho",
+      "say": "Tu agente usa MCP. Le falta ACP. MCP lo conecta con sus herramientas: GitHub, tu base de datos, Slack. ACP lo conecta con el editor donde lo usas: Zed, JetBrains, Neovim.",
+      "see": "Una terminal al centro con el pedido escrito; arriba, los logos de GitHub, Postgres, Slack y Figma bajan al agente por líneas violetas (MCP); abajo, salen líneas verdes hacia Zed, JetBrains y Neovim (ACP)",
+      "resource": "capas"
+    },
+    {
+      "id": "protocolo",
+      "say": "Primero, ¿qué es un protocolo? Son reglas que dos programas comparten para entenderse. Los dos usan JSON-RPC 2.0. Cada mensaje lleva un método, sus parámetros y un id para la respuesta.",
+      "see": "Dos ventanas de programas distintos que se mandan un mensaje que no entienden; aparece la tarjeta de JSON-RPC 2.0 con jsonrpc, id, method y params, y el mensaje llega con una tilde",
+      "resource": "anatomia"
+    },
+    {
+      "id": "mcp",
+      "say": "MCP es el Model Context Protocol. Anthropic lo liberó en noviembre de 2024. Antes, cada herramienta pedía una integración a mano. Una para GitHub, otra para Postgres, otra para Slack. Con MCP todas hablan igual: el agente pide tools/call y la herramienta responde.",
+      "see": "Las siglas M, C y P se despliegan en Model Context Protocol; después, cuatro herramientas unidas al agente por líneas grises con un archivo distinto cada una (github.ts, postgres.ts, slack.ts, figma.ts) que se vuelven líneas violetas con pulsos y una tarjeta de tools/call",
+      "resource": "comparacion"
+    },
+    {
+      "id": "editor",
+      "say": "Pero falta el otro lado. Tu agente vive en una ventana negra, la terminal. Y tú lo quieres en tu editor: el diff al lado y un botón para aceptar o rechazar.",
+      "see": "La terminal negra con el agente trabajando; se abre al lado la ventana de un editor con el árbol de archivos, el diff en rojo y verde y los botones Aceptar y Rechazar",
+      "resource": "comparacion"
+    },
+    {
+      "id": "acp",
+      "say": "ACP es el Agent Client Protocol. Lo creó Zed en agosto de 2025, con licencia Apache. Estandariza cómo un editor habla con un agente. Como hizo LSP con los lenguajes.",
+      "see": "Las siglas A, C y P se despliegan en Agent Client Protocol en verde; el logo de Zed con los sellos agosto de 2025 y Apache 2.0; al lado, la ficha de LSP",
+      "resource": "anatomia"
+    },
+    {
+      "id": "integraciones",
+      "say": "Si haces un editor sin ACP, necesitas una integración por agente. Una para Claude Code, otra para Codex, otra para OpenCode, cada una con sus mensajes. Con ACP es una sola: todos siguen las mismas reglas.",
+      "see": "Tres agentes arriba y el editor abajo, unidos por tres líneas de colores distintos con un formato de mensaje distinto cada una; el contador baja y las tres se funden en un solo abanico verde con un único mensaje de ACP",
+      "resource": "comparacion"
+    },
+    {
+      "id": "sesion",
+      "say": "Así va una sesión. El editor arranca al agente como un subproceso y le manda initialize. Le pasa tu pedido con session/prompt. El agente responde en vivo con session/update: el plan, lo que lee, cada diff. Y antes de algo riesgoso, pide permiso.",
+      "see": "Arriba, el agente; abajo, el editor; entre los dos, el registro de mensajes que se llena línea por línea (initialize, session/new, session/prompt, session/update con el plan, la lectura y el diff) y, al final, session/request_permission con los botones Permitir y Rechazar",
+      "resource": "proceso"
+    },
+    {
+      "id": "real",
+      "say": "Detrás corre el agente de verdad: el adaptador de Claude usa el SDK oficial. Por eso IntelliJ ya trae Codex, Claude y Junie en el mismo editor.",
+      "see": "La ficha de claude-agent-acp unida al SDK oficial; después, un panel de IntelliJ con el selector de agentes: Codex, Claude Agent y Junie",
+      "resource": "capas"
+    },
+    {
+      "id": "adaptadores",
+      "say": "Muchos agentes ya hablan ACP: Gemini CLI, GitHub Copilot, Cursor, Goose, OpenCode. Claude y Codex entran con un adaptador chico. Hoy la lista oficial tiene 48 agentes y 21 editores.",
+      "see": "Una fila de agentes que se conectan directo a la línea verde de ACP; Claude y Codex llegan por una caja de adaptador (claude-agent-acp, codex-acp); dos contadores suben a 48 agentes y 21 editores",
+      "resource": "datos"
+    },
+    {
+      "id": "jetbrains",
+      "say": "Y los editores grandes se sumaron. JetBrains lo desarrolla junto a Zed desde octubre de 2025. En Neovim y Emacs entra con plugins.",
+      "see": "Los logos de JetBrains y Zed unidos por un sello de octubre de 2025; debajo, Neovim y Emacs con sus plugins (CodeCompanion, agent-shell)",
+      "resource": "linea-de-tiempo"
+    },
+    {
+      "id": "cierre",
+      "say": "Entonces: MCP conecta al agente con sus herramientas. ACP lo conecta con la app donde tú lo usas. Cuéntame qué agente meterías en tu editor con ACP.",
+      "see": "La cámara vuelve al diagrama del principio, completo: MCP sale hacia las herramientas y ACP entra desde los editores, con la pregunta en pantalla",
+      "resource": "capas"
+    }
+  ],
+  "caption": "Todos hablan de MCP. ACP resuelve otro problema.\n\nMCP conecta tu agente con sus herramientas: GitHub, tu base de datos, Slack. Anthropic lo liberó en noviembre de 2024, y antes cada herramienta pedía una integración a mano.\n\nACP, el Agent Client Protocol, conecta al agente con el editor donde lo usas. Lo creó Zed en agosto de 2025 y estandariza cómo un editor habla con un agente de código, como hizo LSP con los lenguajes.\n\nAsí va una sesión de ACP:\n- el editor arranca al agente y le manda initialize;\n- le pasa tu pedido con session/prompt;\n- el agente responde en vivo con session/update: el plan, lo que lee, cada diff;\n- antes de algo riesgoso, pide permiso con session/request_permission.\n\nHoy la lista oficial tiene 48 agentes y 21 editores. Claude y Codex entran con un adaptador, y JetBrains lo desarrolla junto a Zed.\n\nMCP: el agente con sus herramientas. ACP: el agente con tu editor.\n\n¿Qué agente meterías en tu editor? Cuéntamelo en los comentarios.\n\nFuentes: Anthropic, modelcontextprotocol.io, agentclientprotocol.com, el blog de Zed, el de JetBrains y el repositorio de claude-agent-acp, revisados el 27 de octubre de 2026.\n\n#ia #claudecode #mcp #programacion #agentes",
+  "gateA": {
+    "approved": true,
+    "date": "2026-10-27"
+  },
+  "gateB": {
+    "approved": true,
+    "date": "2026-10-27",
+    "video": "ffefbeddf6a9c4ae7030cc8326a2f616911120b177d7593fb1f4df6c1d87c1e5"
+  },
+  "art": {
+    "direction": "terminal",
+    "dealt": [
+      "diario-de-prueba",
+      "terminal",
+      "captura-anotada"
+    ],
+    "reason": "Los dos protocolos son mensajes JSON-RPC que viajan entre programas: la consola y sus mensajes son el escenario. Fondo casi negro, el violeta para MCP y el verde para ACP, cada uno con su color en sus líneas.",
+    "palette": {
+      "bg": "#0F1117",
+      "ink": "#ECEEF3",
+      "accent": "#5EEAD4",
+      "accentInk": "#0F1117",
+      "surface": "#1A1D26",
+      "muted": "#8B93A7"
+    },
+    "fonts": {
+      "display": "geist",
+      "text": "geist"
+    },
+    "anchor": {
+      "kind": "icono",
+      "ref": "cable",
+      "source": "Lucide (ISC): el cable que conecta"
+    },
+    "tab": "mcp-vs-acp.md"
+  }
+}

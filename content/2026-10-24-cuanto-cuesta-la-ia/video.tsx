@@ -487,14 +487,7 @@ export default defineVideo({
     ],
     footer: "Sonnet 5.5 · $2 entrada · $10 salida por millón · ejemplo",
   },
-  avatar: {
-    base: "img/avatar-base.png",
-    mouths: ["img/avatar-boca-media.png", "img/avatar-boca-abierta.png"],
-    blink: "img/avatar-ojos-cerrados.png",
-    mouthBox: { x: 900, y: 980, w: 450, h: 280 },
-    eyesBox: { x: 820, y: 690, w: 560, h: 250 },
-    imageSize: 2048,
-  },
+  avatar: {},
   scenes: [
     { id: "gancho", chapter: "Tokens", camera: { focus: { x: 220, y: 300 }, zoom: 1.3 }, Visual: Hook },
     { id: "taximetro", chapter: "El taxímetro", camera: { follow: { path: "ruta", from: F.casa, to: F.tokenizador - 0.015, x: W / 2 }, zoom: 1.25 }, Visual: banner("cincuenta", "PDF: 50.000 tokens") },

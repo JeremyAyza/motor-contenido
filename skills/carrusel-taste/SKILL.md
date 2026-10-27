@@ -45,7 +45,7 @@ El ancla dice el tema antes de que alguien lea una palabra. Es obligatoria en la
 3. **Tema sin marca** (ventas, productividad, prompts): un objeto grande con `<Icono name="..." />` (Lucide).
 4. **Comparación:** las dos anclas, una frente a la otra.
 
-Nunca dibujes ni imites un logo, una mascota o un personaje de una marca: solo archivos oficiales o capturas reales. El logo identifica el tema; no sugieras patrocinio. Anota el ancla en `art.anchor` con su fuente.
+Un logo o una mascota va con su archivo oficial o de una fuente confiable (`<Logo>`, que busca en Simple Icons y en el catálogo de `assets/logos`). Si no hay archivo, sigue la regla 6 de [AGENTS.md](../../AGENTS.md): pídeselo a la persona si es difícil de recrear, o recréalo idéntico al original. El logo identifica el tema; no sugieras patrocinio. Anota el ancla en `art.anchor` con su fuente.
 
 **Prueba del pulgar:** el render genera `out/pulgar.png`, la portada al tamaño de una miniatura del perfil. Si ahí no se sabe el tema sin leer, el ancla es muy chica o está escondida. Mira [referencias/prueba-del-pulgar.jpg](referencias/prueba-del-pulgar.jpg).
 

@@ -4,7 +4,7 @@ import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, rmSync,
 import { basename, dirname, join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { z } from "zod";
-import { loadAccount, pieceFontIds, REPO_ROOT, type Palette, type PieceFonts } from "../../brand/src/index.ts";
+import { loadAccount, pieceFontIds, REPO_ROOT, type AccountBrand, type Palette, type PieceFonts } from "../../brand/src/index.ts";
 import { FONTS, fontStack, MONO, type FontId } from "../../brand/src/fonts.ts";
 import { repartir } from "../../carousel/src/direcciones.ts";
 import type { Art } from "../../carousel/src/post.ts";
@@ -26,6 +26,8 @@ import {
 } from "../../media/src/index.ts";
 import { loadBrief } from "../../carousel/src/brief.ts";
 import { revisarTextos } from "../../carousel/src/texto.ts";
+import { stageAvatar } from "./avatar-manifest.ts";
+import { fetchLogos, type CatalogLogo } from "../../media/src/catalog.ts";
 import { CAPTURES_FILE, CapturesSchema, loadCaptures, runCapture, saveCaptures } from "./capture.ts";
 import { prepareCritique, writeHookCritic } from "./critique.ts";
 import { recentSimilar, REPEAT_DAYS } from "./topics.ts";
@@ -135,7 +137,10 @@ function voiceFor(video: VideoDef) {
   const provider = account.voice.provider;
   const voice = video.voice?.voice ?? account.voice.voiceId;
   if (!provider || !voice) throw new VideoError("accounts/dev.json → voice needs provider and voiceId. Pick the voice with: npm run video:voices");
-  return { account, provider, voice, style: video.voice?.style ?? account.voice.style ?? undefined, settings: account.voice.settings, tempo: account.voice.tempo ?? 1 };
+  const tempo = video.voice?.tempo ?? account.voice.tempo ?? 1;
+  // ffmpeg's atempo takes 0.5 to 2 in one pass; past ±25% the voice stops sounding natural.
+  if (tempo < 0.75 || tempo > 1.4) throw new VideoError(`video.tsx → voice.tempo is ${tempo}: keep it between 0.75 and 1.4`);
+  return { account, provider, voice, style: video.voice?.style ?? account.voice.style ?? undefined, settings: account.voice.settings, tempo };
 }
 
 /** Directions of the account's videos, newest first, from their art (video.json or the carousel's). */
@@ -282,15 +287,18 @@ function critique(args: string[]): void {
 /**
  * What the composition needs besides the voice: the look of the art direction
  * (palette, fonts, tab) and the files it draws (objects, the piece's images,
- * the fonts), copied to the public folder `out`.
+ * the account's avatar, the fonts), copied to the public folder `out`.
  */
-function stageOf(dir: string, piece: string, art: Art, palette: Palette, out: string, meter?: VideoScript["meter"]) {
+function stageOf(dir: string, piece: string, art: Art, palette: Palette, account: AccountBrand, logos: Record<string, CatalogLogo>, out: string, meter?: VideoScript["meter"]) {
   const captures = asVideoError(() => loadCaptures(dir));
   const pending = captures?.captures.filter((c) => !c.result).map((c) => c.id) ?? [];
   if (pending.length) throw new VideoError(`${CAPTURES_FILE}: ${pending.join(", ")} did not run yet. Run: npm run video:capture -- content/${piece}`);
   copyFiles(join(REPO_ROOT, "assets/objetos"), join(out, "objetos"), (name) => IMAGE.test(name));
   copyFiles(dir, join(out, "piece"), (name) => IMAGE.test(name));
   copyFiles(join(dir, "img"), join(out, "piece/img"), (name) => IMAGE.test(name));
+  const avatar = asVideoError(() => stageAvatar(join(REPO_ROOT, account.avatar.manifest), out));
+  copyFiles(join(CACHE, "assets"), join(out, "logos"), (name) => Object.values(logos).some((l) => basename(l.file) === name));
+  const logoSrcs = Object.fromEntries(Object.entries(logos).map(([id, l]) => [id, { title: l.title, src: "logos/" + basename(l.file) }]));
   return {
     piece,
     fps: FPS,
@@ -307,6 +315,8 @@ function stageOf(dir: string, piece: string, art: Art, palette: Palette, out: st
     tab: tabOf(art, piece),
     ...(meter ? { meter } : {}),
     ...(captures ? { captures: Object.fromEntries(captures.captures.map((c) => [c.id, { about: c.about, ...c.result! }])) } : {}),
+    ...(avatar ? { avatar } : {}),
+    ...(Object.keys(logoSrcs).length ? { logos: logoSrcs } : {}),
   };
 }
 
@@ -392,7 +402,7 @@ async function prepare(args: string[]): Promise<void> {
     copyFileSync(local, join(out, sounds[asset.id]));
   }
   const timeline: Timeline = {
-    ...stageOf(dir, piece, art, palette, out, videoScript.meter),
+    ...stageOf(dir, piece, art, palette, account, await fetchLogos(catalog, join(CACHE, "assets")), out, videoScript.meter),
     sounds,
     brand: account,
     voice: { provider: provider.id, model: provider.model, voice },
@@ -436,7 +446,9 @@ async function storyboard(args: string[]): Promise<void> {
     const durationMs = Math.round((words.at(-1)?.endMs ?? 0) + (i === scenesToShow.length - 1 ? END_TAIL_MS : TAIL_MS) + scene.holdMs);
     return { id: scene.id, durationMs, words, sfx: [] };
   });
-  const timeline: Timeline = { ...stageOf(dir, piece, art, palette, out, videoScript.meter), brand: loadAccount("dev"), scenes };
+  const account = loadAccount("dev");
+  const logos = await fetchLogos(loadCatalog(join(REPO_ROOT, "assets/catalog.json")), join(CACHE, "assets"));
+  const timeline: Timeline = { ...stageOf(dir, piece, art, palette, account, logos, out, videoScript.meter), brand: account, scenes };
   writeFileSync(join(out, "timeline.json"), JSON.stringify(timeline, null, 2));
   console.log(`${piece}: storyboard of ${scenes.length} scene(s), ${(timelineMs(timeline) / 1000).toFixed(1)} s estimated, art direction ${art.direction} (${from})`);
 

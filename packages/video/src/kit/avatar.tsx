@@ -1,18 +1,17 @@
 import { Img, spring, useCurrentFrame } from "remotion";
-import { useAssets } from "../../../carousel/src/ui/index.tsx";
 import type { TimelineScene } from "../timeline.ts";
 import { CAPTIONS_TOP } from "../timeline.ts";
 
 type Box = { x: number; y: number; w: number; h: number };
 
 /**
- * The account's avatar (docs/plan-piloto-automatico.md, phase 4): Jeremy's
- * illustration without background, plus variants made from it with
- * video:image --ref that differ only in the mouth or the eyes. Only those
- * boxes are taken from the variants, so the drawing stays the original.
+ * The drawing of an avatar: Jeremy's illustration without background, plus
+ * variants made from it with video:image --ref that differ only in the mouth
+ * or the eyes. Only those boxes are taken from the variants, so the drawing
+ * stays the original. The account's is in assets/avatar/manifest.json.
  */
-export type AvatarDef = {
-  /** The illustration without background, relative to the piece folder. */
+export type AvatarSprites = {
+  /** The illustration without background. */
   base: string;
   /** Mouths from least to most open: the louder the voice, the more open. */
   mouths: string[];
@@ -23,6 +22,17 @@ export type AvatarDef = {
   eyesBox: Box;
   /** Side of the source image in px (it is square). */
   imageSize: number;
+  /** The square of the source image the bubble shows (the head), in px. */
+  bubbleCrop?: Box;
+};
+
+/**
+ * The avatar of a video (docs/plan-piloto-automatico.md, phase 4).
+ * `avatar: {}` draws the account's, which video:prepare copies to the public
+ * folder. What the piece gives replaces it field by field: its own sprites go
+ * relative to the piece folder.
+ */
+export type AvatarDef = Partial<AvatarSprites> & {
   /** Side of the avatar on the canvas, in design px: 220 by default. */
   size?: number;
   /**
@@ -38,9 +48,34 @@ export type AvatarDef = {
    * (SceneDef.avatar), and only in those scenes.
    */
   shape?: "bust" | "bubble";
-  /** The square of the source image the bubble shows (the head), in px. */
-  bubbleCrop?: Box;
 };
+
+/** An avatar ready to draw: every sprite is a URL. */
+export type DrawnAvatar = AvatarDef & AvatarSprites;
+
+const REQUIRED = ["base", "mouths", "blink", "mouthBox", "eyesBox", "imageSize"] as const;
+
+/**
+ * The piece's avatar over the account's. `url` turns a file into a URL: the
+ * piece's are relative to its folder, the account's to the public folder.
+ */
+export function drawnAvatar(def: AvatarDef, account: AvatarSprites | undefined, url: { piece: (src: string) => string; account: (src: string) => string }): DrawnAvatar {
+  const files = (sprites: Partial<AvatarSprites>, to: (src: string) => string) => ({
+    ...(sprites.base ? { base: to(sprites.base) } : {}),
+    ...(sprites.mouths ? { mouths: sprites.mouths.map(to) } : {}),
+    ...(sprites.blink ? { blink: to(sprites.blink) } : {}),
+  });
+  const avatar: Partial<DrawnAvatar> = { ...account, ...(account ? files(account, url.account) : {}), ...def, ...files(def, url.piece) };
+  const missing = REQUIRED.filter((key) => avatar[key] === undefined);
+  if (missing.length) {
+    throw new Error(
+      account
+        ? `The avatar is missing ${missing.join(", ")}`
+        : `The video has an avatar, but the account has none (assets/avatar/manifest.json, copied by video:prepare) and video.tsx does not give ${missing.join(", ")}`,
+    );
+  }
+  return avatar as DrawnAvatar;
+}
 
 /** Levels under this are silence; over OPEN, the widest mouth. */
 const QUIET = 0.12;
@@ -69,14 +104,13 @@ export function blinkAt(frame: number, sceneIndex: number): boolean {
 }
 
 function Layer({ src, size, imageSize, clip, offset }: { src: string; size: number; imageSize: number; clip?: Box; offset?: { x: number; y: number } }) {
-  const url = useAssets().image(src);
   const pct = (v: number) => `${(v / imageSize) * 100}%`;
   const clipPath = clip ? `inset(${pct(clip.y)} ${pct(imageSize - clip.x - clip.w)} ${pct(imageSize - clip.y - clip.h)} ${pct(clip.x)})` : undefined;
-  return <Img src={url} alt="" className="absolute max-w-none" style={{ left: offset?.x ?? 0, top: offset?.y ?? 0, width: size, height: size, clipPath }} />;
+  return <Img src={src} alt="" className="absolute max-w-none" style={{ left: offset?.x ?? 0, top: offset?.y ?? 0, width: size, height: size, clipPath }} />;
 }
 
 /** The avatar's head in a circle with a white ring, popping in when the scene starts. */
-export function AvatarBubble({ def, scene, sceneIndex, fps, place }: { def: AvatarDef; scene: TimelineScene; sceneIndex: number; fps: number; place: { x: number; y: number; size: number } }) {
+export function AvatarBubble({ def, scene, sceneIndex, fps, place }: { def: DrawnAvatar; scene: TimelineScene; sceneIndex: number; fps: number; place: { x: number; y: number; size: number } }) {
   const frame = useCurrentFrame();
   const crop = def.bubbleCrop ?? { x: 0, y: 0, w: def.imageSize, h: def.imageSize };
   const scale = place.size / crop.w;
@@ -99,7 +133,7 @@ export function AvatarBubble({ def, scene, sceneIndex, fps, place }: { def: Avat
 }
 
 /** The avatar at the bottom left, over the scene and under the captions. */
-export function Avatar({ def, scene, sceneIndex, fps }: { def: AvatarDef; scene: TimelineScene; sceneIndex: number; fps: number }) {
+export function Avatar({ def, scene, sceneIndex, fps }: { def: DrawnAvatar; scene: TimelineScene; sceneIndex: number; fps: number }) {
   const frame = useCurrentFrame();
   if (def.shape === "bubble" || (def.scenes && !def.scenes.includes(scene.id))) return null;
   const size = def.size ?? 220;

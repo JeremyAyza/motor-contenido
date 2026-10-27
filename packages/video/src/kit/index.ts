@@ -94,8 +94,12 @@ export type StageDef = {
  * composition of each scene.
  */
 export type VideoDef = {
-  /** Overrides the account voice (accounts/<account>.json → voice) for this piece. */
-  voice?: { voice?: string; style?: string };
+  /**
+   * Overrides the account voice (accounts/<account>.json → voice) for this
+   * piece. `tempo` speeds the generated voice up (1.12 is the account's): a
+   * replica can use it to reach its reference's length without cutting content.
+   */
+  voice?: { voice?: string; style?: string; tempo?: number };
   /**
    * A music bed under the whole video, looped if it is shorter: a file of the
    * piece (`file: "audio/bed.mp3"`, from video:music) or a catalog asset
@@ -126,7 +130,10 @@ export type VideoDef = {
    * a word is said) to the close. Works with and without a stage.
    */
   meter?: MeterDef;
-  /** The account's avatar at the bottom left, its mouth moved by the voice (kit/avatar.tsx). */
+  /**
+   * The account's avatar at the bottom left, its mouth moved by the voice
+   * (kit/avatar.tsx). `{}` draws it as assets/avatar/manifest.json says.
+   */
   avatar?: AvatarDef;
   /**
    * The HUD board under the chapter bar, like the taximeter of Rick's Reels:
@@ -150,7 +157,7 @@ export const defineVideo = (video: VideoDef) => video;
 export { useCapture, useCue, useStage, useStageCue } from "./scene.ts";
 export type { Shot, SpotBox } from "./camera.ts";
 export type { MeterDef, MeterKind, MeterStep } from "./meter.ts";
-export type { AvatarDef } from "./avatar.tsx";
+export type { AvatarDef, AvatarSprites } from "./avatar.tsx";
 export type { PanelCounter, PanelDef } from "./panel.ts";
 export { Pop, Sfx, usePop } from "./sfx.tsx";
 export { Banner, PillTitle } from "./text.tsx";
@@ -159,6 +166,7 @@ export { Along, Booth, Building, Bush, Car, Cloud, Coin, Cone, Document, House, 
 export { Board, Label, Plate, Spot } from "./world.tsx";
 export type { LabelPlace, LabelTone } from "./world.tsx";
 export type { BoardEdge, BoardEvent, BoardNode, BoardPacket, NodeState } from "./board.ts";
+export { fan } from "./board.ts";
 export { useClock } from "./scene.ts";
 export { DRAWING_WIDTH, SceneFrame } from "./scene-frame.tsx";
 export { AppCard, BrowserBar, captureLines, Chat, Chip, DataTable, Diff, Phone, Terminal } from "./stage.tsx";

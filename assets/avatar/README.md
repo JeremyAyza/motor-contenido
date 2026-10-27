@@ -1,37 +1,35 @@
 # Avatar
 
-Sprites del personaje original que aparece en los videos (y, si conviene, en los carruseles). Es un personaje propio: nunca uses personajes con derechos de autor.
+El avatar de la cuenta, el que aparece en los videos. Es la ilustración de Jeremy: nunca uses personajes con derechos de autor. Las dos cuentas (`accounts/dev.json` y `accounts/negocios.json`) lo leen desde `avatar.manifest`.
 
-## Qué va aquí
+## Qué hay aquí
 
 ```
 assets/avatar/
-├─ manifest.json          qué archivo es cada pose, expresión y boca
-├─ poses/                 cuerpo completo o medio cuerpo, sin boca (PNG o SVG con fondo transparente)
-├─ expressions/           ojos y cejas por emoción
-└─ mouths/                una imagen por forma de boca
+├─ manifest.json      qué archivo es cada parte y dónde están la boca y los ojos
+├─ generated.json     con qué modelo y prompt se hizo cada sprite (igual que en las piezas)
+└─ v1/
+   ├─ original.jpg    la ilustración original, con fondo
+   ├─ base.png        sin fondo: la que se dibuja siempre
+   ├─ mouth-half.png  la misma, con la boca entreabierta
+   ├─ mouth-open.png  con la boca abierta
+   └─ eyes-closed.png con los ojos cerrados
 ```
 
-## Formas de boca
+Los cuatro PNG miden 2048 × 2048 y tienen el dibujo en el mismo lugar. De las variantes solo se toma su recuadro: la boca (`mouthBox`) o los ojos (`eyesBox`). Así, el resto del dibujo siempre es el de `base.png`.
 
-Para la sincronía labial se usan las 9 formas de [Rhubarb Lip Sync](https://github.com/DanielSWolf/rhubarb-lip-sync), que calcula los tiempos de cada boca a partir del audio:
+## Cómo lo usa un video
 
-| Clave | Sonido aproximado |
-|---|---|
-| A | m, b, p (labios cerrados) |
-| B | la mayoría de consonantes, i |
-| C | e |
-| D | a |
-| E | o |
-| F | u |
-| G | f, v |
-| H | l |
-| X | reposo |
+En `video.tsx`, `avatar: {}` dibuja el busto abajo a la izquierda. `video:prepare` y `video:storyboard` copian los sprites a la carpeta pública del render. La boca se abre según el volumen de la voz y los ojos parpadean (`packages/video/src/kit/avatar.tsx`).
+
+La pieza decide dónde va: `size`, `top`, `scenes` y `shape: "bubble"` con `bubbleCrop`. Si una pieza trae otros sprites (`base`, `mouths` o `blink`, relativos a su carpeta), esos reemplazan a los de la cuenta campo por campo.
 
 ## Reglas
 
-- Todas las imágenes comparten tamaño de lienzo y punto de anclaje, para que boca y ojos calcen sin ajustes.
-- Fondo transparente.
-- Los nombres de archivo no cambian una vez publicados videos con ellos; para una versión nueva, crea otra carpeta (`v2/`) y actualiza el manifiesto.
+- Fondo transparente, y el mismo lienzo y la misma posición en todos los sprites.
+- Los nombres de archivo no cambian una vez publicados videos con ellos. Para una versión nueva, crea otra carpeta (`v2/`), cambia el manifiesto y anota en `generated.json` cómo se hizo.
+- Las variantes se generan desde `base.png` con `video:image --ref` y `--chroma`, y se cambia solo la boca o los ojos.
 
-`manifest.example.json` muestra la estructura; renómbralo a `manifest.json` cuando estén los sprites reales.
+## Por hacer
+
+La dirección "personaje" del carrusel necesita poses y expresiones, no solo el busto. Entra a la baraja cuando `manifest.json` tenga `poses` (`packages/carousel/src/direcciones.ts`).

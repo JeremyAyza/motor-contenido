@@ -21,10 +21,24 @@ export const DIRECCIONES_PATH = join(REPO_ROOT, "skills/carrusel-taste/direccion
 export const DIRECCIONES: Direccion[] = JSON.parse(readFileSync(DIRECCIONES_PATH, "utf8"));
 export const DIRECCION_IDS = DIRECCIONES.map((d) => d.id) as [string, ...string[]];
 
-/** Una dirección con requisitos (el avatar) solo entra a la baraja cuando existen. */
+/**
+ * Una dirección con requisitos (el avatar) solo entra a la baraja cuando existen.
+ * El busto de los videos (base, bocas y parpadeo) no alcanza: "personaje"
+ * cambia de pose por lámina, así que pide `poses` en el manifiesto.
+ */
 export function disponible(d: Direccion): boolean {
-  if (d.requiere === "avatar") return existsSync(join(REPO_ROOT, "assets/avatar/manifest.json"));
+  if (d.requiere === "avatar") return avatarConPoses(join(REPO_ROOT, "assets/avatar/manifest.json"));
   return true;
+}
+
+export function avatarConPoses(manifiesto: string): boolean {
+  if (!existsSync(manifiesto)) return false;
+  try {
+    const { poses } = JSON.parse(readFileSync(manifiesto, "utf8"));
+    return typeof poses === "object" && poses !== null && Object.keys(poses).length > 0;
+  } catch {
+    return false;
+  }
 }
 
 /**
