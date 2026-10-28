@@ -12,7 +12,8 @@ Lo pidió Jeremy el 27 de octubre de 2026, con una regla: **no bajar la calidad*
 | Una ronda del crítico por defecto (1.3) | Hecho, en las guías |
 | Reglas de permiso de `agy` (1.6) | Hechas y probadas |
 | Render borrador (2.2) | Hecho y probado: `video:render --borrador` |
-| Voz con tiempos, delegar fuentes y referentes | Pendiente |
+| Voz con tiempos de ElevenLabs, de a dos escenas (2.3) | Hecho y probado |
+| Delegar fuentes y referentes | Pendiente |
 
 ## Lo que se midió
 
@@ -198,6 +199,11 @@ Lo que hay en la cuenta (Google AI Pro), confirmado por Jeremy y probado el 27 d
    - `convertWithTimestamps` devuelve el tiempo de cada carácter del texto exacto. Se divide por el `tempo` y ya no hace falta whisper, sin errores de transcripción.
    - Las escenas se generan de a varias, las que permita el plan.
    - Estimado: `video:prepare` baja de 160 s a menos de 60 s. Hay que medirlo.
+   - Hecho el 27 de octubre:
+     - El adaptador usa `convertWithTimestamps`, que cuesta lo mismo, y las escenas van de a dos, el límite del plan gratuito.
+     - Prueba con una escena de `sistemas-de-archivos`: ElevenLabs tardó 5 s y whisper, 10 s más. Las palabras difieren en 0,15 s de media. Donde difieren más es en las siglas: a "SSD" ("ese ese de") whisper le da 0,3 s y ElevenLabs 0,72 s, que es lo que dura. ElevenLabs acierta.
+     - Las voces que ya estaban en caché no traen tiempos, así que pasan por whisper una vez y su resultado queda en la caché. Antes se perdía en cada `video:prepare`: con `sistemas-de-archivos`, la primera corrida tardó 116 s y la segunda 11 s.
+     - Una pieza nueva no necesita whisper. Sus voces tardan unos 5 s cada una, de a dos.
 4. **El storyboard más liviano.** Las pruebas del agente van a escala 0,5. El que ve Jeremy en la puerta A, a escala 1.
 5. **Renderizar solo lo que cambió.** Para comprobar un arreglo basta con el tramo de esa escena (`--frames`) y sus cuadros de la hoja. Es un trabajo mediano.
 6. **En paralelo:**

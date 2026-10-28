@@ -144,23 +144,40 @@ describe("elevenlabs", () => {
     const calls: Array<[string, Record<string, unknown>]> = [];
     const convert = async (voiceId: string, request: Record<string, unknown>) => {
       calls.push([voiceId, request]);
-      return new Response(new Uint8Array([9, 8])).body!;
+      return { audioBase64: Buffer.from([9, 8]).toString("base64") };
     };
     const provider = elevenLabsSpeech({ apiKey: "k", convert });
     const result = await provider.synthesize({ text: "Hola", voice: "v1", previousText: "Antes", settings: { stability: 0.7, style: 0.3 } });
     assert.equal(result.format, "mp3");
     assert.deepEqual([...result.audio], [9, 8]);
+    assert.equal(result.words, undefined);
     assert.deepEqual(calls[0], [
       "v1",
       { text: "Hola", modelId: "eleven_v4", outputFormat: "mp3_44100_128", languageCode: "es", voiceSettings: { stability: 0.7, similarityBoost: 0.8 }, seed: 4242, previousText: "Antes" },
     ]);
   });
+  it("turns the character timings into the script's words, punctuation included", async () => {
+    const text = "Hola, mundo: ¡ya!";
+    const characters = [...text];
+    // 100 ms per character, with the spaces in between.
+    const convert = async () => ({
+      audioBase64: "",
+      alignment: { characters, characterStartTimesSeconds: characters.map((_, i) => i / 10), characterEndTimesSeconds: characters.map((_, i) => (i + 1) / 10) },
+    });
+    const { words } = await elevenLabsSpeech({ apiKey: "k", convert }).synthesize({ text, voice: "v1" });
+    assert.deepEqual(words, [
+      { text: "Hola,", startMs: 0, endMs: 500 },
+      { text: "mundo:", startMs: 600, endMs: 1200 },
+      { text: "¡ya!", startMs: 1300, endMs: 1700 },
+    ]);
+  });
+
   it("moves to the fallback key when the main one runs out of credits, and stays there", async () => {
     const used: string[] = [];
     const convert = async (_voiceId: string, _request: Record<string, unknown>, key: string) => {
       used.push(key);
       if (key === "main") throw Object.assign(new Error("Status code: 401"), { body: { detail: { status: "quota_exceeded" } } });
-      return new Response(new Uint8Array([1])).body!;
+      return { audioBase64: "AQ==" };
     };
     const provider = elevenLabsSpeech({ apiKey: "main", fallbackKeys: ["spare"], convert });
     await provider.synthesize({ text: "Uno", voice: "v1" });

@@ -201,9 +201,25 @@ async function musicFor(video: VideoDef, dir: string, out: string, catalog: Cata
   return { src, volume };
 }
 
-/** Word timings for a cached audio file, computed once and kept next to it. */
-async function wordsFor(aligner: Aligner, audioFile: string, text: string): Promise<WordTiming[]> {
-  const cached = `${audioFile}.words.json`;
+/** ElevenLabs' free plan takes 2 requests at a time; more would wait in its queue. */
+const SPEECH_CONCURRENCY = 2;
+
+/** Like Promise.all over items, with at most `limit` calls running at once. The results keep the order of items. */
+async function mapLimit<T, R>(items: T[], limit: number, fn: (item: T, index: number) => Promise<R>): Promise<R[]> {
+  const results = new Array<R>(items.length);
+  let next = 0;
+  const worker = async () => {
+    while (next < items.length) {
+      const i = next++;
+      results[i] = await fn(items[i], i);
+    }
+  };
+  await Promise.all(Array.from({ length: Math.min(limit, items.length) }, worker));
+  return results;
+}
+
+/** Word timings for an audio file, computed once and kept in `cached` (next to the voice in the speech cache). */
+async function wordsFor(aligner: Aligner, audioFile: string, text: string, cached: string): Promise<WordTiming[]> {
   if (existsSync(cached)) return JSON.parse(readFileSync(cached, "utf8")) as WordTiming[];
   const words = await aligner.align({ audioPath: audioFile, text, language: "es" });
   writeFileSync(cached, JSON.stringify(words, null, 2));
@@ -393,17 +409,25 @@ async function prepare(args: string[]): Promise<void> {
   const catalog = loadCatalog(join(REPO_ROOT, "assets/catalog.json"));
   console.log(`${piece}: ${scenesToVoice.length} scene(s), voice ${provider.id}/${voice}, art direction ${art.direction} (${from})`);
 
-  const scenes: TimelineScene[] = [];
-  for (const [i, scene] of scenesToVoice.entries()) {
+  // The scenes are voiced a few at a time; each one still gets its neighbours' lines.
+  const speeches = await mapLimit(scenesToVoice, SPEECH_CONCURRENCY, (scene, i) => {
     // The neighbouring lines keep one tone across scenes, for providers that use them (ElevenLabs).
     const stitching = provider.id === "gemini" ? {} : { previousText: scenesToVoice[i - 1]?.say, nextText: scenesToVoice[i + 1]?.say };
-    const speech = await cachedSpeech(provider, { text: scene.say, voice, style, settings, ...stitching }, join(CACHE, "media/speech"));
+    return cachedSpeech(provider, { text: scene.say, voice, style, settings, ...stitching }, join(CACHE, "media/speech"));
+  });
+  const scenes: TimelineScene[] = [];
+  for (const [i, scene] of scenesToVoice.entries()) {
+    const speech = speeches[i];
     const voiceFile = `voice/${scene.id}.wav`;
     // The tempo speeds the voice up after it is made (pitch untouched), so the cache keeps the original.
     if (speech.format === "wav" && tempo === 1) copyFileSync(speech.file, join(out, voiceFile));
     else ffmpeg(["-i", speech.file, ...(tempo === 1 ? [] : ["-filter:a", `atempo=${tempo}`]), "-ac", "1", "-ar", "44100", "-c:a", "pcm_s16le", join(out, voiceFile)]);
     const wav = new Uint8Array(readFileSync(join(out, voiceFile)));
-    const words = speech.words ?? (await wordsFor(aligner, join(out, voiceFile), scene.say));
+    // The provider's timings are of the original audio; the tempo shortens them. Voices cached before
+    // the provider returned timings go through the aligner once, and its result stays in the cache.
+    const words = speech.words
+      ? speech.words.map((w) => ({ ...w, startMs: Math.round(w.startMs / tempo), endMs: Math.round(w.endMs / tempo) }))
+      : await wordsFor(aligner, join(out, voiceFile), scene.say, `${speech.file}.tempo-${tempo}.words.json`);
     const sfx = [];
     for (const effect of scene.sfx) {
       const asset = asVideoError(() => findAsset(catalog, effect.asset));

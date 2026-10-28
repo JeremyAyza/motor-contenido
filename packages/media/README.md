@@ -6,10 +6,10 @@ Voz, imágenes, música, alineación de palabras y recursos de terceros para los
 
 | Puerto | Qué hace | Adaptadores |
 |---|---|---|
-| `SpeechProvider` | Texto a voz, con tiempos por palabra si el proveedor los da | `gemini` (`gemini-3.8-flash-tts`) |
+| `SpeechProvider` | Texto a voz, con tiempos por palabra si el proveedor los da | `elevenlabs` (`eleven_v4`, con los tiempos de cada carácter), `gemini` (`gemini-3.8-flash-tts`) y `kie` |
 | `ImageProvider` | Un prompt y referencias a una imagen | `gemini` (`gemini-nano-banana-2.1`, solo JPEG) |
 | `MusicProvider` | Una descripción a una pista | `gemini` (`lyria-3-clip-preview`, 30 s en MP3) |
-| `Aligner` | Cuándo se dice cada palabra de un texto conocido | `whisperAligner` (whisper.cpp local, modelo `small`) |
+| `Aligner` | Cuándo se dice cada palabra de un texto conocido, cuando el proveedor de voz no lo da | `whisperAligner` (whisper.cpp local, modelo `small`) |
 | `SoundSearch` | Efectos CC0 en bibliotecas libres | `openverse` (sin clave) y `freesound` (`FREESOUND_API_KEY`) |
 
 Todos los adaptadores de Gemini usan la API de Interactions de `@google/genai`, y lo que generan lleva la marca SynthID.
@@ -24,7 +24,7 @@ Los tests de `test/providers.test.ts` lo comprueban con proveedores falsos.
 ## Lo que guarda
 
 En `.cache/`, que git ignora:
-- `.cache/media/speech/`: cada voz generada, con un JSON que dice proveedor, modelo, voz, estilo, texto y fecha. Una voz no se vuelve a pagar si el texto no cambió.
+- `.cache/media/speech/`: cada voz generada, con un JSON que dice proveedor, modelo, voz, estilo, texto y fecha. Una voz no se vuelve a pagar si el texto no cambió. Si whisper calculó los tiempos de una voz, quedan al lado, en `<clave>.mp3.tempo-<tempo>.words.json`.
 - `.cache/whisper/`: whisper.cpp 1.5.5 y su modelo. En Windows se baja un binario.
 - `.cache/assets/`: los recursos de `assets/catalog.json`.
 

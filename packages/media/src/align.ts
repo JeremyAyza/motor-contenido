@@ -26,6 +26,22 @@ export function wordsFromCaptions(captions: Caption[]): WordTiming[] {
   return words;
 }
 
+/** Characters with their times (ElevenLabs' alignment) joined into words: whitespace separates them. */
+export function wordsFromCharacters({ characters, startsMs, endsMs }: { characters: string[]; startsMs: number[]; endsMs: number[] }): WordTiming[] {
+  const words: WordTiming[] = [];
+  let current: WordTiming | null = null;
+  characters.forEach((char, i) => {
+    if (/^\s+$/.test(char)) {
+      current = null;
+      return;
+    }
+    if (!current) words.push((current = { text: "", startMs: Math.round(startsMs[i]), endMs: 0 }));
+    current.text += char;
+    current.endMs = Math.round(endsMs[i]);
+  });
+  return words;
+}
+
 /**
  * The words of the script with the times of what the recognizer heard. The
  * captions show the script, not the transcript: the recognizer only provides
