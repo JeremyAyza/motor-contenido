@@ -22,6 +22,9 @@ Lo que gasta la cuota no es lo que el agente escribe, sino el contexto que arras
   `video.json`, `facts.json` y `video.tsx` guardan el resto: no se repite ahí.
 - **La sesión siguiente empieza leyendo** `AGENTS.md`, [docs/direccion-reels.md](../docs/direccion-reels.md), esta guía y `estado.md`, y nada más de la conversación anterior.
 - **Lo que no es creativo se delega:** las fuentes, el análisis de un referente y los arreglos mecánicos del inspector van a un subagente o a `agy` ([docs/plan-consumo-y-tiempo.md](../docs/plan-consumo-y-tiempo.md), 1.2). La tesis, los ganchos, el guion, la dirección de arte y `video.tsx` los escribe el agente principal.
+  - **Las fuentes:** el subagente `buscador-fuentes` (Sonnet 5.5) recibe la carpeta, el tema, el ángulo y las preguntas del guion. Deja `facts.json` y responde con una línea por dato. El agente principal escribe con esa respuesta y abre `facts.json` solo para la cifra exacta que va en pantalla.
+  - **Un referente:** el subagente `analista-referente` (Sonnet 5.5) mira el Reel en el reproductor incrustado del navegador integrado. Deja `content/<pieza>/referente.md` con el desglose escena por escena y responde con el gancho, el mundo, el ritmo y qué copiar.
+  - Los dos corren a la vez, mientras el agente principal piensa el ángulo.
 
 ## Pasos
 

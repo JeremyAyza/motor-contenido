@@ -13,7 +13,7 @@ Lo pidió Jeremy el 27 de octubre de 2026, con una regla: **no bajar la calidad*
 | Reglas de permiso de `agy` (1.6) | Hechas y probadas |
 | Render borrador (2.2) | Hecho y probado: `video:render --borrador` |
 | Voz con tiempos de ElevenLabs, de a dos escenas (2.3) | Hecho y probado |
-| Delegar fuentes y referentes | Pendiente |
+| Delegar fuentes y referentes (1.2) | Hecho y probado: subagentes `buscador-fuentes` y `analista-referente` (Sonnet 5.5) |
 
 ## Lo que se midió
 
@@ -89,6 +89,11 @@ Es el ahorro más grande y no cambia quién hace qué.
 | Errores mecánicos del inspector (margen, letra chica) | Sonnet 5.5 | Opus mira la hoja después |
 | Pasar a `video-metrics.json` las capturas de Insights | Sonnet 5.5 o Gemini 3.8 Flash | Es una transcripción |
 
+- **Probado el 27 de octubre de 2026, con `sistemas-de-archivos`:**
+  - **`agy` no sirve para las fuentes.** Sin interfaz no tiene búsqueda web: intenta bajar las páginas con un comando, y eso se rechaza. Darle permiso a `curl` o `Invoke-WebRequest` abriría la red entera, así que las fuentes van al subagente Sonnet, como dice la tabla cuando `agy` falla. Lo que no se probó es la API de Gemini con búsqueda de Google, que devuelve las URLs que usó.
+  - **`buscador-fuentes`:** con las 7 preguntas del guion trajo 20 datos de fuentes primarias, abriendo cada página. Coincidió con Opus en 8 de sus 14 páginas. Le faltó lo que Opus sumó por su cuenta (ext4, 1 TB = 10^12 bytes, Btrfs en Fedora, las tarjetas SD), que no estaba en las preguntas. Fue más estricto que Opus: dejó 6 dudas en `pendingToVerify`. Tardó 3,2 min y usó 136 k tokens de Sonnet.
+  - **`analista-referente`:** con el Reel de Rick sobre sistemas de archivos devolvió el desglose de unas 40 escenas, el mundo, el ritmo (unos 2,5 cambios de escena cada 10 s y los tramos quietos) y qué copiar. Coincide con lo que se usó para la pieza. La primera vez puso los logos de los sistemas operativos en "no copiar"; sus instrucciones ya dicen que van por la regla 6. Tardó 4,7 min y usó 140 k tokens de Sonnet.
+  - Las preguntas del agente principal deciden lo que se busca: cuanto más completas, menos le queda por agregar.
 - **Un subagente arranca con 70 k a 140 k tokens.** Conviene cuando la tarea sumaría más de 20 k tokens o más de 5 llamadas a la sesión principal, no para un comando suelto.
 - **`opusplan`** es un alias de Claude Code: Opus en modo plan y Sonnet al ejecutar. Encaja con la idea de Jeremy, pero en una pieza haría que Sonnet escriba `video.tsx`. Sirve para las sesiones del motor, no para las de una pieza.
 

@@ -9,7 +9,7 @@ Las skills `remotion-*` son las oficiales de Remotion, sin modificar. Viven en `
 
 **Antes de armar un video, lee [docs/direccion-reels.md](../../docs/direccion-reels.md):** el estilo por defecto (motion graphics plano con cámara dinámica), cuándo va 3D (solo si se pide), la duración (45 a 60 s, formato `corto`), la voz y el volumen de la música. Manda sobre lo que sigue.
 
-**Una sesión por fase** (guion, video, crítica), con el traspaso en `content/<pieza>/estado.md`: ver [workflows/video.md](../../workflows/video.md), "Una sesión por fase". Si la pieza ya tiene `estado.md`, léelo antes que nada. Los cambios al motor no se hacen a mitad de una pieza.
+**Una sesión por fase** (guion, video, crítica), con el traspaso en `content/<pieza>/estado.md`: ver [workflows/video.md](../../workflows/video.md), "Una sesión por fase". Si la pieza ya tiene `estado.md`, léelo antes que nada. Los cambios al motor no se hacen a mitad de una pieza. Las fuentes van al subagente `buscador-fuentes` y el Reel de referencia, a `analista-referente`, los dos en Sonnet 5.5: trabajas con sus respuestas, sin abrir las páginas ni mirar los cuadros.
 
 ## Cómo es un video aquí
 
