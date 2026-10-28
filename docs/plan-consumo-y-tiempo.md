@@ -11,7 +11,8 @@ Lo pidió Jeremy el 27 de octubre de 2026, con una regla: **no bajar la calidad*
 | Crítico del video (1.3) | Hecho y probado. Gemini no llegó al mínimo, así que va en el subagente `critico-ciego-video` (Sonnet 5.5) |
 | Una ronda del crítico por defecto (1.3) | Hecho, en las guías |
 | Reglas de permiso de `agy` (1.6) | Hechas y probadas |
-| Render borrador, voz con tiempos, delegar fuentes y referentes | Pendiente |
+| Render borrador (2.2) | Hecho y probado: `video:render --borrador` |
+| Voz con tiempos, delegar fuentes y referentes | Pendiente |
 
 ## Lo que se midió
 
@@ -191,6 +192,7 @@ Lo que hay en la cuenta (Google AI Pro), confirmado por Jeremy y probado el 27 d
    - `video:render --borrador` a escala 1 (540×960), para las rondas intermedias del crítico y para comprobar los arreglos. El de 1080×1920 sale una sola vez, antes de la puerta B.
    - El inspector mide en px de diseño (lee el DOM), así que no cambia.
    - Medido con los primeros 10 s de `mcp-vs-acp`: 20,5 s contra 25,1 s, con unos 10 s fijos de arranque. Por cuadro es un 35 % menos: un Reel de 2,4 min baja de unos 200 s a unos 130 s.
+   - Hecho el 27 de octubre. Con `sistemas-de-archivos` (152 s de video), el comando completo tardó 178 s, con el empaquetado, la normalización del volumen y el inspector. El inspector dio lo mismo que en el render final. Para la prueba de congelados, el recorte de ffmpeg ahora es relativo al tamaño del video.
 3. **La voz sin whisper y en paralelo.**
    - Hoy el adaptador de ElevenLabs usa `convert`, sin tiempos, y whisper `small` alinea escena por escena, una tras otra.
    - `convertWithTimestamps` devuelve el tiempo de cada carácter del texto exacto. Se divide por el `tempo` y ya no hace falta whisper, sin errores de transcripción.

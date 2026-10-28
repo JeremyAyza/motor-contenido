@@ -75,6 +75,8 @@ Lo que gasta la cuota no es lo que el agente escribe, sino el contexto que arras
 
    El render es determinista: el mismo contenido da el mismo archivo.
 
+   **Borrador:** `npm run video:render -- content/<pieza> --borrador` renderiza a 540×960 y deja `out/video-borrador.mp4`, con su hoja y su inspector (`video-borrador-hoja.png`, `video-borrador-inspector.txt`). Se usa para comprobar los arreglos entre rondas. No toca `out/video.mp4` ni la puerta B, y no imprime sha256. El inspector mide en px de diseño, así que da lo mismo que el render final. El de 1080×1920 sale una vez, para el crítico y la puerta B.
+
    **El inspector** lee lo que el render dibujó de verdad: durante el render, la composición le pasa el texto de un cuadro cada medio segundo, con su posición, su tamaño y su opacidad. También revisa el archivo con ffmpeg.
    - **Errores** (bloquean la puerta B y el comando sale con código 1):
      - texto fuera del margen del marco (36 px a cada lado, entre la pestaña y los subtítulos);

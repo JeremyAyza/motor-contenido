@@ -6,7 +6,7 @@ import type { ProbedText, ProbeReport } from "./probe.tsx";
 import { MOVE_MS } from "./kit/camera.ts";
 import { FORMAT_SECONDS, targetOff, type VideoScript } from "./script.ts";
 import { TRANSITION_FRAMES } from "./kit/scene-fx.tsx";
-import { CAPTIONS_TOP, CONTENT_BOX, GRID_CROP, HEIGHT, MIN_TEXT_PX, SCALE, TEXT_ZONE, timelineMs, WIDTH, type Timeline } from "./timeline.ts";
+import { CAPTIONS_TOP, CONTENT_BOX, GRID_CROP, HEIGHT, MIN_TEXT_PX, TEXT_ZONE, timelineMs, WIDTH, type Timeline } from "./timeline.ts";
 
 /**
  * The video inspector. It reads what the render really drew (the probe posts
@@ -225,7 +225,7 @@ export function inspectFreezes(ffmpeg: string, video: string): Issue[] {
   const [w, h] = [WIDTH / 2, CAPTIONS_TOP / 2];
   const result = spawnSync(
     ffmpeg,
-    ["-loglevel", "error", "-i", video, "-vf", `crop=${WIDTH * SCALE}:${CAPTIONS_TOP * SCALE}:0:0,fps=${STILL_FPS},scale=${w}:${h},format=gray`, "-an", "-f", "rawvideo", "-"],
+    ["-loglevel", "error", "-i", video, "-vf", `crop=iw:ih*${CAPTIONS_TOP}/${HEIGHT}:0:0,fps=${STILL_FPS},scale=${w}:${h},format=gray`, "-an", "-f", "rawvideo", "-"],
     { maxBuffer: 256 * 1024 * 1024 },
   );
   if (result.status !== 0) throw new Error(`ffmpeg could not sample ${video} for still stretches`);

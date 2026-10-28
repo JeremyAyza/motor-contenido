@@ -91,7 +91,7 @@ npm run video:capture -- content/<pieza>  # corre los comandos de captures.json 
 npm run video:storyboard -- content/<pieza> # los visuales sin voz, para la puerta A
 npm run video:prepare -- content/<pieza>  # voz, tiempos por palabra y archivos (pide la puerta A)
 npm run video:studio -- content/<pieza>   # vista previa en Remotion Studio
-npm run video:render -- content/<pieza>   # MP4 1080×1920, hoja de revisión y sha256 para la puerta B
+npm run video:render -- content/<pieza> [--borrador] # MP4 1080×1920, hoja de revisión y sha256 para la puerta B; --borrador: 540×960, sin puerta B
 npm run video:critique -- content/<pieza> [--guion] [--gemini] # carpeta del crítico ciego del video; --guion, la del guion; --gemini, la critica Gemini
 npm run video:publicar -- content/<pieza> [--ensayo] # publica el Reel (solo si la persona lo pide, con la puerta B)
 npm run video:metrics                     # informe de los Reels en docs/metricas-video.md

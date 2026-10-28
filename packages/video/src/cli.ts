@@ -62,8 +62,10 @@ const USAGE = `Usage:
       Voice, word timing and files for Remotion, in content/<piece>/out/video/. Needs gate A.
   npm run video:studio -- content/<piece>
       Remotion Studio with the piece (run video:prepare first).
-  npm run video:render -- content/<piece>
+  npm run video:render -- content/<piece> [--borrador]
       MP4 at 1080×1920 (content/<piece>/out/video.mp4), a review sheet and the video's sha256 for gate B.
+      --borrador: 540×960 in out/video-borrador.mp4, with its sheet and inspector, to review before
+      the final render. Faster, and it never counts for gate B.
   npm run video:critique -- content/<piece> [--guion] [--gemini]
       The folder for the blind critic (content/<piece>/out/video-critica/), after video:render.
       --guion: the script critic before gate A (out/video-critica-guion/), with the storyboard sheet.
@@ -531,14 +533,17 @@ async function render(args: string[]): Promise<void> {
   if (!existsSync(timelineFile)) throw new VideoError(`Run first: npm run video:prepare -- ${args[0]}`);
   const timeline = JSON.parse(readFileSync(timelineFile, "utf8")) as Timeline;
   const videoScript = scriptOf(dir);
-  const raw = join(dir, "out/video.raw.mp4");
-  const output = join(dir, "out/video.mp4");
+  // A draft renders at 540×960 (about a third faster) to review before the final render; it never counts for gate B.
+  const draft = args.includes("--borrador");
+  const name = draft ? "video-borrador" : "video";
+  const raw = join(dir, `out/${name}.raw.mp4`);
+  const output = join(dir, `out/${name}.mp4`);
   // The probe posts what each frame shows to this server (packages/video/src/probe.tsx).
   const server = await probeServer();
   const propsFile = join(dir, "out/render-props.json");
   writeFileSync(propsFile, JSON.stringify({ inspect: server.url }));
   try {
-    await runAsync(process.execPath, [REMOTION, "render", ENTRY, piece, raw, ...remotionArgs(dir), `--scale=${SCALE}`, "--crf=18", `--props=${propsFile}`], {
+    await runAsync(process.execPath, [REMOTION, "render", ENTRY, piece, raw, ...remotionArgs(dir), `--scale=${draft ? 1 : SCALE}`, "--crf=18", `--props=${propsFile}`], {
       REMOTION_PIECE: piece,
     });
   } finally {
@@ -548,7 +553,7 @@ async function render(args: string[]): Promise<void> {
   asVideoError(() => normalizeLoudness(FFMPEG, raw, output));
   rmSync(raw, { force: true });
 
-  const sheet = join(dir, "out/video-hoja.png");
+  const sheet = join(dir, `out/${name}-hoja.png`);
   asVideoError(() => reviewSheet(FFMPEG, output, sheetFrames(timeline), sheet));
 
   const issues = [
@@ -560,15 +565,19 @@ async function render(args: string[]): Promise<void> {
     ...videoWarnings(videoScript, (await import(pathToFileURL(join(dir, "video.tsx")).href)).default as VideoDef),
   ];
   const lines = issues.length ? issues.map((i) => `${i.level === "error" ? "✗" : "!"} ${i.message}`) : ["✓ Sin problemas"];
-  writeFileSync(join(dir, "out/video-inspector.txt"), `${lines.join("\n")}\n`);
+  writeFileSync(join(dir, `out/${name}-inspector.txt`), `${lines.join("\n")}\n`);
   console.log(`\nInspector:\n${lines.map((l) => `  ${l}`).join("\n")}\n`);
+  const errors = issues.filter((i) => i.level === "error").length;
+  if (errors) process.exitCode = 1;
 
+  if (draft) {
+    console.log(`Draft: ${output}\nSheet: ${sheet}\nNot for gate B: run video:render without --borrador once the draft looks right.`);
+    return;
+  }
   const sha256 = createHash("sha256").update(readFileSync(output)).digest("hex");
   writeFileSync(join(dir, "out/video.sha256"), `${sha256}\n`);
   console.log(`Video: ${output}\nSheet: ${sheet}\nsha256: ${sha256}`);
-  const errors = issues.filter((i) => i.level === "error").length;
   if (errors) {
-    process.exitCode = 1;
     console.log(`Gate B: not yet. Fix the ${errors} error(s) of the inspector first.`);
     return;
   }

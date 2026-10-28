@@ -37,7 +37,7 @@ Las skills `remotion-*` son las oficiales de Remotion, sin modificar. Viven en `
   - `video:script` revisa el guion con las herramientas de `ig-reel` (hookscore y beats, por sus wrappers en español) y arma la puerta A;
   - `video:prepare` genera la voz, los tiempos por palabra y los archivos;
   - `video:studio` abre la vista previa;
-  - `video:render` saca el MP4, la hoja de revisión y el sha256 del video;
+  - `video:render` saca el MP4, la hoja de revisión y el sha256 del video. Para comprobar arreglos entre rondas, usa `--borrador` (540×960, sin puerta B); el de 1080×1920 va una vez, antes del crítico y la puerta B;
   - `video:critique` arma la carpeta del crítico ciego;
   - `video:metrics` arma el informe de los Reels publicados.
 - **El guion sigue a `ig-reel`.** Lee `.agents/skills/ig-reel/SKILL.md` para la forma (el gancho en 2 s, lo que está en juego, una idea por frase, el cierre que vuelve al gancho) y sus fórmulas. Lo que cambia aquí está en [skills/ig-es](../ig-es/SKILL.md), punto 9. Arregla lo que avisan `hookscore_es` y `beats_es` antes de la puerta A; un gancho elegido con menos de 50 se discute con la persona, no se esconde.
