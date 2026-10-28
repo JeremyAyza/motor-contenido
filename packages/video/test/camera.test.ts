@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { cameraAt, cameraTransform, DRIFT, fitZoom, MOVE_MS, resolveShots, VIEW } from "../src/kit/camera.ts";
+import { cameraAt, cameraTransform, DRIFT, fitZoom, MOVE_MS, moveClipAt, moveClipMask, movesInto, resolveShots, VIEW } from "../src/kit/camera.ts";
 
 const world = { width: 1000, height: 2000, spots: { top: { x: 0, y: 0, w: 1000, h: 500 }, door: { x: 400, y: 1500, w: 200, h: 200 } } };
 const near = (a: number, b: number, eps = 1e-6) => assert.ok(Math.abs(a - b) < eps, `${a} is not ${b}`);
@@ -52,6 +52,38 @@ describe("cameraAt", () => {
 
   it("stays on the last scene after the end", () => {
     assert.equal(cameraAt(shots, durations, 99_000, { drift: 0 }).zoom, 4);
+  });
+});
+
+describe("the cut of the world while the camera moves", () => {
+  const shots = [
+    { x: 0, y: 0, zoom: 1 },
+    { x: 100, y: 200, zoom: 4 },
+    { x: 100, y: 200, zoom: 4 },
+  ];
+  const durations = [3000, 3000, 3000];
+
+  it("only counts a move when the shot changes", () => {
+    assert.deepEqual([0, 1, 2].map((i) => movesInto(shots, i)), [false, true, false]);
+  });
+
+  it("leaves still frames whole and cuts the world in the middle of a move", () => {
+    assert.equal(moveClipAt(shots, durations, 1500), 0);
+    assert.equal(moveClipAt(shots, durations, 3000 + MOVE_MS / 2), 1);
+    assert.equal(moveClipAt(shots, durations, 3000 + MOVE_MS), 0);
+    assert.equal(moveClipAt(shots, durations, 6000 + MOVE_MS / 2), 0);
+  });
+
+  it("closes and opens the cut gradually, without a pop", () => {
+    const start = moveClipAt(shots, durations, 3000 + 30);
+    const end = moveClipAt(shots, durations, 3000 + MOVE_MS - 30);
+    assert.ok(start > 0 && start < 1, `${start}`);
+    assert.ok(end > 0 && end < 1, `${end}`);
+  });
+
+  it("draws no mask when there is no cut", () => {
+    assert.equal(moveClipMask(0), undefined);
+    assert.match(moveClipMask(1)!, /^linear-gradient\(to bottom, rgba\(0,0,0,0\.000\)/);
   });
 });
 

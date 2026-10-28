@@ -125,4 +125,49 @@ export function cameraTransform({ x, y, zoom }: CameraState): string {
   return `translate(${VIEW_CENTER.x - x * zoom}px, ${VIEW_CENTER.y - y * zoom}px) scale(${zoom})`;
 }
 
+/** Whether the camera leaves for a new shot when scene `i` starts (it whooshes and cuts the world to MOVE_CLIP). */
+export function movesInto(shots: CameraState[], i: number): boolean {
+  if (i <= 0) return false;
+  const [a, b] = [shots[i - 1], shots[i]];
+  return Boolean(b.track) || b.x !== a.x || b.y !== a.y || b.zoom !== a.zoom;
+}
+
+/**
+ * The band the world keeps while the camera moves: from under the chapter
+ * bar (top-[58px] plus its two rows end at 85 px, frame.tsx; the fade starts
+ * after them) to the captions. The frame's tab, bar, meter, captions and
+ * signature have no background of their own, so without the cut the world
+ * crosses them on its way to the next shot.
+ */
+export const MOVE_CLIP = { top: 100, bottom: CAPTIONS_TOP, feather: 14 };
+/** How long the cut takes to close at the start of a move and to open at its end. */
+const CLIP_RAMP_MS = 150;
+
+/**
+ * How much the world is cut to MOVE_CLIP at `ms` of the whole video: 0 while
+ * the camera rests on a shot (still frames keep the whole world) and 1 during
+ * a move, with a ramp of CLIP_RAMP_MS at each end, where the eased camera has
+ * barely moved, so the cut never pops.
+ */
+export function moveClipAt(shots: CameraState[], durationsMs: number[], ms: number, moveMs = MOVE_MS): number {
+  let start = 0;
+  let index = 0;
+  while (index < durationsMs.length - 1 && ms >= start + durationsMs[index]) {
+    start += durationsMs[index];
+    index++;
+  }
+  if (!movesInto(shots, index)) return 0;
+  const within = ms - start;
+  if (within >= moveMs) return 0;
+  return Math.max(0, Math.min(1, within / CLIP_RAMP_MS, (moveMs - within) / CLIP_RAMP_MS));
+}
+
+/** The CSS mask that cuts the world to MOVE_CLIP by `amount` (0 to 1); none at 0. */
+export function moveClipMask(amount: number): string | undefined {
+  if (amount <= 0) return undefined;
+  const { top, bottom, feather } = MOVE_CLIP;
+  const out = `rgba(0,0,0,${(1 - amount).toFixed(3)})`;
+  return `linear-gradient(to bottom, ${out} ${top - feather}px, #000 ${top}px, #000 ${bottom - feather}px, ${out} ${bottom}px)`;
+}
+
 export const DEFAULT_WORLD = { width: WIDTH, height: HEIGHT };

@@ -91,6 +91,7 @@ La pieza de ejemplo del kit completo es `content/2026-10-24-cuanto-cuesta-la-ia`
   - `<Along path at rotate>` pone algo en una fracción del recorrido (0 a 1);
   - `<Traffic path count speed>` hace circular autos sin parar.
 - **Cámara que viaja:** `camera: { follow: { path, from, to, x }, zoom }` recorre el trazado durante la escena; con `x`, solo baja por la ruta y no se va a los costados.
+- **Recorte en el viaje:** mientras la cámara pasa de un encuadre a otro, el motor recorta el mundo a la franja entre la barra de capítulos y los subtítulos, así no cruza la pestaña, la barra, el medidor, los subtítulos ni la firma. En los cuadros quietos el mundo se ve entero.
 - **Sonido solo:**
   - `<Sfx id at>` toca un efecto del catálogo en `at`;
   - `<Pop at x y>` hace entrar algo con rebote y su pop;

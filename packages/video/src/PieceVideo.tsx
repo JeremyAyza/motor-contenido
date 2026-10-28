@@ -10,7 +10,7 @@ import { browserAssets, withLogos } from "./assets-browser.ts";
 import { Captions, ChapterBar, Meter, Panel } from "./frame.tsx";
 import { Avatar, AvatarBubble, drawnAvatar } from "./kit/avatar.tsx";
 import { enterStyle, SceneBackgroundLayer } from "./kit/scene-fx.tsx";
-import { cameraAt, cameraTransform, DRIFT, resolveShots } from "./kit/camera.ts";
+import { cameraAt, cameraTransform, DRIFT, moveClipAt, moveClipMask, movesInto, resolveShots } from "./kit/camera.ts";
 import type { SceneDef, VideoDef } from "./kit/index.ts";
 import { meterValueAt, resolveMeter } from "./kit/meter.ts";
 import { panelAt, resolvePanel } from "./kit/panel.ts";
@@ -256,8 +256,10 @@ function StageVideo({ video, timeline, defs }: VideoProps) {
     paths: world.paths,
   };
   const { World } = stage;
+  // While the camera travels, the world is cut to the band between the chapter bar and the captions.
+  const mask = moveClipMask(moveClipAt(shots, durations, ms));
   const underlay = (
-    <div data-stage="" className="absolute inset-0 overflow-hidden">
+    <div data-stage="" className="absolute inset-0 overflow-hidden" style={mask ? { maskImage: mask, WebkitMaskImage: mask } : undefined}>
       <CssMotion>
         <div data-camera="" data-zoom={camera.zoom.toFixed(3)} className="absolute left-0 top-0" style={{ width: world.width, height: world.height, transform: cameraTransform(camera), transformOrigin: "0 0" }}>
           <WorldContext.Provider value={true}>
@@ -268,7 +270,7 @@ function StageVideo({ video, timeline, defs }: VideoProps) {
     </div>
   );
   // A whoosh each time the camera leaves for a new shot (stage.sfx: false mutes it).
-  const moves = stage.sfx === false ? [] : durations.map((_, i) => i).filter((i) => i > 0 && (shots[i].track || shots[i].x !== shots[i - 1].x || shots[i].y !== shots[i - 1].y || shots[i].zoom !== shots[i - 1].zoom));
+  const moves = stage.sfx === false ? [] : durations.map((_, i) => i).filter((i) => movesInto(shots, i));
   const startsMs = durations.map((_, i) => durations.slice(0, i).reduce((a, b) => a + b, 0));
   return (
     <StageContext.Provider value={clock}>
