@@ -1,0 +1,222 @@
+{
+  "topic": "2026-10-27-robo-de-sesion",
+  "checkedAt": "2026-10-27",
+  "facts": [
+    {
+      "claim": "MDN: tras iniciar sesión, el servidor responde con una cookie que lleva un ID de sesión: \"responds with a cookie containing a session ID that records their sign-in status on the browser\".",
+      "source": "MDN Web Docs, Using HTTP cookies (What cookies are used for)",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Cookies",
+      "primary": true
+    },
+    {
+      "claim": "MDN: una cookie de sesión es la que no tiene Max-Age ni Expires y se borra al terminar la 'sesión actual' del navegador, pero con restauración de sesión \"can cause session cookies to last indefinitely\".",
+      "source": "MDN Web Docs, Using HTTP cookies (Removal: defining the lifetime of a cookie)",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Cookies",
+      "primary": true
+    },
+    {
+      "claim": "MDN, HttpOnly: la cookie \"can't be accessed by JavaScript\"; solo llega al servidor. Ayuda a mitigar XSS.",
+      "source": "MDN Web Docs, Using HTTP cookies (Block access to your cookies)",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Cookies",
+      "primary": true
+    },
+    {
+      "claim": "MDN, Secure: la cookie solo se envía por HTTPS, así que un atacante MITM no la accede fácilmente. Letra chica de MDN: alguien \"with access to the client's hard disk\" puede leerla y modificarla; Secure no impide todo acceso.",
+      "source": "MDN Web Docs, Using HTTP cookies (Block access to your cookies)",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Cookies",
+      "primary": true,
+      "note": "Es la cita primaria para 'HttpOnly/Secure no protegen contra malware que lee el disco'. La frase de MDN habla de Secure y de acceso al disco; no menciona infostealers por nombre."
+    },
+    {
+      "claim": "MDN, SameSite: controla si la cookie se envía en peticiones entre sitios; da \"some protection against cross-site request forgery attacks\". Si no se pone, el navegador la trata como Lax.",
+      "source": "MDN Web Docs, Using HTTP cookies (Controlling third-party cookies with SameSite)",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Cookies",
+      "primary": true
+    },
+    {
+      "claim": "OWASP: el ID de sesión se asigna al crear la sesión (\"a session identifier (session ID or token) that is assigned at session creation time\"). Debe ser aleatorio e impredecible, con al menos 64 bits de entropía.",
+      "source": "OWASP Cheat Sheet Series, Session Management Cheat Sheet",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html",
+      "primary": true
+    },
+    {
+      "claim": "OWASP, definición de session hijacking en el cheat sheet: un ataque donde el atacante puede \"fully impersonate a victim user in the web application\".",
+      "source": "OWASP Cheat Sheet Series, Session Management Cheat Sheet (Introduction)",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html",
+      "primary": true
+    },
+    {
+      "claim": "OWASP Community, Session hijacking attack: \"The Session Hijacking attack consists of the exploitation of the web session control mechanism\", que normalmente se maneja con un token de sesión.",
+      "source": "OWASP Community, Session hijacking attack",
+      "url": "https://community.owasp.org/attacks/Session_hijacking_attack",
+      "primary": true,
+      "note": "La página redirige desde owasp.org/www-community/attacks/Session_hijacking_attack."
+    },
+    {
+      "claim": "OWASP, HttpOnly: indica al navegador que no permita a scripts (JavaScript) acceder a la cookie. Secure: solo enviarla por HTTPS. SameSite: las cookies de sesión deben fijar SameSite=Strict (preferido) o Lax.",
+      "source": "OWASP Cheat Sheet Series, Session Management Cheat Sheet (Cookies attributes)",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html",
+      "primary": true
+    },
+    {
+      "claim": "OWASP, para quien desarrolla: el ID de sesión debe renovarse tras cualquier cambio de privilegio; el caso más común es el login (\"mandatory is during the authentication process\").",
+      "source": "OWASP Cheat Sheet Series, Session Management Cheat Sheet (Renew the Session ID After Any Privilege Level Change)",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html",
+      "primary": true
+    },
+    {
+      "claim": "OWASP, al cerrar sesión la aplicación \"must invalidate the session at least on server side\"; debe haber un botón de logout visible y fácil de encontrar.",
+      "source": "OWASP Cheat Sheet Series, Session Management Cheat Sheet (Manual Session Expiration, Logout Button)",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html",
+      "primary": true
+    },
+    {
+      "claim": "OWASP, duración de sesión: todas las sesiones deben tener timeout por inactividad y timeout absoluto \"regardless of session activity\". Rangos comunes de idle timeout: 2-5 minutos en apps de alto valor y 15-30 minutos en apps de bajo riesgo.",
+      "source": "OWASP Cheat Sheet Series, Session Management Cheat Sheet (Session Expiration)",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html",
+      "primary": true
+    },
+    {
+      "claim": "Microsoft Security (12-jul-2022): una campaña AiTM \"attempted to target more than 10,000 organizations since September 2021\", según datos de amenazas de Microsoft.",
+      "source": "Microsoft Security Blog, From cookie theft to BEC: Attackers use AiTM phishing sites as entry point to further financial fraud",
+      "url": "https://www.microsoft.com/en-us/security/blog/2022/07/12/from-cookie-theft-to-bec-attackers-use-aitm-phishing-sites-as-entry-point-to-further-financial-fraud/",
+      "primary": true
+    },
+    {
+      "claim": "Microsoft, cómo funciona AiTM: el atacante despliega un proxy entre el usuario y el sitio real y roba \"the session cookie that proves their ongoing and authenticated session\". La campaña usó el kit Evilginx2.",
+      "source": "Microsoft Security Blog, From cookie theft to BEC (2022-07-12)",
+      "url": "https://www.microsoft.com/en-us/security/blog/2022/07/12/from-cookie-theft-to-bec-attackers-use-aitm-phishing-sites-as-entry-point-to-further-financial-fraud/",
+      "primary": true
+    },
+    {
+      "claim": "Microsoft aclara que AiTM no es una falla del MFA: \"this is not a vulnerability in MFA\"; el MFA sigue siendo muy eficaz contra muchas amenazas. Recomienda MFA resistente al phishing (FIDO2, certificados) y acceso condicional, que se evalúa cada vez que se usa una cookie robada.",
+      "source": "Microsoft Security Blog, From cookie theft to BEC (2022-07-12)",
+      "url": "https://www.microsoft.com/en-us/security/blog/2022/07/12/from-cookie-theft-to-bec-attackers-use-aitm-phishing-sites-as-entry-point-to-further-financial-fraud/",
+      "primary": true
+    },
+    {
+      "claim": "Microsoft (citando su Digital Defense Report 2024, p. 40): el robo de tokens ha crecido a \"an estimated 39,000 per day\" y hubo \"a 146% rise in AiTM phishing attacks\" en el último año.",
+      "source": "Microsoft Learn, Understanding Tokens in Microsoft Entra ID (actualizada 2026-06-15)",
+      "url": "https://learn.microsoft.com/en-us/entra/identity/devices/concept-tokens-microsoft-entra-id",
+      "primary": true,
+      "note": "Es una cita de Microsoft a su informe 2024; no abrí el PDF del informe."
+    },
+    {
+      "claim": "Microsoft, letra chica de contexto: \"Password-based attacks still comprise over 99% of attacks seen by Microsoft\"; el robo de tokens causa \"far fewer identity compromises than password attacks\", y por eso es el siguiente paso lógico cuando el MFA resistente al phishing se despliega.",
+      "source": "Microsoft Learn, Understanding Tokens in Microsoft Entra ID",
+      "url": "https://learn.microsoft.com/en-us/entra/identity/devices/concept-tokens-microsoft-entra-id",
+      "primary": true
+    },
+    {
+      "claim": "Microsoft: los tokens de sesión de inicio de sesión (refresh tokens / PRT) duran 90 días con ventana rodante; \"can last for weeks or months, potentially enabling persistent unauthorized access if stolen\". Los access tokens duran 60-90 minutos variables.",
+      "source": "Microsoft Learn, Understanding Tokens in Microsoft Entra ID (Summary of the kinds of tokens)",
+      "url": "https://learn.microsoft.com/en-us/entra/identity/devices/concept-tokens-microsoft-entra-id",
+      "primary": true,
+      "note": "Es el número de duración con fuente más claro; es de Microsoft Entra, no de Google."
+    },
+    {
+      "claim": "Microsoft lista dos vectores de robo de tokens: AiTM (captura credenciales y cookies de sesión, incluso saltándose el MFA) y malware (puede capturar tokens y cookies de sesión del dispositivo).",
+      "source": "Microsoft Learn, Understanding Tokens in Microsoft Entra ID (Token theft attack vectors)",
+      "url": "https://learn.microsoft.com/en-us/entra/identity/devices/concept-tokens-microsoft-entra-id",
+      "primary": true
+    },
+    {
+      "claim": "Google TAG (20-oct-2021): campaña de phishing a creadores de YouTube con malware de robo de cookies; \"Around 15,000 actor accounts were identified\" y \"at least 1,011 domains created solely for this purpose\".",
+      "source": "Google Threat Analysis Group, Phishing campaign targets YouTube creators with cookie theft malware",
+      "url": "https://blog.google/threat-analysis-group/phishing-campaign-targets-youtube-creators-cookie-theft-malware/",
+      "primary": true
+    },
+    {
+      "claim": "Google TAG: el malware copia las cookies del navegador a servidores del atacante (\"taking browser cookies from the victim's machine and uploading them to the actor's command & control servers\"); eso \"enables access to user accounts with session cookies stored in the browser\" y los canales se venden \"to the highest bidder\" o se usan para estafas cripto. El señuelo era una oferta de patrocinio. \"Most of the observed malware was capable of stealing both user passwords and cookies.\"",
+      "source": "Google Threat Analysis Group, Phishing campaign targets YouTube creators with cookie theft malware",
+      "url": "https://blog.google/threat-analysis-group/phishing-campaign-targets-youtube-creators-cookie-theft-malware/",
+      "primary": true,
+      "note": "Es el caso real con fuente primaria. El caso LTT (23-mar-2023) no tiene fuente primaria abierta: ver pendingToVerify."
+    },
+    {
+      "claim": "Google (Chrome Counter Abuse, 2-abr-2024): \"Cookie theft like this happens after login, so it bypasses two-factor authentication\". El malware \"typically exfiltrates all authentication cookies\" del navegador; quitarlo no neutraliza las cookies ya robadas.",
+      "source": "Google (Chromium Blog), Fighting cookie theft using device bound sessions",
+      "url": "https://blog.google/chromium/fighting-cookie-theft-using-device/",
+      "primary": true
+    },
+    {
+      "claim": "Google (30-jul-2024): Chrome 127 introduce App-Bound Encryption en Windows. DPAPI \"does not protect against malicious applications able to execute code as the logged in user\"; con ABE el malware \"has to gain system privileges, or inject code into Chrome\".",
+      "source": "Google Online Security Blog, Improving the security of Chrome cookies on Windows",
+      "url": "https://security.googleblog.com/2024/07/improving-security-of-chrome-cookies-on.html?m=1",
+      "primary": true,
+      "note": "La versión sin ?m=1 devuelve solo el encabezado; la cita sale de la versión móvil. Google dice que 'cookie theft infostealer malware continue to pose a risk'."
+    },
+    {
+      "claim": "Google (9-abr-2026): DBSC \"entering public availability for Windows users on Chrome 146\", con macOS \"in an upcoming Chrome release\". Usa claves en TPM (Windows) o Secure Enclave (macOS) que no se pueden exportar; Chrome debe demostrar que tiene la clave privada antes de recibir cookies nuevas de vida corta.",
+      "source": "Google, Protecting Cookies with Device Bound Session Credentials",
+      "url": "https://blog.google/security/protecting-cookies-with-device-bound-session-credentials/",
+      "primary": true
+    },
+    {
+      "claim": "Google (9-abr-2026): \"we have observed a significant reduction in session theft since its launch\" (sesiones protegidas por DBSC, tras una versión temprana desplegada el año anterior). Dice que DBSC \"was designed from the beginning to be an open web standard through the W3C process\", con Microsoft como socio de diseño.",
+      "source": "Google, Protecting Cookies with Device Bound Session Credentials",
+      "url": "https://blog.google/security/protecting-cookies-with-device-bound-session-credentials/",
+      "primary": true,
+      "note": "Sin cifra de reducción. El texto de Google no menciona passkeys."
+    },
+    {
+      "claim": "Chrome for Developers: \"DBSC are now available in Chrome 145 on Windows\" (página con 'Last updated 2026-03-03'). Contradice por una versión al post de Google (146).",
+      "source": "Chrome for Developers, Device Bound Session Credentials now available on Windows",
+      "url": "https://developer.chrome.com/blog/dbsc-windows-announcement",
+      "primary": true,
+      "note": "Conflicto 145 vs 146: para el guion decir 'Chrome en Windows' sin versión, o citar 146 con el post de Google (9-abr-2026)."
+    },
+    {
+      "claim": "W3C: Device Bound Session Credentials es un First Public Working Draft del 21-ago-2025, del Web Application Security Working Group, en la vía de Recomendación. Su resumen dice que DBSC \"aims to prevent hijacking via cookie theft\". La propia página lo llama \"very early drafting\".",
+      "source": "W3C, Device Bound Session Credentials (First Public Working Draft)",
+      "url": "https://www.w3.org/TR/dbsc/",
+      "primary": true,
+      "note": "Es un borrador del W3C, no una Recomendación (estándar final)."
+    },
+    {
+      "claim": "FIDO Alliance (20-may-2025): las passkeys han reducido el éxito del session hijacking por phishing man-in-the-middle, pero pregunta \"what happens after the authentication ceremony?\". Las cookies de sesión y los access tokens son tokens \"bearer\". DBSC y DPoP se proponen como complemento.",
+      "source": "FIDO Alliance, white paper: DBSC and DPoP as complementary technologies to FIDO authentication",
+      "url": "https://fidoalliance.org/white-paper-dbsc-dpop-as-complementary-technologies-to-fido-authentication/",
+      "primary": true,
+      "note": "Es la fuente primaria más cercana a 'las passkeys protegen el login, no la sesión'. No usa la frase literal; el guion debe decirlo como interpretación del documento."
+    },
+    {
+      "claim": "Google Workspace (29-jul-2025): \"an exponential rise in cookie and authentication token theft as a preferred method for attackers\"; DBSC estaba en beta abierta en Chrome para Windows y \"Helps ensure only the originating device can access the active session\".",
+      "source": "Google Workspace Blog, Defending against account takeovers: top threats, passkeys and DBSC",
+      "url": "https://workspace.google.com/blog/identity-and-security/defending-against-account-takeovers-top-threats-passkeys-and-dbsc",
+      "primary": true
+    },
+    {
+      "claim": "Google, 'Tus dispositivos': en la Cuenta de Google, Seguridad e inicio de sesión, panel 'Tus dispositivos', 'Gestionar todos los dispositivos'. Muestra dispositivos y sesiones de las últimas semanas; se puede elegir 'Cerrar sesión' en cada uno.",
+      "source": "Ayuda de la Cuenta de Google, Ver dispositivos con acceso a la cuenta",
+      "url": "https://support.google.com/accounts/answer/3067630?hl=es",
+      "primary": true
+    },
+    {
+      "claim": "GitHub: foto de perfil, Settings, sección 'Access', 'Sessions'. Lista las sesiones web y las de GitHub Mobile; en cada una, 'See more' y 'Revoke session'. Revocar una sesión móvil también la quita como segundo factor.",
+      "source": "GitHub Docs, Viewing and managing your sessions",
+      "url": "https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/viewing-and-managing-your-sessions",
+      "primary": true
+    },
+    {
+      "claim": "Chrome DevTools: el panel de cookies está en Application > Storage > Cookies. La tabla muestra Name, Value, Domain, Expires/Max-Age (en cookies de sesión dice 'Session'), Size, HttpOnly, Secure, SameSite, Partition Key y Priority.",
+      "source": "Chrome for Developers, View, add, edit, and delete cookies (Chrome DevTools; actualizada 2023-12-05)",
+      "url": "https://developer.chrome.com/docs/devtools/application/cookies",
+      "primary": true,
+      "note": "Imagen oficial del panel: https://developer.chrome.com/static/docs/devtools/application/cookies/image/cookies-pane.png (ruta relativa de la página, host developer.chrome.com; no verifiqué que cargue). La página dice 'Application > Storage > Cookies'; la ruta del brief 'Application > Cookies' es una simplificación."
+    }
+  ],
+  "calculations": [],
+  "illustrative": [],
+  "pendingToVerify": [
+    "Linus Tech Tips (23-mar-2023): no pude abrir el video del propio Linus (YouTube solo devolvió el pie de página) ni un comunicado de YouTube. Solo hay fuentes secundarias: TechSpot (https://www.techspot.com/news/98047-youtube-channel-linustechtips-terminated-after-hacked-show-crypto.html) confirma la fecha, el canal renombrado 'LinusTechTipsTemp', los livestreams viejos con Dorsey y Musk con enlaces cripto, unos 15,8 millones de suscriptores y que YouTube terminó el canal; pero decía 'unclear how the hackers gained access'. Que el vector fue robo de tokens de sesión por un archivo disfrazado de oferta de patrocinio sale de blogs que reportan el video de Linus. No decir 'Linus dijo' sin verlo. Alternativa con fuente primaria: el caso de Google TAG 2021.",
+    "Instagram/Meta 'Dónde iniciaste sesión': las páginas help.instagram.com devolvieron solo 'Help Center'. Un resultado de búsqueda cita la ruta Accounts Center > Contraseña y seguridad > Dónde iniciaste sesión, pero no la leí en la página.",
+    "Cifras recientes de Microsoft (Digital Defense Report 2025): solo encontré resúmenes de terceros (2,4% robo de tokens, 0,003% AiTM); no abrí el informe, no van como dato. La cifra de Microsoft que sí tengo es la del informe 2024 vía Microsoft Learn.",
+    "Duración de sesión de cuenta personal de Google: no encontré un número oficial. Solo hallé que Google Cloud/Workspace usa 16 horas por defecto para sesiones de la consola (anuncio de marzo 2023, no consumer). Lo que sí tiene fuente: OWASP (idle 2-5 y 15-30 min) y Microsoft (tokens de 90 días).",
+    "Google dice 'significant reduction in session theft' sin cifra. DBSC en Chrome estable: 145 (Chrome for Developers) vs 146 (post de Google); macOS aún pendiente según el post de abril de 2026. Revisar si hay novedad desde abril.",
+    "App-Bound Encryption: los bypass por infostealers (Lumma, Rhadamanthys, VoidStealer, etc.) salen de prensa y de proveedores de seguridad (BleepingComputer, Elastic, SpyCloud, Dark Reading); no abrí ninguna. Para el guion: ABE existe y sube el costo, pero hubo bypass reportados, falta fuente primaria.",
+    "Passkeys: ninguna fuente primaria dice textualmente 'las passkeys no protegen la sesión'. FIDO Alliance dice que ayudan contra el session hijacking por phishing y se pregunta qué pasa tras la autenticación, y propone DBSC/DPoP como complemento. El texto de Google sobre DBSC no menciona passkeys.",
+    "Extensiones del navegador: no busqué una fuente primaria sobre extensiones maliciosas que leen cookies.",
+    "Evilginx: solo lo cité vía el post de Microsoft; no abrí el repositorio del proyecto."
+  ]
+}

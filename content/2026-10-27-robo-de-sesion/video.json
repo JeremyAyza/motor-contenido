@@ -1,0 +1,119 @@
+{
+  "$schema": "../../schemas/video.schema.json",
+  "format": "explicado",
+  "target": 75,
+  "topic": "Robo de sesión: el 2FA protege el login, no la cookie que el sitio te da después",
+  "world": "Tu navegador y el sitio, unidos por una línea; por ella viaja la contraseña una vez, después la cookie de sesión y al final la misma cookie desde otro navegador.",
+  "meter": {
+    "label": "Navegadores con tu sesión",
+    "from": "1",
+    "to": "2"
+  },
+  "cover": {
+    "scene": "gancho"
+  },
+  "hooks": [
+    {
+      "said": "Tu 2FA no protege tu cookie.",
+      "onScreen": "Tu 2FA no protege tu cookie",
+      "formula": 22
+    },
+    {
+      "said": "Así entran a tu cuenta sin tu 2FA.",
+      "onScreen": "Entran sin tu 2FA",
+      "formula": 18
+    },
+    {
+      "said": "Tu contraseña nunca fue el objetivo.",
+      "onScreen": "Nunca fue tu contraseña",
+      "formula": 29
+    }
+  ],
+  "scenes": [
+    {
+      "id": "gancho",
+      "say": "Tu 2FA no protege tu cookie. Y con ella entran a tu cuenta, aunque tu contraseña sea fuerte.",
+      "see": "Un escudo con candado y seis casillas del código que se llenan una por una; detrás del escudo, una cookie dorada sale rodando por un costado sin que el escudo la toque y queda el rótulo del gancho; después suben dos tarjetas: Contraseña, con la barra que se llena en verde hasta 'muy fuerte', y 2FA con 'Activado'",
+      "resource": "metafora"
+    },
+    {
+      "id": "cookie",
+      "say": "Pruebas quién eres una vez, en el login. Después, el sitio no te pide nada. Le da a tu navegador una cookie de sesión, y confía en ella.",
+      "see": "El diagrama de dos cajas, Navegador y Sitio: la pastilla de puntos de la contraseña viaja una vez con el rótulo UNA VEZ; en el navegador, tres clics sin que nada pida la clave; la pastilla vuelve en el acento como sid=8f2b.c41a y entra enorme COOKIE DE SESIÓN",
+      "resource": "proceso"
+    },
+    {
+      "id": "pulsera",
+      "say": "Como la pulsera de un parque. Muestras tu documento en la entrada. En cada juego, solo miran la pulsera.",
+      "see": "La pastilla se vuelve el arco de entrada de un parque: un documento se muestra en la boletería y sale una pulsera; tres torniquetes se abren uno por uno solo con la pulsera; al final la pulsera se vuelve otra vez la cookie entre las dos cajas",
+      "resource": "metafora"
+    },
+    {
+      "id": "robo",
+      "say": "Esa cookie dice: ya pasaste el código. Se roba con malware que lee tu navegador, o con una página falsa en el medio. Microsoft contó más de diez mil organizaciones atacadas así.",
+      "see": "La tarjeta de la cookie se escribe línea por línea (usuario: tú, sesión: activa, 2FA: pasado); el fondo se tiñe de rojo, entra el atacante bajo el diagrama y la cookie sale por dos caminos: un archivo de malware y una página de login falsa en medio de la línea; golpea la cifra 10.000+ con 'Microsoft, 2022'",
+      "resource": "proceso"
+    },
+    {
+      "id": "prueba",
+      "say": "En una prueba controlada, copias la cookie desde DevTools a otro navegador. Recargas, y el sitio te recibe como a ti. Sin contraseña. Sin código.",
+      "see": "Dos ventanas, Navegador A y Navegador B; en A, el panel de cookies de DevTools (Application > Cookies) con la fila sid; la pastilla viaja de A a B, B recarga y muestra la cuenta abierta; el medidor pasa de 1 a 2; abajo, Contraseña y Código se tachan uno por uno; rótulo Ejemplo ilustrativo",
+      "resource": "captura-anotada"
+    },
+    {
+      "id": "nombre",
+      "say": "Se llama robo de sesión. El 2FA no se rompió: lo esquivaron. Google lo dice así: pasa después del login.",
+      "see": "ROBO DE SESIÓN enorme en rojo; el escudo del gancho vuelve intacto y una flecha roja le pasa por el costado sin tocarlo; la cita de Google en una tarjeta con su fecha (abril de 2024)",
+      "resource": "comparacion"
+    },
+    {
+      "id": "ayuda",
+      "say": "Lo que sí ayuda: cierra sesión en equipos compartidos. Cierra las sesiones que no reconozcas. Cuidado con lo que instalas. Y si programas, invalida la sesión en el servidor al cerrar sesión.",
+      "see": "Cuatro casillas apagadas desde el principio bajo LO QUE SÍ AYUDA; cada una se prende y se marca al decirse; en la segunda aparece una sesión desconocida con el botón Revocar, en la tercera un archivo instalado que se tacha y en la cuarta la sesión que se borra del servidor",
+      "resource": "proceso"
+    },
+    {
+      "id": "cierre",
+      "say": "No apagues el 2FA: cuida la entrada. El robo de sesión ataca lo que pasa después. Guárdalo para quien dice: tengo 2FA, estoy tranquilo.",
+      "see": "El escudo con el código vuelve a la izquierda con el rótulo LA ENTRADA y la cookie viva a la derecha con LO DE DESPUÉS, separados por una línea; queda la frase para recordar y el ícono de guardar",
+      "resource": "comparacion"
+    }
+  ],
+  "caption": "Tu contraseña nunca fue el objetivo.\n\nCon una contraseña fuerte y el 2FA activado, igual pueden entrar a tu cuenta. Después del login, el sitio deja de preguntarte quién eres: le da a tu navegador una cookie de sesión y confía en ella.\n\nEs como la pulsera de un parque: muestras tu documento una vez y en cada juego solo miran la pulsera. Quien se roba la pulsera no pasa por la entrada.\n\nEso es el robo de sesión. Sin contraseña y sin código. El 2FA no se rompió: lo esquivaron. Microsoft contó más de 10.000 organizaciones atacadas con páginas que se quedan con la cookie después del código.\n\nLo que sí ayuda:\n- cierra sesión en equipos compartidos;\n- revisa tus sesiones abiertas y cierra las que no reconozcas (en Google, \"Tus dispositivos\"; en GitHub, Settings > Sessions);\n- cuidado con lo que instalas y con los enlaces raros;\n- si programas: que cerrar sesión invalide la sesión en el servidor, no solo en el navegador.\n\nNo apagues el 2FA. Protege la entrada, no lo que pasa después.\n\nGuárdalo para la próxima vez que alguien te diga \"tengo 2FA, estoy tranquilo\".\n\nFuentes: MDN, OWASP, Microsoft Security, Google y la documentación de Chrome DevTools, revisadas el 27 de octubre de 2026.\n\n#ciberseguridad #2fa #programacion #seguridadweb #cookies",
+  "gateA": {
+    "approved": true,
+    "date": "2026-10-27"
+  },
+  "gateB": {
+    "approved": true,
+    "date": "2026-10-27",
+    "video": "409995ed0c7d1e2b78da65506502c019aae5aea88eded35e0139c3ad69bcc62c"
+  },
+  "art": {
+    "direction": "antes-despues",
+    "dealt": [
+      "ficha-tecnica",
+      "chat",
+      "antes-despues"
+    ],
+    "reason": "El video entero opone dos momentos: la entrada, que el 2FA cuida, y lo que pasa después, que vive en la cookie. Fondo ciruela casi negro para la entrada y el dorado de la galleta para la cookie, que es lo que viaja y lo que se roba; el rojo de alerta solo para el atacante.",
+    "palette": {
+      "bg": "#15111C",
+      "ink": "#F4EFE6",
+      "accent": "#F5C04A",
+      "accentInk": "#15111C",
+      "surface": "#211B2C",
+      "muted": "#A49CB3"
+    },
+    "fonts": {
+      "display": "archivo",
+      "text": "geist"
+    },
+    "anchor": {
+      "kind": "icono",
+      "ref": "cookie",
+      "source": "Lucide (ISC): la galleta, la cookie de sesión"
+    },
+    "tab": "robo-de-sesion.md"
+  }
+}

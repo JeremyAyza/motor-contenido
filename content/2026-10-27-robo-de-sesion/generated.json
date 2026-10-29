@@ -1,0 +1,12 @@
+[
+  {
+    "file": "audio/cama.mp3",
+    "kind": "music",
+    "provider": "gemini",
+    "model": "lyria-3-clip-preview",
+    "prompt": "Tense but controlled electronic instrumental bed for a cybersecurity explainer about stolen browser sessions: low pulsing synth bass like a heartbeat, muted plucked arpeggio with a slight mystery, soft dark pads, tight minimal beat with ticking hi-hats, 95 bpm, suspenseful yet calm, no vocals, no drops, no build-ups, mixed low so a voice sits on top.",
+    "references": [],
+    "sha256": "f71cc0bdb7d4fd2173a3296b411e06482fd10dc1ab2a3535be278711912c4931",
+    "createdAt": "2026-10-28T01:21:26.558Z"
+  }
+]
