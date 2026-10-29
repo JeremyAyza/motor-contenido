@@ -1,0 +1,269 @@
+{
+  "topic": "2026-10-29-agentes-durables",
+  "checkedAt": "2026-10-29",
+  "facts": [
+    {
+      "claim": "Claude Code en la nube (claude.ai/code, app móvil, app de escritorio o `claude --cloud`): una sesión en la nube corre en infraestructura de Anthropic y \"keeps running after you close your laptop\". Se puede revisar o dirigir desde cualquier dispositivo.",
+      "source": "Anthropic, Use Claude Code in the cloud (intro)",
+      "url": "https://code.claude.com/docs/en/claude-code-on-the-web",
+      "primary": true,
+      "note": "Disponible en planes Pro, Max y Team, y en Enterprise con asientos premium. Cuenta contra los límites del plan; no hay cargo aparte por la VM. Sirve para la escena de apertura (pedir la migración al SDK y cerrar la pestaña)."
+    },
+    {
+      "claim": "Se lanza desde la terminal con `claude --cloud \"<tarea>\"`: crea una sesión nueva en claude.ai, la tarea corre en la nube mientras sigues trabajando en local, y \"Cloud sessions persist even if you close your laptop\".",
+      "source": "Anthropic, Use Claude Code in the cloud (Move tasks between terminal and cloud)",
+      "url": "https://code.claude.com/docs/en/claude-code-on-the-web",
+      "primary": true,
+      "note": "La VM clona el remoto de GitHub en la rama actual, no tu carpeta local: hay que hacer push antes. El alias viejo es `--remote`."
+    },
+    {
+      "claim": "Letra chica de la nube: las sesiones se detienen tras un periodo de inactividad y la VM se reclama (\"Environment expired\"). Al reabrirla se restaura el historial de la conversación, pero no el trabajo que seguía corriendo: comandos de shell, subagentes y tareas programadas en la sesión.",
+      "source": "Anthropic, Use Claude Code in the cloud (Troubleshooting > Environment expired)",
+      "url": "https://code.claude.com/docs/en/claude-code-on-the-web",
+      "primary": true,
+      "note": "Es decir: el historial es durable, el proceso en vuelo no. Buen matiz para el guion."
+    },
+    {
+      "claim": "Remote Control no es lo mismo que la nube: la sesión corre en tu máquina y claude.ai/code o la app móvil son solo una ventana. \"your computer has to stay on and the claude process has to keep running\". Si el portátil duerme o cae la red, Claude Code se reconecta solo.",
+      "source": "Anthropic, Continue local sessions from any device with Remote Control (intro)",
+      "url": "https://code.claude.com/docs/en/remote-control",
+      "primary": true,
+      "note": "Error común: creer que abrir la sesión local desde el celular la vuelve independiente de la máquina."
+    },
+    {
+      "claim": "Claude Managed Agents (beta, cabecera `managed-agents-2026-04-01`): arnés de agente administrado por Anthropic, \"Best for\" \"Long-running tasks and asynchronous work\". Las sesiones son largas y reanudan tras pausas; guardan historial, estado del sandbox y salidas en el servidor.",
+      "source": "Anthropic, Claude Managed Agents overview",
+      "url": "https://platform.claude.com/docs/en/managed-agents/overview",
+      "primary": true,
+      "note": "Beta; no es elegible para Zero Data Retention ni HIPAA BAA porque las transcripciones persisten hasta que las borras. Todos los endpoints exigen la cabecera beta."
+    },
+    {
+      "claim": "En Managed Agents el cliente abre un stream SSE para seguir la sesión y \"Event history is persisted server-side and can be fetched in full.\" Un stream solo entrega eventos emitidos después de abrirse.",
+      "source": "Anthropic, Claude Managed Agents overview (How it works) y Session event stream",
+      "url": "https://platform.claude.com/docs/en/managed-agents/events-and-streaming",
+      "primary": true,
+      "note": "Endpoint del stream: GET /v1/sessions/{id}/events/stream con `accept: text/event-stream`."
+    },
+    {
+      "claim": "Receta oficial para reconectar a una sesión sin perder eventos: 1) abrir un stream nuevo, 2) listar el historial completo de eventos para armar un conjunto de IDs vistos, 3) seguir el stream en vivo saltando los ya vistos.",
+      "source": "Anthropic, Session event stream (Reconnect without missing events)",
+      "url": "https://platform.claude.com/docs/en/managed-agents/events-and-streaming",
+      "primary": true,
+      "note": "Es el mismo patrón del Reel (historial + stream en vivo), pero deduplicando por ID de evento en el cliente, no con Last-Event-ID."
+    },
+    {
+      "claim": "Post de ingeniería de Anthropic (8 de abril de 2026): la sesión es \"the append-only log of everything that happened\" y vive fuera del arnés. Si el arnés se cae, uno nuevo arranca con `wake(sessionId)`, relee el log de eventos y continúa. El contenedor pasó de mascota a ganado: \"The container became cattle.\"",
+      "source": "Anthropic Engineering, Scaling Managed Agents with stable interfaces",
+      "url": "https://www.anthropic.com/engineering/managed-agents",
+      "primary": true,
+      "note": "Interfaces que nombra: execute(name, input), emitEvent(id, event), getEvents(), wake(sessionId). Dato de rendimiento: \"p50 TTFT dropped roughly 60% and p95 dropped over 90%\". Es la fuente más fuerte para decir que Anthropic hace lo mismo que el Reel (log durable + trabajador reemplazable)."
+    },
+    {
+      "claim": "La API Messages con `\"stream\": true` envía server-sent events. Orden de eventos: `message_start`, luego por cada bloque `content_block_start` + uno o más `content_block_delta` + `content_block_stop`, uno o más `message_delta` y un `message_stop` final. Pueden aparecer `ping` en cualquier punto y `error`, y pueden añadirse tipos nuevos.",
+      "source": "Anthropic, Streaming messages (Event types)",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/streaming",
+      "primary": true,
+      "note": "Ejemplo de error dentro del stream: `event: error` con `overloaded_error` (equivale a HTTP 529 fuera del stream). En los ejemplos de la doc cada evento trae solo líneas `event:` y `data:`, sin campo `id:`."
+    },
+    {
+      "claim": "Qué dice la doc de la API sobre un stream que se corta: no hay reanudación del lado del servidor. La estrategia es del cliente: guardar la respuesta parcial y mandar una solicitud nueva de continuación. Para Claude 4.6 y posteriores, un mensaje de usuario como \"Your previous response was interrupted and ended with [previous_response]. Continue from where you left off.\"",
+      "source": "Anthropic, Streaming messages (Error recovery)",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/streaming",
+      "primary": true,
+      "note": "\"Tool use and thinking blocks cannot be partially recovered.\" Solo se puede retomar desde el último bloque de texto. Para Claude 4.5 y anteriores la parcial va como mensaje del asistente."
+    },
+    {
+      "claim": "Para peticiones largas la doc recomienda streaming o Message Batches, \"especially those over 10 minutes\". Motivo: algunas redes cortan conexiones inactivas y la petición falla sin respuesta; Batches permite consultar el resultado en vez de exigir una conexión ininterrumpida.",
+      "source": "Anthropic, Claude API errors (Long requests)",
+      "url": "https://platform.claude.com/docs/en/api/errors",
+      "primary": true,
+      "note": "El SDK valida que una petición no-stream no pase de 10 minutos y activa TCP keep-alive. Con `max_tokens` grandes el SDK exige streaming para evitar timeouts HTTP (doc de streaming)."
+    },
+    {
+      "claim": "Message Batches API: procesa solicitudes Messages de forma asíncrona, \"most batches finishing in less than 1 hour\" y 50% de descuento. Límites: 100,000 solicitudes o 256 MB por lote; expira si no termina en 24 horas; resultados disponibles 29 días; `stream: true` no se admite (\"Batch results come back as a single file, not a stream\").",
+      "source": "Anthropic, Batch processing (Batch limitations)",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/batch-processing",
+      "primary": true,
+      "note": "Es el modo asíncrono de la API Messages (consultas y resultado al final). No es un agente que sigue y que puedas mirar en vivo. Para eso está Managed Agents."
+    },
+    {
+      "claim": "Especificación SSE (WHATWG): el MIME es `text/event-stream`; el campo `id` fija el último ID de evento (\"set the last event ID buffer to the field value\"); al reconectar, el cabecero `Last-Event-ID` informa ese último ID al servidor (\"reports an EventSource object's last event ID string to the server\"); el campo `retry` fija el tiempo de reconexión en milisegundos. \"Clients will reconnect if the connection is closed\".",
+      "source": "WHATWG HTML Living Standard, Server-sent events (secciones 9.2.1, 9.2.4 a 9.2.6)",
+      "url": "https://html.spec.whatwg.org/multipage/server-sent-events.html",
+      "primary": true,
+      "note": "El servidor tiene que ponerle `id:` a cada evento y, al recibir `Last-Event-ID`, reenviar lo posterior. La spec define la cabecera; reanudar el contenido es trabajo del servidor."
+    },
+    {
+      "claim": "MDN sobre SSE: si la conexión se cierra, por defecto se reinicia (se detiene con `.close()`); `retry` es un entero en milisegundos; sin HTTP/2 hay un límite muy bajo de 6 conexiones abiertas por navegador y dominio, con HTTP/2 se negocia un máximo de streams (por defecto 100).",
+      "source": "MDN, Using server-sent events",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events",
+      "primary": true,
+      "note": "La página de MDN no menciona `Last-Event-ID`; para ese dato la fuente es la spec WHATWG (hecho anterior). Letra chica: sin HTTP/2, muchas pestañas abiertas agotan las 6 conexiones."
+    },
+    {
+      "claim": "Redis `XADD` agrega una entrada a un stream; con `*` genera el ID con forma `<ms>-<seq>` y \"Redis guarantees that IDs are always incremental\" (cada ID es mayor que todos los previos, orden total). Complejidad O(1) al agregar. Puede recortar con `MAXLEN` o `MINID`.",
+      "source": "Redis, XADD (Details > Specifying a Stream ID)",
+      "url": "https://redis.io/docs/latest/commands/xadd/",
+      "primary": true,
+      "note": "Letra chica: sin recorte el stream crece sin límite; con `MAXLEN ~` o `MINID` se pierde historial viejo, que un cliente que vuelve tarde podría necesitar. Desde Redis 8.6, `XADD` acepta `IDMP`/`IDMPAUTO` para no duplicar entradas del mismo productor."
+    },
+    {
+      "claim": "Redis `XREAD` lee solo entradas \"with an ID greater than the last received ID reported by the caller\"; con `BLOCK` espera datos nuevos. Hay que pasar el último ID recibido, y `$` solo en la primera llamada (\"you should use the `$` ID only for the first call\"). Las entradas no se borran al leerse, así que cada cliente recibe su copia.",
+      "source": "Redis, XREAD (Details)",
+      "url": "https://redis.io/docs/latest/commands/xread/",
+      "primary": true,
+      "note": "Es el equivalente directo de `Last-Event-ID: 57` del Reel: el ID de SSE se mapea al ID de la entrada del stream y `XREAD ... STREAMS job:42 57-0` devuelve lo posterior."
+    },
+    {
+      "claim": "Redis describe un stream como una estructura que \"acts like an append-only log\" con usos como event sourcing; permite \"record and simultaneously syndicate events in real time\".",
+      "source": "Redis, Redis Streams (intro)",
+      "url": "https://redis.io/docs/latest/develop/data-types/streams/",
+      "primary": true,
+      "note": "No se leyó la sección \"Persistence, replication and message safety\" (la página es larga); ver pendingToVerify."
+    },
+    {
+      "claim": "Si el registro es una tabla de Postgres: los valores de `nextval` no se reciclan si la transacción aborta, así que hay huecos en la secuencia. \"PostgreSQL sequence objects cannot be used to obtain 'gapless' sequences.\"",
+      "source": "PostgreSQL, Sequence Manipulation Functions",
+      "url": "https://www.postgresql.org/docs/current/functions-sequence.html",
+      "primary": true,
+      "note": "Letra chica de usar una tabla como registro: el ID creciente sirve como cursor, pero no esperes numeración sin huecos. La doc no dice nada sobre el orden de visibilidad entre transacciones concurrentes, así que eso no se afirma."
+    },
+    {
+      "claim": "Temporal guarda un Event History: \"An append-only log of Events for your application\", persistido de forma durable por el servicio de Temporal, \"so your application state survives crashes or failures\". Es lo que permite que la ejecución \"recover from a crash and continue making progress\".",
+      "source": "Temporal, Events and Event History",
+      "url": "https://docs.temporal.io/workflow-execution/event",
+      "primary": true,
+      "note": "Segunda fuente de Temporal: un Worker nuevo trae el historial y \"replays the Workflow code against it to rebuild local state\"; \"an Activity whose Worker dies is rescheduled\" (docs.temporal.io/evaluate/understanding-temporal). Las páginas leídas no afirman literalmente que el resultado de cada Activity ya hecha no se vuelve a ejecutar en el replay; ver pendingToVerify."
+    },
+    {
+      "claim": "Temporal: las Activities se reintentan con su Retry Policy y por eso pueden correr más de una vez. \"Because Activities may be retried, these functions may be executed more than once.\" \"Temporal guarantees that the Activity will be observed as completed exactly once.\" Pero \"may even partially complete more than once\". Recomienda hacerlas idempotentes.",
+      "source": "Temporal, Activity Definition (Idempotency)",
+      "url": "https://docs.temporal.io/activity-definition",
+      "primary": true,
+      "note": "Matiz exacto: lo que se garantiza es que el workflow ve la actividad completada una sola vez, no que el efecto externo ocurra una sola vez."
+    },
+    {
+      "claim": "Inngest: \"Inngest resumes a run by replaying your handler and returning saved step results, so completed work does not run again.\" Cuando un paso termina, su resultado se guarda como checkpoint; si falla, \"a retry repeats only the step that failed\". El estado vive fuera de tu función, así que la ejecución puede reanudar en otra máquina.",
+      "source": "Inngest, How functions are executed",
+      "url": "https://www.inngest.com/docs/learn/how-functions-are-executed",
+      "primary": true,
+      "note": "Con la llamada a la API fuera de `step.run()` se repetiría en cada replay: \"Put non-deterministic logic ... inside step.run() so it runs once and its result is saved.\""
+    },
+    {
+      "claim": "Letra chica de Inngest en una frase: \"Make `refundOrder` idempotent because a refund can succeed before Inngest saves the step result and retries the step.\" Es decir: el efecto ocurre antes de que se guarde el checkpoint.",
+      "source": "Inngest, How functions are executed (idempotencia)",
+      "url": "https://www.inngest.com/docs/learn/how-functions-are-executed",
+      "primary": true,
+      "note": "Es exactamente el hueco del paso 7 del Reel: el trabajador se cae después de cobrar y antes de anotar el checkpoint."
+    },
+    {
+      "claim": "Trigger.dev: el sistema de checkpoint-resume permite que las tareas \"pause, checkpoint their state, and resume seamlessly\"; tras el checkpoint se liberan los recursos y no se cobra el tiempo en pausa. Al reintentar, \"it starts from the beginning, but leverages cached results for completed subtasks\"; cada subtarea tiene una clave de idempotencia y su resultado se cachea con ella. La doc dice \"serverless architecture (without timeouts!)\".",
+      "source": "Trigger.dev, How it works (checkpoint-resume system)",
+      "url": "https://trigger.dev/docs/how-it-works",
+      "primary": true,
+      "note": "Usa CRIU para guardar memoria, registros de CPU y descriptores de archivo. Un `wait` de menos de 60 s no hace checkpoint. \"Sin timeouts\" es afirmación del fabricante."
+    },
+    {
+      "claim": "Vercel Workflows: ejecuta lógica de varios pasos como código durable que puede reintentar pasos fallidos, esperar eventos externos y reanudar tras caídas y despliegues. Son \"Resumable\" y \"Durable: Survive deployments and crashes with deterministic replays\". Un \"managed persistence\" guarda todo el estado y los logs de eventos. Se escribe con las directivas `'use workflow'` y `'use step'`.",
+      "source": "Vercel, Vercel Workflows (documentación, actualizada 2026-09-04)",
+      "url": "https://vercel.com/docs/workflows",
+      "primary": true,
+      "note": "Se construye sobre el Workflow SDK de código abierto (workflow-sdk.dev). El nombre del producto en la doc es \"Vercel Workflows\" (plural); el Reel dice \"Vercel Workflow\". La doc de funciones lo contrasta: para tiempo ilimitado, usa Workflows."
+    },
+    {
+      "claim": "Workflow SDK (Vercel): cada invocación de un paso tiene un `stepId` estable que se mantiene entre reintentos; la doc dice \"Use it as the idempotency key when calling third-party APIs.\" Su ejemplo de pago: si el paso se reintenta porque la confirmación se perdió, \"it will charge the user again\".",
+      "source": "Workflow SDK, Idempotency",
+      "url": "https://workflow-sdk.dev/docs/foundations/idempotency",
+      "primary": true,
+      "note": "Calza con el Reel: la clave `job42-step7` es el equivalente de `stepId`."
+    },
+    {
+      "claim": "Workflow SDK, streams reanudables: \"Use `run.getReadable({ startIndex })` to resume a stream from a specific position.\" En Vercel el stream está respaldado por Redis. \"By default, a client disconnect does not terminate the Vercel Function serving the stream\" y \"The workflow run and its durable stream continue independently\".",
+      "source": "Workflow SDK, Streaming",
+      "url": "https://workflow-sdk.dev/docs/foundations/streaming",
+      "primary": true,
+      "note": "Los datos del stream \"flow directly without being stored in the event log\". Reanudar con `startIndex` es la versión Vercel de `Last-Event-ID`."
+    },
+    {
+      "claim": "Vercel AI SDK: con streams reanudables, cerrar la pestaña, refrescar o llamar `stop()` \"only closes the current HTTP connection and should not cancel the underlying generation\". Requiere el paquete `resumable-stream`, Redis para los datos del stream y una capa de persistencia que guarde qué stream está activo por chat.",
+      "source": "Vercel AI SDK, Chatbot resume streams",
+      "url": "https://ai-sdk.dev/docs/ai-sdk-ui/chatbot-resume-streams",
+      "primary": true,
+      "note": "Para cancelar de verdad hay que añadir un endpoint de parada dedicado. Esto sirve para la afirmación 1 del referente: la doc de este SDK describe el caso reanudable, no el stream directo; sin esa configuración, que cortar la conexión cancele la generación depende de tu servidor."
+    },
+    {
+      "claim": "Vercel también ofrece un \"durable-harness\" para conectar Pi, Claude Code, Codex u OpenCode con la persistencia del Workflow SDK, \"so sessions can resume after crashes and deployments\".",
+      "source": "Vercel, Vercel Workflows (Getting started) y Running Agent Harnesses Durably on Vercel",
+      "url": "https://vercel.com/docs/workflows",
+      "primary": true,
+      "note": "Enlace de la guía: https://vercel.com/docs/agent-harnesses (no se abrió). Dato opcional para decir que Claude Code puede correr sobre un workflow durable."
+    },
+    {
+      "claim": "Stripe, solicitudes idempotentes (API v1): se manda `Idempotency-Key` en las solicitudes POST; Stripe guarda el código y el cuerpo de la primera solicitud con esa clave y los reintentos devuelven la respuesta guardada, \"including `500` errors\". Claves de hasta 255 caracteres (se sugieren UUID v4); se pueden eliminar tras al menos 24 horas; si los parámetros no coinciden con los originales, da error.",
+      "source": "Stripe, API reference: Idempotent requests",
+      "url": "https://docs.stripe.com/api/idempotent_requests",
+      "primary": true,
+      "note": "GET y DELETE ya son idempotentes por definición y no necesitan clave. Si los parámetros no pasan validación o hay conflicto con otra solicitud en curso, no se guarda resultado y se puede reintentar. El resultado guardado es el de la primera solicitud, no necesariamente un 200."
+    },
+    {
+      "claim": "Stripe: \"To identify a previously executed response that's being replayed from the server, look for the header `Idempotent-Replayed: true`.\" También: tras un error de red, reintenta con la misma clave y parámetros dentro de las primeras 24 horas; \"Restoring connectivity doesn't tell you whether the original request succeeded.\"",
+      "source": "Stripe, Advanced error handling (Idempotency > Sending idempotency keys)",
+      "url": "https://docs.stripe.com/error-low-level",
+      "primary": true,
+      "note": "Para agentes durables: \"If your application retries across separate SDK calls or process restarts, generate and persist a key for the operation\". Es decir, la clave se deriva del trabajo y el paso (job42-step7), no se genera de nuevo en cada intento. Fuera de las 24 horas Stripe indica no reintentar y conciliar. La página usa los mismos nombres de cabecera que el Reel."
+    },
+    {
+      "claim": "Vercel Functions con Fluid compute (duración máxima): Hobby 300 s (5 min) por defecto y máximo; Pro y Enterprise 300 s por defecto, 800 s de máximo y 1800 s (30 min) de \"extended maximum\" en Beta. Si no termina, devuelve un 504 `FUNCTION_INVOCATION_TIMEOUT`. El límite incluye la respuesta en streaming.",
+      "source": "Vercel, Vercel Functions Limits (Max duration, actualizada 2026-08-24)",
+      "url": "https://vercel.com/docs/functions/limitations",
+      "primary": true,
+      "note": "Los 1800 s requieren configuración por función y solo ciertas versiones de runtime. Matiz para el guion: 20 min (1200 s) NO cabe en el máximo general de 800 s ni en Hobby, pero SÍ cabría en el máximo extendido en beta. La doc misma dice: \"For workloads that require unlimited execution time, use Vercel Workflows\"."
+    },
+    {
+      "claim": "AWS Lambda: tiempo de espera máximo de una función de \"900 seconds (15 minutes)\". Con Lambda Managed Instances, invocaciones asíncronas o por event source mapping llegan a 5,400 s (90 min). Los Lambda MicroVMs tienen 8 horas (28,800 s) de duración máxima por MicroVM.",
+      "source": "AWS, Lambda quotas",
+      "url": "https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html",
+      "primary": true,
+      "note": "La misma página dice que Lambda está \"designed for short-lived compute tasks that do not retain or rely upon state between invocations\". AWS también tiene funciones durables (durable functions) con cuotas propias: 30,000 operaciones por ejecución y 100 MB persistidos. La cifra de 15 minutos aplica a la Lambda clásica."
+    },
+    {
+      "claim": "Anthropic, harnesses para agentes largos (26 de noviembre de 2025): los agentes trabajan en sesiones discretas y \"each new session begins with no memory of what came before\". Solución: un agente inicializador (crea `init.sh`, el archivo de progreso y un commit inicial de git) y un agente de código que avanza una función por sesión y deja actualizaciones estructuradas.",
+      "source": "Anthropic Engineering, Effective harnesses for long-running agents",
+      "url": "https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents",
+      "primary": true,
+      "note": "Archivos concretos: `claude-progress.txt` (qué hicieron los agentes previos) junto al historial de git; lista de funciones en JSON con más de 200 entradas, cada una con `\"passes\": false`, elegida en JSON porque el modelo tiende menos a sobrescribirla que en Markdown."
+    },
+    {
+      "claim": "Rutina de arranque de cada sesión del agente de código, según el mismo post: ver el directorio con `pwd`, leer los logs de git y el archivo de progreso, leer la lista de funciones y elegir la de mayor prioridad sin terminar, levantar el servidor con `init.sh` y correr una prueba end-to-end básica para detectar bugs de sesiones anteriores. Los commits permiten revertir cambios malos y recuperar estados que funcionaban.",
+      "source": "Anthropic Engineering, Effective harnesses for long-running agents (Getting up to speed)",
+      "url": "https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents",
+      "primary": true,
+      "note": "Es el checkpoint \"hecho a mano\": archivo de progreso + git en lugar de una base de datos."
+    },
+    {
+      "claim": "Checkpoints de Claude Code: capturan el estado del código antes de cada prompt que inicia un turno, guardan las 100 más recientes y se usan con `/rewind` (o Esc dos veces). Sirven para deshacer ediciones de archivos, no para retomar un agente caído: \"Checkpoints are designed for quick, session-level recovery.\" No rastrean cambios hechos solo por comandos Bash.",
+      "source": "Anthropic, Checkpointing (Claude Code)",
+      "url": "https://code.claude.com/docs/en/checkpointing",
+      "primary": true,
+      "note": "Error común: confundir el \"checkpoint\" de Claude Code (deshacer ediciones) con el \"checkpoint\" de ejecución durable (guardar el resultado de cada paso para retomarlo). Dice también: \"Not a replacement for version control\". Las instantáneas se borran por defecto unos 30 días después de la última vez que la sesión guardó una."
+    }
+  ],
+  "calculations": [
+    "20 min × 60 = 1200 s. Contra los límites de función: 1200 s > 800 s (máximo general de Vercel con Fluid compute en Pro/Enterprise), 1200 s > 900 s (Lambda clásica, 15 min), 1200 s > 300 s (Hobby de Vercel) y 1200 s < 1800 s (máximo extendido en beta de Vercel). Por eso \"un agente de 20 minutos no cabe\" es cierto para Hobby, para Lambda clásica y para el máximo general de Vercel, y no del todo cierto para el máximo extendido en beta.",
+    "800 s ÷ 60 = 13 min 20 s (máximo general de Vercel Functions en Pro/Enterprise). 900 s ÷ 60 = 15 min (Lambda). 1800 s ÷ 60 = 30 min (máximo extendido en beta de Vercel). 5400 s ÷ 60 = 90 min (Lambda Managed Instances, invocaciones asíncronas). 28800 s ÷ 3600 = 8 h (Lambda MicroVMs).",
+    "Message Batches cuesta 50% del precio estándar (la doc lo dice). La tabla de batch muestra Claude Sonnet 5.5 a $1 / MTok de entrada y $5 / MTok de salida; el estándar de $2 / $10 sería una deducción (×2) que no se leyó en la tabla de precios normal. No citar el precio estándar sin abrir esa tabla."
+  ],
+  "illustrative": [],
+  "pendingToVerify": [
+    "claude.ai, conversación normal (chat): no encontré fuente oficial de Anthropic que diga si la respuesta sigue generándose cuando cierras la pestaña. Las búsquedas solo devolvieron reportes de usuarios e issues de terceros que no coinciden entre sí. No afirmar nada. Para la escena de apertura, usar Claude Code en la nube, que sí tiene fuente (hechos 1 y 2).",
+    "API Messages: no encontré en la documentación leída qué pasa con la generación en el servidor cuando el cliente cierra la conexión (si se cancela o termina). La doc solo dice cómo recuperarse en el cliente (hecho 10).",
+    "API Messages: la documentación leída no describe `Last-Event-ID` ni un ID de evento para reanudar un stream; en los ejemplos los eventos no traen campo `id:`. Es una ausencia en lo leído, no una afirmación de que no exista; no decir que \"no se puede\" sin más.",
+    "Claude Code local en terminal: no hay una frase oficial que diga que cerrar la terminal detiene el trabajo; lo más cercano es Remote Control (hecho 4: el proceso `claude` tiene que seguir corriendo).",
+    "Temporal: las páginas abiertas no dicen literalmente que, en el replay, el resultado de las Activities ya completadas se reutiliza sin ejecutarlas otra vez (docs.temporal.io/encyclopedia/event-history no se abrió). Sí dicen que el Event History permite recuperarse de una caída.",
+    "Redis: no se leyó la sección \"Persistence, replication and message safety\" de la página de Streams (la página tiene unos 277,000 caracteres y se leyeron los primeros 100,000). Para el guion, no afirmar nada sobre durabilidad de Redis ante reinicios.",
+    "Postgres como registro ordenado: no hay un documento oficial que describa \"una tabla de Postgres como stream\"; solo está confirmado el comportamiento de las secuencias (hueco posible). El orden de visibilidad entre transacciones concurrentes no se verificó.",
+    "Referente (afirmación 1 de referente.md, \"si la conexión muere, la solicitud se cancela\"): no hay fuente de Anthropic. La doc de Vercel dice que por defecto cerrar el cliente no termina la función que sirve el stream (hecho 26) y la del AI SDK dice que con streams reanudables no se cancela la generación (hecho 27); el caso de un stream directo sin ninguna capa extra queda como \"depende de tu servidor\".",
+    "Vercel Workflows: la página no indica estado (beta o GA) del producto; el paquete que menciona usa versiones `5.0.0-beta.x`. Verificar antes de decir \"disponible para todos\".",
+    "Logos oficiales: no se abrieron páginas de marca de Stripe, Redis, PostgreSQL, Vercel, Temporal, Inngest, Trigger.dev, RabbitMQ ni Claude; las rutas de assets se resuelven con `npm run carrusel:logo -- <marca>` (regla 6). Este subagente no descargó nada."
+  ]
+}

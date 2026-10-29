@@ -36,3 +36,7 @@ Los logos del catálogo van como imagen (`<img>`), así que un SVG nunca corre c
 | `zed` | Zed | selfh.st/icons (CC BY 4.0) |
 | `t3-code` | T3 Code | selfh.st/icons (CC BY 4.0) |
 | `opencode` | OpenCode | Dashboard Icons |
+| `trigger-dev` | Trigger.dev | Su página de marca, variante para fondos claros (29 de octubre de 2026) |
+| `inngest` | Inngest | Su repositorio oficial, logo del dashboard en tema claro (29 de octubre de 2026) |
+
+Los dos últimos son el logotipo completo, más ancho que alto: `<Logo>` los dibuja en un cuadrado, así que van solos y en una caja del ancho que se quiera (ver `content/2026-10-29-agentes-durables/video.tsx`, escena `construir`).

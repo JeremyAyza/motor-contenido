@@ -1,0 +1,149 @@
+{
+  "$schema": "../../schemas/video.schema.json",
+  "format": "largo",
+  "target": 144,
+  "topic": "Agentes durables: separar el trabajo de la conexión para sobrevivir a la pestaña cerrada y a las caídas",
+  "world": "Un pizarrón: tu navegador arriba, el servidor con su API y su worker en el medio y abajo el registro durable, donde el trabajo 42 se escribe casilla por casilla.",
+  "meter": {
+    "label": "Capas del agente durable",
+    "from": "0",
+    "to": "3"
+  },
+  "cover": {
+    "scene": "gancho"
+  },
+  "hooks": [
+    {
+      "said": "Tu agente no necesita tu pestaña abierta.",
+      "onScreen": "Tu agente no necesita tu pestaña",
+      "formula": 22
+    },
+    {
+      "said": "No necesitas dejar la pestaña abierta.",
+      "onScreen": "No necesitas la pestaña abierta",
+      "formula": 20
+    },
+    {
+      "said": "Tu agente de veinte minutos muere si cierras la pestaña.",
+      "onScreen": "Cierras la pestaña. Muere",
+      "formula": 22
+    }
+  ],
+  "scenes": [
+    {
+      "id": "gancho",
+      "say": "Tu agente no necesita tu pestaña abierta. La cierro, y Claude sigue trabajando. Eso es un agente durable.",
+      "see": "La ventana de Claude Code en la nube con la tarea a medias y el rótulo del gancho; la pestaña se cierra con un clic y queda el chip 'trabajo 42 · sigue corriendo' latiendo en el acento",
+      "resource": "captura-anotada"
+    },
+    {
+      "id": "chat",
+      "say": "Le pido a Claude Code en la nube: actualiza mi app al nuevo SDK y haz que pasen los tests. Empieza a leer la documentación del SDK. Cierro la laptop. Vuelvo, y los veinticuatro tests pasan.",
+      "see": "La interfaz de Claude Code en la web recreada (logo de Claude, burbuja del pedido, respuesta que se escribe con el cursor): 'Leo la documentación del SDK nuevo…'; la tapa de una laptop baja y todo se apaga; vuelve la luz y la respuesta está completa con '24 tests pasan' y el chip 'terminó mientras no estabas'; rótulo Ejemplo ilustrativo",
+      "resource": "captura-anotada"
+    },
+    {
+      "id": "como",
+      "say": "¿Cómo? Armemos el modelo mental.",
+      "see": "La ventana se encoge hasta ser una caja del pizarrón; '¿Cómo?' enorme; el avatar de Jeremy aparece abajo a la izquierda",
+      "resource": "metafora"
+    },
+    {
+      "id": "stream",
+      "say": "Un chat normal funciona así: tu navegador manda el pedido y el servidor llama al modelo. Las palabras vuelven por una sola conexión. Con la API de Claude, si ese stream se corta, no se reanuda solo. Guardas lo que llegó y pides que continúe.",
+      "see": "El pizarrón con tres cajas en columna: Navegador, Servidor y Claude; una flecha baja con el pedido y las palabras suben por un solo cable dorado, con el bloque 'event: content_block_delta'; el cable se corta en rojo, las palabras se congelan a la mitad y aparece 'guardar lo que llegó + pedir que continúe'",
+      "resource": "proceso"
+    },
+    {
+      "id": "costo",
+      "say": "En una respuesta de tres segundos, da igual. En un agente de veinte minutos que busca, programa y corre tests, pierdes todo. Y veinte minutos ni caben en una Lambda: el máximo es quince.",
+      "see": "Dos barras de tiempo: 'respuesta 3 s' corta y 'agente 20 min' larguísima con tres chips (busca, programa, tests) que se tachan en rojo; encima de la barra larga, una regla que se corta en '15 min · máximo de Lambda'",
+      "resource": "escala"
+    },
+    {
+      "id": "idea",
+      "say": "La idea: separa el trabajo de la conexión. Mandas el mensaje, el servidor crea el trabajo cuarenta y dos y te devuelve solo su número. Un worker lo corre aparte.",
+      "see": "La frase 'Separa el trabajo de la conexión' enorme y el avatar; la caja Servidor se parte en API y Worker; la API estampa el ticket 'trabajo 42', lo devuelve al navegador y el trabajo baja al worker",
+      "resource": "proceso"
+    },
+    {
+      "id": "registro",
+      "say": "Todo lo que produce va a un registro que solo crece, como un stream de Redis. Cada evento queda en orden, con su posición. Tu navegador no corre nada: solo lee ese stream de Redis.",
+      "see": "Abajo del worker, el registro durable: casillas numeradas que se llenan de a una (#1 buscar, #2 leer, #3 editar…) con el rótulo Redis Stream; una flecha punteada sube del registro al navegador con el ojo 'solo mira'",
+      "resource": "capas"
+    },
+    {
+      "id": "reanudar",
+      "say": "Te desconectas, y el trabajo sigue. Vuelves y dices: lo último que vi fue el cincuenta y siete. El servidor te manda todo lo que vino después. Eso es un stream reanudable, con Last-Event-ID.",
+      "see": "La flecha del navegador se corta en rojo mientras el worker sigue en verde y el registro crece; vuelve la conexión con el bloque 'Last-Event-ID: 57'; las casillas desde la 58 se iluminan y suben en ráfaga; golpea 'Stream reanudable' y se llena la primera casilla del medidor",
+      "resource": "proceso"
+    },
+    {
+      "id": "checkpoints",
+      "say": "Pero, ¿y si se cae el worker en el paso siete? Ahí entra la ejecución durable: cada paso terminado se guarda en la base de datos. Otro worker retoma en el siete, no en el uno. Los seis primeros no se pagan de nuevo.",
+      "see": "Una fila de 10 pasos del worker 1; cada paso terminado deja un checkpoint en la caja Base de datos; el paso 7 se pone rojo y el worker se apaga; entra el worker 2 y arranca en el 7 con los pasos 1 a 6 en gris y '6 llamadas · pagadas una vez'; golpea 'Ejecución durable' y se llena la segunda casilla",
+      "resource": "linea-de-tiempo"
+    },
+    {
+      "id": "idempotente",
+      "say": "Ojo: el paso siete puede correr dos veces. Por eso tiene que ser idempotente. Si cobra una tarjeta, le mandas a Stripe una clave única por paso. El reintento recibe la misma respuesta y no cobra dos veces.",
+      "see": "'Idempotente' enorme con el avatar; la tarjeta de pagos con el logo de Stripe: dos filas de $49.00, la segunda en rojo 'cobrado otra vez'; se reemplaza por el bloque 'Idempotency-Key: job42-step7' y la respuesta 'Idempotent-Replayed: true'; la fila roja se tacha",
+      "resource": "captura-anotada"
+    },
+    {
+      "id": "construir",
+      "say": "¿Cómo lo armas? Para chats cortos en un servidor, tú mismo: Postgres, Redis y un worker. Para agentes largos, un framework como Temporal, Inngest, Trigger.dev o Vercel Workflow.",
+      "see": "Dos columnas, 'A mano' y 'Framework': a la izquierda los logos de Postgres y Redis con una caja Worker; a la derecha cuatro botones con los logos de Temporal, Inngest, Trigger.dev y Vercel, y debajo los chips checkpoints, reintentos y stream",
+      "resource": "comparacion"
+    },
+    {
+      "id": "anthropic",
+      "say": "Anthropic hace lo mismo en sus Managed Agents. La sesión es un registro que solo crece. Si el arnés se cae, uno nuevo la retoma con el ID de la sesión.",
+      "see": "El logo de Anthropic sobre el mismo registro durable del pizarrón; la caja Arnés se cae en rojo y otra entra con 'wake(sessionId)' y retoma desde la última casilla; abajo, 'Anthropic, abril de 2026'",
+      "resource": "metafora"
+    },
+    {
+      "id": "cierre",
+      "say": "Stream reanudable: te vas sin perder nada. Ejecución durable: el trabajo sobrevive a las caídas. Juntas, un agente durable. ¿Tú lo armarías a mano o con un framework? Cuéntame antes de cerrar la pestaña.",
+      "see": "El pizarrón completo se ve entero; las dos capas se encienden una por una y golpea 'Agente durable' con la tercera casilla del medidor; vuelve el chip 'pestaña cerrada · trabajo 42 sigue corriendo'; el avatar y dos botones de respuesta, 'A mano' y 'Framework', con el ícono de comentar",
+      "resource": "capas"
+    }
+  ],
+  "caption": "Tu agente no necesita tu pestaña abierta. La cierro y Claude sigue trabajando: es un agente durable.\n\nEn un chat normal, las palabras viajan por una sola conexión. Si se corta, con la API de Claude no se reanuda sola: tienes que conservar lo que llegó y pedir que continúe. En una respuesta de 3 segundos da igual. En un agente de 20 minutos pierdes todo, y 20 minutos ni caben en una Lambda (el máximo es 15).\n\nLa idea es separar el trabajo de la conexión:\n- el servidor crea un trabajo y te devuelve solo su ID;\n- un worker lo corre aparte y escribe todo en un registro que solo crece (un stream de Redis, por ejemplo);\n- tu navegador solo mira ese registro. Si te desconectas, vuelves con el último ID que viste (Last-Event-ID) y recibes lo que vino después. Eso es un stream reanudable.\n\nY si se cae el worker:\n- cada paso terminado queda como checkpoint;\n- otro worker retoma en el paso donde se cayó, no en el primero;\n- el paso que estaba en vuelo puede correr dos veces, así que tiene que ser idempotente. Para un cobro, una clave de idempotencia por paso en Stripe.\n\nPara chats cortos en un servidor, lo armas tú. Para agentes largos, Temporal, Inngest, Trigger.dev o Vercel Workflow. Anthropic usa la misma idea en sus Managed Agents.\n\n¿Tú lo armarías a mano o con un framework? Cuéntame en los comentarios.\n\nFuentes: documentación de Claude Code, de la API de Claude y el blog de ingeniería de Anthropic; la especificación de SSE (WHATWG), Redis, Temporal, Inngest, Trigger.dev, Vercel, Stripe y AWS Lambda. Revisadas el 29 de octubre de 2026.\n\n#agentesdeia #claudecode #programacion #backend #arquitecturadesoftware",
+  "gateA": {
+    "approved": true,
+    "date": "2026-10-29"
+  },
+  "gateB": {
+    "approved": true,
+    "date": "2026-10-29",
+    "video": "cd215d5c21f95e7f9d8eb412c83de40843b379a214ace2857378fb0d6dcb9283"
+  },
+  "art": {
+    "direction": "linea-continua",
+    "dealt": [
+      "collage",
+      "linea-continua",
+      "chat"
+    ],
+    "reason": "El video es el camino de un trabajo: del navegador al worker y al registro, y de vuelta. Un solo trazo azul lo recorre todo el pizarrón y cada escena es un tramo con su hito; fondo de papel claro para separarlo del pizarrón negro del referente y de las tres piezas oscuras anteriores, rojo solo para lo que se corta y verde para lo que sigue vivo.",
+    "palette": {
+      "bg": "#F3EFE6",
+      "ink": "#1C1A16",
+      "accent": "#2F5BFF",
+      "accentInk": "#FFFFFF",
+      "surface": "#FFFFFF",
+      "muted": "#6F6A5E"
+    },
+    "fonts": {
+      "display": "bricolage",
+      "text": "geist"
+    },
+    "anchor": {
+      "kind": "icono",
+      "ref": "scroll-text",
+      "source": "Lucide (ISC): el registro durable que solo crece"
+    },
+    "tab": "agentes-durables.md"
+  }
+}

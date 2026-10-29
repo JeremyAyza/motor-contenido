@@ -281,6 +281,30 @@
       "attribution": "Icono de Dashboard Icons (homarr-labs)",
       "sha256": "5eeb3a5f14dbbccc03111296ecfd3cd05cc98844150d4f9d77ba921847953380",
       "checkedAt": "2026-10-27"
+    },
+    {
+      "id": "trigger-dev",
+      "type": "logo",
+      "title": "Trigger.dev",
+      "tags": [],
+      "url": "https://trigger.dev/assets/triggerdev-lockup--dark.svg",
+      "source": "https://trigger.dev/brand",
+      "author": "Trigger.dev",
+      "license": "Archivo oficial de la página de marca (variante para fondos claros); marca de Trigger.dev, uso nominativo",
+      "sha256": "d7ecfa12e27eb65aa2e24032a41d123b0fc68aed0ce4a1225ee19f9b808a5570",
+      "checkedAt": "2026-10-29"
+    },
+    {
+      "id": "inngest",
+      "type": "logo",
+      "title": "Inngest",
+      "tags": [],
+      "url": "https://raw.githubusercontent.com/inngest/inngest/74934d961067d53e40c5f1219d34f7d72f238c7d/ui/apps/dashboard/public/images/logos/login-inngest-light.svg",
+      "source": "https://github.com/inngest/inngest",
+      "author": "Inngest",
+      "license": "Archivo oficial del repositorio de Inngest (logo del dashboard, tema claro); marca de Inngest, uso nominativo",
+      "sha256": "71bade86a5ca70c12b016b75810af14797d27811cb5c3a9d93df8993a1e6db06",
+      "checkedAt": "2026-10-29"
     }
   ]
 }

@@ -1,0 +1,12 @@
+[
+  {
+    "file": "audio/cama.mp3",
+    "kind": "music",
+    "provider": "gemini",
+    "model": "lyria-3-clip-preview",
+    "prompt": "Calm, focused electronic instrumental bed for a whiteboard explainer about AI agents that keep working in the background: warm plucked synth arpeggio, soft rounded bass, light brushed percussion with a steady ticking groove, gentle optimistic chords, 100 bpm, curious and confident, no vocals, no drops, no build-ups, mixed low so a voice sits on top.",
+    "references": [],
+    "sha256": "4070fdc7fb2490121140e6255ba103f7cda27b21faa1742c233e72a0eb8174a6",
+    "createdAt": "2026-10-29T20:47:18.739Z"
+  }
+]
