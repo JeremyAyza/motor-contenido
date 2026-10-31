@@ -87,7 +87,9 @@ export function sceneEntering(timeline: Timeline, transitioned: Set<string>, fra
  * What the probe saw: the frame's padding, text size, words on screen and the
  * hook in frame 1. The text of a stage's world is checked only when the camera
  * is still, against the interfaces' minimum size, and as a warning: a camera
- * that frames one zone leaves the next one peeking in at the edge.
+ * that frames one zone leaves the next one peeking in at the edge. A piece's
+ * own camera says when it moves (data-camera-moving), and a layer locked to the
+ * screen (data-screen) is not in the world: the probe reads both marks.
  */
 export function inspectFrames(
   reports: ProbeReport[],
@@ -108,6 +110,7 @@ export function inspectFrames(
   for (const { frame, texts } of sorted) {
     const visible = texts.filter((t) => t.opacity > VISIBLE);
     for (const t of visible) {
+      if (t.moving) continue;
       if (t.stage) {
         if (moving(frame)) continue;
         const outsideView = t.x < TEXT_ZONE.left - 1 || t.x + t.w > TEXT_ZONE.right + 1 || t.y < TEXT_ZONE.top - 1 || t.y + t.h > TEXT_ZONE.bottom + 1;

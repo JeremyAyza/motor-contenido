@@ -27,6 +27,7 @@ Las skills `remotion-*` son las oficiales de Remotion, sin modificar. Viven en `
   - `chapter`: su nombre en la barra de capítulos;
   - `sfx`: los efectos de sonido;
   - `camera`: con `stage`, lo que encuadra la escena;
+  - `avatar`: dónde va el avatar en esa escena y en qué momento, ver [El avatar por momentos](#el-avatar-por-momentos);
   - `Visual`: lo que se ve, armado con el kit de escenario. Con `stage` es opcional y va encima del mundo: los rótulos de esa escena.
 
   Lo que dice la voz no se repite aquí. Si hace falta cambiar el texto, cambia `video.json`, y eso pide volver a la puerta A.
@@ -136,6 +137,9 @@ meter: {
 
 Cada paso cuenta desde el valor anterior hasta el nuevo cuando se dice su palabra (sin `word`, al empezar la escena). La etiqueta es `meter.label` de `video.json`, salvo que `defineVideo` traiga otra. `slots` dibuja `max` casillas que se llenan, con "?" en las vacías, como el "1/5" de los 5 plugins. El último paso es `meter.to`: se paga en el cierre. `video:storyboard` y `video:render` avisan si `video.json` tiene `meter` y `video.tsx` no lo muestra.
 - **El inspector** no cuenta como palabras los rótulos de hasta 3 palabras del mundo. Revisa su margen y su tamaño (12 px con el zoom) solo con la cámara quieta, y como aviso: al encuadrar un piso, el rótulo del piso vecino puede asomar en el borde.
+- **Lo que el mundo hace por su cuenta se le dice al inspector con marcas.** No adivina:
+  - **Una cámara propia dentro del `World`** (el div que la pieza mueve) lleva `data-zoom={zoom}` siempre y `data-camera-moving=""` solo mientras se mueve. El tamaño de su texto se mide con ese zoom multiplicado por el de la cámara del escenario, y mientras se mueve no se revisa ni su margen ni su tamaño. La marca es solo para una cámara: no la uses para callar un aviso.
+  - **Una capa fija a la pantalla dentro del `World`** (su div contrarresta la cámara) lleva `data-screen=""`. Su texto ya no es del mundo: se revisa como el de una escena, a su tamaño real, con los errores de margen y de letra, y también mientras la cámara viaja. Las marcas de los divs que la rodean ya no cuentan.
 - **Sin `stage`,** cada escena es una lámina con su `SceneFrame`, como antes. Sirve para piezas cortas sin mundo, pero lo que pide la cuenta es el escenario.
 
 ### Reglas de forma
@@ -165,6 +169,27 @@ Para un Reel cortado escena por escena, como el de @sebastiankra.ia sobre Replic
 - **Entrada:** `transition` (`"blur"`, `"zoom"`, `"slide"` o `"whip"`) hace entrar la escena con un whoosh. La anterior corta, así que la voz no se desfasa, y el inspector no mide el margen mientras entra.
 - **`<PillTitle at tone>`:** el título grande en píldora ("2 · MONTA"), con pop.
 - **Avatar en burbuja:** `avatar: { shape: "bubble", bubbleCrop }` muestra la cabeza en un círculo, como una cámara de cara. Solo aparece en las escenas que dicen dónde va (`SceneDef.avatar: { x, y, size }`).
+
+## El avatar por momentos
+
+Con `SceneDef.avatar`, el avatar entra y sale dentro de una frase y cambia de papel entre escenas. Funciona con y sin `stage`, y necesita `avatar` en `defineVideo`, aunque sea `{}`:
+
+```tsx
+scenes: [
+  { id: "gancho", avatar: { x: 438, y: 705, size: 148 } },                                      // salta al empezar la escena, como siempre
+  { id: "trampa", avatar: { from: "left", at: "trampa", until: "postman", x: 60, y: 500, size: 180 } }, // se asoma en una palabra y se va en otra
+  { id: "correo", avatar: { shape: "bust", from: "bottom", at: { word: "correo", nth: 2 } } },  // el busto sube la segunda vez que se dice
+  { id: "cierre", avatar: { at: 1.5, x: 270, y: 300, size: 200 } },                             // salta a los 1,5 s de la escena
+]
+```
+
+- **`at` y `until`:** una palabra de la voz, `{ word, nth }` si se repite, o segundos desde el inicio de la escena, como los `sfx`. Si la voz cambia, el avatar se mueve con ella.
+- **`from`:** `"left"`, `"right"` o `"bottom"`. Se desliza desde ese borde con un resorte y se va por el mismo. Con `x` cerca del borde queda a medias, asomado. `"bottom"` sube desde su propia base y nunca cruza los subtítulos. Sin `from`, salta y se encoge en su lugar.
+- **`shape`:** `"bust"` o `"bubble"`, solo en esa escena. Con eso, una misma pieza puede usar los dos.
+- **`x` e `y`** son siempre el centro. Sin ellos, va a la esquina de abajo del lado por donde entra.
+- **Que sea un papel, no un adorno.** Que aparezca cuando la voz lo pide (el presentador, "tú", el entrevistador), que se vaya cuando el gráfico manda y que no tape lo que se está explicando. El inspector no revisa eso: míralo en la hoja.
+
+Los detalles y los valores por defecto están en [assets/avatar](../../assets/avatar/README.md#por-momentos).
 
 ## El formato largo
 
@@ -197,7 +222,7 @@ Para un Reel cortado escena por escena, como el de @sebastiankra.ia sobre Replic
 - **Generar:** `video:image` y `video:music` usan el proveedor de `media.config.json` y registran todo en `generated.json`. Cada generación se paga: no repitas sin `--replace` ni generes variantes que nadie pidió.
 - **El mundo 3D es opcional:** solo cuando la persona pide el video en 3D (ver [docs/direccion-reels.md](../../docs/direccion-reels.md)). Entonces `video:image --world` suma `accounts/dev.json → world.style` (isométrico ilustrado) y la paleta de `video.json → art`. Sin `--world`, la imagen no lleva ese estilo. El modelo a veces dibuja letras: pide que no haya y revisa la imagen antes de usarla.
 - **Logos y mascotas de marcas: primero el archivo.** Busca el oficial o uno de una fuente confiable (regla 6) y agrégalo al catálogo con `carrusel:logo add`. No los generes con `video:image`. El avatar se genera solo a partir de la ilustración de Jeremy, pasada con `--ref`.
-- **El avatar es de la cuenta:** `avatar: {}` en `defineVideo` dibuja el de [assets/avatar](../../assets/avatar/README.md), sin copiar sprites a la pieza. La pieza solo dice dónde va (`size`, `top`, `scenes`, `shape`).
+- **El avatar es de la cuenta:** `avatar: {}` en `defineVideo` dibuja el de [assets/avatar](../../assets/avatar/README.md), sin copiar sprites a la pieza. La pieza solo dice dónde va (`size`, `top`, `scenes`, `shape`) y, por escena, en qué momento ([El avatar por momentos](#el-avatar-por-momentos)).
 - **Efectos:** busca con `video:asset search`, agrega con `video:asset add` y usa en `sfx` el id del catálogo.
 
 ## Sincronizar con la voz

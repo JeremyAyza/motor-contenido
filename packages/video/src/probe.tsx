@@ -6,10 +6,29 @@ import { continueRender, delayRender, useCurrentFrame, useVideoConfig } from "re
  * text of an interface of the stage kit (data-ui): a screen's chrome, not a
  * sentence to read. `title` marks the title of a SceneFrame (data-scene-title).
  * `stage` marks the text of a stage's world (data-camera): its size is the one
- * seen, with the camera's zoom.
+ * seen, with the camera's zoom. `moving` marks the text under a piece's own
+ * camera while it moves (data-camera-moving).
  */
-export type ProbedText = { text: string; x: number; y: number; w: number; h: number; fontSize: number; opacity: number; ui?: boolean; title?: boolean; stage?: boolean };
+export type ProbedText = { text: string; x: number; y: number; w: number; h: number; fontSize: number; opacity: number; ui?: boolean; title?: boolean; stage?: boolean; moving?: boolean };
 export type ProbeReport = { frame: number; texts: ProbedText[] };
+
+type Marked = { dataset: Record<string, string | undefined>; parentElement: Marked | null };
+
+/**
+ * What the cameras around a text do to it, from the marks going up the page:
+ * the stage's (data-camera), a piece's own inside the world (data-zoom, and
+ * data-camera-moving while it moves). A layer locked to the screen (data-screen)
+ * undoes the ones around it, so the walk stops there.
+ */
+export function camerasOver(el: Marked): { stage: boolean; zoom: number; moving: boolean } {
+  const over = { stage: false, zoom: 1, moving: false };
+  for (let node: Marked | null = el; node && node.dataset.screen === undefined; node = node.parentElement) {
+    if (node.dataset.camera !== undefined) over.stage = true;
+    if (node.dataset.cameraMoving !== undefined) over.moving = true;
+    if (node.dataset.zoom !== undefined) over.zoom *= Number(node.dataset.zoom) || 1;
+  }
+  return over;
+}
 
 /** Frames the probe reports: the first one and then every half second. */
 export const probes = (frame: number, fps: number) => frame === 0 || frame % Math.round(fps / 2) === 0;
@@ -86,18 +105,19 @@ function measureTexts(root: HTMLElement): ProbedText[] {
     range.selectNodeContents(node);
     const rect = range.getBoundingClientRect();
     if (!rect.width || !rect.height) continue;
-    const camera = el.closest<HTMLElement>("[data-camera]");
+    const { stage, zoom, moving } = camerasOver(el);
     texts.push({
       text,
       x: (rect.x - box.x) / scale,
       y: (rect.y - box.y) / scale,
       w: rect.width / scale,
       h: rect.height / scale,
-      fontSize: Number.parseFloat(getComputedStyle(el).fontSize) * (camera ? Number(camera.dataset.zoom) || 1 : 1),
+      fontSize: Number.parseFloat(getComputedStyle(el).fontSize) * zoom,
       opacity: effectiveOpacity(el),
       ui: Boolean(el.closest("[data-ui]")),
       title: Boolean(el.closest("[data-scene-title]")),
-      stage: Boolean(camera),
+      stage,
+      moving,
     });
   }
   return texts;

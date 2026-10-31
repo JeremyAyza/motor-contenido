@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { cameraMoving, inspectFrames, inspectLoudness, inspectTimeline, reviewFrames, sheetFrames, stillStretches } from "../src/inspector.ts";
-import type { ProbedText } from "../src/probe.tsx";
+import { camerasOver, type ProbedText } from "../src/probe.tsx";
 import { VideoScriptSchema } from "../src/script.ts";
 import type { Timeline } from "../src/timeline.ts";
 
@@ -131,6 +131,48 @@ describe("the text of a stage's world", () => {
   it("does not count short labels as words to read", () => {
     const labels = ["Tu app", "Runtime", "Servidor", "Base de datos"].map((t, i) => label({ text: t, y: 200 + i * 100 }));
     assert.deepEqual(inspectFrames([{ frame: 0, texts: [text({}), ...labels] }], 30, "La luz, al revés"), []);
+  });
+});
+
+describe("the marks a piece leaves for the inspector", () => {
+  /** A chain of elements from the outside in, like the page: each entry is its data-* attributes. */
+  const chain = (...levels: Array<Record<string, string>>) => levels.reduce<Parameters<typeof camerasOver>[0] | null>((parentElement, dataset) => ({ dataset, parentElement }), null)!;
+
+  it("reads the stage's camera as it always did", () => {
+    assert.deepEqual(camerasOver(chain({ camera: "", zoom: "0.800" }, {})), { stage: true, zoom: 0.8, moving: false });
+  });
+
+  it("leaves text outside the world alone", () => {
+    assert.deepEqual(camerasOver(chain({}, {})), { stage: false, zoom: 1, moving: false });
+  });
+
+  it("adds the zoom of a piece's own camera, and says when it moves", () => {
+    assert.deepEqual(camerasOver(chain({ camera: "", zoom: "0.5" }, { zoom: "1.2" }, {})), { stage: true, zoom: 0.6, moving: false });
+    assert.deepEqual(camerasOver(chain({ camera: "", zoom: "0.5" }, { zoom: "1.2", cameraMoving: "" }, {})), { stage: true, zoom: 0.6, moving: true });
+  });
+
+  it("stops at a layer locked to the screen: its text is not in the world", () => {
+    assert.deepEqual(camerasOver(chain({ camera: "", zoom: "0.45" }, { screen: "" }, {})), { stage: false, zoom: 1, moving: false });
+    assert.deepEqual(camerasOver(chain({ camera: "", zoom: "0.45" }, { zoom: "1.2", cameraMoving: "" }, { screen: "" }, {})), { stage: false, zoom: 1, moving: false });
+  });
+
+  it("does not check the margin of text under a piece's camera while it moves, even with the stage's still", () => {
+    const moving = cameraMoving({ fps: 30, scenes: [{ durationMs: 3000 }, { durationMs: 3000 }] } as unknown as Timeline);
+    assert.equal(moving(60), false);
+    const label = text({ text: "Servidor", x: 520, stage: true, moving: true, fontSize: 8 });
+    assert.deepEqual(inspectFrames([{ frame: 0, texts: [text({})] }, { frame: 60, texts: [label] }], 30, "La luz, al revés", moving), []);
+    const still = text({ text: "Servidor", x: 520, stage: true, fontSize: 8 });
+    const issues = messages(inspectFrames([{ frame: 0, texts: [text({})] }, { frame: 60, texts: [still] }], 30, "La luz, al revés", moving));
+    assert.match(issues, /fuera del margen con la cámara quieta/);
+    assert.match(issues, /Texto del escenario de 8\.0px/);
+  });
+
+  it("checks a layer locked to the screen like a scene's text, also while the stage's camera moves", () => {
+    const moving = () => true;
+    const big = text({ text: "Ficha", y: 300, fontSize: 28, ui: true });
+    assert.deepEqual(inspectFrames([{ frame: 0, texts: [text({}), big] }], 30, "La luz, al revés", moving), []);
+    const out = text({ text: "Ficha", x: 520, y: 300, fontSize: 28 });
+    assert.match(messages(inspectFrames([{ frame: 0, texts: [text({}), out] }], 30, "La luz, al revés", moving)), /Texto fuera del margen del marco en 0\.0 s: "Ficha"/);
   });
 });
 
