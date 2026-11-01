@@ -40,3 +40,7 @@
 {"id":"2026-10-27-sistemas-de-archivos-reel","platform":"instagram","account":"dev","status":"manual","at":"2026-10-28T19:35:45-05:00","source":"manual"}
 {"id":"2026-10-24-agente-borro-produccion-reel","platform":"instagram","account":"dev","status":"manual","at":"2026-10-28T19:39:21-05:00","source":"manual"}
 {"id":"2026-10-22-login-con-google-reel","platform":"instagram","account":"dev","status":"manual","at":"2026-10-28T19:39:26-05:00","source":"manual"}
+{"id":"2026-10-29-agentes-durables-reel","platform":"instagram","account":"dev","status":"sending","at":"2026-10-29T19:19:35-05:00","fingerprint":"sha256:f850c87f57ca77229a7597e60a9ce884fd78adbf8b93925a1b695e85faa6e6dd","source":"cli"}
+{"id":"2026-10-29-agentes-durables-reel","platform":"instagram","account":"dev","status":"published","at":"2026-10-29T19:21:22-05:00","url":"https://www.instagram.com/reel/DfGR4fCxI6R/","fingerprint":"sha256:f850c87f57ca77229a7597e60a9ce884fd78adbf8b93925a1b695e85faa6e6dd","source":"cli"}
+{"id":"2026-10-30-cors-reel","platform":"instagram","account":"dev","status":"sending","at":"2026-11-01T18:08:48-05:00","fingerprint":"sha256:17ea2d929bf1da9a79758a1e07e44bb1d6514d0193f5b80e7e53c0e56a3d0224","source":"cli"}
+{"id":"2026-10-30-cors-reel","platform":"instagram","account":"dev","status":"published","at":"2026-11-01T18:10:13-05:00","url":"https://www.instagram.com/reel/DfN4KgGys7a/","fingerprint":"sha256:17ea2d929bf1da9a79758a1e07e44bb1d6514d0193f5b80e7e53c0e56a3d0224","source":"cli"}

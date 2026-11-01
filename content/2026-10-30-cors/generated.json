@@ -1,0 +1,12 @@
+[
+  {
+    "file": "audio/cama.mp3",
+    "kind": "music",
+    "provider": "gemini",
+    "model": "lyria-3-clip-preview",
+    "prompt": "Light, curious electronic instrumental bed for a developer explainer set in a customs checkpoint: bouncy plucked synth, soft rounded bass, tight dry percussion with a steady rubber-stamp-like tick on the offbeat, playful and confident, 104 bpm, clean and bright, no vocals, no drops, no build-ups, mixed low so a voice sits on top.",
+    "references": [],
+    "sha256": "a2aeddefb6b99ee7ea96d6d84f2f44ed9f087147b90b78ed216c4d09b0045f55",
+    "createdAt": "2026-10-31T01:58:45.558Z"
+  }
+]

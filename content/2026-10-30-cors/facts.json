@@ -1,0 +1,337 @@
+{
+  "topic": "2026-10-30-cors",
+  "checkedAt": "2026-10-30",
+  "facts": [
+    {
+      "claim": "Un origen es la tupla (esquema, host, puerto). RFC 6454, sección 5: \"Two origins are 'the same' if, and only if, they are identical.\" Es decir, mismo esquema, mismo host y mismo puerto. Basta con que cambie uno de los tres para que sean orígenes distintos.",
+      "source": "IETF, RFC 6454 The Web Origin Concept (secciones 3.2, 4 y 5)",
+      "url": "https://www.rfc-editor.org/rfc/rfc6454",
+      "primary": true,
+      "note": "[P1a] Sección 3.2: dos URIs son del mismo origen si tienen \"the same scheme, host, and port\". Sección 4: si la URL no trae puerto se usa el predeterminado del esquema; la sección 3.2.1 muestra que http://example.com/ y http://example.com:80/ comparten origen. La afirmación del referente \"basta con que cambie uno\" se sostiene. El RFC dice \"host\", no \"dominio\": el subdominio cuenta."
+    },
+    {
+      "claim": "MDN compara contra http://store.company.com/dir/page.html: https://store.company.com/page.html falla por \"Different protocol\"; http://store.company.com:81/dir/page.html falla por \"Different port\" (http:// es el puerto 80 por defecto); http://news.company.com/dir/page.html falla por \"Different host\". Si solo cambia la ruta (/dir2/other.html), es el mismo origen.",
+      "source": "MDN, Same-origin policy (Definition of an origin)",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/Security/Defenses/Same-origin_policy",
+      "primary": true,
+      "note": "[P1b] Regla de MDN: mismo origen si \"the protocol, port (if specified), and host are the same\". La tabla no usa la palabra subdominio: la fila de news. contra store. se rotula como host distinto. Ningún ejemplo de MDN usa localhost: localhost:3000 contra localhost:8080 es aplicación propia de la regla (ver calculations)."
+    },
+    {
+      "claim": "web.dev (Chrome), comparando contra https://www.example.com:443: https://example.com:443 y https://login.example.com:443 son cross-origin por subdominio distinto; http://www.example.com:443 es cross-origin por esquema distinto; https://www.example.com:80 es cross-origin por puerto distinto; https://www.example.com (sin puerto) es same-origin porque el 443 va implícito.",
+      "source": "web.dev, Understanding \"same-site\" and \"same-origin\" (actualizada 2020-04-15)",
+      "url": "https://web.dev/articles/same-site-same-origin",
+      "primary": true,
+      "note": "[P1c] Sirve para el ejemplo api. contra www.: son orígenes distintos. La página no menciona localhost. Matiz: login.example.com contra www.example.com es same-site pero cross-origin; el mismo caso con puertos distintos también es same-site pero cross-origin (los puertos no cuentan para \"site\")."
+    },
+    {
+      "claim": "MDN define la política de mismo origen como un mecanismo de seguridad que \"restricts how a document or script loaded by one origin can interact\" con un recurso de otro origen. Por tipo de acceso: las escrituras entre orígenes (enlaces, redirecciones, envíos de formulario) \"are typically allowed\"; la lectura \"typically disallowed\"; la incrustación suele estar permitida.",
+      "source": "MDN, Same-origin policy (intro y Cross-origin network access)",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/Security/Defenses/Same-origin_policy",
+      "primary": true,
+      "note": "[P2a] Respuesta a la pregunta 2: por defecto lo que se bloquea es la LECTURA, no el envío. Frase exacta de MDN: \"Cross-origin reads are typically disallowed, but read access is often leaked by embedding.\" Dice \"typically\", no es absoluto. Algunas escrituras exigen preflight (\"Some HTTP requests require preflight\")."
+    },
+    {
+      "claim": "Por qué existe la política, según MDN: aísla documentos potencialmente maliciosos y evita que un sitio malicioso use JS en el navegador para leer datos de \"a third-party webmail service (which the user is signed into)\" o de una intranet \"protected from direct access by the attacker by not having a public IP address\", y los reenvíe al atacante.",
+      "source": "MDN, Same-origin policy (intro)",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/Security/Defenses/Same-origin_policy",
+      "primary": true,
+      "note": "[P7a] MDN pone de ejemplo webmail e intranet, no un banco, y en esa explicación no habla de cookies ni de sesión (sobre cookies solo dice: \"Cookies use a separate definition of origins.\"). El banco sirve como analogía de \"un sitio donde ya iniciaste sesión\", pero la fuente nombra webmail. La intranet es el mejor apoyo del ángulo: el atacante no llega directo a esa API, llega a través del navegador de la víctima."
+    },
+    {
+      "claim": "MDN define CORS: es \"an HTTP-header based mechanism that allows a server to indicate any origins\" distintos del suyo desde los que el navegador debe permitir cargar recursos. Los navegadores restringen las peticiones entre orígenes iniciadas por scripts (fetch, XMLHttpRequest) \"unless the response from other origins includes the right CORS headers\".",
+      "source": "MDN, Cross-Origin Resource Sharing (CORS) (intro y Functional overview)",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS",
+      "primary": true,
+      "note": "[P3a] Confirma el ángulo: el bloqueo por defecto es la política de mismo origen y CORS es lo que el servidor declara con cabeceras para relajarla. La página de la política de mismo origen (MDN) presenta CORS como la forma de permitir acceso entre orígenes (sección How to allow cross-origin access). Sobre el error: \"specifics about the error are not available to JavaScript\"; el detalle solo está en la consola."
+    },
+    {
+      "claim": "PortSwigger: CORS \"extends and adds flexibility to the same-origin policy (SOP)\" y es una \"controlled relaxation of the same-origin policy\"; lo define como un mecanismo del navegador para el acceso controlado a recursos fuera de un dominio dado.",
+      "source": "PortSwigger Web Security Academy, Cross-origin resource sharing (CORS) (What is CORS?)",
+      "url": "https://portswigger.net/web-security/cors",
+      "primary": true,
+      "note": "[P3b] Fuente directa de la formulación \"CORS es el permiso que relaja el bloqueo por defecto\". La página no muestra fecha de actualización (solo el pie © 2026)."
+    },
+    {
+      "claim": "Fetch Standard, sección 3.3 (CORS protocol): está montado sobre HTTP y \"allows responses to declare they can be shared with other origins\". Debe ser opt-in, \"an opt-in mechanism to prevent leaking data from responses behind a firewall\" (intranets). Una CORS request es una petición HTTP que incluye la cabecera Origin.",
+      "source": "WHATWG, Fetch Standard (3.3 CORS protocol, 3.3.2)",
+      "url": "https://fetch.spec.whatwg.org/#http-cors-protocol",
+      "primary": true,
+      "note": "[P3c] Lo que el estándar dice proteger son datos detrás de un firewall (la red del usuario), no la API. MDN confirma que en toda petición de control de acceso se manda Origin (\"the Origin header is always sent\"). Estándar vivo, leído el 2026-10-30."
+    },
+    {
+      "claim": "Petición simple (sin preflight), según MDN: método GET, HEAD o POST; solo cabeceras CORS-safelisted (Accept, Accept-Language, Content-Language, Content-Type y Range con un solo rango); y Content-Type limitado a application/x-www-form-urlencoded, multipart/form-data o text/plain.",
+      "source": "MDN, Cross-Origin Resource Sharing (CORS) (Simple requests)",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS",
+      "primary": true,
+      "note": "[P4a] Deducción de la lista: application/json NO está entre los tres tipos, y Authorization tampoco es una cabecera safelisted, así que un POST con JSON o con Authorization lleva preflight. El ejemplo de MDN con text/xml y una cabecera personalizada dice: \"this request is preflighted\". El Fetch Standard (2.2.1 y 2.2.2) da la misma lista de método (GET, HEAD o POST) y los mismos tres tipos de Content-Type."
+    },
+    {
+      "claim": "En una petición simple el navegador la manda sin preflight y juzga la respuesta después. MDN (ejemplo con credenciales): \"it is not preflighted but the browser will reject any response\" que no traiga Access-Control-Allow-Credentials en true, y \"not make the response available to the invoking web content\".",
+      "source": "MDN, Cross-Origin Resource Sharing (CORS) (Requests with credentials)",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS",
+      "primary": true,
+      "note": "[P4b] Respuesta a la pregunta 4, con matiz: ninguna página leída dice con esas palabras \"la petición llega y el navegador oculta la respuesta\". Es deducción de cuatro fuentes: MDN SOP (las escrituras \"are typically allowed\"), este texto (el navegador rechaza la respuesta que ya recibió), Fetch Standard 4.4 (el CORS check se hace con \"request and response\") y OWASP (\"browsers permit them to be sent to any origin\"). En la lámina, marcar como lectura de las fuentes."
+    },
+    {
+      "claim": "MDN explica por qué las peticiones simples no pasan por preflight: el elemento <form> de HTML 4.0 \"can submit simple requests to any origin\", así que quien escribe un servidor ya debe protegerse contra CSRF. El servidor no tiene que dar permiso para recibir algo que parece un envío de formulario, pero \"still must opt-in using Access-Control-Allow-Origin to share the response with the script\".",
+      "source": "MDN, Cross-Origin Resource Sharing (CORS) (Simple requests, motivación)",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS",
+      "primary": true,
+      "note": "[P4c] Respuesta a \"¿puede tener efectos en el servidor aunque se bloquee la lectura?\": sí, para peticiones simples (por ejemplo un POST con form-urlencoded o text/plain); es la premisa del CSRF y CORS no la evita. MDN lo dice así: exige preflight para \"HTTP request methods that can cause side-effects on server data\" (las que no son simples). No hay frase literal de MDN que diga \"el efecto ocurre aunque no puedas leer la respuesta\"; es deducción."
+    },
+    {
+      "claim": "OWASP, CSRF Prevention Cheat Sheet (Disallowing simple requests): las peticiones \"simples\" introducen riesgo de CSRF porque \"browsers permit them to be sent to any origin\". La defensa de exigir cabeceras personalizadas \"relies on the CORS preflight mechanism\", que manda un OPTIONS para verificar el cumplimiento de CORS.",
+      "source": "OWASP, Cross-Site Request Forgery Prevention Cheat Sheet",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html",
+      "primary": true,
+      "note": "[P4d] Letra chica: lo que impide que llegue una petición no simple es el preflight, no la política de lectura. Intro de la misma hoja: \"Since browser requests automatically include all cookies including session cookies, this attack works\" (extracto del texto leído)."
+    },
+    {
+      "claim": "Fetch Standard, HTTP fetch (4.4, paso 4.4): si el response tainting es \"cors\" y \"a CORS check for request and response returns failure, then return a network error\". El CORS check recibe la petición y la respuesta, es decir, se evalúa cuando ya hay respuesta.",
+      "source": "WHATWG, Fetch Standard (4.4 HTTP fetch)",
+      "url": "https://fetch.spec.whatwg.org/#cors-preflight-fetch",
+      "primary": true,
+      "note": "[P4e] Lectura del algoritmo (no frase del estándar): si el check necesita la respuesta, la petición ya se mandó. El estándar numera esta sección como 4.4; la sección 4.3 es Scheme fetch."
+    },
+    {
+      "claim": "Preflight, según MDN: para métodos que pueden causar efectos secundarios (\"HTTP methods other than GET, or POST with certain MIME types\") el estándar obliga al navegador a mandar antes una petición OPTIONS y, tras la aprobación del servidor ('approval'), mandar la petición real. El navegador manda cabeceras que indican el método y las cabeceras de la petición real.",
+      "source": "MDN, Cross-Origin Resource Sharing (CORS) (Functional overview y Preflighted requests)",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS",
+      "primary": true,
+      "note": "[P5a] Disparadores: método distinto de GET, HEAD y POST (por ejemplo PUT o DELETE); Content-Type distinto de form-urlencoded, multipart/form-data o text/plain (por ejemplo application/json); cabeceras no safelisted (por ejemplo Authorization o una personalizada como X-PINGOTHER). El OPTIONS es seguro: MDN dice \"a safe method, meaning that it can't be used to change the resource\"."
+    },
+    {
+      "claim": "web.dev (Chrome): una petición es compleja y lleva preflight si \"uses methods other than GET, POST, or HEAD\" o si su Content-Type no es application/x-www-form-urlencoded, multipart/form-data ni text/plain. \"Browsers automatically create any necessary preflight requests\" y los mandan antes de la petición real. Su ejemplo es un OPTIONS con Access-Control-Request-Method: DELETE.",
+      "source": "web.dev, Cross-Origin Resource Sharing (CORS) (actualizada 2018-11-05)",
+      "url": "https://web.dev/articles/cross-origin-resource-sharing",
+      "primary": true,
+      "note": "[P5b] Página de 2018: respaldo de MDN, no fuente principal. No dice que la petición real se deje de mandar si falla el preflight, ni trae el texto del error de consola."
+    },
+    {
+      "claim": "Un preflight es una petición OPTIONS \"using two or three HTTP request headers\": Access-Control-Request-Method, Origin y, de forma opcional, Access-Control-Request-Headers. Ejemplo de MDN: OPTIONS /resource/foo con Access-Control-Request-Method: DELETE, Access-Control-Request-Headers: x-requested-with y Origin: https://www.example.com. Aprobación: 204 No Content con Access-Control-Allow-Origin, Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, Access-Control-Allow-Headers y Access-Control-Max-Age: 86400.",
+      "source": "MDN, Preflight request (glosario)",
+      "url": "https://developer.mozilla.org/en-US/docs/Glossary/Preflight_request",
+      "primary": true,
+      "note": "[P5c] La respuesta del preflight se guarda en un caché propio, \"separate from the general HTTP cache\". El preflight no lleva credenciales (MDN, Access-Control-Allow-Credentials: \"The preflight request does not include credentials.\"). La página no dice qué pasa con la petición real si el preflight falla."
+    },
+    {
+      "claim": "Si el preflight falla, la petición real no se manda. Fetch Standard, CORS-preflight fetch (4.8): se crea una petición con método OPTIONS, se agrega Access-Control-Request-Method y, si hay cabeceras no seguras, Access-Control-Request-Headers; si el CORS check o el estado ok no se cumplen: \"Otherwise, return a network error.\" Y en HTTP fetch: \"If preflightResponse is a network error, then return preflightResponse.\"",
+      "source": "WHATWG, Fetch Standard (4.8 CORS-preflight fetch y 4.4 HTTP fetch, paso 4.1.2)",
+      "url": "https://fetch.spec.whatwg.org/#cors-preflight-fetch",
+      "primary": true,
+      "note": "[P5d] Lectura del algoritmo: al devolver el error de red antes de seguir, el algoritmo no llega al paso que manda la petición real. MDN no lo dice con palabras (su página CORSPreflightDidNotSucceed solo lista causas y no menciona la petición real). Lo que sí llega al servidor es el OPTIONS. Para JS, el resultado es un error de red sin detalle."
+    },
+    {
+      "claim": "Access-Control-Max-Age indica cuántos segundos se puede cachear el resultado de un preflight (la información de Access-Control-Allow-Methods y Access-Control-Allow-Headers). Valor por defecto: 5 segundos. Tope de Firefox: 24 horas (86400 s). Tope de Chromium desde la v76: 2 horas (7200 s); antes de la v76: 10 minutos (600 s).",
+      "source": "MDN, Access-Control-Max-Age (Directives)",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Access-Control-Max-Age",
+      "primary": true,
+      "note": "[P5e] El Fetch Standard (4.8, paso 9) confirma el 5: \"If max-age is failure or null, then set max-age to 5.\" El ejemplo de MDN usa 86400, pero Chromium lo recorta a 7200 s. Deducción: con 5 s por defecto, llamadas separadas por más de 5 s repiten el OPTIONS."
+    },
+    {
+      "claim": "Fetch Standard, 3.3.5 (CORS protocol and credentials): con credentials mode \"include\", Access-Control-Allow-Origin: * junto con Access-Control-Allow-Credentials: true NO se comparte. Regla: \"If credentials mode is 'include', then Access-Control-Allow-Origin cannot be *.\" Access-Control-Allow-Credentials solo vale `true` en minúsculas (`True` falla). Con un origen explícito y `true`, sí se comparte.",
+      "source": "WHATWG, Fetch Standard (3.3.5 CORS protocol and credentials, tabla)",
+      "url": "https://fetch.spec.whatwg.org/#cors-protocol-and-credentials",
+      "primary": true,
+      "note": "[P6a] Respuesta a la pregunta 6. El estándar agrega que Access-Control-Expose-Headers, Access-Control-Allow-Methods y Access-Control-Allow-Headers solo pueden usar * cuando el credentials mode no es \"include\". Con credentials mode \"omit\", el comodín se acepta y Access-Control-Allow-Credentials se ignora."
+    },
+    {
+      "claim": "MDN: con credenciales, el comodín da error. \"Attempting to use the wildcard with credentials results in an error.\" Si la petición lleva una credencial (normalmente una cookie) y la respuesta trae Access-Control-Allow-Origin: *, \"the browser will block access to the response\" y reporta un error de CORS en la consola. El servidor debe poner un origen explícito.",
+      "source": "MDN, Access-Control-Allow-Origin (Directives) y Cross-Origin Resource Sharing (Credentialed requests and wildcards)",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Access-Control-Allow-Origin",
+      "primary": true,
+      "note": "[P6b] Error de Firefox (título de la página de error en MDN): \"Reason: Credential is not supported if the CORS header 'Access-Control-Allow-Origin' is '*'\". Para el mensaje de Chrome ver el hecho del código de Chromium. Con un origen explícito en vez de *, MDN pide además Vary: Origin."
+    },
+    {
+      "claim": "Credenciales en CORS (MDN): \"By default, these credentials are not sent in cross-origin requests\". Hay que pedirlas con fetch (credentials: \"include\"), XMLHttpRequest (withCredentials = true) o EventSource. En un preflight no van credenciales; si la respuesta al preflight trae Access-Control-Allow-Credentials: true, la petición real las incluye; si no, el navegador reporta un error de red. Access-Control-Allow-Credentials solo admite `true`.",
+      "source": "MDN, Access-Control-Allow-Credentials (Description y Directives)",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Access-Control-Allow-Credentials",
+      "primary": true,
+      "note": "[P6c] Matiz honesto para el banco: aun sin ninguna protección extra, un fetch entre orígenes no manda la cookie salvo que el código pida credentials: \"include\", y entonces el servidor tiene que contestar con un origen explícito y Allow-Credentials: true para que el JS pueda leer. Las credenciales incluyen cookies, certificados TLS y cabeceras de autenticación."
+    },
+    {
+      "claim": "Mensaje de Chrome para el comodín con credenciales (código de Chromium), que va después de \"has been blocked by CORS policy: \": \"The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'.\" Si el iniciador es XMLHttpRequest, agrega: \" The credentials mode of requests initiated by the XMLHttpRequest is controlled by the withCredentials attribute.\"",
+      "source": "Chromium, third_party/blink/renderer/platform/loader/cors/cors_error_string.cc (GetErrorStringForConsoleMessage, rama main)",
+      "url": "https://raw.githubusercontent.com/chromium/chromium/main/third_party/blink/renderer/platform/loader/cors/cors_error_string.cc",
+      "primary": true,
+      "note": "[P6d] Texto de error, para recrear fiel (por eso supera las 15 palabras). Casos del código: kWildcardOriginNotAllowed y kPreflightWildcardOriginNotAllowed. Mismo archivo que el hecho del mensaje general de Chrome. Espejo de GitHub del código de Chromium, no googlesource."
+    },
+    {
+      "claim": "Chrome desde la versión 80: las cookies sin atributo SameSite se tratan como SameSite=Lax (\"Starting in Chrome 80\"). Despliegue gradual desde la semana del 17 de febrero de 2020; se revirtió temporalmente el 3 de abril de 2020; se reanudó el 14 de julio de 2020 (Chrome 84); el 11 de agosto de 2020 el objetivo subió a 100% de Chrome estable 80 o superior. Para enviar la cookie entre sitios hay que pedir SameSite=None junto con Secure.",
+      "source": "Chromium Projects, SameSite Updates",
+      "url": "https://www.chromium.org/updates/same-site/",
+      "primary": true,
+      "note": "[P7b] Excepción \"Lax + POST\": permite enviar esas cookies en POST de nivel superior entre sitios si tienen como mucho 2 minutos de antigüedad; la página la llama \"a temporary intervention\". web.dev (SameSite cookies explained, actualizada 2019-05-07) coincide: Chrome trata la cookie sin atributo como Lax, un poco más permisivo que un Lax explícito."
+    },
+    {
+      "claim": "MDN, atributo SameSite de Set-Cookie: \"provides some protection against certain cross-site attacks\", incluido CSRF. Con Lax la cookie solo va en navegaciones de nivel superior con método seguro; eso excluye las peticiones hechas con \"requests made using the fetch() API\", y también POST, PUT y DELETE. \"Some browsers use Lax as the default value if SameSite is not specified\". SameSite=None exige Secure.",
+      "source": "MDN, Set-Cookie (SameSite)",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Set-Cookie",
+      "primary": true,
+      "note": "[P7c] Formulación honesta sugerida (mía, no de la fuente): \"La política de mismo origen deja que una página ajena mande una petición a un sitio donde tienes sesión, pero no le deja leer la respuesta; y desde Chrome 80 las cookies sin SameSite se tratan como Lax, que no viaja con un fetch() entre sitios\". Límites: con SameSite=None la cookie sí viaja; un enlace o un formulario GET de navegación la lleva con Lax. MDN no nombra a Chrome en esta sección: la versión sale del hecho de Chromium."
+    },
+    {
+      "claim": "web.dev: \"same-site\" ignora los subdominios y los puertos; \"same-origin\" no. https://login.example.com:443 y https://www.example.com:80 son same-site y a la vez cross-origin respecto de https://www.example.com:443. En \"schemeful same-site\" el esquema sí cuenta: http://www.example.com:443 es cross-site.",
+      "source": "web.dev, Understanding \"same-site\" and \"same-origin\" (actualizada 2020-04-15)",
+      "url": "https://web.dev/articles/same-site-same-origin",
+      "primary": true,
+      "note": "[P7d] Inferencia mía (la página no menciona localhost): localhost:3000 y localhost:8080 son cross-origin pero same-site, así que en desarrollo la cookie SameSite=Lax puede viajar entre ellos mientras CORS bloquea la lectura. Verificar en un navegador antes de decirlo en pantalla."
+    },
+    {
+      "claim": "OWASP, CSRF Prevention Cheat Sheet (Limitations of SameSite): \"Lax only blocks unsafe methods.\" Si una operación que cambia estado se alcanza por GET, SameSite=Lax no la frena. \"mainstream browsers enforce SameSite=Lax by default\", pero no los navegadores viejos o embebidos; SameSite no reemplaza una defensa CSRF propia.",
+      "source": "OWASP, Cross-Site Request Forgery Prevention Cheat Sheet (SameSite y Limitations of SameSite)",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html",
+      "primary": true,
+      "note": "[P7e] Letra chica del SameSite: Lax por defecto reduce el riesgo, no lo elimina."
+    },
+    {
+      "claim": "PortSwigger: \"CORS is not a protection against cross-origin attacks such as cross-site request forgery (CSRF).\" En la sección \"CORS is not a substitute for server-side security policies\": CORS define comportamientos del navegador y es \"never a replacement for server-side protection of sensitive data\".",
+      "source": "PortSwigger Web Security Academy, Cross-origin resource sharing (CORS) (What is CORS? y How to prevent CORS-based attacks)",
+      "url": "https://portswigger.net/web-security/cors",
+      "primary": true,
+      "note": "[P8a] Respuesta a la pregunta 8: CORS no es control de autenticación ni protege tu API. La página no dice que curl o Postman no apliquen CORS."
+    },
+    {
+      "claim": "OWASP, HTML5 Security Cheat Sheet (Cross Origin Resource Sharing): \"Don't rely only on the Origin header for Access Control checks.\" El navegador siempre manda Origin en las peticiones CORS, pero \"may be spoofed outside the browser\"; se recomiendan protocolos de nivel de aplicación para datos sensibles. También: \"CORS does not prevent the requested data from going to an unauthorized location\", y el servidor sigue necesitando su prevención CSRF.",
+      "source": "OWASP, HTML5 Security Cheat Sheet (Cross Origin Resource Sharing)",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/HTML5_Security_Cheat_Sheet.html",
+      "primary": true,
+      "note": "[P8b] Es la fuente primaria más cercana a \"curl no aplica CORS\": fuera del navegador, el encabezado Origin lo escribe quien manda la petición. No nombra curl ni Postman."
+    },
+    {
+      "claim": "Documentación de Postman: el Postman Agent es necesario para \"bypass the cross-origin resource sharing (CORS) limitations of web browsers\". Los agentes Desktop, Cloud e Interceptor evitan esas limitaciones en la app web; del Browser Agent dice: \"You may experience the CORS limitations of browsers when using the Browser Agent.\"",
+      "source": "Postman Docs, About the Postman Agent",
+      "url": "https://learning.postman.com/docs/getting-started/basics/about-postman-agent",
+      "primary": true,
+      "note": "[P8c] La limitación es del navegador, no de la API. Matiz: Postman dentro del navegador (Browser Agent) sí sufre CORS; decir \"Postman no aplica CORS\" sin matiz es inexacto. La explicación explícita de \"Postman no es un navegador\" solo apareció en el foro de la comunidad de Postman (no oficial; no se cita). La página de soporte de Postman dio 403."
+    },
+    {
+      "claim": "PortSwigger, \"Server-generated ACAO header from client-specified Origin header\": si la app lee el Origin y lo copia, \"Because the application reflects arbitrary origins in the Access-Control-Allow-Origin header\", \"absolutely any domain can access resources from the vulnerable domain\", y las peticiones entre orígenes pueden incluir cookies (Access-Control-Allow-Credentials: true). Ejemplo de la página: Origin: https://malicious-website.com recibe Access-Control-Allow-Origin: https://malicious-website.com y Access-Control-Allow-Credentials: true.",
+      "source": "PortSwigger Web Security Academy, Cross-origin resource sharing (CORS)",
+      "url": "https://portswigger.net/web-security/cors",
+      "primary": true,
+      "note": "[P9a] Es un error real y documentado. Sección de prevención: \"dynamically reflecting origins from cross-origin requests without validation is readily exploitable\". Condición: solo hace daño con credenciales, y la cookie tiene que viajar (ver SameSite). Sobre la lista blanca de null: \"Avoid using the header Access-Control-Allow-Origin: null.\""
+    },
+    {
+      "claim": "PortSwigger Research (James Kettle, 14-oct-2016, actualizado 16-ago-2022): encontró un exchange de bitcoin (que \"prefers to remain unnamed\") cuyo endpoint /api/requestApiKey reflejaba el Origin con Access-Control-Allow-Credentials: true y exponía claves de API privadas; con ellas podía \"transfer their bitcoins to an arbitrary address\". Lo reportó y se parchó en 20 minutos. También explica que el navegador bloquea el comodín con credenciales: \"Cannot use wildcard in Access-Control-Allow-Origin when credentials flag is true\".",
+      "source": "PortSwigger Research, Exploiting CORS misconfigurations for Bitcoins and bounties",
+      "url": "https://portswigger.net/research/exploiting-cors-misconfigurations-for-bitcoins-and-bounties",
+      "primary": true,
+      "note": "[P9b] Caso público real, pero anónimo y de 2016. El artículo habla de \"a few bug bounty sites\" y no da un total. Es un hallazgo de investigación reportado y parchado; el resumen leído no menciona explotación por terceros. Dice también que usar el comodín \"effectively disables the Allow-Credentials header\"."
+    },
+    {
+      "claim": "GHSA-88fw-hqm2-52qc / CVE-2026-54290 (npm hono, publicado el 9-jun-2026, severidad High, CVSS 3.1 de 7.1, CWE-942): con credentials: true y origin sin definir o en comodín, el middleware CORS de Hono reflejaba el Origin de la petición y devolvía Access-Control-Allow-Credentials: true, así que cualquier sitio podía hacer peticiones con credenciales y leer las respuestas. Afecta versiones anteriores a 4.12.25; parche en 4.12.25.",
+      "source": "Hono (GitHub Security Advisory), CORS Middleware reflects any Origin with credentials when origin defaults to the wildcard",
+      "url": "https://github.com/honojs/hono/security/advisories/GHSA-88fw-hqm2-52qc",
+      "primary": true,
+      "note": "[P9c] El aviso dice que la especificación prohíbe comodín con credenciales y que \"browsers reject it\"; antes esa configuración fallaba cerrada. Es el mismo error de reflejar Origin con credenciales, en un framework de JS actual, y ya parchado. No es el paquete cors de Express. La base de GitLab (advisories.gitlab.com/npm/hono/CVE-2026-54290/) lo replica con fecha 16-jun-2026 y última actualización 21-jul-2026. NVD no cargó (página en JS), por eso la fecha sale de GitHub."
+    },
+    {
+      "claim": "CVE-2023-36829 (GHSA-4xqm-4p72-87h6, Sentry, publicado el 6-jul-2023, severidad moderada, CVSS 6.8): la API de Sentry devolvía access-control-allow-credentials: true cuando el valor de Origin coincidía con el final de system.base-hostname (solo en instalaciones donde se configuró; está vacío por defecto). Afecta pip sentry >= 23.6.0 y < 23.6.2; parche en 23.6.2.",
+      "source": "GitHub Advisory Database, Sentry CORS misconfiguration",
+      "url": "https://github.com/advisories/GHSA-4xqm-4p72-87h6",
+      "primary": true,
+      "note": "[P9d] No es reflejo total (coincidencia por sufijo del hostname). El propio aviso dice que el impacto es limitado porque los navegadores recientes traen \"cross-site cookie blocking enabled by default\" y que el fallo \"could allow other multi-step attacks\". Útil para no exagerar."
+    },
+    {
+      "claim": "Express: cors es un paquete aparte, \"a Node.js module available through the npm registry\"; se instala con `npm install cors` (también `yarn add cors`, `pnpm add cors`, `bun add cors`). El middleware \"sets CORS response headers. These headers tell browsers which origins can read responses from your server.\"",
+      "source": "Express, cors middleware (Installation, v2.8.6 según el texto leído)",
+      "url": "https://expressjs.com/en/resources/middleware/cors.html",
+      "primary": true,
+      "note": "[P10a] El listado de middleware (https://expressjs.com/en/resources/middleware.html) dice que los módulos \"are maintained by the Expressjs team\" y describe cors como \"Enable cross-origin resource sharing (CORS) with various options.\". No viene incluido en express: se instala aparte. Repositorio: https://github.com/expressjs/cors (README con la misma instalación; licencia MIT). npmjs.com/package/cors dio 403, así que la versión y las descargas no se verificaron."
+    },
+    {
+      "claim": "Código real de la documentación de Express: `var express = require('express'); var cors = require('cors'); var app = express(); app.use(cors());` con el comentario \"Adds headers: Access-Control-Allow-Origin: *\". Con opciones: `var corsOptions = { origin: 'http://example.com', optionsSuccessStatus: 200 };` y `cors(corsOptions)` (la doc lo pasa en `app.get('/products/:id', cors(corsOptions), ...)`), con el comentario \"Adds headers: Access-Control-Allow-Origin: http://example.com, Vary: Origin\".",
+      "source": "Express, cors middleware (Simple Usage y Configuring CORS)",
+      "url": "https://expressjs.com/en/resources/middleware/cors.html",
+      "primary": true,
+      "note": "[P10b] Sintaxis: la doc no trae literalmente app.use(cors({ origin: 'http://localhost:3000' })). Es la combinación válida de app.use(cors()) y cors(corsOptions): cors() devuelve el middleware que recibe app.use o una ruta. La doc usa require (CommonJS) y no muestra import. Cuidado en pantalla: la línea sola, sin require ni instalación, repite el fallo que se le critica al referente."
+    },
+    {
+      "claim": "Valores por defecto del paquete cors (documentación de Express): origin \"*\", methods \"GET,HEAD,PUT,PATCH,POST,DELETE\", preflightContinue false, optionsSuccessStatus 204. allowedHeaders, si no se define, refleja Access-Control-Request-Headers; credentials y maxAge se omiten salvo que se configuren. Valores de origin: String (\"*\" para todos), Boolean (true refleja el Origin de la petición, false desactiva CORS), RegExp y Array (reflejan el origen si coincide) o función.",
+      "source": "Express, cors middleware (Configuration Options y Default configuration)",
+      "url": "https://expressjs.com/en/resources/middleware/cors.html",
+      "primary": true,
+      "note": "[P10c] Respuesta a la pregunta 10: sí, el valor por defecto de origin es *. Letra chica: origin: true y los RegExp reflejan el Origin; junto con credentials: true es el patrón del error (ver P9). El README de GitHub (github.com/expressjs/cors) coincide en la instalación y en el default de origin."
+    },
+    {
+      "claim": "Vite: server.proxy es \"Configure custom proxy rules for the dev server.\" Las peticiones cuya ruta empieza con la clave se envían a su target; el ejemplo mapea '/api' a 'http://jsonplaceholder.typicode.com' con changeOrigin: true y un rewrite que quita el prefijo /api (/api/bar llega como /bar). La sección dice: \"Unless noted, the options in this section are only applied to dev.\"",
+      "source": "Vite, Server Options (server.proxy)",
+      "url": "https://vite.dev/config/server-options",
+      "primary": true,
+      "note": "[P11a] La sección server.proxy no menciona CORS: que la petición vaya al mismo origen y el servidor de desarrollo la reenvíe es explicación nuestra, apoyada en el hecho de webpack. Extiende http-proxy-3. preview.proxy existe (por defecto igual a server.proxy) pero es de `vite preview` (https://vite.dev/config/preview-options; sin nota de producción). Que en producción no exista ese servidor es inferencia, no frase de Vite."
+    },
+    {
+      "claim": "webpack-dev-server, devServer.proxy: sirve cuando hay un backend de API separado en desarrollo y \"you want to send API requests on the same domain\". Ejemplo: backend en localhost:3000, context [\"/api\"]; una petición a /api/users se envía a http://localhost:3000/api/users. Documenta pathRewrite, secure y changeOrigin.",
+      "source": "webpack, DevServer (devServer.proxy; dev-server >= 5.0.0)",
+      "url": "https://webpack.js.org/configuration/dev-server/",
+      "primary": true,
+      "note": "[P11b] Es la única fuente primaria leída que da la razón \"mismo dominio\". La página no dice \"solo desarrollo\" con esas palabras: es la opción del servidor de desarrollo."
+    },
+    {
+      "claim": "MDN (error \"CORS header 'Access-Control-Allow-Origin' missing\"): si controlas el servidor, agrega el origen del sitio que pide a Access-Control-Allow-Origin. Si no lo controlas, hay salidas del lado del cliente: reestructurar como petición simple, usar mode: \"no-cors\" (la respuesta será opaca) o pasar por un proxy tuyo que añada las cabeceras. Sobre el comodín: \"Private APIs should never use *\".",
+      "source": "MDN, Reason: CORS header 'Access-Control-Allow-Origin' missing",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS/Errors/CORSMissingAllowOrigin",
+      "primary": true,
+      "note": "[P11c] Contraste con el referente: \"el arreglo nunca está en el frontend\" no se sostiene como absoluto, porque MDN lista opciones del lado del cliente. Matiz que sí se sostiene: para que tu JS lea una API de otro origen, alguien tiene que poner las cabeceras (el servidor dueño o un proxy que tú controlas); ninguna opción del front se las pone a un servidor ajeno. Las salidas no-cors y proxy se resumieron de la página (no es texto literal)."
+    },
+    {
+      "claim": "MDN, Request.mode: con `no-cors`, \"Disables CORS for cross-origin requests\"; la respuesta es opaca y sus \"headers and body are not available to JavaScript\". Fija además restricciones de métodos y cabeceras. Con `same-origin`, una petición a otro origen da error.",
+      "source": "MDN, Request: mode property",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Request/mode",
+      "primary": true,
+      "note": "[P11d] Sirve para el \"se manda, pero no lo lees\". MDN no afirma en esta página que la petición no-cors se envíe; la página de errores (hecho anterior) dice, en el resumen leído, que la petición tiene éxito aunque la respuesta sea opaca. No sirve para leer datos."
+    },
+    {
+      "claim": "Mensaje de Chrome en la consola, armado así en el código de Chromium: \"Access to \" + tipo (fetch o XMLHttpRequest) + \" at '\" + URL + \"' \" + [\"(redirected from '<url inicial>') \" si hubo redirección] + \"from origin '\" + origen + \"' has been blocked by CORS policy: \" + motivo. Motivo cuando falta la cabecera: \"No 'Access-Control-Allow-Origin' header is present on the requested resource.\" Si falló el preflight, antes del motivo va \"Response to preflight request doesn't pass access control check: \".",
+      "source": "Chromium, third_party/blink/renderer/platform/loader/cors/cors_error_string.cc (GetErrorStringForConsoleMessage, rama main)",
+      "url": "https://raw.githubusercontent.com/chromium/chromium/main/third_party/blink/renderer/platform/loader/cors/cors_error_string.cc",
+      "primary": true,
+      "note": "[P12a] Línea completa para recrear: Access to fetch at 'http://localhost:8080/api/productos' from origin 'http://localhost:3000' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource. En este archivo NO aparece la frase \"If an opaque response serves your needs, set the request's mode to 'no-cors'...\": el buscador la ubicó en una propuesta de code review de 2015 (codereview.chromium.org/1300083002, no abierta), no en el archivo actual. El texto del referente termina en \"requested resource.\", igual que el código. Las líneas \"Failed to load resource: net::ERR_FAILED\" y \"TypeError: Failed to fetch\" no están en este archivo (ver pendingToVerify)."
+    },
+    {
+      "claim": "Firefox, según MDN: \"Reason: CORS header 'Access-Control-Allow-Origin' missing\". Causa: la respuesta a la petición CORS no trae el header Access-Control-Allow-Origin requerido. MDN lista 15 mensajes \"Reason:\" de CORS, entre ellos CORSPreflightDidNotSucceed (\"Reason: CORS preflight channel did not succeed\"), CORSNotSupportingCredentials y CORSMissingAllowCredentials.",
+      "source": "MDN, Reason: CORS header 'Access-Control-Allow-Origin' missing (y su índice lateral de errores de CORS)",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS/Errors/CORSMissingAllowOrigin",
+      "primary": true,
+      "note": "[P12b] Útil si se quiere mostrar que cada navegador redacta el error distinto: el texto \"has been blocked by CORS policy\" es de Chrome (Chromium), no de la especificación."
+    },
+    {
+      "claim": "Chrome DevTools 92: \"Cross-origin resource sharing (CORS) errors are now surfaced in the Issues tab.\" Cada incidencia se expande para ver causas y soluciones.",
+      "source": "Chrome for Developers, What's New In DevTools (Chrome 92) (Enhanced CORS debugging support; actualizada 2021-06-02)",
+      "url": "https://developer.chrome.com/blog/new-in-devtools-92",
+      "primary": true,
+      "note": "[P12c] La página no trae el texto del error de consola. Ancla visual: DevTools (consola e Issues tab)."
+    },
+    {
+      "claim": "Letra chica de Access-Control-Allow-Origin (MDN): solo admite un origen por respuesta (\"Specifies a single origin\"); si el servidor atiende varios orígenes, debe devolver el del cliente que pide. Cuando devuelve un origen explícito en vez de *, la respuesta debería incluir Vary: Origin porque cambia según el Origin de la petición. \"The value null should not be used.\"",
+      "source": "MDN, Access-Control-Allow-Origin (Directives y Vary: Origin)",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Access-Control-Allow-Origin",
+      "primary": true,
+      "note": "[P12d] Es la razón por la que la doc de Express muestra \"Vary: Origin\" en el ejemplo con origen fijo. Error común (deducción de \"single origin\"): poner varios orígenes separados por coma en la cabecera; el paquete cors los maneja con un Array en la opción origin."
+    }
+  ],
+  "calculations": [
+    "Origen de http://localhost:3000 contra http://localhost:8080: esquema http = http, host localhost = localhost, puerto 3000 ≠ 8080. 1 de 3 componentes distinto, así que son orígenes distintos (RFC 6454, sección 5: iguales solo si son idénticos en los tres). Aplicación propia; ninguna fuente usa localhost.",
+    "Origen de http://tuapp.com contra https://tuapp.com: esquema distinto (http ≠ https; los puertos implícitos son 80 y 443). Origen distinto (MDN: \"Different protocol\"). Aplicación propia de la regla.",
+    "Origen de https://www.ejemplo.com contra https://api.ejemplo.com: host distinto (www ≠ api). Origen distinto (MDN: \"Different host\"; web.dev: \"different subdomains\") pero mismo site. Aplicación propia de la regla.",
+    "Tope de Access-Control-Max-Age en Chromium desde la v76: 7200 s ÷ 3600 = 2 h. Firefox: 86400 s ÷ 3600 = 24 h. Chromium antes de la v76: 600 s ÷ 60 = 10 min. Por defecto: 5 s.",
+    "Edad de la pregunta de Stack Overflow en la tarjeta del referente: \"Asked 9 years, 5 months ago\" restado de 30-oct-2026 da mayo de 2017, solo si la captura del referente es de esa fecha (la fecha de captura no se conoce). Es una pista para identificar la pregunta, no un dato verificado."
+  ],
+  "illustrative": [],
+  "pendingToVerify": [
+    "Pregunta 13 (Stack Overflow): stackoverflow.com, api.stackexchange.com y web.archive.org están bloqueados para WebFetch y WebSearch con dominio permitido, y los resultados del buscador no traen la pregunta original. No se pudo leer ninguna cifra (vistas, puntaje, fecha de creación, \"Modified\"). No inventar. El título que se ve en la tarjeta del referente (\"No 'Access-Control-Allow-Origin' header is present on the requested resource, when trying to get data from a REST API\") parece un título más largo recortado; por \"9 years, 5 months\" debería ser una pregunta de mayo de 2017. Pista de memoria, NO verificada y que puede estar mal: ID 43871637. Abrirla a mano en Chrome (con la sesión de Jeremy) y copiar vistas, puntaje y fecha ese día. Tampoco se pudo confirmar el título exacto de la pregunta sobre Postman (\"Why does my JavaScript code receive a ... while Postman does not?\").",
+    "curl y Postman no aplican CORS: no se encontró una fuente primaria que lo diga con esas palabras. Lo que sí hay: Postman Docs (CORS es una limitación de los navegadores y el Postman Agent la evita en la app web), OWASP (Origin \"may be spoofed outside the browser\"), MDN (la política restringe a un \"document or script\" cargado desde un origen). La explicación \"Postman no es un navegador\" salió del foro de la comunidad de Postman y de un blog (no oficiales; no se citan). La página de soporte de Postman dio 403.",
+    "\"La petición llega al servidor y el navegador oculta la respuesta\": ninguna página de MDN, del Fetch Standard ni de PortSwigger lo dice con una frase literal. Se sostiene por deducción (MDN SOP: las escrituras entre orígenes están permitidas; MDN: el navegador rechaza la respuesta; Fetch 4.4: el CORS check usa la respuesta; OWASP: las peticiones simples se mandan a cualquier origen). Decirlo en pantalla como lectura de las fuentes, no como cita.",
+    "\"Si el preflight falla, la petición real no se manda\": no hay frase de MDN; la fuente es la lectura del algoritmo del Fetch Standard (4.8 y 4.4). Un blog de Postman (secundaria, no citada) lo dice con palabras. El post de Chrome sobre Private Network Access (developer.chrome.com/blog/private-network-access-preflight) menciona un modo de solo advertencia donde la petición final sí se manda, pero es otro caso (redes privadas), no el CORS general.",
+    "Mensaje de la consola de Chrome: las líneas \"Failed to load resource: net::ERR_FAILED\" y \"TypeError: Failed to fetch\" no se verificaron en una fuente primaria. MDN (Window.fetch) lista los casos de TypeError y no menciona fallos de CORS. Para la lámina, el texto de \"has been blocked by CORS policy\" sí está confirmado en el código de Chromium; las otras dos líneas son observación del referente.",
+    "Código de Chromium: se leyó el espejo github.com/chromium/chromium (raw.githubusercontent.com), no googlesource. El resumen de la herramienta dice que \"If an opaque response serves your needs...\" no está en el archivo; no se vio el archivo completo línea por línea.",
+    "Ejemplo del banco: ninguna fuente primaria leída habla de un banco. MDN usa webmail e intranet. No decir \"según MDN, tu banco\".",
+    "npmjs.com/package/cors dio 403: versión actual y descargas semanales del paquete cors sin verificar. La documentación de Express muestra la página como v2.8.6.",
+    "NVD no cargó (solo la portada), así que las fechas de los CVE salen de los avisos de GitHub (Hono: 9-jun-2026; Sentry: 6-jul-2023). La base de GitLab da 16-jun-2026 para el CVE de Hono. Si se muestra una fecha, aclarar de dónde sale.",
+    "Vite/webpack: las secciones leídas no explican que el proxy evita CORS; la razón \"mismo dominio\" solo aparece en webpack. Que el proxy no exista en producción no se encontró como frase oficial: Vite dice que las opciones de esa sección \"only applied to dev\" y que preview.proxy existe para `vite preview`.",
+    "SameSite Lax por defecto: la fuente de la versión es la página de actualizaciones de Chromium (Chrome 80, con reversión y reanudación en 2020). MDN solo dice que algunos navegadores lo hacen. No se verificó el estado actual en Firefox o Safari; limitar la frase a Chrome.",
+    "Logos y marca: no se abrieron páginas de marca de Chrome, MDN, Express, Vite, Postman ni Stack Overflow; las rutas de assets se resuelven con `npm run carrusel:logo -- <marca>` (regla 6). Este subagente no descargó nada.",
+    "Stack Overflow, tarjeta del referente: la fecha de captura del video es desconocida, así que \"Asked 9 years, 5 months ago\" y \"Viewed 4.4m times\" no pueden compararse con nada. Lo que se muestre en nuestra pieza debe leerse y fecharse el día de la pieza."
+  ]
+}

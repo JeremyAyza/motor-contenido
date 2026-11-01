@@ -1,0 +1,119 @@
+{
+  "$schema": "../../schemas/video.schema.json",
+  "format": "explicado",
+  "target": 75,
+  "topic": "Qué es CORS: la respuesta de entrevista, con la política de mismo origen y el preflight",
+  "world": "Una aduana: arriba tu página en el navegador, en el medio la caseta y su barrera, abajo el servidor; cada respuesta vuelve en una caja y solo pasa con sello.",
+  "meter": {
+    "label": "Respuesta",
+    "from": "0",
+    "to": "3"
+  },
+  "cover": {
+    "scene": "gancho"
+  },
+  "hooks": [
+    {
+      "said": "CORS no te está bloqueando.",
+      "onScreen": "CORS no te está bloqueando",
+      "formula": 29
+    },
+    {
+      "said": "Ese error de CORS no lo pone tu servidor.",
+      "onScreen": "No lo pone tu servidor",
+      "formula": 29
+    },
+    {
+      "said": "¿Qué es CORS? Si dices que te bloquea, vas mal.",
+      "onScreen": "¿Qué es CORS?",
+      "formula": 16
+    }
+  ],
+  "scenes": [
+    {
+      "id": "gancho",
+      "say": "CORS no te está bloqueando. Es al revés: CORS es el permiso. Si te lo preguntan en una entrevista, la respuesta tiene tres partes.",
+      "see": "Consola de Chrome con el error de CORS en rojo y el rótulo del gancho; el avatar habla abajo. En 'al revés' la consola da una vuelta completa y por detrás es una ficha de aduana con el sello PERMISO y tres campos vacíos.",
+      "resource": "captura-anotada"
+    },
+    {
+      "id": "origen",
+      "say": "Tu frontend corre en localhost tres mil y tu API en localhost ocho mil ochenta: dos orígenes distintos. Un origen es protocolo, host y puerto. Cambia uno solo y ya es otro.",
+      "see": "Dos pasaportes con la URL enorme en tres rodillos. Cada rodillo se levanta cuando la voz lo nombra. En 'uno solo' el puerto gira de 3000 a 3001 y un sello rojo golpea: OTRO ORIGEN.",
+      "resource": "anatomia"
+    },
+    {
+      "id": "viaje",
+      "say": "Tu fetch sale, y el servidor responde doscientos OK. La respuesta vuelve, y se queda en la aduana: tu código no la puede leer. Esa regla es la política de mismo origen.",
+      "see": "La cámara viaja con una caja por una cinta: de la página, pasa la caseta y baja al servidor, que la sella 200 OK. Vuelve, la barrera cae de golpe y la caja rebota. Un escáner muestra que el contenido está ahí; un cursor intenta tomarlo y rebota. Baja colgado el letrero 'Política de mismo origen'.",
+      "resource": "proceso"
+    },
+    {
+      "id": "trampa",
+      "say": "Aquí está la trampa: el que bloquea es el navegador, no tu servidor. Primera parte. Por eso en Postman funciona: su app no es un navegador, no pasa por esta aduana.",
+      "see": "Golpea LA TRAMPA y la caseta se enciende con los logos de Chrome, Firefox y Safari; el avatar entra grande. La cámara baja al servidor, verde con su 200 OK: 'Él sí respondió'. Un ticket se sella y vuela al medidor. La cámara se aleja y la caja de Postman baja rápido por una vía lateral, sin caseta.",
+      "resource": "comparacion"
+    },
+    {
+      "id": "correo",
+      "say": "¿Y por qué existe? Para protegerte a ti, no a tu API. Sin esa regla, cualquier página podría leer tu correo, con tu sesión abierta. Segunda parte.",
+      "see": "Paneo a un segundo carril: el avatar es 'tú', en una credencial 'tu sesión'. Una página cualquiera le pide tu bandeja a correo.com; la caja vuelve con el contenido borroso y la barrera la frena de golpe. Sale un escudo y el ticket 2 vuela al medidor. Rótulo Ejemplo ilustrativo.",
+      "resource": "metafora"
+    },
+    {
+      "id": "permiso",
+      "say": "CORS abre la barrera. El servidor responde con una cabecera, Access-Control-Allow-Origin, y nombra quién puede leer. El navegador ve ese sello y deja pasar. Tercera parte: el permiso lo da el servidor.",
+      "see": "De vuelta en la caseta: la caja rebobina hasta el servidor, un sello gigante con la cabecera la marca y el cuadro se sacude. Sube, la barrera salta y la caja entra a la página, que se llena de productos. Ticket 3 y se escribe app.use(cors(...)), con el paquete cors.",
+      "resource": "proceso"
+    },
+    {
+      "id": "repregunta",
+      "say": "Ahora, la repregunta: ¿y si mandas un DELETE? El navegador pregunta primero con un OPTIONS, el preflight. Si el servidor no da permiso, tu DELETE ni sale.",
+      "see": "El avatar aparece en una ventana de videollamada, como entrevistador, y sale su pregunta: '¿Y si es un DELETE?'. Una caja pesada DELETE baja detrás de la barrera; un explorador pequeño OPTIONS corre al servidor y vuelve con una X roja. La barrera cae, las luces del DELETE se apagan y golpea el sello: NI SALE.",
+      "resource": "linea-de-tiempo"
+    },
+    {
+      "id": "respuesta",
+      "say": "Respóndelo así: el navegador aplica la política de mismo origen para proteger al usuario. CORS es el permiso que da el servidor para relajarla. Mándaselo a quien todavía dice que CORS lo bloquea.",
+      "see": "La cámara se aleja hasta ver toda la aduana y sube la ficha del gancho. Los tres campos se llenan con la voz (El navegador, Al usuario, El servidor), golpea el sello APROBADA y entra el ícono de enviar con el avatar. La ficha se puede capturar.",
+      "resource": "artefacto"
+    }
+  ],
+  "gateA": {
+    "approved": true,
+    "date": "2026-10-30"
+  },
+  "gateB": {
+    "approved": true,
+    "date": "2026-11-01",
+    "video": "34f77dcc1a324f3385e540f0b387abbd743d6f60fb9db8661cabf6b1cdbc409f"
+  },
+  "art": {
+    "direction": "ficha-tecnica",
+    "dealt": [
+      "ficha-tecnica",
+      "antes-despues",
+      "elige-tu-camino"
+    ],
+    "reason": "CORS es un trámite: origen, sello, permiso. La ficha técnica se vuelve un documento de aduana sobre papel de seguridad verde con guilloché, que se separa del tablero oscuro del referente y del papel crema de la pieza anterior. El verde es el permiso y el rojo es el bloqueo; lo demás va en tinta.",
+    "palette": {
+      "bg": "#E6ECDC",
+      "ink": "#13211B",
+      "accent": "#0A6B4E",
+      "accentInk": "#FFFFFF",
+      "surface": "#F6F8EF",
+      "muted": "#59665B"
+    },
+    "fonts": {
+      "display": "archivo",
+      "text": "geist"
+    },
+    "anchor": {
+      "kind": "icono",
+      "ref": "stamp",
+      "source": "Lucide (ISC): el sello de la aduana"
+    },
+    "tab": "cors.md"
+  },
+  "caption": "CORS no te está bloqueando. Es al revés: CORS es el permiso.\n\nSi te lo preguntan en una entrevista, responde en tres partes.\n\nQuién bloquea: el navegador, con la política de mismo origen. En una petición simple, el servidor responde igual; lo que se bloquea es que tu JavaScript lea esa respuesta.\n\nA quién protege: al usuario, no a tu API. Sin esa regla, una página cualquiera podría leer datos de otro sitio donde tienes sesión, como tu correo.\n\nQuién da permiso: el servidor, con Access-Control-Allow-Origin. En Express es una línea, con el paquete cors (npm install cors).\n\nLa repregunta llega con un DELETE o un JSON. Ahí va un preflight: el navegador manda primero un OPTIONS y, si el servidor no da permiso, la petición real no sale.\n\nLetra chica:\n- Un origen es esquema, host y puerto. Un subdominio ya es otro.\n- Con credenciales, el asterisco no vale.\n- El proxy de Vite evita el error en desarrollo, porque tu página le pide a su mismo origen. Solo en desarrollo.\n- Postman en el navegador sí puede sufrir CORS. Su app de escritorio, no.\n- En Chrome, una cookie sin SameSite no viaja en un fetch entre sitios: es otra capa.\n\nMándaselo a quien todavía dice que CORS lo bloquea.\n\nFuentes: MDN, Fetch Standard (WHATWG), RFC 6454, PortSwigger, OWASP, documentación de Express, Vite y Postman, código de Chromium. Revisadas el 30 de octubre de 2026.\n\nVoz con IA: elevenlabs.io\n\n#cors #javascript #entrevistatecnica #programacion #backend"
+}
