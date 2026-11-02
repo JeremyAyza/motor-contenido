@@ -1,7 +1,7 @@
 import type { ComponentType } from "react";
 import type { Tone } from "../../../carousel/src/ui/index.tsx";
 import type { Shot, SpotBox } from "./camera.ts";
-import type { AvatarDef } from "./avatar.tsx";
+import type { AvatarDef, SceneAvatar } from "./avatar.tsx";
 import type { MeterDef } from "./meter.ts";
 import type { PanelDef } from "./panel.ts";
 import type { SceneBackground, SceneTransition } from "./scene-fx.tsx";
@@ -48,10 +48,12 @@ export type SceneDef = {
   /** Without a stage: how the scene comes in ("blur", "zoom", "slide", "whip"), with a whoosh. */
   transition?: SceneTransition;
   /**
-   * Where the avatar goes in this scene when it is a bubble (AvatarDef.shape
-   * "bubble"): its center and size in design px. Scenes without it have no avatar.
+   * The avatar in this scene (it needs VideoDef.avatar): its center and size,
+   * the moments it comes in (`at`) and leaves (`until`), by a word of the voice
+   * or in seconds, the edge it peeks in from (`from`) and its `shape`. With
+   * AvatarDef.shape "bubble", scenes without it have no avatar.
    */
-  avatar?: { x: number; y: number; size: number };
+  avatar?: SceneAvatar;
   /**
    * What is seen, inside the frame (the tab, the dots and the signature come
    * from it): usually a SceneFrame. Times are seconds from the start of the
@@ -69,7 +71,14 @@ export type SceneDef = {
  * `anim` take seconds from the start of the video.
  */
 export type StageDef = {
-  /** The world, drawn in its own coordinates (design px, from the top left). */
+  /**
+   * The world, drawn in its own coordinates (design px, from the top left).
+   * What it does to its own text, it tells the inspector with marks:
+   * - a camera of its own, on the div it moves: `data-zoom={zoom}` always and
+   *   `data-camera-moving=""` while it moves;
+   * - a layer locked to the screen, on its div: `data-screen=""`. Its text is
+   *   checked like a scene's, at its own size, whatever the cameras around it do.
+   */
   World: ComponentType;
   /** The size of the world. By default, the frame's (540×960). */
   width?: number;
@@ -157,7 +166,7 @@ export const defineVideo = (video: VideoDef) => video;
 export { useCapture, useCue, useStage, useStageCue } from "./scene.ts";
 export type { Shot, SpotBox } from "./camera.ts";
 export type { MeterDef, MeterKind, MeterStep } from "./meter.ts";
-export type { AvatarDef, AvatarSprites } from "./avatar.tsx";
+export type { AvatarDef, AvatarEdge, AvatarShape, AvatarSprites, SceneAvatar, SceneCue } from "./avatar.tsx";
 export type { PanelCounter, PanelDef } from "./panel.ts";
 export { Pop, Sfx, usePop } from "./sfx.tsx";
 export { Banner, PillTitle } from "./text.tsx";

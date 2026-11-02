@@ -77,7 +77,7 @@ No aparece en `adentro`, `enchufe`, `menu`, `elige` ni `regla`, donde manda el g
 
 Los `see` de `video.json` son los que se aprobaron en la puerta A: todavía hablan de un avatar que se encoge y de otras posiciones. Lo que manda en la imagen es `video.tsx`.
 
-En `main` el avatar solo salta al empezar la escena. Con la rama `refs/heads/claude/silly-moore-e35189` podría entrar dentro de una frase, pero no se unió: eso lo decide Jeremy.
+La entrada del avatar dentro de una frase ya está en `main` (`SceneDef.avatar`), pero esta pieza no la usa.
 
 ## Lo que cambiaron las fuentes (`facts.json`)
 
@@ -170,7 +170,7 @@ Sin errores y sin aviso de imagen quieta. Quedan 39 de margen, todos pasajeros, 
 - **Audio sin oír:** ni el agente ni el crítico lo pueden oír. Jeremy tiene que escucharlo: voz, música y efectos.
 - **Voz:** Jeremy decidió el 2026-11-01 usar por ahora la voz gratuita. Falta la licencia comercial. El post ya lleva "Voz con IA: elevenlabs.io".
 - **Si se vuelve a preparar la voz:** el texto está en caché, así que no paga de nuevo. Si un arreglo cambia lo que dice la voz, vuelve a la puerta A.
-- **Avatar:** sigue saltando al empezar la escena. La rama `refs/heads/claude/silly-moore-e35189` no se unió. Si Jeremy la pide, hay que poner las marcas (`data-zoom`, `data-camera-moving`, `data-screen`) y las entradas por palabra.
+- **Avatar:** esta pieza no usa las entradas por palabra ni las marcas del inspector (`data-zoom`, `data-camera-moving`, `data-screen`), que ya están en `main`. Agregarlas puede cambiar el render y anular la puerta B.
 - **Lo que todavía se puede mejorar:** en `antes`, la hoja "Ejemplo de GitHub" queda vacía cerca de 1 s antes de que aparezcan los puntos, y en el paneo de `elige` a `costo` hay un cuadro solo amarillo con líneas de velocidad.
 - **Marco:** "Integraciones" sigue diminuto en el medidor. Por eso el 5, el 10, el 50 y el 15 también golpean grandes en la banda de abajo.
 - **Logos:** MCP, GitHub, Notion, Stripe, Linear, Claude y Cursor salen de Simple Icons; Slack y OpenAI, del catálogo. No se revisaron las condiciones de uso del logo de MCP.

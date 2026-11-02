@@ -8,7 +8,7 @@ import { Slide, SlideContext } from "../../carousel/src/ui/index.tsx";
 import { MOTION_CSS } from "../../carousel/src/ui/motion.tsx";
 import { browserAssets, withLogos } from "./assets-browser.ts";
 import { Captions, ChapterBar, Meter, Panel } from "./frame.tsx";
-import { Avatar, AvatarBubble, drawnAvatar } from "./kit/avatar.tsx";
+import { Avatar, drawnAvatar } from "./kit/avatar.tsx";
 import { enterStyle, SceneBackgroundLayer } from "./kit/scene-fx.tsx";
 import { cameraAt, cameraTransform, DRIFT, moveClipAt, moveClipMask, movesInto, resolveShots } from "./kit/camera.ts";
 import type { SceneDef, VideoDef } from "./kit/index.ts";
@@ -127,8 +127,7 @@ function SceneTracks({ video, timeline, defs, scene, index }: VideoProps & { sce
   return (
     <>
       {video.chapters ? <ChapterBar chapters={chapters} index={index} frames={framesFor(scene.durationMs, fps)} tone={tone} /> : null}
-      {avatar ? <Avatar def={avatar} scene={scene} sceneIndex={index} fps={fps} /> : null}
-      {avatar?.shape === "bubble" && defs[index].avatar ? <AvatarBubble def={avatar} scene={scene} sceneIndex={index} fps={fps} place={defs[index].avatar!} /> : null}
+      {avatar ? <Avatar def={avatar} moment={defs[index].avatar} scene={scene} sceneIndex={index} fps={fps} /> : null}
       {video.captions === "none" ? null : <Captions words={scene.words} tone={tone} style={video.captions} />}
       {scene.voice ? <Audio src={staticFile(scene.voice)} /> : null}
       {scene.sfx.map((sfx, i) => (
