@@ -185,6 +185,39 @@ describe("elevenlabs", () => {
     assert.deepEqual(used, ["main", "spare", "spare"]);
   });
 
+  // Holds the first two requests until both are out, as video:prepare does with two scenes at a time.
+  function convertWithSpentKeys(spent: string[]) {
+    const used: string[] = [];
+    let bothOut = () => {};
+    const gate = new Promise<void>((resolve) => (bothOut = resolve));
+    const convert = async (_voiceId: string, _request: Record<string, unknown>, key: string) => {
+      used.push(key);
+      if (used.length === 2) bothOut();
+      await gate;
+      if (spent.includes(key)) throw Object.assign(new Error("Status code: 401"), { body: { detail: { status: "quota_exceeded" } } });
+      return { audioBase64: "AQ==" };
+    };
+    return { used, convert };
+  }
+
+  it("sends a request that was out when the key ran out to the fallback key too, with one warning", async (t) => {
+    const warn = t.mock.method(console, "warn", () => {});
+    const { used, convert } = convertWithSpentKeys(["main"]);
+    const provider = elevenLabsSpeech({ apiKey: "main", fallbackKeys: ["spare"], convert });
+    await Promise.all([provider.synthesize({ text: "Uno", voice: "v1" }), provider.synthesize({ text: "Dos", voice: "v1" })]);
+    assert.deepEqual(used, ["main", "main", "spare", "spare"]);
+    assert.equal(warn.mock.callCount(), 1);
+  });
+
+  it("fails only once the last key runs out, for each request in parallel", async (t) => {
+    t.mock.method(console, "warn", () => {});
+    const { used, convert } = convertWithSpentKeys(["main", "spare"]);
+    const provider = elevenLabsSpeech({ apiKey: "main", fallbackKeys: ["spare"], convert });
+    const results = await Promise.allSettled([provider.synthesize({ text: "Uno", voice: "v1" }), provider.synthesize({ text: "Dos", voice: "v1" })]);
+    assert.deepEqual(results.map((r) => r.status), ["rejected", "rejected"]);
+    assert.deepEqual(used, ["main", "main", "spare", "spare"]);
+  });
+
   it("does not hide other errors behind the fallback", async () => {
     const convert = async () => {
       throw new Error("Status code: 422 invalid voice");

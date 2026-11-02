@@ -55,10 +55,14 @@ export function elevenLabsSpeech({
   let current = 0;
   const withFallback = async (voiceId: string, request: Record<string, unknown>) => {
     for (;;) {
+      const used = current;
       try {
-        return await doConvert(voiceId, request, keys[current]);
+        return await doConvert(voiceId, request, keys[used]);
       } catch (error) {
-        if (!isQuotaError(error) || current >= keys.length - 1) throw error;
+        if (!isQuotaError(error)) throw error;
+        // Requests run in parallel: another one may have moved on from this key while this one was out.
+        if (used < current) continue;
+        if (used >= keys.length - 1) throw error;
         current++;
         console.warn(`ElevenLabs: key ${current} of ${keys.length} ran out of credits; using the fallback key`);
       }
