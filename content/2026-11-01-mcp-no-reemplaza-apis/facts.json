@@ -1,0 +1,454 @@
+{
+  "topic": "mcp-no-reemplaza-apis",
+  "checkedAt": "2026-11-01",
+  "facts": [
+    {
+      "claim": "El servidor MCP de GitHub usa las dos APIs de GitHub por debajo. Su go.mod depende de go-github v92 (cliente REST) y de shurcooL/githubv4 (cliente GraphQL), además del SDK de MCP para Go: 'github.com/google/go-github/v92 v92.0.0', 'github.com/shurcooL/githubv4' y 'github.com/modelcontextprotocol/go-sdk v1.8.0'.",
+      "source": "GitHub, github/github-mcp-server, go.mod",
+      "url": "https://raw.githubusercontent.com/github/github-mcp-server/main/go.mod",
+      "primary": true,
+      "note": "Versión de main al 2026-11-01. Es la prueba concreta de 'sigue llamando a la API de GitHub'. Ojo: no es solo REST, también usa GraphQL."
+    },
+    {
+      "claim": "La herramienta search_code es REST: se define en pkg/github/search.go con Name 'search_code' (función SearchCode) y llama a go-github con 'client.Search.Code(ctx, query, opts)'. Su parámetro de consulta se describe como 'Search query (GitHub code search REST)'. En el README está en el toolset 'Repositories'.",
+      "source": "GitHub, github/github-mcp-server, pkg/github/search.go y README (sección Repositories)",
+      "url": "https://raw.githubusercontent.com/github/github-mcp-server/main/pkg/github/search.go",
+      "primary": true,
+      "note": "La frase 'GitHub code search REST' sale del README: https://github.com/github/github-mcp-server. Números de línea no verificados: se cita por archivo y función."
+    },
+    {
+      "claim": "Hoy se crea un issue con la herramienta issue_write, no con create_issue. issue_write se define en pkg/github/issues.go con Name 'issue_write' y descripción 'Create a new or update an existing issue in a GitHub repository.' Su parámetro method acepta 'create' ('creates a new issue') y 'update'. La función createIssue llama a REST: 'client.Issues.Create(ctx, owner, repo, issueRequest)'. El README la lista como 'issue_write - Create or update issue/pull request'.",
+      "source": "GitHub, github/github-mcp-server, pkg/github/issues.go, __toolsnaps__/issue_write.snap y README (toolset issues)",
+      "url": "https://raw.githubusercontent.com/github/github-mcp-server/main/pkg/github/issues.go",
+      "primary": true,
+      "note": "Snapshot: https://raw.githubusercontent.com/github/github-mcp-server/main/pkg/github/__toolsnaps__/issue_write.snap"
+    },
+    {
+      "claim": "list_issues existe con ese nombre exacto y usa GraphQL, no REST. En pkg/github/issues.go el manejador pide 'deps.GetGQLClient(ctx)' y ejecuta 'client.Query(ctxWithFeatures, issueQuery, vars)'. Su descripción es 'Lists issues in a GitHub repository' y pagina con el 'endCursor' del 'pageInfo' (estilo GraphQL). El README lo lista como 'list_issues - List issues'.",
+      "source": "GitHub, github/github-mcp-server, pkg/github/issues.go, __toolsnaps__/list_issues.snap y README (toolset issues)",
+      "url": "https://raw.githubusercontent.com/github/github-mcp-server/main/pkg/github/issues.go",
+      "primary": true,
+      "note": "Snapshot: https://raw.githubusercontent.com/github/github-mcp-server/main/pkg/github/__toolsnaps__/list_issues.snap. Para el guion: por fuera una herramienta MCP; por dentro REST o GraphQL, según la herramienta."
+    },
+    {
+      "claim": "create_issue sí existe como nombre, pero como herramienta 'granular' detrás de un feature flag: pkg/github/issues_granular.go define Name 'create_issue' (GranularCreateIssue) con 'st.FeatureRule = issuesGranularFeatureRule', y feature_flags.go define 'issuesGranularFeatureRule = featureEnabledRule(FeatureFlagIssuesGranular)' y 'issuesConsolidatedFeatureRule = featureDisabledRule(FeatureFlagIssuesGranular)'. Es decir, con el flag apagado rige la herramienta consolidada issue_write.",
+      "source": "GitHub, github/github-mcp-server, pkg/github/issues_granular.go y pkg/github/feature_flags.go",
+      "url": "https://raw.githubusercontent.com/github/github-mcp-server/main/pkg/github/issues_granular.go",
+      "primary": true,
+      "note": "Flag: https://raw.githubusercontent.com/github/github-mcp-server/main/pkg/github/feature_flags.go. create_issue no aparece en el README ni en deprecated_tool_aliases.go. Si el guion nombra una herramienta para crear issues, usar issue_write con method 'create'."
+    },
+    {
+      "claim": "El servidor crea los dos clientes de GitHub en pkg/github/dependencies.go: 'GetClient(ctx context.Context) (*gogithub.Client, error)' para REST y 'GetGQLClient(ctx context.Context) (*githubv4.Client, error)' para GraphQL. En el servidor por petición, cada llamada construye los clientes con el token de esa petición ('gogithub.NewClient(' y 'githubv4.NewEnterpriseClient(graphqlURL.String(), gqlHTTPClient)').",
+      "source": "GitHub, github/github-mcp-server, pkg/github/dependencies.go",
+      "url": "https://raw.githubusercontent.com/github/github-mcp-server/main/pkg/github/dependencies.go",
+      "primary": true
+    },
+    {
+      "claim": "El README del servidor de GitHub dice 'The MCP server can use many of the GitHub APIs' y por eso pide habilitar solo los permisos que se quiera dar a la herramienta de IA. Es la frase más cercana, en el repo oficial, a 'MCP se apoya en la API'.",
+      "source": "GitHub, github/github-mcp-server, README (Local Server, Prerequisites)",
+      "url": "https://raw.githubusercontent.com/github/github-mcp-server/main/README.md",
+      "primary": true
+    },
+    {
+      "claim": "Autenticación del servidor de GitHub: el servidor remoto está en https://api.githubcopilot.com/mcp/, alojado por GitHub, con OAuth o con token de acceso personal (cabecera 'Authorization: Bearer ...'). El servidor local en github.com hace un inicio de sesión con OAuth en el navegador y guarda el token 'in memory only'; si se define GITHUB_PERSONAL_ACCESS_TOKEN, este 'takes precedence over OAuth'.",
+      "source": "GitHub, github/github-mcp-server, README (Install)",
+      "url": "https://github.com/github/github-mcp-server",
+      "primary": true,
+      "note": "Es la misma clase de credencial que ya usaba la API de GitHub: el token sigue existiendo; ahora lo usa el servidor MCP en nombre del usuario."
+    },
+    {
+      "claim": "El README del servidor de GitHub lista 22 toolsets (context, actions, code_quality, code_security, copilot, copilot_issue_intents, dependabot, discussions, gists, git, governance, issues, labels, notifications, orgs, projects, pull_requests, repos, secret_protection, security_advisories, stargazers, users); el servidor remoto agrega copilot_spaces y github_support_docs_search. Si no se especifican, los toolsets por defecto son context, repos, issues, pull_requests y users. El README no da un total de herramientas.",
+      "source": "GitHub, github/github-mcp-server, README (Tool Configuration)",
+      "url": "https://github.com/github/github-mcp-server",
+      "primary": true,
+      "note": "El 22 es un conteo sobre la lista del README. Los por defecto salen de la línea 'The default configuration is:' del README."
+    },
+    {
+      "claim": "Limitar herramientas: el README dice que habilitar solo los toolsets necesarios 'can help the LLM with tool choice and reduce the context size'. Se hace con la bandera --toolsets o la variable GITHUB_TOOLSETS, y 'The environment variable GITHUB_TOOLSETS takes precedence over the command line argument'. El toolset especial 'all' habilita todo.",
+      "source": "GitHub, github/github-mcp-server, README (Tool Configuration)",
+      "url": "https://raw.githubusercontent.com/github/github-mcp-server/main/README.md",
+      "primary": true
+    },
+    {
+      "claim": "La documentación de GitHub dice que los toolsets controlan 'which GitHub API capabilities are available to your AI tools' y que 'Enabling only the toolsets you need improves your AI assistant's performance and security'. El servidor remoto se puede usar desde Copilot Chat en VS Code 'without any local setup'.",
+      "source": "GitHub Docs, MCP en Copilot (concepts/context/mcp)",
+      "url": "https://docs.github.com/en/copilot/concepts/context/mcp",
+      "primary": true
+    },
+    {
+      "claim": "El propio código del servidor de GitHub cuida el costo del menú: en feature_flags.go, un comentario dice que las herramientas de dependencias de issues no se anuncian en la superficie por defecto, 'keeping the fixed tool-schema cost small unless explicitly opted in'.",
+      "source": "GitHub, github/github-mcp-server, pkg/github/feature_flags.go (comentario de FeatureFlagIssueDependencies)",
+      "url": "https://raw.githubusercontent.com/github/github-mcp-server/main/pkg/github/feature_flags.go",
+      "primary": true
+    },
+    {
+      "claim": "Estado del repositorio al 2026-11-01: 'GitHub's official MCP Server', licencia MIT, lenguaje Go, 34,141 estrellas, creado el 2025-03-04, último push el 2026-10-30, no archivado.",
+      "source": "GitHub API, repos/github/github-mcp-server",
+      "url": "https://api.github.com/repos/github/github-mcp-server",
+      "primary": true
+    },
+    {
+      "claim": "La versión vigente de la especificación de MCP es la 2026-07-28: 'The current protocol version is 2026-07-28'. Las versiones se nombran AAAA-MM-DD, la fecha del último cambio incompatible. Las revisiones 2025-11-25 y anteriores usan un apretón de manos (handshake).",
+      "source": "Model Context Protocol, Specification: Versioning",
+      "url": "https://modelcontextprotocol.io/specification/versioning",
+      "primary": true,
+      "note": "Revisado el 2026-11-01. La página de la especificación enlaza el esquema schema/2026-07-28/schema.ts."
+    },
+    {
+      "claim": "MCP usa JSON-RPC 2.0 entre tres roles. Especificación: 'Hosts: LLM applications that initiate connections', 'Clients: Connectors within the host application', 'Servers: Services that provide context and capabilities'. Cada cliente se comunica con exactamente un servidor (relación 1:1) y un host puede crear varios clientes.",
+      "source": "Model Context Protocol, Specification 2026-07-28 (Overview) y Architecture",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/architecture.md",
+      "primary": true,
+      "note": "Overview: https://modelcontextprotocol.io/specification/latest. La guía de docs lo dice así: 'MCP Host: The AI application that coordinates and manages one or multiple MCP clients'; 'MCP Client: A component that maintains a connection to an MCP server'; 'MCP Server: A program that provides context to MCP clients' (https://modelcontextprotocol.io/docs/learn/architecture)."
+    },
+    {
+      "claim": "tools/list devuelve la lista de herramientas, cada una con 'name', 'title' (opcional), 'description' e 'inputSchema' (JSON Schema). Ejemplo literal de la especificación: name 'get_weather', title 'Weather Information Provider', description 'Get current weather information for a location', inputSchema {type: object, properties: {location: {type: string, description: 'City name or zip code'}}, required: ['location']}. La respuesta trae también 'ttlMs': 300000 y 'cacheScope': 'public'.",
+      "source": "Model Context Protocol, Specification 2026-07-28: Tools (Listing Tools)",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/tools.md",
+      "primary": true,
+      "note": "Otro ejemplo en la guía de arquitectura: 'calculator_arithmetic' (expression) y 'weather_current' (location, units con enum metric/imperial/kelvin): https://modelcontextprotocol.io/docs/learn/architecture. 'outputSchema' es opcional."
+    },
+    {
+      "claim": "tools/call ejecuta una herramienta: la petición lleva 'name' y 'arguments' (ejemplo: name 'get_weather', arguments {location: 'New York'}) y la respuesta trae 'content' (lista de contenidos, por ejemplo type 'text') e 'isError': false.",
+      "source": "Model Context Protocol, Specification 2026-07-28: Tools (Calling Tools)",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/tools.md",
+      "primary": true
+    },
+    {
+      "claim": "La documentación llama a tools/list el mecanismo de descubrimiento: 'This request is fundamental to MCP's tool discovery mechanism'. Y sobre las primitivas: 'MCP clients will use the */list methods to discover available primitives'. El cliente lista las herramientas con tools/list y luego las ejecuta.",
+      "source": "Model Context Protocol, Architecture overview (Primitives, Tool Discovery)",
+      "url": "https://modelcontextprotocol.io/docs/learn/architecture",
+      "primary": true,
+      "note": "Confirma el término 'descubrimiento de herramientas' del ángulo."
+    },
+    {
+      "claim": "notifications/tools/list_changed avisa que la lista de herramientas cambió. El servidor lo declara con capabilities.tools.listChanged: true. En la 2026-07-28 el cliente lo pide abriendo un flujo 'subscriptions/listen' con 'toolsListChanged: true'; el aviso no lleva 'id' (no espera respuesta) y el cliente suele volver a pedir tools/list. La guía aclara que es 'Best Effort': 'There are no guarantees that every notification will be sent or received'.",
+      "source": "Model Context Protocol, Specification 2026-07-28: Tools (List Changed Notification) y Architecture overview (Notifications)",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/tools.md",
+      "primary": true,
+      "note": "Guía con el ejemplo completo: https://modelcontextprotocol.io/docs/learn/architecture"
+    },
+    {
+      "claim": "En la versión 2026-07-28 MCP es sin estado: 'MCP is a stateless protocol'. Cada petición lleva su versión de protocolo y capacidades en '_meta' (io.modelcontextprotocol/protocolVersion, io.modelcontextprotocol/clientCapabilities). Todo servidor debe implementar 'server/discover', que devuelve versiones, capacidades e identidad; llamarlo es opcional para el cliente. Las revisiones 2025-11-25 y anteriores usaban un apretón de manos (initialize).",
+      "source": "Model Context Protocol, Architecture overview (Statelessness and discovery) y Specification: Versioning",
+      "url": "https://modelcontextprotocol.io/docs/learn/architecture",
+      "primary": true,
+      "note": "Letra chica de actualidad: tutoriales de 2025 que hablan de 'initialize' describen el protocolo anterior."
+    },
+    {
+      "claim": "Las herramientas en MCP son 'model-controlled' según la especificación: 'the language model can discover and invoke tools automatically', según su comprensión del contexto y los prompts del usuario. Pero la misma sección advierte que debería haber siempre 'a human in the loop with the ability to deny tool invocations' (con 'SHOULD', no 'MUST').",
+      "source": "Model Context Protocol, Specification 2026-07-28: Tools (User Interaction Model)",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/tools.md",
+      "primary": true,
+      "note": "Sección 'User Interaction Model'. Responde la duda sobre 'el modelo elige solo': el modelo elige entre las herramientas que la aplicación le expone; ver los dos hechos siguientes."
+    },
+    {
+      "claim": "Quién decide qué ve el modelo es la aplicación (el host). La especificación pide a las aplicaciones 'Provide UI that makes clear which tools are being exposed to the AI model' y, en Seguridad, 'Hosts must obtain explicit user consent before invoking any tool'. El host 'Controls client connection permissions and lifecycle', 'Enforces security policies and consent requirements' y 'Manages context aggregation across clients'. Los servidores 'should not be able to read the whole conversation'.",
+      "source": "Model Context Protocol, Specification 2026-07-28 (Overview, Security and Trust & Safety) y Architecture (Host)",
+      "url": "https://modelcontextprotocol.io/specification/latest",
+      "primary": true,
+      "note": "Host y principios de diseño: https://modelcontextprotocol.io/specification/2026-07-28/architecture.md"
+    },
+    {
+      "claim": "La guía de clientes explica quién filtra las herramientas antes del modelo: el host pide tools/list 'as normal, but defers injecting them into the model's context'. Le da al modelo una meta-herramienta 'search_tools' y carga las definiciones completas solo cuando hacen falta.",
+      "source": "Model Context Protocol, Client Best Practices (Progressive Tool Discovery)",
+      "url": "https://modelcontextprotocol.io/docs/2026-07-28/develop/clients/client-best-practices.md",
+      "primary": true
+    },
+    {
+      "claim": "La especificación dice que las herramientas permiten a los modelos 'interact with external systems', por ejemplo 'calling APIs'. La guía de arquitectura define las herramientas como 'Executable functions that AI applications can invoke', con ejemplos 'file operations, API calls, database queries'.",
+      "source": "Model Context Protocol, Specification 2026-07-28: Tools y Architecture overview (Primitives)",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/tools.md",
+      "primary": true,
+      "note": "Guía: https://modelcontextprotocol.io/docs/learn/architecture. Las llamadas a API son un caso de uso de las herramientas, no una obligación."
+    },
+    {
+      "claim": "La guía de seguridad de MCP define un servidor MCP intermediario de APIs de terceros: 'MCP Proxy Server' es 'An MCP server that connects MCP clients to third-party APIs'. Y exige: 'MUST NOT accept any tokens that were not explicitly issued for the MCP server'.",
+      "source": "Model Context Protocol, Security Best Practices (Confused Deputy Problem, Token Passthrough)",
+      "url": "https://modelcontextprotocol.io/docs/2026-07-28/tutorials/security/security_best_practices.md",
+      "primary": true,
+      "note": "No es una frase 'MCP no reemplaza las APIs', pero es la descripción oficial de un servidor MCP que delega en una API de terceros. La segunda cita es sobre 'token passthrough' (reenviar a la API el token que llegó del cliente)."
+    },
+    {
+      "claim": "Notion lo dice casi literal en su documentación: 'An MCP client connects to Notion's remote MCP server, which uses the Notion API.' Describe el servidor como 'a remote MCP server hosted by Notion', autorizado con OAuth.",
+      "source": "Notion Developers, Notion MCP",
+      "url": "https://developers.notion.com/guides/mcp/mcp",
+      "primary": true,
+      "note": "Es la mejor cita encontrada para 'MCP va por encima de la API'. La página incluye un diagrama (cliente MCP, servidor MCP remoto, Notion API)."
+    },
+    {
+      "claim": "Stripe lo dice igual: 'Let your AI agents interact with the Stripe API by using our MCP server.' Su servidor (https://mcp.stripe.com) expone stripe_api_search, stripe_api_details, stripe_api_read ('Read data with any Stripe API GET method') y stripe_api_write (POST, PATCH, PUT y DELETE). Stripe explica que así queda disponible gran parte de la API 'without increasing the context window unnecessarily'.",
+      "source": "Stripe Docs, Model Context Protocol (MCP)",
+      "url": "https://docs.stripe.com/mcp",
+      "primary": true,
+      "note": "Autenticación: OAuth o agent API keys. Letra chica: 'Migrate by November 30, 2026'; desde diciembre el servidor deja de aceptar claves secretas completas y claves restringidas sin la etiqueta Agent. Algunas acciones piden 'Human confirmation'."
+    },
+    {
+      "claim": "La autorización de MCP es opcional y vive en el transporte: 'Authorization is OPTIONAL for MCP implementations'. Con transporte HTTP, 'SHOULD conform to this specification'; con stdio, 'SHOULD NOT follow this specification, and instead retrieve credentials from the environment'. El servidor MCP actúa como servidor de recursos de OAuth 2.1 y el cliente como cliente de OAuth 2.1.",
+      "source": "Model Context Protocol, Specification 2026-07-28: Authorization",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/authorization/index.md",
+      "primary": true,
+      "note": "OAuth 2.1 se cita como 'IETF DRAFT (draft-ietf-oauth-v2-1-13)': sigue siendo borrador. Cada petición HTTP lleva 'Authorization: Bearer <access-token>'. Requisito: 'MCP servers MUST NOT accept or transit any other tokens.' Códigos de error: 401, 403 (insufficient_scope) y 400."
+    },
+    {
+      "claim": "La capa de transporte de MCP maneja la autenticación: stdio usa 'standard input/output streams' entre procesos locales; Streamable HTTP 'supports standard HTTP authentication methods including bearer tokens, API keys, and custom headers' y 'MCP recommends using OAuth'. Ejemplo de la documentación: el servidor de archivos corre local por stdio; el servidor oficial de Sentry corre en la plataforma de Sentry por Streamable HTTP.",
+      "source": "Model Context Protocol, Architecture overview (Participants, Transport layer)",
+      "url": "https://modelcontextprotocol.io/docs/learn/architecture",
+      "primary": true
+    },
+    {
+      "claim": "Los errores siguen existiendo, ahora como resultado de la herramienta. La especificación separa errores de protocolo (JSON-RPC) de los 'Tool Execution Errors', que incluyen 'API failures' y se devuelven con 'isError: true' para que el modelo pueda 'self-correct and retry'. Además los servidores 'MUST' validar entradas, controlar accesos y limitar la frecuencia ('Rate limit tool invocations'); los clientes 'SHOULD' poner tiempos de espera.",
+      "source": "Model Context Protocol, Specification 2026-07-28: Tools (Error Handling, Security Considerations)",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/tools.md",
+      "primary": true,
+      "note": "La especificación no define cómo reintenta el servidor hacia la API de arriba; eso queda en el servidor (ver pendingToVerify)."
+    },
+    {
+      "claim": "No todo servidor MCP envuelve una API. Los servidores de referencia activos son Everything, Fetch, Filesystem ('Secure file operations with configurable access controls'), Git ('Tools to read, search, and manipulate Git repositories'), Memory ('Knowledge graph-based persistent memory system'), Sequential Thinking y Time. Se describen como 'reference implementations to demonstrate MCP features and SDK usage', no como soluciones listas para producción.",
+      "source": "Model Context Protocol, repositorio modelcontextprotocol/servers (README)",
+      "url": "https://github.com/modelcontextprotocol/servers",
+      "primary": true,
+      "note": "El mismo README dice que servidores como GitHub, Slack, Sentry, PostgreSQL y Google Drive están archivados en servers-archived; Slack lo mantiene hoy Zencoder. El servidor vigente de GitHub es github/github-mcp-server."
+    },
+    {
+      "claim": "El servidor Filesystem trabaja con archivos locales por stdio: sus herramientas incluyen read_text_file, write_file, list_directory y search_files, y solo accede a los directorios permitidos que se pasan por línea de comandos. No llama a ninguna API REST.",
+      "source": "Model Context Protocol, servers/src/filesystem (README)",
+      "url": "https://github.com/modelcontextprotocol/servers/tree/main/src/filesystem",
+      "primary": true,
+      "note": "En la 2026-07-28, Roots está deprecado: las conexiones de esa versión no lo pueden usar. 'No llama a ninguna API REST' es una deducción de la descripción (archivos locales por stdio), no una frase del README."
+    },
+    {
+      "claim": "El servidor Git trabaja con un repositorio local por stdio y se lanza con 'uvx mcp-server-git'. Sus herramientas incluyen git_status, git_diff, git_commit, git_add, git_log y git_checkout, y la opción --repository limita el acceso a un repositorio local.",
+      "source": "Model Context Protocol, servers/src/git (README)",
+      "url": "https://github.com/modelcontextprotocol/servers/tree/main/src/git",
+      "primary": true
+    },
+    {
+      "claim": "El servidor Memory es 'A basic implementation of persistent memory using a local knowledge graph' y guarda todo en un archivo local (memory.jsonl, configurable con MEMORY_FILE_PATH). Sus herramientas incluyen create_entities, create_relations, read_graph y search_nodes.",
+      "source": "Model Context Protocol, servers/src/memory (README)",
+      "url": "https://github.com/modelcontextprotocol/servers/tree/main/src/memory",
+      "primary": true
+    },
+    {
+      "claim": "El servidor de ejemplo del tutorial oficial sí es una capa sobre una API REST: expone dos herramientas, get_alerts y get_forecast, y en el código define NWS_API_BASE = 'https://api.weather.gov' y hace las peticiones con httpx (función make_nws_request).",
+      "source": "Model Context Protocol, tutorial 'Build an MCP server' y quickstart-resources/weather-server-python/weather.py",
+      "url": "https://raw.githubusercontent.com/modelcontextprotocol/quickstart-resources/main/weather-server-python/weather.py",
+      "primary": true,
+      "note": "Tutorial: https://modelcontextprotocol.io/docs/2026-07-28/develop/build-server.md ('We'll build a server that exposes two tools: get_alerts and get_forecast'). Se verificó el código del repositorio quickstart-resources en main, no la versión exacta que muestra el tutorial."
+    },
+    {
+      "claim": "El problema de antes, según Anthropic (25 de noviembre de 2024): 'Every new data source requires its own custom implementation.' MCP se presenta como 'a universal, open standard for connecting AI systems with data sources', que reemplaza 'fragmented integrations with a single protocol'. El anuncio también dice que, en vez de mantener conectores separados, los desarrolladores pueden 'build against a standard protocol'.",
+      "source": "Anthropic, Introducing the Model Context Protocol",
+      "url": "https://www.anthropic.com/news/model-context-protocol",
+      "primary": true,
+      "note": "El anuncio NO usa el término N×M. Habla de servidores prefabricados 'for popular enterprise systems like Google Drive, Slack, GitHub' y de adoptantes tempranos: Block y Apollo."
+    },
+    {
+      "claim": "El término N×M sí lo usa GitHub, citando a David Soria Parra (Anthropic, uno de los arquitectos de MCP): la industria chocaba con 'an n×m integration problem with too many clients, too many systems'. El ejemplo del artículo: 'five different AI clients talking to ten internal systems, resulting in fifty bespoke integrations'.",
+      "source": "GitHub Blog, MCP joins the Linux Foundation (9 de diciembre de 2025)",
+      "url": "https://github.blog/open-source/maintainers/mcp-joins-the-linux-foundation-what-this-means-for-developers-building-the-next-era-of-ai-tools-and-agents/",
+      "primary": true,
+      "note": "Es primaria para GitHub, pero la frase la dice un ingeniero de Anthropic y no aparece en la documentación de MCP ni en el anuncio de 2024."
+    },
+    {
+      "claim": "La analogía oficial existe: 'Think of MCP like a USB-C port for AI applications.' MCP se define como 'an open-source standard for connecting AI applications to external systems', y la página incluye un diagrama (mcp-simple-diagram.png).",
+      "source": "Model Context Protocol, What is MCP? (Introducción)",
+      "url": "https://modelcontextprotocol.io/docs/getting-started/intro",
+      "primary": true,
+      "note": "Imagen del diagrama oficial: https://mintcdn.com/mcp/bEUxYpZqie0DsluH/images/mcp-simple-diagram.png (URL del CDN de la documentación, puede cambiar). Beneficio para desarrolladores: 'MCP reduces development time and complexity'."
+    },
+    {
+      "claim": "El costo del menú, con cifras de Anthropic (24 de noviembre de 2025): GitHub 35 herramientas (~26K tokens), Slack 11 (~21K), Sentry 5 (~3K), Grafana 5 (~3K) y Splunk 2 (~2K). Juntos: '58 tools consuming approximately 55K tokens before the conversation even starts'. Anthropic dice haber visto 'tool definitions consume 134K tokens before optimization'.",
+      "source": "Anthropic Engineering, Advanced tool use",
+      "url": "https://www.anthropic.com/engineering/advanced-tool-use",
+      "primary": true,
+      "note": "Cifras de noviembre de 2025: el servidor de GitHub cambia, hoy tiene más toolsets. Con el Tool Search Tool, el artículo reporta ~77K tokens bajando a ~8.7K ('85% reduction in token usage')."
+    },
+    {
+      "claim": "La documentación de la API de Claude confirma la cifra y da el umbral: un montaje típico de varios servidores (GitHub, Slack, Sentry, Grafana y Splunk) 'can consume ~55k tokens in definitions', y tool search 'typically reduces this by over 85 percent', cargando solo 3 a 5 herramientas. Sobre acierto: 'Claude's ability to pick the right tool degrades once you exceed 30-50 available tools.'",
+      "source": "Anthropic, Claude API Docs: Tool search tool",
+      "url": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/tool-search-tool",
+      "primary": true,
+      "note": "Recomienda tool search con 10 o más herramientas, más de 10k tokens de definiciones o 200+ herramientas de varios servidores MCP; límite de 10,000 herramientas con defer_loading por petición. Estado 'stable' en la página. Es el dato que matiza 'el modelo elige solo lo correcto'."
+    },
+    {
+      "claim": "El artículo 'Code execution with MCP' (4 de noviembre de 2025) dice: 'Most MCP clients load all tool definitions upfront directly into context' y que las descripciones 'occupy more context window space, increasing response time and costs'. En su ejemplo, el uso baja de 150,000 a 2,000 tokens (98.7% menos) al usar ejecución de código.",
+      "source": "Anthropic Engineering, Code execution with MCP",
+      "url": "https://www.anthropic.com/engineering/code-execution-with-mcp",
+      "primary": true,
+      "note": "Es el ejemplo del artículo, no un promedio. El artículo no da tokens por definición de una sola herramienta. Dice también 'the community has built thousands of MCP servers'."
+    },
+    {
+      "claim": "La guía oficial de clientes de MCP reconoce el problema: cargar todas las definiciones de golpe 'wastes tokens, increases latency, and degrades model performance'. Su diagrama compara ~150,000 tokens cargando todo contra ~2,000 con descubrimiento progresivo. Recomienda cambiar a descubrimiento progresivo cuando las definiciones pasen un umbral, 'for example, 1%-5%' de la ventana de contexto.",
+      "source": "Model Context Protocol, Client Best Practices (Progressive Tool Discovery)",
+      "url": "https://modelcontextprotocol.io/docs/2026-07-28/develop/clients/client-best-practices.md",
+      "primary": true,
+      "note": "Diagrama oficial: https://mintcdn.com/mcp/JXfd5cBmEUh_qPUI/images/progressive-discovery.svg. Aviso de la misma guía: añadir o quitar herramientas a mitad de conversación invalida la caché del prompt."
+    },
+    {
+      "claim": "Quién mantiene MCP hoy: Anthropic lo donó el 9 de diciembre de 2025 a la Agentic AI Foundation (AAIF), 'a directed fund under the Linux Foundation' cofundado por Anthropic, Block y OpenAI, con apoyo de Google, Microsoft, AWS, Cloudflare y Bloomberg. Se unió a goose (Block) y AGENTS.md (OpenAI). Anthropic dice que el gobierno del proyecto sigue igual y que MCP seguirá 'open-source, community-driven and vendor-neutral'.",
+      "source": "Anthropic, Donating the Model Context Protocol and establishing the Agentic AI Foundation",
+      "url": "https://www.anthropic.com/news/donating-the-model-context-protocol-and-establishing-of-the-agentic-ai-foundation",
+      "primary": true,
+      "note": "Confirmado con la nota de la Linux Foundation del 9 de diciembre de 2025: https://www.linuxfoundation.org/press/linux-foundation-announces-the-formation-of-the-agentic-ai-foundation y con el blog de GitHub."
+    },
+    {
+      "claim": "Gobierno técnico actual (documentación de MCP): el proyecto está establecido como 'Model Context Protocol a Series of LF Projects, LLC'. Lead Maintainers: David Soria Parra y Den Delimarsky. El código y la especificación van con licencia Apache 2.0 y la documentación con CC BY 4.0. Los cambios a la especificación pasan por SEPs (Specification Enhancement Proposals).",
+      "source": "Model Context Protocol, Governance and Stewardship",
+      "url": "https://modelcontextprotocol.io/community/governance",
+      "primary": true
+    },
+    {
+      "claim": "Cifras de adopción con fecha. 9 de diciembre de 2025 (Anthropic): 'More than 10,000 active public MCP servers', '97M+ monthly SDK downloads across Python and TypeScript' y más de 75 conectores en el directorio de Claude. La nota de la Linux Foundation del mismo día dice 'more than 10,000 published MCP servers'. 13 de abril de 2026 (blog de AAIF sobre el MCP Dev Summit): 'more than 110 million SDK downloads every single month'.",
+      "source": "Anthropic (donación a AAIF, 2025-12-09), Linux Foundation (2025-12-09) y AAIF (blog, 2026-04-13)",
+      "url": "https://aaif.io/blog/mcp-is-now-enterprise-infrastructure-everything-that-happened-at-mcp-dev-summit-north-america-2026",
+      "primary": true,
+      "note": "La cifra de 110 millones la presenta el blog de AAIF como lo que abrió David Soria Parra; no es una cita textual suya. No encontré una cifra oficial de servidores más reciente que la de diciembre de 2025. Anthropic: https://www.anthropic.com/news/donating-the-model-context-protocol-and-establishing-of-the-agentic-ai-foundation"
+    },
+    {
+      "claim": "El blog oficial de MCP del 25 de noviembre de 2025 (primer aniversario) dice que el Registro de MCP tenía 'close to two thousand entries' desde su anuncio en septiembre, un crecimiento de 407%, y que en menos de doce meses MCP pasó a ser 'the de-facto standard for this very scenario'.",
+      "source": "Model Context Protocol Blog, One Year of MCP: November 2025 Spec Release",
+      "url": "https://blog.modelcontextprotocol.io/posts/2025-11-25-first-mcp-anniversary/",
+      "primary": true,
+      "note": "Las entradas del Registro y los servidores activos son medidas distintas: no compararlas."
+    },
+    {
+      "claim": "Claude: la documentación de Claude Code dice que puede 'connect to hundreds of external tools and data sources' mediante MCP. Los servidores remotos se agregan con 'claude mcp add --transport http <name> <url>' y los locales por stdio; la búsqueda de herramientas ('tool search') viene activada por defecto.",
+      "source": "Anthropic, Claude Code Docs: MCP",
+      "url": "https://code.claude.com/docs/en/mcp",
+      "primary": true,
+      "note": "Claude en la web y Claude Desktop también conectan servidores MCP como 'connectors': la doc de Stripe dice 'install the official Stripe connector in Claude' (https://docs.stripe.com/mcp)."
+    },
+    {
+      "claim": "ChatGPT: la documentación de OpenAI dice 'Custom MCP servers enable you to connect your ChatGPT workspace to external applications', y que el servidor se puede probar directamente con la Responses API de OpenAI.",
+      "source": "OpenAI, Developers: MCP",
+      "url": "https://developers.openai.com/api/docs/mcp/",
+      "primary": true
+    },
+    {
+      "claim": "VS Code: su documentación dice 'Model Context Protocol (MCP) connects agents to these tools and data sources'. La introducción oficial de MCP lista a VS Code entre los clientes con soporte.",
+      "source": "Microsoft, Visual Studio Code Docs: MCP servers",
+      "url": "https://code.visualstudio.com/docs/copilot/chat/mcp-servers",
+      "primary": true,
+      "note": "La página que abrí no trae una frase simple 'VS Code soporta MCP'; la confirmación explícita sale de la lista de clientes de la introducción de MCP (https://modelcontextprotocol.io/docs/getting-started/intro) y de la guía de arquitectura, que usa a VS Code como ejemplo de host."
+    },
+    {
+      "claim": "Cursor: 'Model Context Protocol (MCP) enables Cursor to connect to external tools and data sources.' Soporta tres transportes (stdio, SSE y Streamable HTTP) y OAuth: 'Cursor supports OAuth for servers that require it.'",
+      "source": "Cursor, Docs: Model Context Protocol (MCP)",
+      "url": "https://cursor.com/docs/context/mcp",
+      "primary": true
+    },
+    {
+      "claim": "Gemini: el repositorio oficial de Gemini CLI (google-gemini) documenta que un servidor MCP 'exposes tools and resources to the Gemini CLI', y que el CLI descubre las herramientas de los servidores configurados en 'mcpServers' de settings.json. La nota de donación de Anthropic (2025-12-09) lista a Gemini entre los productos que adoptaron MCP, junto a ChatGPT, Cursor, Microsoft Copilot y Visual Studio Code.",
+      "source": "Google, google-gemini/gemini-cli, docs/tools/mcp-server.md; Anthropic, nota de donación a AAIF",
+      "url": "https://github.com/google-gemini/gemini-cli/blob/main/docs/tools/mcp-server.md",
+      "primary": true,
+      "note": "Solo está confirmado Gemini CLI con documentación propia; no verifiqué la app de Gemini ni la API de Gemini."
+    },
+    {
+      "claim": "Slack tiene servidor MCP en su documentación para desarrolladores: las peticiones van a https://mcp.slack.com/mcp con JSON-RPC 2.0 sobre Streamable HTTP y OAuth confidencial. La página dice que no se admiten conexiones SSE ni Dynamic Client Registration, y que 'only Marketplace-published apps and internal apps may use MCP at this time'.",
+      "source": "Slack, Developer Docs: Slack MCP server",
+      "url": "https://docs.slack.dev/ai/mcp-server",
+      "primary": true,
+      "note": "La página no usa la palabra 'official' ni dice si está en beta o disponible general; está alojada por Slack (docs.slack.dev, mcp.slack.com)."
+    },
+    {
+      "claim": "Linear: servidor MCP en https://mcp.linear.app/mcp (lectura y escritura) y https://mcp.linear.app/mcp/readonly (solo lectura). Autenticación 'OAuth 2.1 with dynamic client registration', o token de portador / clave de API de Linear. Sus herramientas sirven para 'finding, creating, and updating objects in Linear', como issues, proyectos y comentarios.",
+      "source": "Linear, Docs: MCP server",
+      "url": "https://linear.app/docs/mcp",
+      "primary": true
+    },
+    {
+      "claim": "Sentry: servidor MCP alojado en https://mcp.sentry.dev/mcp ('All connections use OAuth'). Sirve para buscar errores, analizar rendimiento y clasificar issues. La propia documentación de MCP lo cita como ejemplo de servidor remoto: 'The official Sentry MCP server runs on the Sentry platform'.",
+      "source": "Sentry, MCP server; Model Context Protocol, Architecture overview",
+      "url": "https://mcp.sentry.dev/",
+      "primary": true,
+      "note": "docs.sentry.io/product/sentry-mcp/ redirige (301) a mcp.sentry.dev. La cita 'official' está en https://modelcontextprotocol.io/docs/learn/architecture"
+    },
+    {
+      "claim": "Ancla visual: el logo de MCP está en Simple Icons con el slug 'modelcontextprotocol' (título 'Model Context Protocol', viewBox 0 0 24 24), y el icono se sirve en https://cdn.simpleicons.org/modelcontextprotocol con fill #000000. Slack no tiene entrada en Simple Icons; GitHub, Notion, Stripe, Linear y Sentry sí (slugs github, notion, stripe, linear, sentry).",
+      "source": "Simple Icons, slugs.md e icons/modelcontextprotocol.svg",
+      "url": "https://raw.githubusercontent.com/simple-icons/simple-icons/develop/icons/modelcontextprotocol.svg",
+      "primary": false,
+      "note": "No es una fuente primaria del dato de marca (es una librería). Orden de la regla 6: oficial primero. Slugs: https://raw.githubusercontent.com/simple-icons/simple-icons/develop/slugs.md. El color #000000 es el que devolvió el CDN, no un valor oficial de MCP."
+    },
+    {
+      "claim": "Logo oficial: el repositorio de la documentación de MCP tiene docs/logo con cuatro archivos (dark.png, dark.svg, light.png, light.svg). light.svg es negro, con viewBox 0 0 1338 195 (formato apaisado, parece un wordmark). Los diagramas oficiales son mcp-simple-diagram.png (introducción), progressive-discovery.svg (buenas prácticas para clientes) y los diagramas Mermaid de la guía de arquitectura (host, clientes y servidores locales y remotos).",
+      "source": "Model Context Protocol, repositorio modelcontextprotocol/modelcontextprotocol (docs/logo) y documentación",
+      "url": "https://github.com/modelcontextprotocol/modelcontextprotocol/tree/main/docs/logo",
+      "primary": true,
+      "note": "Archivo: https://modelcontextprotocol.io/logo/light.svg. No revisé las condiciones de uso de la marca. Que sea un wordmark es una suposición por las proporciones; mirarlo antes de usarlo."
+    },
+    {
+      "claim": "Línea real de search_code que va en pantalla, en pkg/github/search.go, líneas 320 y 325: 'client, err := deps.GetClient(ctx)' y 'result, resp, err := client.Search.Code(ctx, query, opts)'.",
+      "source": "GitHub, github/github-mcp-server, pkg/github/search.go (rama main, descargado el 2026-11-01)",
+      "url": "https://raw.githubusercontent.com/github/github-mcp-server/main/pkg/github/search.go",
+      "primary": true,
+      "note": "Revisado por el agente principal. En pantalla va solo la línea 325, partida en tres para que se lea en el celular; el texto no cambia."
+    },
+    {
+      "claim": "Definición real de search_code: name 'search_code'; description 'Fast and precise code search across ALL GitHub repositories using GitHub's native search engine. Best for finding exact symbols, functions, classes, or specific code patterns.'; inputSchema con 'query' (string, requerido) y los opcionales fields, order, page, perPage y sort.",
+      "source": "GitHub, github/github-mcp-server, pkg/github/__toolsnaps__/search_code.snap",
+      "url": "https://raw.githubusercontent.com/github/github-mcp-server/main/pkg/github/__toolsnaps__/search_code.snap",
+      "primary": true,
+      "note": "En pantalla la descripción va recortada con puntos suspensivos."
+    },
+    {
+      "claim": "Nombres de herramientas que van en pantalla, tal como los lista el README: search_code, list_issues, issue_write y pull_request_read. read_pull_requests, el que muestra el referente, no aparece así: el README lista list_pull_requests y pull_request_read.",
+      "source": "GitHub, github/github-mcp-server, README",
+      "url": "https://raw.githubusercontent.com/github/github-mcp-server/main/README.md",
+      "primary": true
+    },
+    {
+      "claim": "Por dentro, go-github llama a s.search(ctx, \"code\", ...) para Search.Code, y la documentación REST de GitHub publica el endpoint de búsqueda de código en /search/code.",
+      "source": "google/go-github, github/search.go; GitHub Docs, REST API endpoints for search",
+      "url": "https://docs.github.com/en/rest/search/search?apiVersion=2022-11-28#search-code",
+      "primary": true,
+      "note": "Revisado por el agente principal con la página y el código. Otra fuente: https://raw.githubusercontent.com/google/go-github/master/github/search.go"
+    },
+    {
+      "claim": "Comando real para cargar solo algunos toolsets, del README: 'github-mcp-server --toolsets repos,issues' aparece como parte de sus ejemplos, y el README dice que elegir solo los necesarios 'can help the LLM with tool choice and reduce the context size'.",
+      "source": "GitHub, github/github-mcp-server, README (Tool Configuration)",
+      "url": "https://raw.githubusercontent.com/github/github-mcp-server/main/README.md",
+      "primary": true,
+      "note": "En el README el ejemplo es 'github-mcp-server --toolsets repos,issues --tools get_gist'; en pantalla va sin --tools."
+    },
+    {
+      "claim": "Los nombres que se apilan en la escena de la letra chica son herramientas reales del README de github-mcp-server: get_file_contents, create_pull_request, list_commits, get_job_logs, create_branch, fork_repository y list_releases.",
+      "source": "GitHub, github/github-mcp-server, README (Tools)",
+      "url": "https://raw.githubusercontent.com/github/github-mcp-server/main/README.md",
+      "primary": true,
+      "note": "Son siete ejemplos del README, no el total: no se da un total actual de herramientas."
+    }
+  ],
+  "calculations": [
+    "Suma de la lista de Anthropic (24 nov 2025): 35 + 11 + 5 + 5 + 2 = 58 herramientas, y 26 + 21 + 3 + 3 + 2 = 55 miles de tokens (~55K, coincide con la fuente).",
+    "Tokens por herramienta, aproximado: GitHub 26,000 / 35 = ~743; Slack 21,000 / 11 = ~1,909; Sentry 3,000 / 5 = 600. Sale de cifras aproximadas ('~') de Anthropic: es orden de magnitud, no un dato oficial.",
+    "El problema N×M del ejemplo de GitHub: 5 clientes × 10 sistemas = 50 integraciones a medida. Con un protocolo común, cada cliente y cada sistema se conecta una vez: 5 + 10 = 15 conexiones (cuenta propia).",
+    "Anthropic: 77K tokens a 8.7K con Tool Search. (77 - 8.7) / 77 = 88.7% menos, mientras el artículo dice '85% reduction'. La documentación de la API dice 'over 85 percent'. Citar la frase oficial, no el 88.7%.",
+    "Anthropic: 150,000 a 2,000 tokens. (150,000 - 2,000) / 150,000 = 98.67%, que el artículo redondea a 98.7%.",
+    "De 5 clientes y 10 sistemas: 5 × 10 = 50 integraciones a medida (GitHub Blog) contra 5 + 10 = 15 conexiones con un protocolo común (cuenta propia, el caption lo dice).",
+    "Los pasos 5 y 10 del medidor son el ejemplo ilustrativo de la pieza: 1 app × 5 servicios = 5; 2 apps × 5 servicios = 10.",
+    "La suma que sube en pantalla mientras se imprime la boleta: 26, 26+21=47, 47+3=50, 50+3=53, 53+2=55 (miles de tokens, aproximados, de la lista de Anthropic)."
+  ],
+  "illustrative": [
+    "La elección de 5 servicios (GitHub, Slack, Notion, Stripe, Linear): los cinco tienen servidor MCP según sus documentaciones, pero el caso de 'tu app' y 'tu empresa' es un ejemplo.",
+    "La pregunta '¿qué bugs siguen abiertos?' y que el modelo elija list_issues: ejemplo, rotulado en pantalla como Ejemplo ilustrativo.",
+    "La lista 'autenticación, errores y reintentos' de cada integración: es la descripción general del referente y de 'Every new data source requires its own custom implementation' (Anthropic), sin cifras.",
+    "La regla 'tu código sabe qué llamar: API; elige un modelo y varias apps comparten herramientas: MCP' es opinión editorial de la pieza, apoyada en que las herramientas son 'model-controlled' (especificación) y en el problema n×m. No es una frase de una fuente."
+  ],
+  "pendingToVerify": [
+    "Frase literal oficial de 'MCP no reemplaza las APIs': no hay. Ni la documentación de MCP ni el anuncio de Anthropic ni la de GitHub la dicen así. Lo más cercano: Notion ('which uses the Notion API'), Stripe ('interact with the Stripe API by using our MCP server'), GitHub (README: 'can use many of the GitHub APIs') y la guía de seguridad de MCP ('An MCP server that connects MCP clients to third-party APIs'). Si el guion la necesita, que cite esas y no invente una frase de MCP.",
+    "El término N×M no aparece en el anuncio de Anthropic de 2024 ni en la documentación de MCP que abrí. Solo está en el blog de GitHub, atribuido a David Soria Parra. Quien lo use debe decir que es de ahí.",
+    "Total actual de herramientas del servidor de GitHub: el README no lo da. El listado de snapshots (pkg/github/__toolsnaps__) mostró al menos 96 archivos .snap, pero se cortó y mezcla herramientas con feature flag. La única cifra primaria es '35 tools (~26K tokens)' de Anthropic, de noviembre de 2025. No decir un número actual.",
+    "Números de línea del código de GitHub: WebFetch no los devuelve de forma fiable. Se citó cada prueba por archivo y función (search.go/SearchCode, issues.go/ListIssues y createIssue, dependencies.go/GetClient y GetGQLClient). Para mostrar una línea en pantalla, abrir el archivo en GitHub y copiarla a mano.",
+    "No verifiqué si el feature flag de las herramientas granulares (create_issue, update_issue_*) está apagado por defecto en el servidor remoto; el código muestra que con el flag apagado rige issue_write, y el README solo lista issue_write. El valor exacto de la cadena del flag no se leyó.",
+    "Notion: la URL del servidor remoto (se esperaba https://mcp.notion.com/mcp) no aparece en las páginas de Notion que abrí; no la uso como dato.",
+    "Slack: la documentación no lo llama 'oficial' ni dice su estado (beta o disponible general); solo que lo usan apps publicadas en Marketplace o internas. Tampoco hay logo de Slack en Simple Icons: según la regla 6 habría que usar el oficial o pedírselo a Jeremy.",
+    "Gemini: solo confirmé Gemini CLI y la mención de Anthropic. No confirmé soporte en la app de Gemini ni en la API de Gemini con fuente de Google.",
+    "VS Code: la página de documentación que abrí no tiene una frase simple de soporte; usé su definición de MCP y la lista de clientes de la introducción de MCP.",
+    "Reintentos hacia la API de arriba: la especificación no dice nada de cómo debe reintentar un servidor MCP a la API que envuelve (solo errores de herramienta con isError, límites de frecuencia y tiempos de espera del cliente). Afirmar que 'el servidor los sigue manejando' es una inferencia, no una cita.",
+    "Cifras de servidores: la más reciente en fuente primaria es 'más de 10,000 servidores públicos activos' (9 dic 2025). No hay cifra oficial de 2026 de servidores. La de descargas más reciente (110 millones por mes, 13 abril 2026) viene de un blog de AAIF que la atribuye a una charla, no de una página de estadísticas.",
+    "Color oficial de la marca MCP: el CDN de Simple Icons devolvió #000000, pero no verifiqué un color de marca publicado por MCP ni las condiciones de uso del logo."
+  ]
+}

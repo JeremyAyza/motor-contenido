@@ -44,3 +44,12 @@ Para que no quede "simplón", que fue la crítica a ese primer corte:
 ## 5. Lo que el render deja
 
 `video.mp4`, la hoja, lo que encontró el inspector y el sha256 de la puerta B. Ya no hay vista con la interfaz de Instagram: Jeremy no la usa y alargaba el render.
+
+## 6. Avatar
+
+Decidido con Jeremy el 1 de noviembre de 2026.
+
+- **Cuándo va:** si es estratégico para el video o si se solicita explícitamente.
+- **Cómo va:** el avatar normal, sin fondo, como en [`2026-10-27-mcp-vs-acp`](../content/2026-10-27-mcp-vs-acp/): el busto de la cuenta, abajo a la izquierda y sobre los subtítulos (`avatar: {}`).
+- **En burbuja, nunca:** ni en círculo ni enfocado en la cara. `shape: "bubble"` queda en el kit solo porque lo usan piezas anteriores.
+- **Por partes:** si va solo en algunas escenas, es el mismo avatar con `avatar: { scenes: [...] }`.

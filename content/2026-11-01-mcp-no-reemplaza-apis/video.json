@@ -1,0 +1,125 @@
+{
+  "$schema": "../../schemas/video.schema.json",
+  "format": "largo",
+  "target": 116,
+  "topic": "MCP frente a una API: no la reemplaza, va encima; para qué existe, su menú de herramientas y cuándo usar cada una",
+  "world": "Una pared con su instalación: arriba tus apps de IA con sus enchufes, en la pared la placa de MCP y, detrás de la tapa, los mismos cables de cobre de siempre hacia cada servicio.",
+  "meter": {
+    "label": "Integraciones",
+    "from": "0",
+    "to": "15"
+  },
+  "cover": {
+    "scene": "gancho"
+  },
+  "hooks": [
+    {
+      "said": "MCP no reemplaza tus APIs.",
+      "onScreen": "MCP no reemplaza tus APIs",
+      "formula": 29
+    },
+    {
+      "said": "Abre un servidor MCP. Adentro hay una API.",
+      "onScreen": "Adentro hay una API",
+      "formula": 22
+    },
+    {
+      "said": "¿MCP mató a las APIs? Le quito la tapa.",
+      "onScreen": "¿MCP mató a las APIs?",
+      "formula": 16
+    }
+  ],
+  "scenes": [
+    {
+      "id": "gancho",
+      "say": "MCP no reemplaza tus APIs. Nunca las tocó. Este es el servidor de GitHub. Le quito la tapa.",
+      "see": "Una placa de pared enorme con el logo de MCP y el enchufe de GitHub. Desde el cuadro 1 un destornillador gira el tornillo de arriba; el gancho va como etiqueta encima y 'Nunca las tocó' se pega en violeta. En 'tapa' saltan los tornillos, la placa cae girando con rebote y polvo, y detrás queda un hoyo de papel negro rasgado con cables de cobre. El avatar es quien la abre.",
+      "resource": "metafora"
+    },
+    {
+      "id": "adentro",
+      "say": "Tu agente pide search code. Y aquí adentro, el servidor llama a la API de GitHub, la de siempre. List issues va por GraphQL. Y Notion lo escribe en su documentación: su servidor usa la API de Notion.",
+      "see": "La cámara se mete por el hoyo. Una cinta rotuladora search_code baja por un cable hasta una ventana con la línea real 325 de pkg/github/search.go: client.Search.Code(ctx, query, opts). Sale el paquete, el cable se enciende en cobre y llega al logo de GitHub con GET /search/code. Golpea el sello 'La de siempre'. La cinta list_issues baja por un segundo cable rotulado GraphQL. Sube la tarjeta de los docs de Notion con la frase marcada: 'which uses the Notion API'.",
+      "resource": "captura-anotada"
+    },
+    {
+      "id": "antes",
+      "say": "Entonces, ¿para qué existe MCP? Mira cómo era antes. Tu app de IA habla con cinco servicios. Cada uno con su enchufe: su autenticación, sus errores, sus reintentos. Cinco integraciones a mano. Tu empresa saca otra app de IA. Otra vez las cinco. Diez. GitHub pone este ejemplo: cinco clientes, diez sistemas, cincuenta integraciones a medida.",
+      "see": "El avatar pregunta en grande y se encoge a una esquina: es el dev que rehace todo. La película retrocede: la pared sin placa, con cinco hoyos. Abajo entran los stickers de GitHub, Slack, Notion, Stripe y Linear; cinco cables bajan con cinco enchufes de forma distinta, y a cada uno se le pegan tres etiquetas rojas. El 5 golpea en el centro y sube en el medidor. Cae 'App 2' desde arriba, empuja a la primera y bajan cinco cables más: golpea el 10. Entra un recorte con 50 líneas cruzadas entre 5 y 10 puntos, y el medidor golpea 50.",
+      "resource": "comparacion"
+    },
+    {
+      "id": "enchufe",
+      "say": "MCP lo resuelve con una idea: el mismo enchufe para todos. Tu app aprende MCP una vez. Cada servicio pone su servidor una vez. De cincuenta, bajas a quince. La autenticación y los errores no desaparecieron: se mudaron al servidor.",
+      "see": "Una regleta violeta con el logo de MCP entra de costado por la pared y los enchufes se igualan uno por uno, con un clac cada uno. Cada app baja con un solo cable violeta; bajo cada toma aparece la caja de su servidor, y el cobre de atrás sigue igual. El medidor baja de 50 a 15 y golpea '5 + 10 = 15'. Las etiquetas rojas se despegan, atraviesan la pared y caen dentro de las cajas, con el rótulo 'Se mudaron'.",
+      "resource": "proceso"
+    },
+    {
+      "id": "menu",
+      "say": "Ahora, lo importante. Cada servidor se describe solo. Tu app pregunta tools list y recibe un menú: nombre, descripción y parámetros, siempre en el mismo formato. Nadie le explicó a tu modelo qué existe: lo lee. Eso es descubrimiento de herramientas.",
+      "see": "Paneo a la caja del servidor de GitHub, con 'Se describe solo' enorme. Sale el pedido tools/list y una rotuladora imprime las cintas search_code, list_issues, issue_write y pull_request_read. La definición real de search_code se abre con sus tres campos, que se marcan con la voz; detrás asoman las fichas de Slack y Notion, con el mismo formato. Entra el modelo, un recorte con ojos saltones, y sus pupilas leen cinta por cinta. Golpea 'Descubrimiento de herramientas'.",
+      "resource": "anatomia"
+    },
+    {
+      "id": "elige",
+      "say": "Preguntas qué bugs siguen abiertos. El modelo lee el menú y elige list issues. Pero el modelo no llama a nada. Tu app manda el pedido, el servidor llama a GitHub y la respuesta sube por el mismo camino.",
+      "see": "Se escribe la pregunta en una burbuja, con el rótulo Ejemplo ilustrativo. El resaltado duda entre las cuatro cintas y se queda en list_issues, que se llena de violeta. Una línea del modelo a GitHub se corta con una X roja y el sello 'No llama'. La cámara vuelve a la pared y sigue el paquete: de tu app a la regleta, al servidor, al cobre y a GitHub, y de vuelta.",
+      "resource": "linea-de-tiempo"
+    },
+    {
+      "id": "costo",
+      "say": "Y aquí está la letra chica: el menú no es gratis. Según Anthropic, cinco servidores gastaban unos cincuenta y cinco mil tokens antes de escribir nada. Y pasando de treinta a cincuenta herramientas, Claude elige peor. Por eso GitHub te deja cargar solo lo que usas.",
+      "see": "El avatar avisa desde una esquina. Una boleta larga se imprime desde arriba con los renglones reales: GitHub 35 herramientas ~26K, Slack 11 ~21K, Sentry 5 ~3K, Grafana 5 ~3K, Splunk 2 ~2K. Golpea el total ~55K tokens, con 'Anthropic, nov. 2025'. Los ojos del modelo se marean junto a '30 a 50 herramientas'. Unas tijeras cortan la boleta y se escribe github-mcp-server --toolsets repos,issues.",
+      "resource": "datos"
+    },
+    {
+      "id": "regla",
+      "say": "¿Entonces cuál usas? Si tu código ya sabe qué llamar, la API directa. Si elige un modelo y varias apps comparten herramientas, MCP.",
+      "see": "La pantalla se parte en dos papeles. A la izquierda, negro y cobre: 'Tu código decide' y API, enorme. A la derecha, violeta: 'El modelo elige' y MCP, enorme, con los ojos saltones.",
+      "resource": "comparacion"
+    },
+    {
+      "id": "cierre",
+      "say": "La API hace el trabajo. MCP se lo presenta a la IA. APIs reemplazadas: cero. Mándaselo a tu equipo antes de que alguien proponga migrar tus APIs.",
+      "see": "Todo se apila en una sola imagen que se puede capturar: las apps con los logos de Claude, OpenAI y Cursor, la capa violeta de MCP, la capa de cobre de la API y los logos de los servicios. Golpea el sello 'APIs reemplazadas: 0'. El avatar entra junto al ícono de enviar.",
+      "resource": "capas"
+    }
+  ],
+  "gateA": {
+    "approved": true,
+    "date": "2026-11-01"
+  },
+  "gateB": {
+    "approved": true,
+    "date": "2026-11-01",
+    "video": "a3fc3cd5cfaa2f7ce703f19706c63afc109ed449fae3912599c7eac52b8ac8c4"
+  },
+  "art": {
+    "direction": "collage",
+    "dealt": [
+      "collage",
+      "titular-gigante",
+      "diario-de-prueba"
+    ],
+    "reason": "El tema es una rivalidad falsa, y el collage la cuenta con objetos de ferretería: placa, cinta rotuladora, stickers y papel rasgado. Amarillo de cinta eléctrica al frente; detrás de la pared, negro y cobre. Violeta solo para MCP, cobre solo para la API y rojo para lo que cuesta. Se separa del papel verde de CORS y del fondo oscuro con violeta y verde de MCP contra ACP.",
+    "palette": {
+      "bg": "#FFD21E",
+      "ink": "#15130F",
+      "accent": "#4A1FD1",
+      "accentInk": "#FFFFFF",
+      "surface": "#FFF8E1",
+      "muted": "#5B5000"
+    },
+    "fonts": {
+      "display": "bricolage",
+      "text": "geist"
+    },
+    "anchor": {
+      "kind": "logo",
+      "ref": "modelcontextprotocol",
+      "source": "Simple Icons (CC0): logo de Model Context Protocol, en la placa de la pared"
+    },
+    "tab": "mcp-y-api.md"
+  },
+  "caption": "MCP no reemplaza tus APIs. Nunca las tocó.\n\nÁbrele la tapa al servidor MCP oficial de GitHub. search_code llama a client.Search.Code, la API REST de siempre. list_issues va por GraphQL. La documentación de Notion lo dice sin rodeos: su servidor MCP \"uses the Notion API\".\n\nLo que cambió es cuántas veces conectas lo mismo. Antes, cada app de IA construía cada integración. GitHub pone este ejemplo: 5 clientes y 10 sistemas, 50 integraciones a medida. Con un protocolo común, cada uno se conecta una vez: 15 (la cuenta es nuestra).\n\nLa parte que importa es el menú. Tu app pide tools/list y cada servidor responde con nombre, descripción y parámetros, en el mismo formato. Eso es el descubrimiento de herramientas.\n\nCuál usar:\n- Tu código ya sabe qué llamar: la API directa.\n- Elige un modelo y varias apps comparten herramientas: MCP.\n\nLetra chica:\n- No todo servidor MCP envuelve una API: Filesystem, Git y Memory trabajan en local.\n- El menú cuesta. Según Anthropic, en noviembre de 2025 cinco servidores gastaban unos 55K tokens antes de empezar, y el acierto de Claude baja pasando de 30 a 50 herramientas. Tool search lo reduce más de un 85 %.\n- En GitHub, --toolsets carga solo lo que usas. create_issue ya no es el nombre por defecto: hoy es issue_write.\n- El modelo elige entre lo que la app le muestra, y la especificación pide que una persona pueda negar cada llamada.\n- La autenticación no desaparece: vive en el servidor. Con stdio, las credenciales salen del entorno.\n\nMándaselo a tu equipo antes de que alguien proponga migrar tus APIs a MCP.\n\nFuentes: especificación de MCP 2026-07-28, repositorio github/github-mcp-server, documentación de GitHub, Notion y Stripe, blog de GitHub, Anthropic Engineering y documentación de Claude. Revisadas el 1 de noviembre de 2026.\n\nVoz con IA: elevenlabs.io\n\n#mcp #apis #ia #programacion #backend"
+}

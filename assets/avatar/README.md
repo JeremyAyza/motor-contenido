@@ -22,7 +22,9 @@ Los cuatro PNG miden 2048 × 2048 y tienen el dibujo en el mismo lugar. De las v
 
 En `video.tsx`, `avatar: {}` dibuja el busto abajo a la izquierda. `video:prepare` y `video:storyboard` copian los sprites a la carpeta pública del render. La boca se abre según el volumen de la voz y los ojos parpadean (`packages/video/src/kit/avatar.tsx`).
 
-La pieza decide dónde va: `size`, `top`, `scenes` y `shape: "bubble"` con `bubbleCrop`. Si una pieza trae otros sprites (`base`, `mouths` o `blink`, relativos a su carpeta), esos reemplazan a los de la cuenta campo por campo.
+En los Reels va este busto sin fondo, si es estratégico para el video o si se solicita explícitamente. La burbuja (`shape: "bubble"` con `bubbleCrop`) queda solo porque la usan piezas anteriores: nunca en una pieza nueva ([docs/direccion-reels.md](../../docs/direccion-reels.md), 6).
+
+La pieza decide dónde va: `size`, `top` y `scenes`. Si una pieza trae otros sprites (`base`, `mouths` o `blink`, relativos a su carpeta), esos reemplazan a los de la cuenta campo por campo.
 
 ## Reglas
 

@@ -1,0 +1,12 @@
+[
+  {
+    "file": "audio/cama.mp3",
+    "kind": "music",
+    "provider": "gemini",
+    "model": "lyria-3-clip-preview",
+    "prompt": "Light, playful electronic instrumental bed for a developer explainer set in a hardware workshop: bouncy muted electric guitar plucks, warm rounded bass, tight dry percussion with small metallic clicks like a screwdriver and a label maker on the offbeat, curious and confident, 108 bpm, clean and bright, no vocals, no drops, no build-ups, mixed low so a voice sits on top.",
+    "references": [],
+    "sha256": "1006714a1f833f30bb708708b2a04bfad2899ac304380406daaf54eb7dd934a5",
+    "createdAt": "2026-11-02T00:25:10.250Z"
+  }
+]

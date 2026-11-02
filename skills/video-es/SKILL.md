@@ -164,7 +164,7 @@ Para un Reel cortado escena por escena, como el de @sebastiankra.ia sobre Replic
 - **Fondo de la escena:** `background` (`"grid"` o `"stripes"`) dibuja una trama sobre el tono de la escena.
 - **Entrada:** `transition` (`"blur"`, `"zoom"`, `"slide"` o `"whip"`) hace entrar la escena con un whoosh. La anterior corta, así que la voz no se desfasa, y el inspector no mide el margen mientras entra.
 - **`<PillTitle at tone>`:** el título grande en píldora ("2 · MONTA"), con pop.
-- **Avatar en burbuja:** `avatar: { shape: "bubble", bubbleCrop }` muestra la cabeza en un círculo, como una cámara de cara. Solo aparece en las escenas que dicen dónde va (`SceneDef.avatar: { x, y, size }`).
+- **Avatar en burbuja: nunca en una pieza nueva** ([docs/direccion-reels.md](../../docs/direccion-reels.md), 6). `avatar: { shape: "bubble", bubbleCrop }` queda solo porque lo usan piezas anteriores.
 
 ## El formato largo
 
@@ -197,7 +197,7 @@ Para un Reel cortado escena por escena, como el de @sebastiankra.ia sobre Replic
 - **Generar:** `video:image` y `video:music` usan el proveedor de `media.config.json` y registran todo en `generated.json`. Cada generación se paga: no repitas sin `--replace` ni generes variantes que nadie pidió.
 - **El mundo 3D es opcional:** solo cuando la persona pide el video en 3D (ver [docs/direccion-reels.md](../../docs/direccion-reels.md)). Entonces `video:image --world` suma `accounts/dev.json → world.style` (isométrico ilustrado) y la paleta de `video.json → art`. Sin `--world`, la imagen no lleva ese estilo. El modelo a veces dibuja letras: pide que no haya y revisa la imagen antes de usarla.
 - **Logos y mascotas de marcas: primero el archivo.** Busca el oficial o uno de una fuente confiable (regla 6) y agrégalo al catálogo con `carrusel:logo add`. No los generes con `video:image`. El avatar se genera solo a partir de la ilustración de Jeremy, pasada con `--ref`.
-- **El avatar es de la cuenta:** `avatar: {}` en `defineVideo` dibuja el de [assets/avatar](../../assets/avatar/README.md), sin copiar sprites a la pieza. La pieza solo dice dónde va (`size`, `top`, `scenes`, `shape`).
+- **El avatar es de la cuenta:** `avatar: {}` en `defineVideo` dibuja el de [assets/avatar](../../assets/avatar/README.md), sin copiar sprites a la pieza. La pieza solo dice dónde va (`size`, `top`, `scenes`). Va si es estratégico para el video o si se solicita explícitamente, y siempre como en `2026-10-27-mcp-vs-acp`: el avatar normal, sin fondo.
 - **Efectos:** busca con `video:asset search`, agrega con `video:asset add` y usa en `sfx` el id del catálogo.
 
 ## Sincronizar con la voz
