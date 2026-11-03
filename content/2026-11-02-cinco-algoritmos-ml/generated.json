@@ -1,0 +1,12 @@
+[
+  {
+    "file": "audio/cama.mp3",
+    "kind": "music",
+    "provider": "gemini",
+    "model": "lyria-3-clip-preview",
+    "prompt": "Light, curious instrumental bed for a science explainer set in a botanist's field notebook: plucked nylon guitar and soft marimba, warm rounded bass, tight dry percussion with a pencil-scratch tick on the offbeat, playful and confident, 104 bpm, loopable, no vocals",
+    "references": [],
+    "sha256": "910a99cf7f6ccb8c61e53f8d69950b64ed391378dc4e79e43a6aaf4cf67fc61c",
+    "createdAt": "2026-11-03T01:09:09.926Z"
+  }
+]

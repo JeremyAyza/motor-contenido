@@ -1,0 +1,328 @@
+{
+  "topic": "2026-11-02-cinco-algoritmos-ml",
+  "checkedAt": "2026-11-02",
+  "facts": [
+    {
+      "claim": "La documentación vigente de scikit-learn es la versión 1.9.1 (publicada en septiembre de 2026; la 1.9.0 salió en junio de 2026). Todas las citas de scikit-learn de este archivo son de esa versión.",
+      "source": "scikit-learn, What's new: Version 1.9 (encabezados «Version 1.9.1» y «Version 1.9.0»); títulos de todas las páginas citadas: «scikit-learn 1.9.1 documentation»",
+      "url": "https://scikit-learn.org/stable/whats_new/v1.9.html",
+      "primary": true,
+      "note": "La página solo da mes y año, no el día."
+    },
+    {
+      "claim": "Regresión lineal: LinearRegression ajusta un modelo lineal para minimizar la suma de cuadrados residuales entre los objetivos observados y los predichos. Fórmula: min_w ||Xw − y||²₂. Cita: «minimize the residual sum of squares».",
+      "source": "scikit-learn, User guide 1.1.1 Ordinary Least Squares",
+      "url": "https://scikit-learn.org/stable/modules/linear_model.html",
+      "primary": true,
+      "note": "La página dice «residual sum of squares», no «sum of squared residuals»; es la misma cantidad."
+    },
+    {
+      "claim": "LinearRegression se describe como «Ordinary least squares Linear Regression»; por dentro es mínimos cuadrados ordinarios con scipy.linalg.lstsq. Firma: LinearRegression(*, fit_intercept=True, copy_X=True, tol=1e-06, n_jobs=None, positive=False).",
+      "source": "scikit-learn, API reference sklearn.linear_model.LinearRegression (descripción y Notes)",
+      "url": "https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html",
+      "primary": true
+    },
+    {
+      "claim": "Advertencia de la regresión lineal: los coeficientes de mínimos cuadrados dependen de que las variables sean independientes. Con variables correlacionadas (multicolinealidad) la estimación se vuelve «highly sensitive to random errors» del objetivo y tiene mucha varianza.",
+      "source": "scikit-learn, User guide 1.1.1 Ordinary Least Squares",
+      "url": "https://scikit-learn.org/stable/modules/linear_model.html",
+      "primary": true,
+      "note": "La documentación NO dice que mínimos cuadrados sea sensible a valores atípicos (la palabra «sensitive» solo aparece en el párrafo de multicolinealidad). Ver pendingToVerify."
+    },
+    {
+      "claim": "Sobre valores atípicos, la guía de scikit-learn solo dice que la regresión robusta busca ajustar un modelo con datos corruptos, «either outliers, or error in the model», y que HuberRegressor «does not ignore the effect of the outliers but gives a lesser weight to them».",
+      "source": "scikit-learn, User guide 1.1.14 Robustness regression: outliers and modeling errors (y 1.1.14.4 HuberRegressor)",
+      "url": "https://scikit-learn.org/stable/modules/linear_model.html",
+      "primary": true
+    },
+    {
+      "claim": "Regresión logística: «Despite its name, it is implemented as a linear model for classification rather than regression». También se conoce como logit regression, maximum-entropy classification (MaxEnt) o log-linear classifier. Las probabilidades se modelan con una función logística.",
+      "source": "scikit-learn, User guide 1.1.11 Logistic regression",
+      "url": "https://scikit-learn.org/stable/modules/linear_model.html",
+      "primary": true
+    },
+    {
+      "claim": "La probabilidad de la clase positiva (caso binario) es p̂(X_i) = expit(X_i w + w0) = 1 / (1 + exp(−X_i w − w0)); eso es la sigmoide. La da el método predict_proba.",
+      "source": "scikit-learn, User guide 1.1.11.1 Binary Case",
+      "url": "https://scikit-learn.org/stable/modules/linear_model.html",
+      "primary": true
+    },
+    {
+      "claim": "Umbral por defecto: en clasificación binaria scikit-learn predice la clase positiva cuando P(y|X) es mayor que 0.5 (predict_proba) o cuando el puntaje de decision_function es mayor que 0. La guía de LogisticRegression lo repite: la probabilidad se usa como clasificador «by applying a threshold (by default 0.5) to it».",
+      "source": "scikit-learn, User guide 3.3 Tuning the decision threshold for class prediction; y nota GLM dentro de 1.1.11 Logistic regression",
+      "url": "https://scikit-learn.org/stable/modules/classification_threshold.html",
+      "primary": true,
+      "note": "La página de la API de LogisticRegression.predict solo dice «Predict class labels for samples in X.» y no menciona el umbral; la regla de 0.5 / 0 está en la sección 3.3 (general para clasificadores binarios) y en la nota de 1.1.11."
+    },
+    {
+      "claim": "Con más de dos clases (Iris tiene tres), LogisticRegression con el solver por defecto (lbfgs) ajusta una regresión logística multinomial y predict_proba usa la función softmax, no una sigmoide suelta: p̂_k = exp(X_i W_k + W_0,k) / Σ_l exp(X_i W_l + W_0,l). Cita de la API: «the softmax function is used to find the predicted probability of each class».",
+      "source": "scikit-learn, API reference sklearn.linear_model.LogisticRegression (predict_proba) y User guide 1.1.11.2 Multinomial Case",
+      "url": "https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html",
+      "primary": true,
+      "note": "La guía no nombra un parámetro multi_class por defecto; que lbfgs es multinomial sale de la tabla de solvers. La curva en S pura es el caso de dos clases."
+    },
+    {
+      "claim": "LogisticRegression aplica regularización por defecto: «Note that regularization is applied by default». Defaults de la firma: C=1.0, solver='lbfgs', max_iter=100. El parámetro penalty está marcado como 'deprecated' (en desuso desde la 1.8, se retira en la 1.10) a favor de l1_ratio y C.",
+      "source": "scikit-learn, API reference sklearn.linear_model.LogisticRegression",
+      "url": "https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html",
+      "primary": true
+    },
+    {
+      "claim": "Árboles: cada corte se define por una variable j y un umbral t_m. Los datos del nodo se parten en Q_left = {(x, y) | x_j ≤ t_m} y Q_right = el resto. Cita: «a feature j and threshold t_m». CART usa «the feature and threshold that yield the largest information gain at each node».",
+      "source": "scikit-learn, User guide 1.10.7 Mathematical formulation (y 1.10.6 Tree algorithms)",
+      "url": "https://scikit-learn.org/stable/modules/tree.html",
+      "primary": true
+    },
+    {
+      "claim": "«A tree can be seen as a piecewise constant approximation.» Por eso las predicciones no son suaves ni continuas y «they are not good at extrapolation».",
+      "source": "scikit-learn, User guide 1.10 Decision Trees (apertura) y 1.10.x Disadvantages",
+      "url": "https://scikit-learn.org/stable/modules/tree.html",
+      "primary": true
+    },
+    {
+      "claim": "En el ejemplo del Iris, los límites del árbol están «made of combinations of simple thresholding rules inferred from the training samples», dibujados para cada par de variables.",
+      "source": "scikit-learn, Example: Plot the decision surface of decision trees trained on the iris dataset",
+      "url": "https://scikit-learn.org/stable/auto_examples/tree/plot_iris_dtc.html",
+      "primary": true,
+      "note": "Ni esta página ni tree.html usan las palabras «axis-aligned», «rectangles» ni «orthogonal». Ver pendingToVerify y calculations."
+    },
+    {
+      "claim": "Advertencias de los árboles: crean árboles demasiado complejos que no generalizan (sobreajuste); son inestables («small variations in the data might result in a completely different tree»); les cuestan conceptos como XOR, paridad o multiplexor; y se sesgan si una clase domina.",
+      "source": "scikit-learn, User guide 1.10 Decision Trees (Disadvantages)",
+      "url": "https://scikit-learn.org/stable/modules/tree.html",
+      "primary": true
+    },
+    {
+      "claim": "DecisionTreeClassifier por defecto: criterion='gini', max_depth=None, min_samples_split=2, min_samples_leaf=1. Con max_depth=None los nodos se expanden hasta que todas las hojas son puras. Nota oficial: los defaults «lead to fully grown and unpruned trees which can potentially be very large».",
+      "source": "scikit-learn, API reference sklearn.tree.DecisionTreeClassifier (parámetros y Notes)",
+      "url": "https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html",
+      "primary": true
+    },
+    {
+      "claim": "Costo de predecir con un árbol: «logarithmic in the number of data points used to train the tree». Tip oficial: «Use max_depth to control the size of the tree to prevent overfitting» y «Try min_samples_leaf=5 as an initial value».",
+      "source": "scikit-learn, User guide 1.10 Decision Trees (Advantages) y 1.10.5 Tips on practical use",
+      "url": "https://scikit-learn.org/stable/modules/tree.html",
+      "primary": true
+    },
+    {
+      "claim": "SVM, margen máximo: el hiperplano de buena separación es «the hyper-plane that has the largest distance to the nearest training data points of any class (so-called functional margin)», porque en general a mayor margen, menor error de generalización.",
+      "source": "scikit-learn, User guide 1.4.7 Mathematical formulation (párrafo inicial)",
+      "url": "https://scikit-learn.org/stable/modules/svm.html",
+      "primary": true
+    },
+    {
+      "claim": "SVM, problema primal de SVC: min_{w,b,ζ} ½ wᵀw + C Σ ζ_i, sujeto a y_i (wᵀφ(x_i) + b) ≥ 1 − ζ_i y ζ_i ≥ 0. Cita: «we're trying to maximize the margin (by minimizing ||w||² = wᵀw)», con penalización a las muestras mal clasificadas o dentro del margen.",
+      "source": "scikit-learn, User guide 1.4.7.1 SVC",
+      "url": "https://scikit-learn.org/stable/modules/svm.html",
+      "primary": true,
+      "note": "La documentación no da la fórmula del ancho del margen (2/||w||). Ver calculations y pendingToVerify."
+    },
+    {
+      "claim": "La frontera depende solo de los vectores de soporte: la función de decisión es Σ_{i∈SV} y_i α_i K(x_i, x) + b y «We only need to sum over the support vectors» porque los coeficientes duales α_i valen cero para el resto. Se leen en support_vectors_, dual_coef_ e intercept_.",
+      "source": "scikit-learn, User guide 1.4.7.1 SVC (problema dual)",
+      "url": "https://scikit-learn.org/stable/modules/svm.html",
+      "primary": true
+    },
+    {
+      "claim": "Ventaja oficial: SVM «Uses a subset of training points in the decision function (called support vectors), so it is also memory efficient». Cuando no son separables, los vectores de soporte son las muestras dentro de los límites del margen.",
+      "source": "scikit-learn, User guide 1.4 Support Vector Machines (Advantages) y 1.4.7.1 SVC",
+      "url": "https://scikit-learn.org/stable/modules/svm.html",
+      "primary": true
+    },
+    {
+      "claim": "Truco del kernel, en la documentación: el kernel es K(x_i, x_j) = φ(x_i)ᵀφ(x_j) y la forma dual «highlights the fact that training vectors are implicitly mapped into a higher (maybe infinite) dimensional space by the function φ». Enlaza el término «kernel trick». LinearSVC no lo usa: «the famous kernel trick cannot be applied».",
+      "source": "scikit-learn, User guide 1.4.7.1 SVC (problema dual) y 1.4.7.2 LinearSVC",
+      "url": "https://scikit-learn.org/stable/modules/svm.html",
+      "primary": true,
+      "note": "La frase «kernel trick» solo aparece como texto de un enlace (a Wikipedia) y en la nota de LinearSVC; la explicación está en el párrafo del dual."
+    },
+    {
+      "claim": "Truco del kernel, explicación más directa: para un kernel definido positivo existe una función φ tal que k(x, y) = ⟨φ(x), φ(y)⟩, y «the mapping φ never has to be calculated explicitly, allowing for arbitrary large features (even infinite)». También: el trick usa «feature maps implicitly».",
+      "source": "scikit-learn, User guide Kernel Approximation, Mathematical Details (sección 8.7.6 en la numeración de 1.9.1)",
+      "url": "https://scikit-learn.org/stable/modules/kernel_approximation.html",
+      "primary": true
+    },
+    {
+      "claim": "Kernels de SVC: linear ⟨x,x'⟩; polinomial (γ⟨x,x'⟩ + r)^d; rbf exp(−γ‖x−x'‖²) con γ > 0; sigmoide tanh(γ⟨x,x'⟩ + r). SVC por defecto: C=1.0, kernel='rbf', gamma='scale' (= 1 / (n_features * X.var())).",
+      "source": "scikit-learn, User guide 1.4.6 Kernel functions y API reference sklearn.svm.SVC",
+      "url": "https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html",
+      "primary": true
+    },
+    {
+      "claim": "SVM escala mal con muchas muestras: «The fit time scales at least quadratically with the number of samples and may be impractical beyond tens of thousands of samples». La guía da entre O(n_features × n_samples²) y O(n_features × n_samples³) para el solver de libsvm. Para datos grandes se sugiere LinearSVC o SGDClassifier.",
+      "source": "scikit-learn, API reference sklearn.svm.SVC (descripción) y User guide 1.4.5 Complexity",
+      "url": "https://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html",
+      "primary": true
+    },
+    {
+      "claim": "SVM no es invariante a la escala: «Support Vector Machine algorithms are not scale invariant, so it is highly recommended to scale your data». La misma escala debe aplicarse al conjunto de prueba (la guía propone make_pipeline(StandardScaler(), SVC())).",
+      "source": "scikit-learn, User guide 1.4.x Tips on Practical Use (Scaling)",
+      "url": "https://scikit-learn.org/stable/modules/svm.html",
+      "primary": true
+    },
+    {
+      "claim": "Letra chica de SVM: «SVMs do not directly provide probability estimates, these are calculated using an expensive five-fold cross-validation». Con probability=True se usa Platt scaling, que tiene «theoretical issues».",
+      "source": "scikit-learn, User guide 1.4 Support Vector Machines (Disadvantages) y 1.4.x Scores and probabilities",
+      "url": "https://scikit-learn.org/stable/modules/svm.html",
+      "primary": true
+    },
+    {
+      "claim": "SVC con varias clases usa «one-versus-one»: construye n_classes * (n_classes − 1) / 2 clasificadores, cada uno entrenado con dos clases. Por defecto decision_function_shape='ovr' solo cambia la forma de la salida.",
+      "source": "scikit-learn, User guide 1.4.1.1 Multi-class classification",
+      "url": "https://scikit-learn.org/stable/modules/svm.html",
+      "primary": true
+    },
+    {
+      "claim": "El ejemplo oficial «SVM Margins Example» dibuja las dos rectas del margen con margin = 1 / np.sqrt(np.sum(clf.coef_**2)): la distancia del hiperplano a cada recta paralela que pasa por los vectores de soporte es 1/||w||.",
+      "source": "scikit-learn, Example: SVM Margins Example (código)",
+      "url": "https://scikit-learn.org/stable/auto_examples/svm/plot_svm_margin.html",
+      "primary": true,
+      "note": "El ejemplo no menciona 2/||w||; el ancho total sale de duplicar esta distancia (ver calculations)."
+    },
+    {
+      "claim": "KNN no construye un modelo: «Neighbors-based classification is a type of instance-based learning or non-generalizing learning: it does not attempt to construct a general internal model, but simply stores instances of the training data». La clase se decide «from a simple majority vote of the nearest neighbors».",
+      "source": "scikit-learn, User guide 1.6.2 Nearest Neighbors Classification",
+      "url": "https://scikit-learn.org/stable/modules/neighbors.html",
+      "primary": true
+    },
+    {
+      "claim": "Los métodos de vecinos son «non-generalizing» porque «simply 'remember' all of its training data» (posiblemente en una estructura de indexado rápido como Ball Tree o KD Tree).",
+      "source": "scikit-learn, User guide 1.6 Nearest Neighbors (introducción)",
+      "url": "https://scikit-learn.org/stable/modules/neighbors.html",
+      "primary": true
+    },
+    {
+      "claim": "Firma de KNeighborsClassifier: n_neighbors=5, weights='uniform', algorithm='auto', leaf_size=30, p=2, metric='minkowski' (p=2 es distancia euclidiana). Cita: «n_neighbors: int, default=5».",
+      "source": "scikit-learn, API reference sklearn.neighbors.KNeighborsClassifier",
+      "url": "https://scikit-learn.org/stable/modules/generated/sklearn.neighbors.KNeighborsClassifier.html",
+      "primary": true
+    },
+    {
+      "claim": "Costo de la fuerza bruta: para N muestras en D dimensiones, calcular las distancias entre todos los pares «scales as O[D N²]». El tiempo de consulta (predecir un punto) con fuerza bruta «grows as O[D N]». Con árbol de bolas es aproximadamente O[D log(N)].",
+      "source": "scikit-learn, User guide 1.6.4.1 Brute Force y 1.6.4.5 Choice of Nearest Neighbors Algorithm",
+      "url": "https://scikit-learn.org/stable/modules/neighbors.html",
+      "primary": true
+    },
+    {
+      "claim": "«As the number of samples N grows, the brute-force approach quickly becomes infeasible.» Para conjuntos pequeños (N menor de unos 30), log(N) es comparable a N y la fuerza bruta puede ser más eficiente que un árbol.",
+      "source": "scikit-learn, User guide 1.6.4.1 Brute Force y 1.6.4.5 Choice of Nearest Neighbors Algorithm",
+      "url": "https://scikit-learn.org/stable/modules/neighbors.html",
+      "primary": true
+    },
+    {
+      "claim": "Maldición de la dimensión en KNN: «For high-dimensional parameter spaces, this method becomes less effective due to the so-called 'curse of dimensionality'». El KD tree es rápido con D < 20 y con D grande puede ser más lento que la fuerza bruta; algorithm='auto' elige 'brute' si D > 15.",
+      "source": "scikit-learn, User guide 1.6.2 Nearest Neighbors Classification, 1.6.4.2 K-D Tree y 1.6.4.5 Choice of Nearest Neighbors Algorithm",
+      "url": "https://scikit-learn.org/stable/modules/neighbors.html",
+      "primary": true
+    },
+    {
+      "claim": "Elección de k: «in general a larger k suppresses the effects of noise, but makes the classification boundaries less distinct». El valor óptimo depende de los datos. Con weights='uniform' todos los vecinos pesan igual; con 'distance', el peso es inverso a la distancia.",
+      "source": "scikit-learn, User guide 1.6.2 Nearest Neighbors Classification",
+      "url": "https://scikit-learn.org/stable/modules/neighbors.html",
+      "primary": true
+    },
+    {
+      "claim": "Comparación oficial de fronteras: el ejemplo «Classifier comparison» compara 10 clasificadores (incluye Nearest Neighbors, Linear SVM, RBF SVM y Decision Tree) en datos sintéticos para «illustrate the nature of decision boundaries of different classifiers». Advierte: «should be taken with a grain of salt». No incluye regresión lineal ni LogisticRegression.",
+      "source": "scikit-learn, Example: Classifier comparison (código con licencia BSD-3-Clause)",
+      "url": "https://scikit-learn.org/stable/auto_examples/classification/plot_classifier_comparison.html",
+      "primary": true
+    },
+    {
+      "claim": "Guía oficial de cuándo usar cada uno: la página «Choosing the right estimator» (sección 14) tiene un diagrama de flujo («algorithm cheat sheet») con cortes de «>50 samples», «<100K samples» y «<10K samples». Entre los clasificadores aparecen SGD Classifier, Linear SVC, KNeighbors Classifier, SVC, Ensemble Classifiers y Naive Bayes.",
+      "source": "scikit-learn, User guide 14. Choosing the right estimator",
+      "url": "https://scikit-learn.org/stable/machine_learning_map.html",
+      "primary": true,
+      "note": "El texto salió de un SVG; no se pudo leer qué flecha lleva a qué nodo. En las etiquetas extraídas no aparecen LogisticRegression ni DecisionTree."
+    },
+    {
+      "claim": "Iris, el artículo: R. A. Fisher, «The use of multiple measurements in taxonomic problems», Annals of Eugenics, vol. 7, número 2, pp. 179-188, 1936. DOI 10.1111/j.1469-1809.1936.tb02137.x. La versión publicada está en el repositorio de Rothamsted bajo licencia CC BY 4.0.",
+      "source": "Rothamsted Research Repository, The use of multiple measurements in taxonomic problems (y referencia en scikit-learn, Iris plants dataset)",
+      "url": "https://repository.rothamsted.ac.uk/item/9914w/the-use-of-multiple-measurements-in-taxonomic-problems",
+      "primary": true
+    },
+    {
+      "claim": "Iris en cifras: 150 instancias (50 por cada una de tres clases), 4 atributos numéricos en cm (largo y ancho del sépalo, largo y ancho del pétalo), clases Iris-Setosa, Iris-Versicolour, Iris-Virginica, sin valores faltantes. Creador: R. A. Fisher; donante: Michael Marshall; fecha: julio de 1988.",
+      "source": "scikit-learn, Toy datasets 9.1.1 Iris plants dataset (igual que iris.names del repositorio UCI)",
+      "url": "https://scikit-learn.org/stable/datasets/toy_dataset.html",
+      "primary": true
+    },
+    {
+      "claim": "«One class is linearly separable from the other 2; the latter are NOT linearly separable from each other.» Lo dicen la descripción de scikit-learn y la del repositorio UCI.",
+      "source": "scikit-learn, Toy datasets 9.1.1 Iris plants dataset; UCI, Iris (Additional Information)",
+      "url": "https://scikit-learn.org/stable/datasets/toy_dataset.html",
+      "primary": true,
+      "note": "También en https://archive.ics.uci.edu/dataset/53/iris (con «not» en minúscula)."
+    },
+    {
+      "claim": "Dónde está en scikit-learn: sklearn.datasets.load_iris(*, return_X_y=False, as_frame=False). Devuelve data de forma (150, 4), target de forma (150,), feature_names y target_names (3). Se describe como «a classic and very easy multi-class classification dataset».",
+      "source": "scikit-learn, API reference sklearn.datasets.load_iris",
+      "url": "https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_iris.html",
+      "primary": true
+    },
+    {
+      "claim": "Dónde está en UCI: dataset 53, «Iris», creador R. A. Fisher, 150 instancias, 4 características reales, sin valores faltantes, DOI 10.24432/C56C76, licencia Creative Commons Attribution 4.0 International (CC BY 4.0). Descripción: «A small classic dataset from Fisher, 1936».",
+      "source": "UCI Machine Learning Repository, Iris",
+      "url": "https://archive.ics.uci.edu/dataset/53/iris",
+      "primary": true,
+      "note": "La página lista la donación como 6/30/1988; scikit-learn e iris.names dicen «July, 1988». El código de scikit-learn es BSD (pie de la documentación)."
+    },
+    {
+      "claim": "El Iris de scikit-learn no es idéntico al de UCI: «Fixed two wrong data points according to Fisher's paper. The new version is the same as in R, but not as in the UCI Machine Learning Repository» (cambio en la versión 0.20). UCI dice que sus datos difieren del artículo de Fisher en las muestras 35 y 38.",
+      "source": "scikit-learn, API reference load_iris (Changed in version 0.20); UCI, Iris (Additional Information)",
+      "url": "https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_iris.html",
+      "primary": true
+    },
+    {
+      "claim": "Los valores correctos según iris.names: muestra 35 = 4.9, 3.1, 1.5, 0.2 (Iris-setosa) y muestra 38 = 4.9, 3.6, 1.4, 0.1 (Iris-setosa). El archivo iris.data de UCI leído hoy trae en las líneas 35 y 38 el mismo texto «4.9,3.1,1.5,0.1,Iris-setosa», es decir, todavía con los errores.",
+      "source": "UCI, iris.names (Relevant Information) e iris.data",
+      "url": "https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.names",
+      "primary": true,
+      "note": "iris.data: https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data (leído el 2026-11-02). Conviene comprobarlo al cargar el archivo, porque la lectura la hizo una herramienta de resumen."
+    },
+    {
+      "claim": "Quién midió las flores: el botánico Edgar Anderson. Cita: «found and measured by Edgar Anderson». Setosa y versicolor las encontró en la península de Gaspé (Quebec) en el verano de 1935.",
+      "source": "Unwin y Kleinman, «The Iris Data Set: In Search of the Source of Virginica», Significance 18(6), diciembre de 2021, pp. 26-29 (artículo que UCI lista como introductorio)",
+      "url": "https://academic.oup.com/jrssig/article/18/6/26/7038520",
+      "primary": true,
+      "note": "DOI 10.1111/1740-9713.01589. El PDF original de Fisher es una imagen escaneada y no se pudo leer; la atribución a Anderson sale de este artículo. Marcado primary por ser el artículo que el propio repositorio UCI cita como introductorio."
+    },
+    {
+      "claim": "Letra chica de Iris: las tres especies no vienen de la misma fuente. Las medidas de virginica salieron de Camden, Tennessee, donde Anderson midió exactamente 50 plantas en 1926; Fisher notó que esa muestra no fue «taken from the same natural colony». Los autores dicen que lo suyo es «almost certainly» correcto.",
+      "source": "Unwin y Kleinman, Significance 18(6), 2021 (sección «Mystery solved»)",
+      "url": "https://academic.oup.com/jrssig/article/18/6/26/7038520",
+      "primary": true
+    },
+    {
+      "claim": "Logo oficial de scikit-learn: archivos en doc/logos/ del repositorio (scikit-learn-logo.svg, scikit-learn-logo-without-subtitle.svg, 1280px-scikit-learn-logo.png). Colores oficiales: cian #29ABE2, naranja #F7931E, café #9B4600. Reglas: no recolorear, no cambiar la tipografía, no recrearlo, ancho mínimo 50 px.",
+      "source": "scikit-learn (repositorio GitHub), doc/logos/README.md",
+      "url": "https://github.com/scikit-learn/scikit-learn/blob/main/doc/logos/README.md",
+      "primary": true,
+      "note": "SVG: https://raw.githubusercontent.com/scikit-learn/scikit-learn/main/doc/logos/scikit-learn-logo.svg (viewBox 0 0 792 612). El README no declara una licencia de redistribución, solo normas de uso: descargar fuera de git, como pide la regla del repo público."
+    }
+  ],
+  "calculations": [
+    "Ancho del margen de la SVM lineal = 2 / ||w||. Operación: el primal de scikit-learn exige y_i (wᵀx_i + b) ≥ 1, así que los puntos sobre el margen cumplen |wᵀx + b| = 1; la distancia de un punto a un hiperplano es |wᵀx + b| / ||w||, o sea 1/||w|| del hiperplano a cada recta del margen. El ejemplo oficial SVM Margins calcula esa mitad con margin = 1 / np.sqrt(np.sum(clf.coef_**2)). Ancho total = 1/||w|| + 1/||w|| = 2/||w||. Se calcula en el código con 2 / np.linalg.norm(clf.coef_). Es una derivación; scikit-learn no escribe la fórmula 2/||w||.",
+    "Árboles en rectángulos (deducción, no cita): cada corte es x_j ≤ t_m sobre una sola variable (scikit-learn 1.10.7). Esa condición separa el plano con una recta perpendicular al eje de la variable j. Varios cortes seguidos dejan regiones limitadas por rectas paralelas a los ejes, es decir, rectángulos alineados a los ejes. La documentación no usa las palabras «axis-aligned» ni «rectangles».",
+    "Costo de predecir un punto con KNN por fuerza bruta: O[D N] según scikit-learn. Con Iris completo, D = 4 y N = 150, D × N = 4 × 150 = 600. Es un orden de magnitud, no el número exacto de operaciones. Si se parte en entrenamiento y prueba, N es el tamaño del entrenamiento.",
+    "Cuántos clasificadores entrena SVC en Iris: n_classes * (n_classes − 1) / 2 = 3 * 2 / 2 = 3 clasificadores binarios (uno por par de especies).",
+    "Ajustes propios (ajustes.py, scikit-learn 1.9.1, numpy 2.5.4, sobre load_iris, con largo y ancho del pétalo, sin la fila 120). Todo número en pantalla se lee de ajustes.json.",
+    "Flor tapada: fila 120, 5 × 1.5 cm, virginica. Elegida a propósito entre las que los modelos no comparten respuesta; el post lo dice.",
+    "Regresión lineal: ancho = 0.4163 × largo -0.3638. Suma de errores al cuadrado 6.2631. R² 0.9276. Para 5,0 cm: 1.7179.",
+    "Logística (LogisticRegression() por defecto, virgínica o no, con el largo): P(virgínica | 5,0 cm) = 0.6004. Corte del 50 % en 4.886 cm. P(4 cm) = 4 % y P(6 cm) = 98 %, con b0 = -17.4515 y b1 = 3.5717.",
+    "Árbol (max_leaf_nodes=4, random_state=0): width <= 0.8; width <= 1.75; length <= 5.05. Hojas: 50/0/0, 0/1/45, 0/48/1, 0/1/3 (setosa/versicolor/virginica). Responde versicolor.",
+    "SVM de margen duro (kernel lineal, C=1e6) entre setosa y versicolor: margen = 2/||w|| = 1.3038 cm, con 2 vectores de soporte de 100 flores. Reajustado solo con esos dos, los coeficientes cambian como mucho 2.144060573527895e-8. SVC(kernel=\"linear\") con las tres especies responde versicolor.",
+    "Kernel, versicolor contra virgínica: recta (lineal, C=1) 0.9596 en entrenamiento y 0.95 en validación cruzada de 5 partes; curva (RBF, C=1000, gamma=2) 0.9899 y 0.9295.",
+    "KNN (k=5 por defecto): vecinas a 0.1, 0.1, 0.1, 0.1414, 0.2 cm; votos {\"setosa\":0,\"versicolor\":4,\"virginica\":1}; responde versicolor. En fuerza bruta mide 149 distancias por respuesta. 1.000.000 es la misma cuenta con un millón de flores, no una medición.",
+    "Dejando afuera cada flor, una por una, con las 150: logística 0.9533 (virgínica o no), árbol 0.96, SVM lineal 0.9667, KNN 0.96."
+  ],
+  "illustrative": [],
+  "pendingToVerify": [
+    "Fórmula 2/||w|| en el paper original de SVM (Cortes y Vapnik, «Support-Vector Networks», Machine Learning 20, pp. 273-297, 1995, DOI 10.1007/BF00994018): la página de Springer redirige a un inicio de sesión y las copias en PDF (uic.edu, nyu.edu) son imágenes escaneadas sin texto. Solo se confirmó la ficha bibliográfica y el resumen vía mlanthology.org (fuente secundaria). La fórmula queda como derivación en calculations.",
+    "Palabras «axis-aligned» o «rectangles» en fuente primaria: ni la guía de árboles ni el ejemplo plot_iris_dtc las usan. Una frase equivalente del libro ISLR (dividir el espacio en «high-dimensional rectangles, or boxes») solo apareció en diapositivas; la página de Stanford dio error de certificado. Si el guion necesita una cita, usar la deducción de calculations o pedir esa fuente aparte.",
+    "Que la regresión lineal es sensible a valores atípicos: la documentación de scikit-learn no lo dice con esas palabras (solo describe la regresión robusta y que HuberRegressor pesa menos a los atípicos). No se dio como hecho.",
+    "El texto original de Fisher (1936) nombrando a Anderson y la frase «same pasture»: el PDF es un escaneo ilegible para la herramienta. La atribución a Anderson sale de Unwin y Kleinman (2021). Una lectura del artículo de Unwin y Kleinman atribuyó a Anderson una frase de «misma pastura» con redacción distinta entre dos lecturas, así que esa cita no se usa.",
+    "El diagrama «Choosing the right estimator»: no se pudo leer el enrutamiento (qué flecha va a qué nodo), solo las etiquetas. No describir el camino de cada algoritmo sin abrir el SVG a mano.",
+    "Que el iris.data de UCI sigue con los errores de las muestras 35 y 38: la lectura la hizo una herramienta de resumen. Si el guion lo afirma, conviene comprobar las dos líneas al cargar el archivo (o simplemente atribuirlo a la documentación de scikit-learn y a iris.names).",
+    "Fecha de lanzamiento de scikit-learn 1.9.1: la página de novedades solo da «September 2026», sin día."
+  ]
+}

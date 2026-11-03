@@ -1,0 +1,135 @@
+{
+  "$schema": "../../schemas/video.schema.json",
+  "format": "largo",
+  "target": 170,
+  "topic": "Cinco algoritmos de machine learning en un mismo gráfico: lineal, logística, árbol, SVM y KNN, y lo que dibuja cada uno",
+  "world": "Un gráfico en papel milimetrado con 149 flores reales y una tapada. El mismo trazo de lápiz se transforma: recta, S, cortes, camino, y el borrador lo deja en nada.",
+  "meter": {
+    "label": "Respuestas",
+    "from": "0",
+    "to": "5"
+  },
+  "cover": {
+    "scene": "gancho",
+    "at": 1.5
+  },
+  "hooks": [
+    {
+      "said": "Cinco algoritmos. Un solo gráfico.",
+      "onScreen": "Cinco algoritmos. Solo uno acierta.",
+      "formula": 11
+    },
+    {
+      "said": "Solo uno de estos cinco algoritmos adivina esta flor.",
+      "onScreen": "Solo uno adivina esta flor",
+      "formula": 26
+    },
+    {
+      "said": "Regresión lineal, logística, árbol, SVM y KNN: un solo gráfico.",
+      "onScreen": "Los cinco, en un gráfico",
+      "formula": 27
+    }
+  ],
+  "scenes": [
+    {
+      "id": "gancho",
+      "say": "Cinco algoritmos. Un solo gráfico. Le tapé el nombre a esta flor, y solo uno acierta.",
+      "see": "El gráfico lleno de flores que se mecen, con el gancho y la flor marcada con un signo de pregunta desde el cuadro 1, y el rótulo '¿Qué especie?'. El lápiz la señala y la cámara se acerca.",
+      "resource": "metafora"
+    },
+    {
+      "id": "flor",
+      "say": "Son flores reales: el dataset Iris, de 1936. Largo y ancho del pétalo, tres especies. Lo único que cambia entre los cinco es lo que dibujan aquí encima.",
+      "see": "Los ejes se rotulan con la voz. Cada especie se enciende en su color con su nombre. El contador golpea 149 con nombre y 1 sin nombre, y la flor tapada late. El lápiz entra listo para dibujar.",
+      "resource": "anatomia"
+    },
+    {
+      "id": "lineal",
+      "say": "Uno: regresión lineal. Dibuja una recta, la de menor error: suma lo que le falta a cada flor, al cuadrado. No da una especie, da un número. Nuestra flor mide cinco de largo, y la recta dice uno coma siete dos de ancho.",
+      "see": "El lápiz traza la recta. La recta gira entre varias opciones con el error total real en vivo, y se asienta en 6,26. De cada flor sale un palito hasta la recta y algunos se vuelven cuadrados. Una tarjeta pregunta '¿Cuánto mide?': desde el 5 del eje sube una línea a la recta y cruza al eje del ancho, y golpea 1,72 cm. Se llena la casilla 1.",
+      "resource": "datos"
+    },
+    {
+      "id": "logistica",
+      "say": "Dos: regresión logística. Se llama regresión, pero clasifica. Mira: las virgínicas suben, las demás bajan. La recta se dobla en una S, y la altura de esa S es una probabilidad. Con cuatro centímetros, cuatro por ciento. Con seis, noventa y ocho. Nuestra flor cae en sesenta. Pasa el cincuenta, así que dice virgínica.",
+      "see": "Las flores saltan: las virgínicas se apilan arriba y las demás, abajo. La tarjeta pregunta '¿Qué especie?'. El eje vertical cambia a probabilidad. La misma recta se dobla hasta ser la S real, y marcas en 4 y 6 cm golpean 4 % y 98 %. La flor tapada sube a 60 %, por encima de la línea del 50 %. Casilla 2.",
+      "resource": "datos"
+    },
+    {
+      "id": "arbol",
+      "say": "Tres: árbol de decisión. No dibuja curvas: hace preguntas. ¿El ancho pasa de cero coma ocho? Si no, es setosa, sin ninguna duda. ¿Pasa de uno coma siete cinco? Casi todas virgínicas. Y en lo que queda, ¿el largo pasa de cinco coma cero cinco? Tres preguntas, cuatro rectángulos. El árbol y el gráfico son lo mismo. Nuestra flor cae en el de versicolor.",
+      "see": "Las flores vuelven al plano. La S se estira y queda como el primer corte. Cada pregunta crece como un nodo del árbol arriba a la izquierda, y el lápiz corta el papel con la voz. Los trozos se tiñen del color de su especie y se separan un poco. Cada hoja del árbol late junto a su rectángulo. La cámara entra a la flor tapada, en el rectángulo azul. Casilla 3.",
+      "resource": "proceso"
+    },
+    {
+      "id": "svm",
+      "say": "Cuatro: SVM. Me quedo con setosa y versicolor. Infinitas rectas las separan. SVM busca la que deja el camino más ancho: uno coma treinta centímetros. Y ese camino se apoya en solo dos flores. Borro las otras noventa y ocho, ajusto de nuevo, y no se mueve.",
+      "see": "Se apagan las virgínicas. Varias rectas de lápiz pasan entre los dos grupos. El camino crece hasta chocar con dos flores, que quedan clavadas con chinches. Una cota entre ellas golpea 1,30 cm. Las otras 98 flores se marchitan y desaparecen, y el camino sigue quieto. Golpea '2 de 100'.",
+      "resource": "anatomia"
+    },
+    {
+      "id": "kernel",
+      "say": "Pero versicolor y virgínica se pisan. Ahí, el truco del kernel dobla la frontera. Acierta más en las flores que vio, y menos en las que no vio. Doblar de más es memorizar. Con la recta, nuestra flor queda en versicolor.",
+      "see": "Vuelven todas y la cámara entra a la zona donde se pisan. La recta real se dibuja, con cada lado teñido del color de su especie. La frontera se dobla en la curva real del kernel. Dos marcadores: 'Las que vio' 99 contra 96 y 'Las que no vio' 93 contra 95. Vuelve la recta y la flor tapada queda de su lado. Casilla 4.",
+      "resource": "comparacion"
+    },
+    {
+      "id": "knn",
+      "say": "Cinco: k vecinos más cercanos. No dibuja nada. Borro todo. No aprendió ninguna forma: guardó las flores. Llega la nuestra, busca las cinco más cercanas, y votan. Cuatro versicolor, una virgínica. Gana versicolor. El precio: en su forma básica, cada respuesta mide la distancia a las ciento cuarenta y nueve. Con un millón de flores, un millón de distancias. Cada vez.",
+      "see": "Un borrador barre todo el gráfico. Quedan las flores solas. La cámara entra hasta la flor tapada y un círculo crece hasta tocar cinco vecinas reales, que se encienden con un hilo. Los votos caen en dos pilas: 4 azules y 1 magenta. Casilla 5. La cámara sale, 149 hilos salen de la flor uno por uno con un contador, y golpea 1.000.000.",
+      "resource": "proceso"
+    },
+    {
+      "id": "revela",
+      "say": "Destapo la flor. Virgínica. Ancho real, uno coma cinco. Tres dijeron versicolor, y la recta se pasó. Acertó la logística, la que solo miró el largo. Y no es la mejor. Probadas flor por flor, las cuatro que clasifican aciertan entre noventa y cinco y noventa y siete por ciento. Esta flor cae donde dos especies se pisan, y ahí manda el dibujo.",
+      "see": "La etiqueta se despega y la flor se abre en magenta, enorme. Sube el marcador con las cinco respuestas: 1,72 cm (real 1,50), 60 % virgínica con un visto, y versicolor tres veces tachado. Debajo, los aciertos flor por flor de los cuatro, de 95 a 97 %. La zona donde se pisan se resalta en el gráfico.",
+      "resource": "datos"
+    },
+    {
+      "id": "cierre",
+      "say": "Un número, una probabilidad, preguntas, el camino más ancho y los vecinos. Cinco dibujos, un solo gráfico. Guarda este gráfico para cuando te pregunten cuál usar.",
+      "see": "Las cinco filas del mismo gráfico ya están, apagadas, y se encienden con la voz: el nombre, su dibujo y lo que responde. Una imagen para capturar. El avatar pide guardar junto al ícono de guardar.",
+      "resource": "matriz"
+    }
+  ],
+  "gateA": {
+    "approved": true,
+    "date": "2026-11-02",
+    "notes": "Jeremy delegó esta puerta en el chat, sin ver el guion: \"no me pidas aprobaciones, no tengo tiempo para revisarlo, te espero solo con el resultado final, lo dejo en tus manos\"."
+  },
+  "gateB": {
+    "approved": true,
+    "date": "2026-11-02",
+    "video": "268c64272a46d9c014f4b9c1338ff69763de6ba2beb05f2e96a74ca2c4f97f4e",
+    "notes": "Jeremy delegó esta puerta en el chat, antes de que existiera el video y sin verlo: \"no me pidas aprobaciones, no tengo tiempo para revisarlo, te espero solo con el resultado final, lo dejo en tus manos\". Publicar es otro pedido."
+  },
+  "art": {
+    "direction": "linea-continua",
+    "dealt": [
+      "captura-anotada",
+      "linea-continua",
+      "antes-despues"
+    ],
+    "reason": "El video es un solo trazo que se transforma: la recta se dobla en S, la S se estira y corta, el corte se abre en camino y el borrador lo deja en nada. Papel milimetrado claro, lápiz en bermellón para lo que dibuja cada algoritmo, y un color por especie. Se separa del amarillo de collage y del papel verde de CORS.",
+    "palette": {
+      "bg": "#F5F1E6",
+      "ink": "#17211C",
+      "accent": "#C93A0A",
+      "accentInk": "#FFFFFF",
+      "surface": "#FFFDF6",
+      "muted": "#5C6258"
+    },
+    "fonts": {
+      "display": "bricolage",
+      "text": "geist",
+      "notes": "caveat"
+    },
+    "anchor": {
+      "kind": "icono",
+      "ref": "flower",
+      "source": "La flor de Iris dibujada en código, en el gráfico"
+    },
+    "tab": "iris.csv"
+  },
+  "caption": "Cinco algoritmos. Un solo gráfico. Lo único que cambia es lo que dibuja cada uno.\n\nUsé las flores reales de Iris (Fisher, 1936) y le tapé el nombre a una: la fila 120, de 5,0 por 1,5 cm. Ajusté los cinco modelos con scikit-learn 1.9.1 sin esa flor. Lo que respondió cada uno:\n\n1. Regresión lineal. Dibuja una recta y predice un número: 1,72 cm de ancho. El real es 1,50.\n2. Regresión logística. Dibuja una S y da una probabilidad: 60 % virgínica.\n3. Árbol de decisión. Dibuja rectángulos, y cada pregunta es un corte: versicolor.\n4. SVM. Dibuja el camino más ancho: versicolor. Entre setosa y versicolor mide 1,30 cm y se apoya en 2 flores de 100.\n5. KNN. No dibuja nada: guarda las flores y las cinco más cercanas votan. Versicolor, 4 a 1.\n\nLa flor era virgínica. La elegí a propósito, porque cae donde se pisan dos especies. Acertó la logística, y eso no la hace la mejor: dejando afuera cada flor, una por una, las cuatro aciertan entre 95 y 97 %.\n\nLetra chica:\n- La logística solo responde \"virgínica o no\", con el largo. Es una pregunta más fácil que las tres especies del resto.\n- Limité el árbol a 4 hojas. Con los valores por defecto crece hasta hojas puras y tiende a sobreajustar.\n- El camino de SVM es de margen duro (C muy alto) entre dos especies que una recta separa.\n- El kernel es RBF con C=1000 y gamma=2, elegidos para que doble mucho: 99 contra 96 % en las flores que vio y 93 contra 95 % en validación cruzada de 5 partes.\n- En KNN, scikit-learn puede usar KD-Tree o Ball Tree para no medir todas las distancias. El costo de cada predicción es O[D·N] con fuerza bruta.\n- En el gráfico separo un poco las flores que tienen las mismas medidas, para que se vean las 149. Los ejes no tienen la misma escala: por eso el círculo de KNN se ve alargado.\n\nGuarda este gráfico para cuando te pregunten cuál usar.\n\nFuentes: documentación de scikit-learn 1.9.1, Fisher (1936) y UCI Machine Learning Repository. Revisadas el 2 de noviembre de 2026.\n\nVoz con IA: elevenlabs.io\n\n#machinelearning #algoritmos #ia #programacion #datascience"
+}

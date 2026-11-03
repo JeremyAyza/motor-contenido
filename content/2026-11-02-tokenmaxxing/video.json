@@ -1,0 +1,147 @@
+{
+  "$schema": "../../schemas/video.schema.json",
+  "format": "largo",
+  "target": 170,
+  "topic": "Tokenmaxxing: las tablas de posiciones de tokens de IA en las empresas, y por qué los tokens miden gasto y no trabajo",
+  "world": "Una máquina de arcade. Su pantalla es una tabla de récords que cuenta fichas gastadas, no niveles pasados; cada idea entra como una jugada, y al final la tabla se reordena por trabajo entregado.",
+  "meter": {
+    "label": "Lo que importa",
+    "from": "0",
+    "to": "4"
+  },
+  "cover": {
+    "scene": "gancho",
+    "at": 2.4
+  },
+  "art": {
+    "direction": "capa-por-capa",
+    "dealt": [
+      "capa-por-capa",
+      "chat",
+      "captura-anotada"
+    ],
+    "reason": "El tema es una tabla de posiciones: quién gana en qué. Cada fila es una capa, y el video termina reordenándolas. Fondo oscuro de pantalla de arcade, el ámbar de las fichas para los tokens, verde para lo entregado, y cada marca con su color en su bloque. Se separa del papel claro de los dos Reels anteriores.",
+    "palette": {
+      "bg": "#0F1218",
+      "ink": "#F3EFE4",
+      "accent": "#FFB020",
+      "accentInk": "#0F1218",
+      "surface": "#1A1F29",
+      "muted": "#98A0AE"
+    },
+    "fonts": {
+      "display": "geist",
+      "text": "geist"
+    },
+    "anchor": {
+      "kind": "icono",
+      "ref": "token-coin",
+      "source": "La ficha de arcade dibujada en código"
+    },
+    "tab": "leaderboard.json"
+  },
+  "hooks": [
+    {
+      "said": "Más de un millón de dólares en tokens.",
+      "onScreen": "1,4 M USD en tokens",
+      "formula": 23
+    },
+    {
+      "said": "Hay ingenieros compitiendo por quemar más tokens de IA.",
+      "onScreen": "Compiten por gastar más IA",
+      "formula": 22
+    },
+    {
+      "said": "Esta tabla premiaba al que más tokens quemaba.",
+      "onScreen": "Gana el que más tokens quema",
+      "formula": 24
+    }
+  ],
+  "scenes": [
+    {
+      "id": "gancho",
+      "say": "Más de un millón de dólares en tokens. Eso pudo gastar un solo empleado de Meta en treinta días. Era el primero de una tabla interna: doscientos ochenta y un mil millones de tokens. ¿Gastar más es trabajar más?",
+      "see": "Desde el cuadro 1, la pantalla de la máquina de arcade con la tabla de récords 'TOKENS', la fila 1 marcada y la cifra '1,4 M USD en tokens' (estimación de Fortune). La fila 1 cuenta hasta 281.000.000.000 y entra la pregunta '¿Más tokens = más trabajo?'.",
+      "resource": "cifra"
+    },
+    {
+      "id": "ficha",
+      "say": "Un token es un pedazo de texto. El modelo cobra cada token que lee y cada uno que escribe. Como las fichas de una máquina de arcade: cada jugada cuesta.",
+      "see": "Una frase se parte en fichas de colores; cada ficha se vuelve una moneda que entra por la ranura 'INSERT TOKEN', con el contador de entrada y de salida.",
+      "resource": "metafora"
+    },
+    {
+      "id": "agente",
+      "say": "Con un agente de código, las fichas se van solas. Lee archivos, escribe, corre las pruebas, falla y vuelve a empezar. Cada vuelta, otra jugada. Con diez agentes, diez máquinas.",
+      "see": "Un ciclo de cuatro pasos (leer, escribir, probar, fallar) gira; cada vuelta escupe monedas. La pantalla se multiplica en diez máquinas y el contador se dispara.",
+      "resource": "proceso"
+    },
+    {
+      "id": "maxxing",
+      "say": "De ahí sale tokenmaxxing. Maxxing es jerga gamer: subir un personaje al máximo. Aquí, lo que se sube es el uso de IA. Y Dictionary.com eligió maxxing como palabra del año.",
+      "see": "La palabra 'tokenmaxxing' se arma con dos piezas, token y maxxing; una barra de nivel de personaje sube hasta MAX; la tarjeta de diccionario con la definición y el sello 'Palabra del año 2026'.",
+      "resource": "anatomia"
+    },
+    {
+      "id": "meta",
+      "say": "Las empresas lo volvieron competencia. La tabla de Meta se llamaba Claudeonomics: los doscientos cincuenta que más gastaban, entre más de ochenta y cinco mil empleados. En treinta días sumaron más de sesenta billones de tokens. Y repartía títulos, como Token Legend.",
+      "see": "Vuelve la tabla, ahora con el nombre 'Claudeonomics' y el logo de Meta; 250 puntos encendidos entre 85.000 apagados; el contador llega a 60 billones; aparece la insignia 'Token Legend'. Todo con su fuente.",
+      "resource": "datos"
+    },
+    {
+      "id": "metas",
+      "say": "En Salesforce, según The Pragmatic Engineer, había un mínimo: cien dólares por semana en Claude Code. Y el CEO de Nvidia dijo que si un ingeniero de quinientos mil dólares no gasta doscientos cincuenta mil en tokens, estaría profundamente alarmado.",
+      "see": "Una barra de gasto con la línea roja 'mínimo 100 USD por semana'; después la tarjeta de cita de Jensen Huang con el logo de Nvidia y la balanza de 500 mil contra 250 mil.",
+      "resource": "comparacion"
+    },
+    {
+      "id": "trampa",
+      "say": "¿Qué pasó? Lo de toda meta. En Amazon, gente puso agentes a hacer tareas inútiles para subir en su tabla, y Amazon la quitó. Uber, según la prensa, se gastó en cuatro meses el presupuesto de IA para código de todo el año. Es la ley de Goodhart: cuando una medida se vuelve meta, deja de medir.",
+      "see": "Agentes que mueven cajas vacías de un lado a otro mientras su fila sube; la tabla de Amazon se apaga; un calendario de 12 meses que se vacía en 4; la ley de Goodhart en grande.",
+      "resource": "metafora"
+    },
+    {
+      "id": "dos",
+      "say": "Imagina dos devs que entregan la misma función. Ella usa cincuenta millones de tokens. Él, cinco millones. En la tabla, ella gana por diez. En el trabajo, empatan. Y el conteo ni dice el costo: esos cincuenta millones salen entre veintiséis y novecientos dólares, según el modelo y la caché.",
+      "see": "Pantalla dividida, jugador 1 y jugador 2, rotulada 'Ejemplo ilustrativo': las dos barras de tokens (50 M contra 5 M) y las dos funciones entregadas iguales; después, el rango 26 a 900 USD para los mismos 50 M, con la cuenta.",
+      "resource": "comparacion"
+    },
+    {
+      "id": "sentir",
+      "say": "Sentirte más rápido tampoco es medir. En un estudio de METR, con herramientas de inicios de 2025, devs con experiencia tardaron diecinueve por ciento más con IA. Al terminar, creían que habían ido veinte por ciento más rápido.",
+      "see": "Dos cronómetros: lo que midió el estudio (+19 % de tiempo) y lo que creían (−20 %), con una flecha que apunta al revés.",
+      "resource": "cifra"
+    },
+    {
+      "id": "otro",
+      "say": "Ojo: gastar no es el problema. Hay trabajo que antes nadie hacía, como pruebas, documentación o probar una idea. Si un agente lo hace bien, quema tokens y entrega valor.",
+      "see": "Una lista de pendientes de 'algún día' que los agentes toman y completan; las monedas se vuelven tareas en verde.",
+      "resource": "proceso"
+    },
+    {
+      "id": "pregunta",
+      "say": "La pregunta no es cuántos tokens. Es: ¿se entregó? ¿Pasaron las pruebas? ¿Ahorró tiempo de verdad? ¿Y cuánto costó? Cien dólares que te ahorran un día valen la pena. Mil por diez minutos, no.",
+      "see": "La pantalla de 'continuar' de la máquina se vuelve una lista de cuatro casillas que se marcan una por una; después dos tarjetas de jugada: 100 USD por un día (sí) y 1.000 USD por 10 minutos (no).",
+      "resource": "proceso"
+    },
+    {
+      "id": "final",
+      "say": "Meta cerró su tabla a los dos días de que se supo. En septiembre sacó el uso de IA de sus evaluaciones: ahora cuenta la calidad, la velocidad y la complejidad del trabajo. Y Amazon escribió que esas métricas tienen fallas profundas.",
+      "see": "La tabla de Meta se apaga con 'GAME OVER'; una línea de tiempo de abril a octubre con las tres decisiones, cada una con su fuente.",
+      "resource": "linea-de-tiempo"
+    },
+    {
+      "id": "cierre",
+      "say": "Ordena la tabla por trabajo entregado, y el que más quemaba ya no es el primero. Cuéntame en los comentarios: en tu equipo, ¿miden tokens o entregas?",
+      "see": "La tabla de récords del principio cambia de pestaña, de 'Tokens' a 'Entregado', y las filas se reordenan con animación: el primero baja al último puesto. Queda la pregunta para comentar.",
+      "resource": "datos"
+    }
+  ],
+  "gateA": {
+    "approved": false
+  },
+  "gateB": {
+    "approved": false
+  },
+  "caption": "Más de un millón de dólares en tokens: eso pudo gastar un solo empleado de Meta en 30 días.\n\nTokenmaxxing es usar toda la IA que puedas en el trabajo. Así lo define Dictionary.com.\n\nLas tablas existieron:\n- Meta: \"Claudeonomics\" mostraba a los 250 que más tokens usaban, entre más de 85.000 empleados. En 30 días sumaron más de 60 billones de tokens, y el primero llegó a 281 mil millones.\n- Amazon: hubo gente que puso agentes a hacer tareas inútiles para subir en su ranking, y Amazon lo retiró.\n- Salesforce: un mínimo de 100 USD por semana en Claude Code.\n- Uber: según la prensa, gastó en cuatro meses el presupuesto de todo 2026 para herramientas de código con IA.\n\nEs la ley de Goodhart: cuando una medida se vuelve meta, deja de medir. Los tokens te dicen cuánta IA usaste, no cuánto entregaste. Ni siquiera dicen cuánto costó: los mismos 50 millones salen entre unos 26 y 900 USD, según el modelo y la caché.\n\nLo que yo mediría: si se entregó, si pasaron las pruebas, si ahorró tiempo de verdad y cuánto costó.\n\nLetra chica:\n- Lo de Meta viene de Fortune y The Pragmatic Engineer, que citan a The Information. El 1,4 M USD es la estimación de Fortune, a 5 USD por millón de tokens.\n- Lo de Amazon viene del Financial Times, vía Fortune y The Decoder. Salesforce, de The Pragmatic Engineer.\n- El rango de 26 a 900 USD es una cuenta nuestra con los precios oficiales de Anthropic y OpenAI y una mezcla supuesta de entrada, salida y caché.\n- El estudio de METR (julio de 2025) usó herramientas de inicios de 2025: 16 devs con experiencia y 246 tareas reales. Su repetición de 2026 da resultados menos claros.\n- En septiembre, Meta sacó el uso de IA de las evaluaciones de sus ingenieros. En octubre, Amazon escribió que esas métricas tienen fallas profundas.\n- Los dos devs y la tabla del final son un ejemplo ilustrativo.\n\nCuéntame en los comentarios: en tu equipo, ¿miden tokens o entregas?\n\nFuentes: Fortune, The Pragmatic Engineer, The Decoder, Dictionary.com, aboutamazon.com, METR y los precios de Anthropic y OpenAI. Revisadas el 2 de noviembre de 2026.\n\nVoz con IA: elevenlabs.io\n\n#tokenmaxxing #ia #programacion #claudecode #ingenieriadesoftware"
+}

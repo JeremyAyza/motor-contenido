@@ -1,0 +1,295 @@
+{
+  "topic": "2026-11-02-tokenmaxxing",
+  "checkedAt": "2026-11-02",
+  "facts": [
+    {
+      "claim": "Definición de «tokenmaxxing» en Dictionary.com (entrada del 19 de octubre de 2026): «The practice of using as much AI as possible, especially in one's job». Etimología: «token» + «maxxing» (jerga de comunidades gamer, de optimizar un personaje). Empezó en la cultura tecnológica de Silicon Valley y se volvió prominente en 2026. Dictionary.com no nombra a ningún inventor del término.",
+      "source": "Dictionary.com, tokenmaxxing (Slang)",
+      "url": "https://www.dictionary.com/culture/slang/tokenmaxxing",
+      "primary": true,
+      "note": "El ejemplo fechado más antiguo de la entrada es un post de @beffjezos en X del 12 de febrero de 2026 («If you're tokenmaxxing pivot to thoughtmogging»). No prueba que sea el primer uso. La misma entrada dice que el auge fue en primavera y verano de 2026 y que luego algunos ejecutivos dieron marcha atrás, con la tendencia contraria «tokenminning»."
+    },
+    {
+      "claim": "Dictionary.com eligió «maxxing» como palabra del año 2026 (anunciada el 25 de octubre de 2026) y define tokenmaxxing como «using as much AI at work as possible». Dice que surgió cuando las empresas, sobre todo las grandes tecnológicas, «incentivized employee use of AI».",
+      "source": "Dictionary.com, Word of the Year 2026",
+      "url": "https://www.dictionary.com/word-of-the-year",
+      "primary": true,
+      "note": "Euronews del 26 de octubre de 2026 cubrió el anuncio; no se usó."
+    },
+    {
+      "claim": "IBM define tokenmaxxing como «an informal term for the organizational practice of incentivizing employees to maximize their AI token usage» (IBM Think, 1 de septiembre de 2026). No dice quién ni cuándo lo acuñó.",
+      "source": "IBM Think, What is tokenmaxxing?",
+      "url": "https://www.ibm.com/think/topics/tokenmaxxing",
+      "primary": true,
+      "note": "Es la definición de IBM, no del inventor del término."
+    },
+    {
+      "claim": "Definición de The Information, citada por The Pragmatic Engineer (23 de abril de 2026): el tokenmaxxing «has turned token usage into a benchmark for productivity and a competitive measure of who is most AI native». The Information lo llamó «Silicon Valley's newest form of conspicuous consumption».",
+      "source": "The Pragmatic Engineer (Gergely Orosz), The Pulse: 'Tokenmaxxing' as a weird new trend, 23 de abril de 2026",
+      "url": "https://blog.pragmaticengineer.com/the-pulse-tokenmaxxing-as-a-weird-new-trend/",
+      "primary": false,
+      "note": "Prensa que cita a The Information. El artículo de The Information tiene muro de pago y no se pudo leer. El propio Orosz no dice quién acuñó el término."
+    },
+    {
+      "claim": "Titulares de The Information (todos con muro de pago; solo se leyeron titular y firma, de Jyoti Mann): «Meta Employees Vie for AI 'Token Legend' Status», «Meta Shutters Internal AI Token Leaderboard», «Exclusive: Meta Tells Engineers AI Token Usage Won't Be Part Of Performance Reviews» y «The 'Tokenmaxxing' Tide May Already Be Turning».",
+      "source": "The Information (páginas de los artículos; cuerpo bloqueado)",
+      "url": "https://www.theinformation.com/articles/meta-employees-vie-ai-token-legend-status",
+      "primary": true,
+      "note": "Otros: https://www.theinformation.com/briefings/meta-shutters-internal-ai-token-leaderboard , https://www.theinformation.com/briefings/exclusive-meta-tells-engineers-ai-token-usage-part-performance-reviews , https://www.theinformation.com/articles/tokenmaxxing-tide-may-turning . Las páginas no muestran fecha. Solo prueban que los reportajes existen."
+    },
+    {
+      "claim": "Meta, tablero «Claudeonomics» (Fortune, 9 de abril de 2026): un empleado lo construyó; clasificaba a los 250 mayores usuarios de tokens de más de 85,000 empleados. En 30 días los empleados usaron más de 60 billones de tokens (60 trillion) y el primer lugar promedió 281 mil millones. Ni Zuckerberg ni Bosworth estaban en el top 250. Se retiró dos días después del reportaje de The Information.",
+      "source": "Fortune, Meta killed employee AI token dashboard, 9 de abril de 2026",
+      "url": "https://fortune.com/2026/04/09/meta-killed-employee-ai-token-dashboard/",
+      "primary": false,
+      "note": "Prensa. Cita de Meta en Fortune: «The employee took down the dashboard at their discretion; Meta did not request this action.» El aviso interno decía que se cerraba por «data from this dashboard being shared externally». Otro medio (Pragmatic Engineer) da 60.2 billones y dice que se retiró tras la reacción en redes; reportes posteriores hablan de 73.7 billones. Ver pendingToVerify."
+    },
+    {
+      "claim": "Meta, rangos del tablero: títulos como «Token Legend» y «Session Immortal». The Information (vía Pragmatic Engineer): empleados usaron 60.2 billones de tokens en 30 días, que a precios de la API de Anthropic costarían unos 900 millones de dólares; Orosz estima más de 100 millones con el descuento probable de Meta.",
+      "source": "The Pragmatic Engineer, The Pulse: 'Tokenmaxxing' as a weird new trend, 23 de abril de 2026",
+      "url": "https://blog.pragmaticengineer.com/the-pulse-tokenmaxxing-as-a-weird-new-trend/",
+      "primary": false,
+      "note": "Prensa que cita a The Information. Los títulos aparecen también en el titular de The Information («Token Legend»)."
+    },
+    {
+      "claim": "Meta quitó el uso de IA de las evaluaciones de desempeño de ingenieros (8 de septiembre de 2026): los tableros de IA y los contadores de tokens ya no cuentan. «What counts now is the quality, speed, and complexity of the work.» La nota interna es de Maher Saba y Santosh Janardhan. El uso interno de IA va «heading toward billions in costs in 2026»; Meta planea presupuestos y un tablero central desde 2027.",
+      "source": "The Decoder, Meta drops AI usage from engineer performance reviews after tokenmaxxing backfires, 8 de septiembre de 2026 (cita a The Information)",
+      "url": "https://the-decoder.com/meta-drops-ai-usage-from-engineer-performance-reviews-after-tokenmaxxing-backfires/",
+      "primary": false,
+      "note": "Prensa que cita a The Information (titular confirmado en la fila de titulares de arriba). Implica que antes el uso de IA sí era criterio de evaluación."
+    },
+    {
+      "claim": "Amazon (Financial Times, 12 de mayo de 2026, vía Fortune y The Decoder): empleados usaron la herramienta interna MeshClaw en tareas triviales para inflar sus conteos de tokens y subir en un tablero. Amazon quiere que más del 80% de sus desarrolladores usen IA cada semana. Amazon dijo que el uso de tokens no entra en las evaluaciones, pero empleados dijeron que los jefes lo miran: «There is just so much pressure to use these tools.»",
+      "source": "Fortune, Amazon tokenmaxxing, 12 de mayo de 2026; The Decoder, Tokenmaxxing spreads at Amazon, 12 de mayo de 2026",
+      "url": "https://fortune.com/2026/05/12/amazon-tokenmaxxing-claude-ai-capex-meta-gil-luria/",
+      "primary": false,
+      "note": "Prensa que cita al FT; el FT no se abrió. The Decoder: https://the-decoder.com/tokenmaxxing-spreads-at-amazon-as-employees-game-internal-ai-leaderboards/ . Fortune menciona la ley de Goodhart en el mismo artículo y cita al analista Gil Luria (D.A. Davidson): «That doesn't sound very healthy.»"
+    },
+    {
+      "claim": "Amazon retiró su ranking interno «Kirorank» (29 de mayo de 2026, según el FT vía The Decoder): empleados apuntaban agentes de IA a tareas inútiles para subir, lo que elevó los costos en la nube. El vicepresidente senior Dave Treadwell habría dicho: «Please don't use AI just for the sake of using AI.» Amazon ahora mide «normalized deployments» (código escrito con IA que de verdad sirve).",
+      "source": "The Decoder, Amazon kills internal AI leaderboard after employees gamed it with pointless tasks, 29 de mayo de 2026 (cita al FT)",
+      "url": "https://the-decoder.com/amazon-kills-internal-ai-leaderboard-after-employees-gamed-it-with-pointless-tasks/",
+      "primary": false,
+      "note": "Prensa que cita al FT. Otros medios reportan que Amazon llamó al tablero un beta informal creado por empleados; las fuentes difieren en si se eliminó o solo se restringió el acceso."
+    },
+    {
+      "claim": "Amazon publicó el 27 de octubre de 2026 en aboutamazon.com la nota de Terk Terkowitz (VP e ingeniero distinguido), «An update from Amazon engineering leadership on the role of the developer in the age of AI». Cita: «We are all aware of how deeply flawed these metrics are, primarily because they are disconnected from what matters.» (se refiere a métricas de entrada como uso de tokens o adopción de herramientas de IA). También: «We believe that it is best to measure, and be measured by, long-term outcomes.»",
+      "source": "Amazon (aboutamazon.com), An update from Amazon engineering leadership on the role of the developer in the age of AI",
+      "url": "https://www.aboutamazon.com/news/company-news/amazon-software-engineer-role-guideline-ai",
+      "primary": true,
+      "note": "La página no muestra fecha; el 27 de octubre de 2026 y que circuló internamente en septiembre salen de CNBC (https://www.cnbc.com/2026/10/27/amazon-ai-coding-tokenmaxxing.html, por Annie Palmer). La nota dice que las métricas de entrada se usen «with care and judgement» y que se preste atención a los percentiles 10 y 90 de adopción. CNBC: un portavoz dijo que Amazon no puso topes al uso de tokens."
+    },
+    {
+      "claim": "Shopify: el memo de Tobi Lütke (circuló el 7 de abril de 2025) dice «Reflexive AI usage is now a baseline expectation at Shopify». La competencia en IA pasaría a ser parte formal de las evaluaciones de desempeño y de la contratación, y los equipos deben justificar por qué la IA no puede hacer una tarea antes de pedir más recursos. Según Pragmatic Engineer, Shopify construyó en 2025 el primer tablero de tokens que Orosz conoce y luego lo renombró «usage dashboard», con «circuit breakers» para frenar agentes desbocados.",
+      "source": "Digital Commerce 360, Internal memo: Shopify CEO declares AI non-optional, 8 de abril de 2025; The Pragmatic Engineer, 23 de abril de 2026",
+      "url": "https://www.digitalcommerce360.com/2025/04/08/internal-memo-shopify-ceo-declares-ai-non-optional/",
+      "primary": false,
+      "note": "Prensa. El memo original (publicado por Lütke en X) no se abrió. Es el caso donde el uso de IA se ata a la evaluación de desempeño de forma explícita."
+    },
+    {
+      "claim": "Microsoft: tiene un tablero interno de tokens como el de Meta desde enero de 2026 (Pragmatic Engineer); según LeadDev, un correo del EVP Jay Parikh visto por 404 Media decía «Tokenmaxxing is not what we are optimizing for», con objetivos por división y posibles restricciones.",
+      "source": "The Pragmatic Engineer, 23 de abril de 2026; LeadDev, The tokenmaxxing hype didn't last long, 17 de agosto de 2026",
+      "url": "https://leaddev.com/reporting/the-tokenmaxxing-hype-didnt-last-long",
+      "primary": false,
+      "note": "Prensa de segunda mano: LeadDev cita a 404 Media y no se abrió el original. Pragmatic Engineer: https://blog.pragmaticengineer.com/the-pulse-tokenmaxxing-as-a-weird-new-trend/ (también dice que ingenieros de nivel distinguido y VPs salían arriba aunque escribían poco código)."
+    },
+    {
+      "claim": "Salesforce no usa tablero sino metas de gasto: según Pragmatic Engineer, mínimo de 100 dólares por semana en Claude Code y 70 en Cursor, y máximos de 250 dólares al mes en Claude Code y 170 en Cursor (quitado para algunos equipos); un ingeniero dijo «use a minimum of $170/month tokens or be flagged». Fortune (28 de mayo de 2026): el CEO Marc Benioff espera una factura con Anthropic de unos 300 millones de dólares este año.",
+      "source": "The Pragmatic Engineer, 23 de abril de 2026; Fortune, Tokenmaxxing is dead, 28 de mayo de 2026",
+      "url": "https://www.fortune.com/2026/05/28/tokenmaxxing-is-dead-companies-didnt-get-the-roi-from-ai-they-wanted-to-see/",
+      "primary": false,
+      "note": "Prensa. Las cifras de mínimos y máximos son testimonios de ingenieros recogidos por Orosz; no hay documento de Salesforce. Fortune también dice que Meta quitó su tablero y que algunas empresas limitan quién usa agentes de terceros."
+    },
+    {
+      "claim": "Uber (Fortune, 26 de mayo de 2026): según reportes, agotó en cuatro meses todo el presupuesto de 2026 para herramientas de código con IA, tras un ranking interno de equipos por uso. El presidente y COO Andrew Macdonald: «That link is not there yet» y, si no puedes trazar una línea directa a las funciones útiles que entregas, «that trade becomes harder to justify».",
+      "source": "Fortune, Uber COO on AI spending, 26 de mayo de 2026",
+      "url": "https://fortune.com/2026/05/26/uber-coo-ai-spending-tokens-claude-code/",
+      "primary": false,
+      "note": "Prensa. Fortune atribuye lo del presupuesto a «reports» sin nombrarlas; otros medios lo atribuyen al CTO Praveen Neppalli Naga hablando con The Information en abril (no confirmado en la página de Fortune)."
+    },
+    {
+      "claim": "El otro lado: Jensen Huang (CEO de Nvidia), en el podcast All-In grabado en GTC (21 de marzo de 2026), dijo que si un ingeniero de 500,000 dólares al año no gastara al menos 250,000 en tokens estaría «deeply alarmed». IBM lo cita como ejemplo.",
+      "source": "The Decoder, Nvidia CEO Jensen Huang says he'd be deeply alarmed if a $500K developer spent less than $250K on AI tokens, 21 de marzo de 2026",
+      "url": "https://the-decoder.com/nvidia-ceo-jensen-huang-says-hed-be-deeply-alarmed-if-a-500k-developer-spent-less-than-250k-on-ai-tokens",
+      "primary": false,
+      "note": "Prensa. No se abrió la transcripción del podcast. Otros medios parafrasean con palabras distintas (por ejemplo «go ape»)."
+    },
+    {
+      "claim": "Sam Altman (OpenAI, 3 de junio de 2026): «the token leader at OpenAI uses about 100 billion tokens a month». Añadió que alguien fuera de OpenAI usa aún más y que el costo de tokens se volvió una preocupación de las empresas.",
+      "source": "Business Insider (Henry Chandonnet), republicado en Yahoo Finance, 3 de junio de 2026",
+      "url": "https://finance.yahoo.com/sectors/technology/articles/sam-altman-says-openais-top-163224801.html",
+      "primary": false,
+      "note": "Prensa; el original de Business Insider no se abrió."
+    },
+    {
+      "claim": "viberank se presenta como «the public tokenmaxxing leaderboard for vibe coding» y su título es «Claude Code & AI coding spend, ranked» («The AI coding usage leaderboard»). Mide el gasto equivalente a la API y los tokens de Claude Code, OpenAI Codex, Gemini CLI, Copilot y otras herramientas que lee ccusage. Se puede ordenar por costo, tokens o eficiencia y filtrar por herramienta y por periodo (All, 7d, 30d). Muestra «1.3K developers on the board».",
+      "source": "viberank, página principal (leída el 2 de noviembre de 2026)",
+      "url": "https://www.viberank.app/",
+      "primary": true,
+      "note": "La página no muestra fecha de actualización. Dos lecturas distintas de la página coinciden en la tabla de abajo. Es la interfaz real y sirve de ancla visual."
+    },
+    {
+      "claim": "Primeros puestos de viberank (todas las herramientas, vista All, por costo, leída el 2 de noviembre de 2026): 1) metalcorpe, 1,810,970.98 USD y 3.1T tokens; 2) henrigkroine, 669,121.82 USD y 1.0T; 3) mattw90, 643,879.36 USD y 1.2T; 4) StartupBros, 521,820.42 USD y 520.0B; 5) B-EtterDigital, 496,135.68 USD y 595.8B. Los puestos 1 y 3 aparecen marcados «under review».",
+      "source": "viberank, tabla principal (vista All)",
+      "url": "https://www.viberank.app/",
+      "primary": true,
+      "note": "Son costos «API-equivalent», no lo que alguien pagó. Los 10 primeros llegan a 278,887.64 USD (puesto 10, registered2nd, 468.6B). Los niveles por usuario van de «Spark» (desde 0 USD) a «Hypernova» (250,000 USD o más)."
+    },
+    {
+      "claim": "Cómo entra un usuario a viberank: ejecuta npx viberank-cli (lee sus registros locales con ccusage) o sube el cc.json que genera ccusage; el servidor valida las cuentas de tokens, la relación costo-tokens y las fechas. Con GitHub obtiene una insignia verificada; la de «cli» es la no verificada. El repositorio es sculptdotfun/viberank: licencia MIT, 121 estrellas, «A community-driven leaderboard for AI coding usage».",
+      "source": "viberank (sitio) y GitHub, sculptdotfun/viberank",
+      "url": "https://github.com/sculptdotfun/viberank",
+      "primary": true,
+      "note": "Los datos los declara cada persona; el servidor solo revisa que sean coherentes."
+    },
+    {
+      "claim": "ccusage (ryoppippi/ccusage): «Analyze coding (agent) CLI token usage and costs from local data». Lee los datos locales de Claude Code, Codex, OpenCode, Gemini CLI y otros, y reporta tokens y costo en USD por día, semana, mes o sesión; separa los tokens de creación y de lectura de caché. Se corre con npx ccusage@latest. Licencia MIT, 19.3k estrellas. El README no menciona ningún ranking.",
+      "source": "GitHub, ryoppippi/ccusage (README)",
+      "url": "https://github.com/ryoppippi/ccusage",
+      "primary": true,
+      "note": "ccusage no es un tablero de posiciones: viberank usa su salida. El README tampoco menciona viberank."
+    },
+    {
+      "claim": "Anthropic, 28 de julio de 2025: anunció límites semanales para Claude Pro y Max a partir del 28 de agosto de 2025. Cita: «We estimate they'll apply to less than 5% of subscribers based on current usage». Motivos: algunos corren Claude Code «continuously in the background, 24/7», más infracciones como compartir cuentas y revender acceso. Para el plan Max de 200 dólares estimó 240 a 480 horas de Sonnet 4 y 24 a 40 de Opus 4 por semana.",
+      "source": "TechCrunch, Anthropic unveils new rate limits to curb Claude Code power users, 28 de julio de 2025 (actualizado el 29)",
+      "url": "https://techcrunch.com/2025/07/28/anthropic-unveils-new-rate-limits-to-curb-claude-code-power-users/",
+      "primary": false,
+      "note": "Prensa. La vocera Amie Rotherham dijo que afectará a «less than 5% of subscribers». VentureBeat (https://venturebeat.com/ai/anthropic-throttles-claude-rate-limits-devs-call-foul) cita: «Claude Code has experienced unprecedented demand since launch» y «advanced usage patterns like running Claude 24/7 in the background»."
+    },
+    {
+      "claim": "La frase de Anthropic con la cifra extrema: «For example, one user consumed tens of thousands in model usage on a $200 plan.» (28 de julio de 2025). Sale de la cita de Anthropic que reproduce Simon Willison, que enlaza a la publicación de @AnthropicAI en X.",
+      "source": "Simon Willison, A quote from Anthropic, 28 de julio de 2025 (enlaza a x.com/anthropicai/status/1949898511287226425)",
+      "url": "https://simonwillison.net/2025/Jul/28/anthropic/",
+      "primary": false,
+      "note": "La publicación original en X devolvió HTTP 402 y no se pudo abrir (https://x.com/anthropicai/status/1949898511287226425). El artículo de TechCrunch no incluye esta frase. Willison no dice si viene de un correo o de X: la etiqueta solo «Anthropic». Ver pendingToVerify. No es cuenta de facturación: la cifra es lo que Anthropic dijo, sin desglose."
+    },
+    {
+      "claim": "Los planes hoy en claude.com/pricing: Pro 20 USD al mes (17 con pago anual), Max 100 USD al mes (5x el uso de Pro), «Ultra» 200 USD al mes (10x el uso semanal de Pro, sin límite de 5 horas para cuentas verificadas). El «plan de 200 dólares» de 2025 era Max 20x; los nombres y niveles cambiaron.",
+      "source": "Anthropic, Claude pricing (individual plans)",
+      "url": "https://claude.com/pricing",
+      "primary": true,
+      "note": "La página no muestra fecha. Verificar antes de decir «el plan de 200 USD» como si fuera el mismo producto de 2025."
+    },
+    {
+      "claim": "Precio oficial de la API de Anthropic por millón de tokens (MTok): Claude Opus 5.5, 4 USD de entrada y 20 USD de salida (escritura de caché 5 min: 5 USD; 1 h: 8 USD; lecturas de caché: 0.20 USD). Claude Sonnet 5.5, 2 USD de entrada y 10 USD de salida (escritura 5 min: 2.50; 1 h: 4; lecturas: 0.10). Referencias: Opus 5 y Opus 4.8 cuestan 5/25; Fable 5.1 y Mythos 5.1, 10/50; Haiku 5.5, 0.10/0.50 (prompts hasta 100,000 tokens).",
+      "source": "Anthropic, Claude Developer Platform docs, Pricing (Model pricing)",
+      "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "primary": true,
+      "note": "La página no muestra fecha; leída el 2 de noviembre de 2026. Nota oficial: los modelos 4.7 en adelante usan un tokenizador nuevo que produce «approximately 30% more tokens for the same text». Las lecturas de caché de Opus 5.5 y Sonnet 5.5 cuestan 0.05x la entrada base."
+    },
+    {
+      "claim": "Fechas y precios de lanzamiento: Claude Opus 5.5 salió el 22 de septiembre de 2026 a 4 USD de entrada y 20 de salida por millón de tokens; Claude Sonnet 5.5 salió el 28 de septiembre de 2026 a 2 y 10, igual que Sonnet 5.",
+      "source": "Anthropic, anuncios de Claude Opus 5.5 y Claude Sonnet 5.5",
+      "url": "https://www.anthropic.com/news/claude-opus-5-5",
+      "primary": true,
+      "note": "Sonnet 5.5: https://www.anthropic.com/news/claude-sonnet-5-5 . Ambas fechas salen del resumen de la lectura de la página."
+    },
+    {
+      "claim": "Precio oficial de la API de OpenAI por millón de tokens (tier Standard, contexto de hasta 272K): gpt-6-astra (el más capaz), 10 USD de entrada, 1 de entrada en caché y 50 de salida; gpt-6.1-sol, 2 / 0.10 / 10; gpt-6.1-terra, 1 / 0.05 / 5; gpt-6-luna, 0.10 / 0.01 / 0.50. La única fila etiquetada «Codex» es gpt-5.3-codex: 1.75 / 0.175 / 14. Astra pasa a 20 de entrada y 75 de salida por encima de 272K de entrada.",
+      "source": "OpenAI, API Pricing (developers.openai.com)",
+      "url": "https://developers.openai.com/api/docs/pricing",
+      "primary": true,
+      "note": "La página no muestra fecha de actualización; solo avisa que «priority processing» se renombró «Fast mode» el 30 de julio de 2026. La URL antigua platform.openai.com/docs/pricing redirige aquí."
+    },
+    {
+      "claim": "En Codex, OpenAI recomienda: Astra («the most capable model»), 6.1 Sol («near-Astra performance» a menor costo, ventana de 500,000 tokens por defecto en Codex), 6.1 Terra y 6 Luna. La página no nombra un modelo por defecto: dice que si no eliges se usa «a recommended model», y su ejemplo de configuración usa gpt-6.1-sol.",
+      "source": "OpenAI, Codex models (learn.chatgpt.com/docs/models)",
+      "url": "https://learn.chatgpt.com/docs/models",
+      "primary": true,
+      "note": "developers.openai.com/codex/models redirige (308) a esta URL. La página no lista precios de API ni créditos. Por eso el cálculo de precios usa Sol y Astra por separado."
+    },
+    {
+      "claim": "METR, 10 de julio de 2025: ensayo aleatorizado con 16 desarrolladores experimentados de código abierto y 246 tareas reales de sus propios repositorios. Con IA permitida tardaron 19% más. Antes de empezar esperaban que la IA los acelerara 24%; al terminar seguían creyendo que los había acelerado 20%. Usaron sobre todo Cursor Pro con Claude 3.5 y 3.7 Sonnet; las tareas duraban unas dos horas.",
+      "source": "METR, Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity",
+      "url": "https://metr.org/blog/2025-07-10-early-2025-ai-experienced-os-dev-study/",
+      "primary": false,
+      "referente": "metr",
+      "note": "Revisado el 2 de noviembre de 2026. La propia página avisa que el resultado ya está desactualizado y remite a datos nuevos de febrero de 2026. Cuidado con la cifra de la creencia: 24% era la expectativa previa y 20% la creencia posterior."
+    },
+    {
+      "claim": "METR, 24 de febrero de 2026 (actualización con herramientas de finales de 2025): 57 desarrolladores (10 del estudio original y 47 nuevos). Estimación para los que volvieron: «a speedup of -18%» con intervalo de -38% a +9%; para los nuevos: «-4%», intervalo de -15% a +9%. METR concluye: «the data from our new experiment gives us an unreliable signal of the current productivity effect of AI tools», y «Our raw results show some evidence for speedup».",
+      "source": "METR, We are changing our developer productivity experiment design (actualización de febrero de 2026)",
+      "url": "https://metr.org/blog/2026-02-24-uplift-update/",
+      "primary": false,
+      "referente": "metr",
+      "note": "Revisado el 2 de noviembre de 2026. La página no define el signo de «speedup»; METR dice que sus datos crudos muestran «some evidence for speedup», así que el -18% no se debe leer como «18% más lentos». Motivo de la poca fiabilidad: muchos desarrolladores rechazaron participar sin IA y entre 30% y 50% dijo que no enviaba tareas que no querían hacer sin IA. No usar el 19% de 2025 sin esta advertencia."
+    },
+    {
+      "claim": "Informe DORA 2025, State of AI-assisted Software Development (23 de septiembre de 2025; unos 5,000 profesionales y más de 100 horas de datos cualitativos): 90% usa IA en el trabajo (14% más que el año anterior), más de 80% cree que subió su productividad, 30% confía poco o nada en el código que genera. A diferencia de 2024, hay una relación positiva entre adoptar IA y el rendimiento de entrega (throughput) y del producto, pero «AI adoption does continue to have a negative relationship with software delivery stability». Resumen: «AI doesn't fix a team; it amplifies what's already there.»",
+      "source": "Google Cloud / DORA, Announcing the 2025 DORA Report, 23 de septiembre de 2025",
+      "url": "https://cloud.google.com/blog/products/ai-machine-learning/announcing-the-2025-dora-report",
+      "primary": true,
+      "note": "El anuncio no da coeficientes. La página del informe en dora.dev dice: «AI's primary role is as an amplifier, magnifying an organization's existing strengths and weaknesses» (https://dora.dev/research/2025/dora-report/). El blog de Google (https://blog.google/technology/developers/dora-report-2025/) añade 65% de dependencia fuerte de la IA y mediana de dos horas diarias con IA."
+    },
+    {
+      "claim": "DORA (10 de marzo de 2026): «higher AI adoption is associated with an increase in both software delivery throughput and software delivery instability». Otro texto de DORA (7 de enero de 2026): «We found that AI improves throughput, but often at the cost of stability if your foundation isn't solid.»",
+      "source": "DORA, Balancing AI tensions; DORA 2025 year in review",
+      "url": "https://dora.dev/insights/balancing-ai-tensions/",
+      "primary": true,
+      "note": "Año en revisión: https://dora.dev/insights/dora-2025-year-in-review/ . Ninguna de las dos páginas da cifras de esos efectos."
+    },
+    {
+      "claim": "Anthropic, 29 de enero de 2026: ensayo aleatorizado con 52 ingenieros (en su mayoría junior) aprendiendo la librería Trio. El grupo con IA sacó 50% en la prueba de comprensión y el grupo que programó a mano, 67% (estadísticamente significativo, d de Cohen 0.738, p = 0.01). El grupo con IA terminó unos dos minutos antes en promedio, pero la diferencia no fue significativa (p = 0.391).",
+      "source": "Anthropic Research, AI assistance and coding skills (29 de enero de 2026)",
+      "url": "https://www.anthropic.com/research/AI-assistance-coding-skills",
+      "primary": true,
+      "note": "Es un estudio de aprendizaje, no de productividad en tareas conocidas, y usaron un asistente en barra lateral, no agentes como Claude Code. Los autores lo llaman preliminar. Ojo: 67 menos 50 son 17 puntos porcentuales, no «17% más bajo» en términos relativos (ver calculations)."
+    },
+    {
+      "claim": "Charles Goodhart: la ley nace de su artículo «Problems of Monetary Management: The U.K. Experience», primero en la lista de los Papers in Monetary Economics, vol. I, Sydney, Reserve Bank of Australia, 1976 (conferencia de julio de 1975). El Banco de la Reserva de Australia anota que ese artículo contiene la primera referencia a la «Goodhart's Law».",
+      "source": "Reserve Bank of Australia, RDP 9013: A Select Bibliography of Published Research by the RBA, 1969-1990 (Conference Volumes)",
+      "url": "https://www.rba.gov.au/publications/rdp/1990/9013/conference-volumes.html",
+      "primary": true,
+      "note": "El volumen es de 1976 y las ponencias son de 1975. El texto exacto de la frase no se pudo leer en una fuente primaria: ver pendingToVerify."
+    },
+    {
+      "claim": "Marilyn Strathern, «'Improving ratings': audit in the British University system», European Review, vol. 5, n.º 3, pp. 305-321, julio de 1997. DOI 10.1002/(SICI)1234-981X(199707)5:3<305::AID-EURO184>3.0.CO;2-4. El resumen la describe como un comentario antropológico sobre la «audit explosion» y dice que la auditoría «takes on a life of its own» y puede amenazar lo que audita.",
+      "source": "Cambridge University Press, European Review (página del artículo)",
+      "url": "https://cambridge.org/core/journals/european-review/article/improving-ratings-audit-in-the-british-university-system/FC2EE640C0C44E3DB87C29FB666E9AAB",
+      "primary": true,
+      "note": "La página solo muestra resumen y referencias; el texto completo está cerrado. La frase «When a measure becomes a target, it ceases to be a good measure» y su página no se pudieron confirmar en fuente primaria: ver pendingToVerify."
+    },
+    {
+      "claim": "Las métricas DORA son hoy cinco, no cuatro. Rendimiento (throughput): «change lead time» (de confirmar el cambio en control de versiones a producción), «deployment frequency» (despliegues en un periodo) y «failed deployment recovery time» (tiempo para recuperarse de un despliegue fallido que requiere intervención inmediata). Inestabilidad: «change fail rate» (proporción de despliegues que requieren intervención inmediata) y «deployment rework rate» (despliegues no planeados a causa de un incidente en producción).",
+      "source": "DORA, DORA's software delivery performance metrics (última actualización: 5 de enero de 2026)",
+      "url": "https://dora.dev/guides/dora-metrics/",
+      "primary": true,
+      "note": "Las cuatro clásicas son frecuencia de despliegue, tiempo de entrega (lead time), tasa de fallos de cambios y tiempo de recuperación; hoy el último se llama «failed deployment recovery time» y hay una quinta, la tasa de retrabajo."
+    },
+    {
+      "claim": "Historia de las métricas: en 2023 el «mean time to recover (MTTR)» se renombró y redefinió como «failed deployment recovery time»; en 2024 se añadió la quinta, «deployment rework rate». DORA dice que «officially evolved the four software delivery performance metrics into five metrics».",
+      "source": "DORA, history of the metrics (2 de enero de 2026) y DORA 2025 year in review (7 de enero de 2026)",
+      "url": "https://dora.dev/guides/dora-metrics/history/",
+      "primary": true,
+      "note": "Año en revisión: https://dora.dev/insights/dora-2025-year-in-review/ ."
+    }
+  ],
+  "calculations": [
+    "Mezcla A (sin caché): 80% de los tokens son entrada y 20% salida. Costo por millón = 0.8 x entrada + 0.2 x salida. Claude Opus 5.5: 0.8 x 4 + 0.2 x 20 = 3.20 + 4.00 = 7.20 USD por millón, así que 5 millones cuestan 5 x 7.20 = 36 USD y 50 millones, 50 x 7.20 = 360 USD. Claude Sonnet 5.5: 0.8 x 2 + 0.2 x 10 = 3.60, o sea 18 USD y 180 USD. gpt-6.1-sol (mismo precio que Sonnet 5.5, 2 y 10): 18 USD y 180 USD. gpt-5.3-codex: 0.8 x 1.75 + 0.2 x 14 = 1.40 + 2.80 = 4.20, o sea 21 USD y 210 USD. gpt-6-astra: 0.8 x 10 + 0.2 x 50 = 18, o sea 90 USD y 900 USD. La suposición 80/20 es mía; no sale de ninguna fuente.",
+    "Mezcla B (con caché, típica de un agente de código): 90% lecturas de caché, 7% entrada nueva (en Anthropic, al precio de escritura de caché de 5 minutos) y 3% salida. Suposición mía, no medida. Opus 5.5: 0.90 x 0.20 + 0.07 x 5 + 0.03 x 20 = 0.18 + 0.35 + 0.60 = 1.13 USD por millón, o sea 5 x 1.13 = 5.65 USD y 50 x 1.13 = 56.50 USD. Sonnet 5.5: 0.90 x 0.10 + 0.07 x 2.50 + 0.03 x 10 = 0.09 + 0.175 + 0.30 = 0.565, o sea 2.825 USD (unos 2.83) y 28.25 USD. gpt-6.1-sol (entrada 2, caché 0.10, salida 10, sin cargo de escritura): 0.90 x 0.10 + 0.07 x 2 + 0.03 x 10 = 0.09 + 0.14 + 0.30 = 0.53, o sea 2.65 USD y 26.50 USD. Con los mismos 50 millones de tokens, el costo va de 26.50 USD a 360 USD (o a 900 USD con Astra) según la mezcla y el modelo: el conteo de tokens solo no dice cuánto costó.",
+    "Costo medio por millón de tokens en viberank: 1,810,970.98 USD / 3,100,000 millones de tokens (3.1T = 3,100,000 MTok) = 0.584 USD por millón en el puesto 1; puesto 2: 669,121.82 / 1,000,000 = 0.669; puesto 3: 643,879.36 / 1,200,000 = 0.537. Con la mezcla A de Opus 5.5 (7.20) la razón sería 7.20 / 0.584 = 12.3 veces mayor. Es una inferencia: esos totales deben de estar dominados por lecturas de caché baratas, y la tabla no desglosa los tokens.",
+    "Meta, tokens por empleado: 60.2 billones (60.2 x 10^12) / 85,000 empleados = 708,235,294, unos 708 millones de tokens por empleado en 30 días en promedio. 85,000 es «más de», así que el promedio real es algo menor, y no todos usaron el tablero.",
+    "Meta, costo: Fortune toma 5 USD por millón (el menor precio de Opus 4.6): el primer lugar, 281 mil millones de tokens x 5 USD por millón = 281,000 x 5 = 1,405,000 USD, o sea «más de 1.4 millones». Aplicando lo mismo al total: 60.2 billones = 60,200,000 millones de tokens x 5 = 301,000,000 USD (piso). La cifra de unos 900 millones que The Information da según Pragmatic Engineer equivale a 900,000,000 / 60,200,000 = 14.95 USD por millón, es decir, otra mezcla o tarifa de la que se asume aquí. Por eso conviene dar un rango y no un solo número.",
+    "Cifra de Anthropic: «decenas de miles» de dólares en un plan de 200 es como mínimo 20,000 / 200 = 100 veces lo que pagaba esa persona. Es una lectura mínima de «tens of thousands»; la frase no da el número exacto.",
+    "Estudio de Anthropic sobre habilidades: 67% - 50% = 17 puntos porcentuales de diferencia en la prueba. En términos relativos, (67 - 50) / 67 = 25.4% menos. Anthropic y la prensa dicen «17% lower»; en el guion conviene decir «17 puntos».",
+    "Fechas de Meta: Fortune (jueves 9 de abril de 2026) dice que The Information lo reportó «Monday» y que se retiró dos días después. El 9 de abril de 2026 cae en jueves, así que el lunes sería el 6 de abril y el retiro, el 8 de abril. Es deducción mía del calendario, no una fecha de la fuente.",
+    "Opus 5.5 frente a Opus 5: (5 - 4) / 5 = 20% más barato en entrada, y (25 - 20) / 25 = 20% en salida. Los dos precios bajaron 20%, pero Opus 5.5 usa el tokenizador nuevo que Anthropic dice que genera «approximately 30% more tokens for the same text» (nota de la página de precios: aplica a los modelos 4.7 en adelante, así que Opus 5 y 5.5 comparten tokenizador); la comparación de tokens no cambia entre ellos, pero sí frente a Sonnet 4.6 y anteriores."
+  ],
+  "illustrative": [],
+  "pendingToVerify": [
+    "Texto exacto de la ley de Goodhart. No se pudo abrir ninguna copia del artículo de 1975/1976 ni de su reedición (Courakis, 1981, p. 116; Macmillan, 1984). La versión que circula (la lee Wikipedia, secundaria, https://en.wikipedia.org/wiki/Goodhart%27s_law) es: «Any observed statistical regularity will tend to collapse once pressure is placed upon it for control purposes.» No usarla entre comillas como cita de primera mano sin abrir el original; el guion puede parafrasear.",
+    "Texto exacto de Strathern (1997). La página de Cambridge solo da el resumen; las copias en PDF (gwern.net, Cambridge) son imágenes sin texto legible para las herramientas. La versión popular que citan Wikipedia y FORRT (secundarias) es «When a measure becomes a target, it ceases to be a good measure» en la p. 308. Strathern la presenta como forma de expresar la ley de Goodhart atribuida al contador Keith Hoskin (1996); la palabra «Goodhart» y la frase no son idénticas a la original de 1975. Confirmar antes de atribuirla.",
+    "Quién acuñó «tokenmaxxing» y cuándo: ninguna fuente lo establece. Dictionary.com solo da el ejemplo fechado más antiguo (12 de febrero de 2026, @beffjezos en X). No decir «inventado por X». The Information lo popularizó en la prensa (según Pragmatic Engineer), pero su artículo está bajo muro de pago y no se pudo leer ni fechar.",
+    "Todas las cifras de Meta vienen de segunda mano (Fortune, Pragmatic Engineer, The Decoder), porque The Information tiene muro de pago. Discrepancias: 60 billones (Fortune) frente a 60.2 billones (Pragmatic Engineer) frente a 73.7 billones en un reporte posterior que solo salió en una búsqueda; y dos explicaciones del cierre del tablero («datos compartidos externamente», según el aviso que cita Fortune, y «reacción en redes», según Pragmatic Engineer).",
+    "El artículo del Financial Times sobre Amazon (MeshClaw, Kirorank, objetivo del 80%) no se abrió; los datos vienen de Fortune y The Decoder. Las fuentes difieren en si Kirorank se eliminó o solo se restringió, y en si Amazon lo llamó un beta informal. La cita de Treadwell («Please don't use AI just for the sake of using AI») sale solo de The Decoder.",
+    "Publicación original de Anthropic con la frase de «decenas de miles de dólares en un plan de 200»: está en X (https://x.com/anthropicai/status/1949898511287226425), que devolvió HTTP 402. La frase se leyó solo en la cita de Simon Willison. No se confirmó si salió de un hilo de X, de un correo o de ambos. TechCrunch (28 de julio de 2025) no incluye la frase. Una búsqueda también devolvió citas de usuarios que dicen haber gastado miles de dólares en ccusage con un plan de 200 (por ejemplo, un post de Indie Hackers de 30,983 dólares); son autoinformes sin verificar y no se usan.",
+    "Que Microsoft canceló suscripciones a Claude Code para empleados de varias divisiones: Fortune (28 de mayo de 2026) lo cita de The Verge y aclara que no lo confirmó por su cuenta. Tampoco se abrió 404 Media (correo de Jay Parikh), que LeadDev cita.",
+    "Despidos ligados al conteo de tokens: no se encontró ninguna fuente que diga que alguien fue despedido solo por pocos tokens. Hay una demanda de 26 empleados de Meta (julio de 2026) que alega que se usaron datos de productividad y de uso de tokens en las evaluaciones para despidos y que afectó a personas con licencia médica; solo se leyó en un resumen de búsqueda (publicación de Carlton Fields: https://www.carltonfields.com/insights/publications/2026/lawsuit-challenges-metas-use-of-artificial-intelligence-to-make-layoff-decisions , no abierta). Meta lo niega. Es una acusación, no un hecho probado.",
+    "Otros tableros públicos (tokscale, Straude, ccclub, CostHawk, tokenflex.ing): solo aparecieron en una búsqueda, no se abrieron y no se confirmaron cifras. Sin fuente primaria. Solo viberank se abrió y se citó.",
+    "Estudios de 2026 que NO están en docs/referentes.md y por tanto no entran como hecho, aunque el contenido es útil para el ángulo (proponerlos a Jeremy si los quiere): Jellyfish, 15 de abril de 2026 (12,000 desarrolladores en 200 empresas; el decil de mayor gasto usa casi diez veces los tokens por unos dos veces el rendimiento de PR; costo por PR fusionado de 0.28 USD en el nivel más bajo a 89.32 USD en el más alto; URL https://jellyfish.co/blog/is-tokenmaxxing-cost-effective-new-data-from-jellyfish-explains/ , abierta el 2 de noviembre de 2026); Faros AI, marzo de 2026 (rotación de código de 861% con adopción alta, citado por TechCrunch del 17 de abril de 2026, sin abrir); GitClear, enero de 2026 (usuarios de IA con 9.4x más rotación de código, sin abrir); Waydev; la encuesta AI Impact Report 2026 de LeadDev (19% de los encuestados considera eficaz el tokenmaxxing, 57% dice que no mide el valor real y 58% dice que su organización mide el impacto de IA con tokens; LeadDev, 17 de agosto de 2026; el informe aparece como «upcoming» y no se vio el tamaño de muestra).",
+    "Coeficientes exactos del informe DORA 2025 (cuánto sube el throughput y cuánto cae la estabilidad por cada aumento de adopción): ninguna de las páginas abiertas los da; el PDF del informe pesa más de 10 MB y no se pudo leer. No usar cifras de 2024 (1.5% y 7.2%) como si fueran de 2025.",
+    "Modelo principal de OpenAI para Codex: ninguna página lo nombra. La documentación de Codex recomienda Astra, Sol, Terra y Luna sin marcar un predeterminado; la tabla de la API solo etiqueta gpt-5.3-codex como «Codex». El guion debe decir cuál usó en la cuenta o presentar Sol y Astra como opciones. La página de modelos de Codex lista retiros ya cumplidos (GPT-5.3-Codex-Spark, 14 de septiembre de 2026; GPT-5.5 en Codex, 14 de octubre de 2026), así que gpt-5.3-codex puede quedar fuera de uso.",
+    "Las páginas de precios de Anthropic, OpenAI y de planes (claude.com/pricing) no muestran fecha de actualización. Los precios son los de la lectura del 2 de noviembre de 2026; releer el día de grabar.",
+    "METR de febrero de 2026: la página no define el signo de «speedup» (la lectura de que -18% significa «menos tiempo» es una inferencia). No describir esa cifra como «18% más lento» ni como «18% más rápido» sin releer la sección de resultados."
+  ]
+}
