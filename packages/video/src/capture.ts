@@ -5,7 +5,7 @@ import { join } from "node:path";
 import { z } from "zod";
 
 /*
- * Real output for the screens of a video (docs/historia/propuesta-reels-jacket.md,
+ * Real output for the screens of a video ("un segundo por dentro",
  * "Lo real"). content/<piece>/captures.json lists commands; video:capture runs
  * them in a folder of their own, keeps what they printed and the date, and the
  * scenes show it with useCapture. Nothing is typed by hand: what a Terminal

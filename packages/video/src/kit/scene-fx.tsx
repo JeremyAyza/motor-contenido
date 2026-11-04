@@ -2,7 +2,7 @@ import type { CSSProperties } from "react";
 
 /*
  * What a scene can add around its Visual when the video has no stage, for
- * Reels cut scene by scene like @sebastiankra.ia's (docs/historia/direccion-reels.md):
+ * Reels cut scene by scene like @sebastiankra.ia's (docs/reel.md):
  * a background pattern and an entrance. Both are opt-in per scene; without
  * them a scene is the plain slide it always was.
  */

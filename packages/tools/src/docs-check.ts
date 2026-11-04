@@ -5,7 +5,7 @@ import { REPO_ROOT } from "./repo.ts";
 /*
  * `npm run docs:check`: keeps the documentation small and connected
  * (docs/plan-velocidad-reels.md, Fase 2). It reports broken links, core files
- * over their size, and documents outside docs/historia/ that nothing links to.
+ * over their size, and documents that nothing links to.
  * It also runs inside npm test.
  */
 
@@ -19,9 +19,9 @@ export const CORE: Record<string, number> = {
 /** Rough tokens for Spanish prose and markdown: about 3.5 characters each. */
 export const estimateTokens = (text: string): number => Math.ceil(text.length / 3.5);
 
-/** Folders whose markdown is checked. docs/historia/ is the archive: no agent reads it, so it is left as it was. */
+/** Folders whose markdown is checked. */
 const CHECKED = ["AGENTS.md", "README.md", "docs", "skills/video-es", "skills/ig-es", "skills/carrusel-taste", ".claude/agents", "packages", "assets", "accounts"];
-const SKIP = new Set(["node_modules", "historia", "out", ".cache", "referencias"]);
+const SKIP = new Set(["node_modules", "out", ".cache", "referencias"]);
 
 export interface Problem {
   file: string;
@@ -74,7 +74,7 @@ export function checkDocs(root = REPO_ROOT): Problem[] {
   const docs = files.filter((f) => f.startsWith("docs/") && f.split("/").length <= 3);
   for (const doc of docs) {
     if (doc in CORE) continue;
-    if (!linked.has(doc)) problems.push({ file: doc, message: "nothing links to it: link it from the core or move it to docs/historia/" });
+    if (!linked.has(doc)) problems.push({ file: doc, message: "nothing links to it: link it from the core or delete it" });
   }
   return problems;
 }

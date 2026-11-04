@@ -79,7 +79,7 @@ Un logo o una mascota va con su archivo oficial o de una fuente confiable (`<Log
 
 ### 7. El recurso visual de cada lámina
 
-Cada lámina interior lleva el recurso de `esqueleto[].visual`, de [recursos.json](recursos.json): diagrama de proceso, anatomía con etiquetas, analogía de escala, metáfora con objetos, comparación dibujada, barras, cifra gigante, línea de tiempo, matriz, capas, captura anotada o artefacto real con señal. Se dibuja con las primitivas de `@motor/ui` (tabla en docs/carrusel.md, paso 9) dentro de la dirección: la misma paleta, el mismo trazo, la misma textura.
+Cada lámina interior lleva el recurso de `esqueleto[].visual`, de [recursos.json](recursos.json): diagrama de proceso, anatomía con etiquetas, analogía de escala, metáfora con objetos, comparación dibujada, barras, cifra gigante, línea de tiempo, matriz, capas, captura anotada o artefacto real con señal. Se dibuja con las primitivas de `@motor/ui` (la lista está en [packages/carousel/src/ui/index.tsx](../../packages/carousel/src/ui/index.tsx)) dentro de la dirección: la misma paleta, el mismo trazo, la misma textura.
 
 - **Grande:** el recurso es lo dominante de la lámina, no un adorno al pie. Si debajo del texto queda media lámina vacía, el recurso tenía que ocuparla.
 - **Explica, no decora** (Mayer, aprendizaje multimedia): palabras y dibujo juntos enseñan más que palabras solas; las etiquetas van pegadas a lo que nombran; una flecha o un resaltado dice dónde mirar; lo que no explica se borra.

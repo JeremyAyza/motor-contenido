@@ -62,7 +62,7 @@ export const GateBSchema = GateSchema.extend({
 
 /**
  * How long a video should last, by format: "corto" is the 30 to 60 s
- * explainer of the pilot; "explicado" is the format of docs/historia/propuesta-reels-jacket.md
+ * explainer of the pilot; "explicado" is the "un segundo por dentro" format
  * ("un segundo por dentro"), on trial at 75 to 100 s until the metrics decide.
  */
 export const FORMAT_SECONDS = { corto: [30, 60], explicado: [75, 100], largo: [90, 180] } as const satisfies Record<string, readonly [number, number]>;
@@ -74,7 +74,7 @@ export const VideoScriptSchema = z
     format: z
       .enum(Object.keys(FORMAT_SECONDS) as [VideoFormat, ...VideoFormat[]])
       .default("corto")
-      .describe("The format, which sets the length the gate A sheet and the inspector check: corto (30 to 60 s), explicado (75 to 100 s, on trial) or largo (90 to 180 s, an explainer of several points with something changing every second, docs/historia/plan-paridad-rick.md)"),
+      .describe("The format, which sets the length the gate A sheet and the inspector check: corto (30 to 60 s), explicado (75 to 100 s, on trial) or largo (90 to 180 s, an explainer of several points with something changing every second)"),
     topic: z
       .string()
       .trim()
@@ -253,13 +253,13 @@ export function scriptWarnings(script: VideoScript): string[] {
   if (total < min || total > max) {
     warnings.push(`Dura unos ${Math.round(total)} s: el formato ${script.format} va de ${min} a ${max} s`);
   }
-  // A replica follows its reference's length (docs/historia/direccion-reels.md), not the format's default.
+  // A replica follows its reference's length (docs/reel.md), not the format's default.
   if (script.target !== undefined) {
     if (script.target < min || script.target > max) warnings.push(`El objetivo de ${script.target} s no entra en el formato ${script.format} (${min} a ${max} s): elige el formato que le toca a la referencia`);
     const off = targetOff(total, script.target);
     if (off) warnings.push(`La voz dura unos ${Math.round(total)} s y el objetivo es ${script.target} s (${off}): suma o quita frases, o deja pausas sin voz con hold en video.tsx`);
   }
-  // docs/historia/analisis-reels-2026-10-22.md: the Reels that work keep one world and one meter for the whole video.
+  // docs/referencia/analisis-reels-2026-10-22.md: the Reels that work keep one world and one meter for the whole video.
   if (!script.world) warnings.push("Falta world: la metáfora física que dura todo el video (un edificio en corte, una ciudad, un plano que crece)");
   if (!script.meter) warnings.push("Falta meter: lo que está en juego, que se planta en el gancho y se paga en el cierre");
   if (!script.cover) warnings.push("Falta cover: sin él, la portada es el cuadro 1 y no el cuadro más fuerte del video");

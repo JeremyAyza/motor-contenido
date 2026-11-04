@@ -29,7 +29,7 @@ El nivel de referencia es [el análisis de Rick](analisis-rick-theengineer.md): 
 
 ## Escenario con cámara
 
-El nivel de referencia es [el análisis del 22 de octubre](../historia/analisis-reels-2026-10-22.md): los Reels que funcionan pasan en un solo mundo que dura todo el video, y el cuadro cambia cada 1 a 2 s sin cortar. `defineVideo({ stage })` lo hace posible:
+El nivel de referencia es [el análisis del 22 de octubre](analisis-reels-2026-10-22.md): los Reels que funcionan pasan en un solo mundo que dura todo el video, y el cuadro cambia cada 1 a 2 s sin cortar. `defineVideo({ stage })` lo hace posible:
 
 - **`stage: { World, width, height, spots, drift }`.** `World` es un componente que se monta una vez, debajo del marco, y vive de punta a punta. Se dibuja en sus propias coordenadas (px de diseño desde arriba a la izquierda) y puede ser más grande que el lienzo: por defecto mide 540×960. `spots` son zonas con nombre (`{ memoria: { x, y, w, h } }`).
 - **La cámara.** Cada escena dice qué encuadra con `camera: { focus: "memoria" }` (un spot, que llena la vista con un margen), `{ focus: { x, y }, zoom }` o solo `{ zoom }`. Al empezar la escena, la cámara va al encuadre nuevo en 0,9 s, sin saltos. Durante la escena se acerca un 4 % (`drift`), para que la imagen nunca quede quieta. Una escena sin `camera` mantiene el encuadre anterior; la primera, sin `camera`, muestra el mundo entero.
@@ -41,7 +41,7 @@ El nivel de referencia es [el análisis del 22 de octubre](../historia/analisis-
 
 ### El kit del mundo
 
-La pieza de ejemplo del kit completo es `content/2026-10-24-cuanto-cuesta-la-ia` (el plan está en [el plan de paridad](../historia/plan-paridad-rick.md)).
+La pieza de ejemplo del kit completo es `content/2026-10-24-cuanto-cuesta-la-ia`.
 
 - **Objetos** (`kit/props.tsx`), planos, sin contorno y con la paleta de la pieza:
   - `Tree`, `Pine`, `Bush`, `Cloud`, `Building`, `House`, `StreetLamp`, `TrafficLight`, `Car`, `Truck` (con `cargo`), `Booth` (con barrera `open`), `Machine`, `Sign`, `Server`, `Document`, `Coin`, `Person`, `Laptop`, `Warehouse` y `Cone`;
@@ -102,17 +102,16 @@ Cada paso cuenta desde el valor anterior hasta el nuevo cuando se dice su palabr
 
 ### Reglas de forma
 
-- **El primer cuadro es un objeto que se mueve**, no un título: el monitor que se enciende, la tecla en macro, la batería que baja. El gancho va como rótulo encima. El inspector avisa si la escena 1 abre con el título de `SceneFrame`.
+Son las de [docs/reel.md](../reel.md#reglas-de-forma). Aquí va lo que mide el inspector y cómo cumplirlas:
+- **El primer cuadro:** el inspector avisa si la escena 1 abre con el título de `SceneFrame`.
 - **Algo cambia cada 2 s** como máximo (el inspector lo mide). La cámara y el `drift` ayudan, pero el cambio que importa es el del mundo: lo que la voz está diciendo.
 - **Fuera de los subtítulos, como mucho 6 palabras** a la vez. Los rótulos del mundo son de 1 a 3 palabras.
 - **El medidor** (`meter`) se planta en el gancho y se paga en el cierre: `defineVideo({ meter })`, ver [El medidor](#el-medidor).
-- **El cierre se puede capturar:** una tabla, una pila o un ciclo que resume el video y que alguien guardaría.
 - **Una línea que se lee** queda unos 0,3 s por palabra desde que está completa. El ritmo sale del movimiento, no de quitar el texto antes de tiempo.
-- **Las cosas aparecen una por una,** con clics, deslizamientos y tipeo simulados, en vez de entrar todas juntas.
-- **Cualquier cuadro congelado tiene que poder publicarse.** Mira en la hoja los cuadros de mitad de cambio. Si un fundido entre dos composiciones cargadas da una doble exposición, que salga lo viejo y después entre lo nuevo, o pasa por el fondo.
+- **Sin dobles exposiciones:** mira en la hoja los cuadros de mitad de cambio. Si un fundido entre dos composiciones cargadas da una, que salga lo viejo y después entre lo nuevo, o pasa por el fondo.
 - **Los efectos** van en la tonalidad de la música y por debajo de ella.
 
-Las últimas cinco salen del repo [`brag`](https://github.com/latent-spaces/brag) (MIT): se toman como reglas, sin instalarlo (ver el análisis, sección 7).
+Varias salen del repo [`brag`](https://github.com/latent-spaces/brag) (MIT), tomadas como reglas, sin instalarlo.
 
 ## Duración de una réplica
 
@@ -126,7 +125,7 @@ Para un Reel cortado escena por escena, como el de @sebastiankra.ia sobre Replic
 - **Fondo de la escena:** `background` (`"grid"` o `"stripes"`) dibuja una trama sobre el tono de la escena.
 - **Entrada:** `transition` (`"blur"`, `"zoom"`, `"slide"` o `"whip"`) hace entrar la escena con un whoosh. La anterior corta, así que la voz no se desfasa, y el inspector no mide el margen mientras entra.
 - **`<PillTitle at tone>`:** el título grande en píldora ("2 · MONTA"), con pop.
-- **Avatar en burbuja: nunca en una pieza nueva** ([docs/reel.md](../reel.md), 6). `avatar: { shape: "bubble", bubbleCrop }` queda solo porque lo usan piezas anteriores.
+- **Avatar en burbuja: nunca en una pieza nueva** ([docs/reel.md](../reel.md), "Avatar"). `avatar: { shape: "bubble", bubbleCrop }` queda solo porque lo usan piezas anteriores.
 
 ## El avatar por momentos
 
@@ -153,7 +152,7 @@ Los detalles y los valores por defecto están en [assets/avatar](../../assets/av
 
 ## El formato explicado
 
-`video.json → format: "explicado"` es el formato de [la propuesta de jacket.dev](../historia/propuesta-reels-jacket.md), "un segundo por dentro", en prueba de 75 a 100 s:
+`video.json → format: "explicado"` es el formato "un segundo por dentro" de jacket.dev, en prueba de 75 a 100 s:
 - un gesto de todos los días y todo lo que pasa adentro, con un personaje inventado y una tarea concreta;
 - el gancho con las fórmulas 28 (un segundo por dentro) o 29 (la causa no es la que crees) de `ganchos-es.json`. `hookscore` puntúa bajo la 28: si el elegido queda bajo 50, prueba la 29 o discútelo con la persona;
 - de 5 a 7 capítulos con `chapters: true`, y lo que se planta al principio se paga en el cierre;
@@ -172,14 +171,6 @@ Los detalles y los valores por defecto están en [assets/avatar](../../assets/av
 ## Sincronizar con la voz
 
 `useCue("palabra")` da los segundos en que se dice esa palabra dentro de la escena. Por ejemplo, `anim={{ en: useCue("ojo") }}`. Si la voz cambia, todo se mueve con ella. Los efectos también van por palabra, con `at: "ojo"`.
-
-## Contenido: las reglas del carrusel
-
-- **Datos.** Cada dato sale de `facts.json` y nada se inventa (AGENTS.md, reglas 1 a 3).
-- **Una idea por escena.** Además de los subtítulos, van como mucho 6 palabras de texto en pantalla, y cada escena explica con un recurso visual ([recursos.json](../../skills/carrusel-taste/recursos.json)). Con `stage`, el recurso es un estado del mundo.
-- **El gancho se ve desde el cuadro 1:** la primera escena no anima el titular.
-- **Logos y mascotas:** el archivo oficial sin modificar; si no existe, la regla 6.
-- **Voz sintética:** el Reel lleva la etiqueta de IA de Meta al publicar.
 
 ## Estilo: el del carrusel
 

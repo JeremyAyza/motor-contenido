@@ -4,7 +4,7 @@ Decide qué carruseles se hacen antes de hacerlos. Adapta [`ig-plan`](../../.age
 
 ## Una vez por semana: el radar
 
-1. **Lee primero** [docs/referencia/aprendizajes.md](aprendizajes.md) (lo que ya funcionó), `docs/swipe.md` (lo que funciona en cuentas de referencia) y las piezas de las últimas dos semanas en `content/`, para no repetir tema ni formato.
+1. **Lee primero** [docs/referencia/aprendizajes.md](aprendizajes.md) (lo que ya funcionó), `docs/swipe.md` si existe (lo que funciona en cuentas de referencia; lo escribe `carrusel:swipe`, abajo) y las piezas de las últimas dos semanas en `content/`, para no repetir tema ni formato.
 2. **Propón de 5 a 8 temas.** Para cada uno:
    - **formato** (tabla de abajo);
    - **ángulo** en una frase: no "Gemini 4", sino lo que esta cuenta tiene que decir de Gemini 4;
@@ -28,7 +28,7 @@ Sin repetir formato dos veces seguidas:
 | Opinión | Debate y voz propia (posturas de [docs/referencia/voz.md](voz.md)) | 1 cada 2 semanas |
 | Herramienta o recurso | Guardados | Ocasional |
 
-`ig-plan` habla de Reels y de una mezcla en inglés (proof, teach, opinion...): aquí manda esta tabla hasta que exista el flujo de video.
+`ig-plan` habla de Reels y de una mezcla en inglés (proof, teach, opinion...): aquí manda esta tabla.
 
 ## Una vez al mes: el archivo de referencias (swipe)
 

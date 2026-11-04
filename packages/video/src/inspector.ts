@@ -18,11 +18,11 @@ import { CAPTIONS_TOP, CONTENT_BOX, GRID_CROP, HEIGHT, MIN_TEXT_PX, TEXT_ZONE, t
 export type Issue = { level: "error" | "aviso"; message: string };
 
 const VISIBLE = 0.5;
-/** Text outside the captions and the interfaces (docs/historia/analisis-reels-2026-10-22.md: short labels and one sentence, the one being said). */
+/** Text outside the captions and the interfaces (docs/referencia/analisis-reels-2026-10-22.md: short labels and one sentence, the one being said). */
 const MAX_WORDS_ON_SCREEN = 6;
 /** The smallest text of an interface of the stage kit (data-ui), in design px. */
 const MIN_UI_TEXT_PX = 12;
-/** The Reels that work change something every 1 to 2 s without cutting (docs/historia/analisis-reels-2026-10-22.md). */
+/** The Reels that work change something every 1 to 2 s without cutting (docs/referencia/analisis-reels-2026-10-22.md). */
 const MAX_FREEZE_S = 2;
 export const TARGET_LUFS = -14;
 const LUFS_TOLERANCE = 1;
@@ -51,7 +51,7 @@ export async function probeServer(): Promise<{ url: string; reports: Map<number,
 const seconds = (frame: number, fps: number) => `${(frame / fps).toFixed(1)} s`;
 const quote = (text: string) => `"${text.length > 40 ? `${text.slice(0, 40)}…` : text}"`;
 
-/** A label of a stage's world: it does not count as text to read (docs/historia/analisis-reels-2026-10-22.md, short labels). */
+/** A label of a stage's world: it does not count as text to read (docs/referencia/analisis-reels-2026-10-22.md, short labels). */
 const STAGE_LABEL_WORDS = 3;
 
 /**

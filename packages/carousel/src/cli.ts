@@ -69,7 +69,7 @@ function today(): string {
  * carrusel logo add <id> --url ... --title ... --source ... --author ...: baja
  * el archivo oficial de un logo que Simple Icons no tiene, le calcula el hash
  * y lo suma a assets/catalog.json (type logo). El archivo queda en .cache/assets,
- * fuera de git: el repo es público (regla 6 y docs/historia/plan-sin-limites.md).
+ * fuera de git: el repo es público (AGENTS.md).
  */
 async function agregarLogo(args: string[]): Promise<number> {
   const [id] = args;

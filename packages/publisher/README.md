@@ -1,6 +1,6 @@
 # publisher
 
-CLI que publica una pieza ya aprobada en una red social y lleva un registro de qué se subió, dónde y cuándo. Maneja tu Chrome con Playwright y una sesión guardada por cuenta, con pausas aleatorias entre acciones. No importa nada de otros paquetes, así que sirve para cualquier proyecto que le pase imágenes y un texto. El plan está en [docs/historia/plan-publicar.md](../../docs/historia/plan-publicar.md).
+CLI que publica una pieza ya aprobada en una red social y lleva un registro de qué se subió, dónde y cuándo. Maneja tu Chrome con Playwright y una sesión guardada por cuenta, con pausas aleatorias entre acciones. No importa nada de otros paquetes, así que sirve para cualquier proyecto que le pase imágenes y un texto.
 
 Plataformas con adaptador: Instagram. `mark` registra cualquier plataforma.
 
@@ -86,7 +86,7 @@ El caso de uso ([publish.ts](src/publish.ts)) no cambia.
 
 ## Usarlo desde otro paquete
 
-[index.ts](src/index.ts) es la API pública. `postManifest({ from, platform, manifest })` busca la configuración, abre el perfil de la cuenta y anota en el registro, igual que el CLI. En este repo la usa `carrusel:publicar` ([packages/carousel/src/publicar.ts](../carousel/src/publicar.ts)), que arma el manifiesto de una pieza y exige la puerta B.
+[index.ts](src/index.ts) es la API pública. `postManifest({ from, platform, manifest })` busca la configuración, abre el perfil de la cuenta y anota en el registro, igual que el CLI. En este repo la usan `carrusel:publicar` ([packages/carousel/src/publicar.ts](../carousel/src/publicar.ts)) y `video:publicar` ([packages/video/src/publicar.ts](../video/src/publicar.ts)): cada uno arma el manifiesto de una pieza y exige la puerta B.
 
 ## Pruebas
 

@@ -28,7 +28,7 @@ export type AvatarSprites = {
 };
 
 /**
- * The avatar of a video (docs/historia/plan-piloto-automatico.md, phase 4).
+ * The avatar of a video (docs/reel.md, "Avatar").
  * `avatar: {}` draws the account's, which video:prepare copies to the public
  * folder. What the piece gives replaces it field by field: its own sprites go
  * relative to the piece folder.
@@ -47,7 +47,7 @@ export type AvatarDef = Partial<AvatarSprites> & {
    * "bust" (by default) stands at the bottom left; "bubble" is the head in a
    * circle, like a creator's face cam, wherever each scene puts it
    * (SceneDef.avatar), and only in those scenes. It stays for earlier pieces:
-   * a new one never uses it (docs/historia/direccion-reels.md, 6).
+   * a new one never uses it (docs/reel.md, 6).
    */
   shape?: AvatarShape;
 };

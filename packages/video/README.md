@@ -1,6 +1,6 @@
 # packages/video
 
-El flujo de video con Remotion 4.0.537. El código va en inglés. El plan está en [docs/historia/plan-videos.md](../../docs/historia/plan-videos.md) y el paso a paso en [docs/reel.md](../../docs/reel.md).
+El flujo de video con Remotion 4.0.537. El código va en inglés. El paso a paso está en [docs/reel.md](../../docs/reel.md).
 
 ## Comandos
 
@@ -53,7 +53,7 @@ Los comandos de imagen, música y recursos están en `src/media-commands.ts`. La
 8. **ig-reel** (`src/reel.ts`): `video:script` corre `hookscore_es --video` y `beats_es --video` (en `skills/ig-es`) y traduce lo que marcan a avisos en español para la hoja de la puerta A. El ritmo de la voz es `WORDS_PER_SECOND`, en `src/script.ts`, medido en el piloto.
 9. **Crítico ciego** (`src/critique.ts`):
     - **En la puerta A,** `video:script` arma `out/video-critica-ganchos/`.
-    - **Antes de la puerta B,** `video:critique` arma `out/video-critica/`: el video con la interfaz, las tiras de cuadros (`filmstrips`), la portada en la grilla (`gridCover`), lo que se oye, el texto del post y el brief aparte.
+    - **Antes de la puerta B,** `video:critique` arma `out/video-critica/`: el video tal como se sube, las tiras de cuadros (`filmstrips`), la portada en la grilla (`gridCover`), lo que se oye, el texto del post y el brief aparte.
 10. **Métricas** (`src/metrics.ts`): el esquema de `video-metrics.json` y el informe `docs/metricas-video.md`, ordenado por compartidos por alcance.
 11. **Salidas reales** (`src/capture.ts`): `video:capture` corre los comandos de `captures.json` en carpetas limpias, con autor y fecha de git fijos, limpia colores, progreso y rutas locales, y guarda la salida. `useCapture` y `captureLines` la llevan a una `Terminal`.
 12. **Formato y tema** (`src/script.ts`, `src/topics.ts`): `format` fija el rango de duración de la puerta A y del inspector (`FORMAT_SECONDS`), y `topic` deja avisar si una pieza de los últimos 14 días tuvo un tema parecido.

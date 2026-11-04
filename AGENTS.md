@@ -11,7 +11,7 @@ Un motor que produce contenido para la cuenta de Instagram @jacket.dev con dos f
 | Reel | `content/<pieza>/video.json` (guion y puertas) y `video.tsx` (lo que se ve) | MP4 de 1080×1920, con Remotion | [docs/reel.md](docs/reel.md) |
 | Carrusel | `content/<pieza>/facts.json`, `brief.json`, `post.json` y `slides.tsx` | PNG de 1080×1350 y textos | [docs/carrusel.md](docs/carrusel.md) |
 
-**Al empezar, lee este archivo y la página de tu flujo, y nada más.** Si la pieza ya tiene `content/<pieza>/estado.md`, léelo también. Lo demás está en [docs/referencia/](docs/referencia/) y se abre solo para un detalle. [docs/historia/](docs/historia/) guarda los planes, traspasos y análisis viejos: no se lee salvo que Jeremy lo pida. Los planes en curso son el de [velocidad de los Reels](docs/plan-velocidad-reels.md) y su [rama experimental](docs/plan-experimental-reels.md); se leen solo para trabajar en ellos.
+**Al empezar, lee este archivo y la página de tu flujo, y nada más.** Si la pieza ya tiene `content/<pieza>/estado.md`, léelo también. Lo demás está en [docs/referencia/](docs/referencia/) y se abre solo para un detalle. Los planes en curso son el de [velocidad de los Reels](docs/plan-velocidad-reels.md) y su [rama experimental](docs/plan-experimental-reels.md); se leen solo para trabajar en ellos.
 
 **Calidad antes que velocidad.** Cada pieza empieza por lo editorial: una tesis con ángulo, para un público concreto, con un objetivo (guardar, enviar o comentar). El diseño se piensa desde cero para su tema, sin plantillas de lámina. En el Reel, la biblioteca de escenas se mira solo después de congelar el guion visual ([docs/reel.md](docs/reel.md)).
 
@@ -46,7 +46,6 @@ AGENTS.md                 este archivo
 docs/reel.md              el Reel en una página
 docs/carrusel.md          el carrusel en una página
 docs/referencia/          lo que se abre para un detalle: kit de video, voz, rúbricas, críticos, referentes, anti-slop, métricas, radar, agy
-docs/historia/            planes, traspasos y análisis viejos; no se lee salvo que Jeremy lo pida
 docs/plan-*.md            los planes en curso
 content/<pieza>/          una carpeta por pieza
 accounts/                 firma de cada cuenta (usuario, glifo, voz)

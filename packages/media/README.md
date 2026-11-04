@@ -1,12 +1,12 @@
 # packages/media
 
-Voz, imágenes, música, alineación de palabras y recursos de terceros para los videos. El código va en inglés y no importa de otros paquetes. El plan está en [docs/historia/plan-videos.md](../../docs/historia/plan-videos.md).
+Voz, imágenes, música, alineación de palabras y recursos de terceros para los videos. El código va en inglés y no importa de otros paquetes. El paso a paso está en [docs/reel.md](../../docs/reel.md).
 
 ## Puertos y adaptadores
 
 | Puerto | Qué hace | Adaptadores |
 |---|---|---|
-| `SpeechProvider` | Texto a voz, con tiempos por palabra si el proveedor los da | `elevenlabs` (`eleven_v4`, con los tiempos de cada carácter), `gemini` (`gemini-3.8-flash-tts`) y `kie` |
+| `SpeechProvider` | Texto a voz, con tiempos por palabra si el proveedor los da | `elevenlabs` (`eleven_v4`, con los tiempos de cada carácter), `gemini` (`gemini-3.8-flash-tts`) y `kie-elevenlabs` |
 | `ImageProvider` | Un prompt y referencias a una imagen | `gemini` (`gemini-nano-banana-2.1`, solo JPEG) |
 | `MusicProvider` | Una descripción a una pista | `gemini` (`lyria-3-clip-preview`, 30 s en MP3) |
 | `Aligner` | Cuándo se dice cada palabra de un texto conocido, cuando el proveedor de voz no lo da | `whisperAligner` (whisper.cpp local, modelo `small`) |
@@ -50,4 +50,4 @@ El catálogo se versiona y los archivos no: el repo es público y varias licenci
 
 ## Claves
 
-En `.env` (ver `.env.example`): `GEMINI_API_KEY` y, opcional, `FREESOUND_API_KEY`. Nunca van en el código ni en el chat.
+En `.env` (ver `.env.example`): `ELEVENLABS_API_KEY` (y, si hay más cuentas, `ELEVENLABS_API_KEY_FALLBACK`), `GEMINI_API_KEY` y, opcional, `FREESOUND_API_KEY`. `kie-elevenlabs` usa `KEI_KEY`. Nunca van en el código ni en el chat.

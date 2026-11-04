@@ -50,16 +50,16 @@ npm run carrusel:swipe -- docs/swipe/2026-10.tsv
 3. **Ganchos.** La portada se lee, no se dice: de 3 a 8 palabras, más una línea de promesa. Las fórmulas que requieren experiencia propia (1, 6, 8 y 15) solo se usan con una historia que Jeremy dio; las que requieren fuente (5, 23 y 25), con un dato de `facts.json`. Nunca se inventa una cifra ni un caso.
 4. **`ig-caption`.** Siempre es el trabajo B (el texto del post completa el carrusel). Hasta 5 hashtags: Instagram puso ese tope el 19 de diciembre de 2025. La única petición del texto es la misma que el CTA de la última lámina.
 5. **CTA con palabra clave por DM** ("comenta GUÍA y te lo mando"): no se usa, porque obliga a enviar DMs y aquí no se automatizan (AGENTS.md). Se puede usar si Jeremy responde a mano.
-6. **`ig-plan`.** La mezcla de Reels y formatos en inglés se reemplaza por la tabla de [docs/referencia/radar.md](../../docs/referencia/radar.md) hasta que exista el flujo de video.
+6. **`ig-plan`.** La mezcla de Reels y formatos en inglés se reemplaza por la tabla de [docs/referencia/radar.md](../../docs/referencia/radar.md).
 7. **`ig-viral`.** Para carruseles la columna de vistas lleva me gusta (no hay vistas públicas). Lectura a ritmo humano con el navegador de Jeremy: nunca iniciar sesión por él ni hacer scraping.
 8. **`ig-audit`.** Las métricas van en `content/<pieza>/metricas.json` ([docs/referencia/metricas.md](../../docs/referencia/metricas.md)).
 9. **`ig-reel`, en el flujo de video** ([docs/reel.md](../../docs/reel.md)). Se toman su forma (gancho en 2 s, lo que está en juego, una idea por beat, el cierre que vuelve al gancho), sus 26 fórmulas y sus dos herramientas, que `video:script` corre por los wrappers. Lo que cambia:
    - **La voz es sintética:** el guion es para la voz de la cuenta (`accounts/dev.json`), no para que Jeremy lo grabe, y no hace falta `voice.md` de cámara.
-   - **La duración** es de 30 a 60 s para un explicativo, no de 15 a 45.
+   - **La duración** es la del formato de [docs/reel.md](../../docs/reel.md) ("Duración": `corto`, de 45 a 60 s, por defecto), no los 15 a 45 s de `ig-reel`.
    - **El guion y el texto en pantalla** van en `video.json` (`say` y `onScreen`), no en un bloque impreso.
    - **La zona segura de `ig-reel` no se usa:** el diseño ocupa todo el lienzo con el margen del marco del carrusel (decisión de Jeremy), y el inspector de video revisa ese margen en px de diseño (540×960).
    - **El registro** no va a `log.md`: queda en `video.json` y en `video-metrics.json`.
-10. **Fuera del carrusel y del video por ahora:** `ig-repurpose`, `ig-story`, `ig-comment`, `ig-reply`, `ig-dm` y `ig-profile` (usar una vez antes de la primera publicación). Si se usan, aplican las mismas reglas: nada se envía sin que Jeremy lo haga, y publicar solo pasa por `carrusel:publicar` cuando él lo pide, con la puerta B aprobada (AGENTS.md, regla 12).
+10. **Fuera del carrusel y del video por ahora:** `ig-repurpose`, `ig-story`, `ig-comment`, `ig-reply`, `ig-dm` y `ig-profile` (usar una vez antes de la primera publicación). Si se usan, aplican las mismas reglas: nada se envía sin que Jeremy lo haga, y publicar solo pasa por `carrusel:publicar` o `video:publicar` cuando él lo pide, con la puerta B aprobada (AGENTS.md, regla 12).
 
 ## Probar los wrappers después de actualizar las skills
 

@@ -68,7 +68,7 @@ function refuseOverwrite(file: string, args: string[]): void {
 /**
  * The account's 3D world style (accounts/dev.json → world.style) plus the
  * piece's palette, for pieces asked for in 3D: the default is flat motion
- * graphics (docs/historia/direccion-reels.md), which needs no generated world.
+ * graphics (docs/reel.md), which needs no generated world.
  */
 function worldStyle(dir: string): string {
   const style = loadAccount("dev").world?.style ?? "";

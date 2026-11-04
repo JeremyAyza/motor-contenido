@@ -211,7 +211,7 @@ function deal(args: string[]): void {
 /** Where the music bed comes from: a file of the piece (video:music) or a catalog asset. */
 async function musicFor(video: VideoDef, dir: string, out: string, catalog: Catalog): Promise<TimelineMusic | undefined> {
   if (!video.music) return undefined;
-  // Low under the voice: it is a bed, not a track (docs/historia/direccion-reels.md).
+  // Low under the voice: it is a bed, not a track (docs/reel.md).
   const { file, asset, volume = 0.06 } = video.music;
   if (!file === !asset) throw new VideoError("video.tsx → music needs either file (a file of the piece) or asset (an id of the catalog)");
   let source: string;
