@@ -1,0 +1,56 @@
+{
+  "hash": "e157311534be1e16",
+  "date": "2026-11-03",
+  "escenas": [
+    {
+      "escena": "gancho",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "quien",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "tokens",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "lineas",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "hallazgo",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "clave",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "resultado",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "lideres",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "cierre",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "cta",
+      "veredicto": "nueva",
+      "candidatas": []
+    }
+  ]
+}

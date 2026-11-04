@@ -1,0 +1,129 @@
+{
+  "topic": "2026-11-03-amazon-ia-cliente",
+  "checkedAt": "2026-11-03",
+  "facts": [
+    {
+      "claim": "La nota se titula \"An update from Amazon engineering leadership on the role of the developer in the age of AI\" (Una actualización del liderazgo de ingeniería de Amazon sobre el rol del desarrollador en la era de la IA). Es un memo dirigido a SDEs y SDMs.",
+      "source": "Amazon (aboutamazon.com), An update from Amazon engineering leadership on the role of the developer in the age of AI",
+      "url": "https://www.aboutamazon.com/news/company-news/amazon-software-engineer-role-guideline-ai",
+      "primary": true,
+      "note": "Revisado 2026-11-03. La página no muestra fecha de publicación (ver pendingToVerify)."
+    },
+    {
+      "claim": "La firma \"Written by Terk Terkowitz, VP/Distinguished Engineer, Worldwide Amazon Stores\" (VP e ingeniero distinguido de Worldwide Amazon Stores). El nombre del Reel está bien escrito. El memo termina con \"-Terk\".",
+      "source": "Amazon (aboutamazon.com), byline de la nota",
+      "url": "https://www.aboutamazon.com/news/company-news/amazon-software-engineer-role-guideline-ai",
+      "primary": true,
+      "note": "Revisado 2026-11-03. Cargo exacto en inglés: VP/Distinguished Engineer, Worldwide Amazon Stores."
+    },
+    {
+      "claim": "Cita sobre cercanía al producto y al negocio: \"SDEs and SDMs who are closer to their products and businesses are able to take the most advantage of AI\" (los SDEs y SDMs más cerca de sus productos y negocios son los que más aprovechan la IA).",
+      "source": "Amazon (aboutamazon.com), memo de Terk Terkowitz",
+      "url": "https://www.aboutamazon.com/news/company-news/amazon-software-engineer-role-guideline-ai",
+      "primary": true,
+      "note": "Revisado 2026-11-03. OJO: el texto dice \"productos y negocios\", no literalmente \"cliente\". La parte de cliente está en las dos citas siguientes. Frase vecina: \"the returns on this investment in our organizations are disproportionately large\" (los retornos de esta inversión son desproporcionadamente grandes)."
+    },
+    {
+      "claim": "Sobre el cliente: \"As Amazon has grown, we've seen some of our ICs and SDMs become less connected to their customers and business\" (al crecer Amazon, algunos ICs y SDMs se conectaron menos con sus clientes y el negocio) y \"we want to reverse this trend\" (queremos revertir esta tendencia).",
+      "source": "Amazon (aboutamazon.com), memo de Terk Terkowitz",
+      "url": "https://www.aboutamazon.com/news/company-news/amazon-software-engineer-role-guideline-ai",
+      "primary": true,
+      "note": "Revisado 2026-11-03. \"We want to reverse this trend\" confirmada en una lectura; la cita completa de la primera frase vino de otra lectura de la misma página."
+    },
+    {
+      "claim": "Recomendación a ICs: \"find ways to become deeply connected to your customers\" (buscar formas de conectarse a fondo con sus clientes). El texto agrega que los SDMs deben mantenerse cerca de los clientes y ayudar a sus ICs a hacer lo mismo (paráfrasis).",
+      "source": "Amazon (aboutamazon.com), memo de Terk Terkowitz",
+      "url": "https://www.aboutamazon.com/news/company-news/amazon-software-engineer-role-guideline-ai",
+      "primary": true,
+      "note": "Revisado 2026-11-03. Cita exacta: \"We recommend that ICs of all levels find ways to become deeply connected to your customers,\" (así, con \"your\")."
+    },
+    {
+      "claim": "Aprender IA ya: \"you should take the time to learn and apply AI into your daily work as soon as possible\" (debes tomarte el tiempo de aprender y aplicar IA en tu trabajo diario lo antes posible).",
+      "source": "Amazon (aboutamazon.com), memo de Terk Terkowitz",
+      "url": "https://www.aboutamazon.com/news/company-news/amazon-software-engineer-role-guideline-ai",
+      "primary": true,
+      "note": "Revisado 2026-11-03. Frase completa empieza con \"If you haven't already,\"."
+    },
+    {
+      "claim": "Tokens: la nota dice \"tokenmaxxing is at odds with frugality\" (el tokenmaxxing choca con la frugalidad). Escrito \"tokenmaxxing\", no \"token maxing\".",
+      "source": "Amazon (aboutamazon.com), memo de Terk Terkowitz",
+      "url": "https://www.aboutamazon.com/news/company-news/amazon-software-engineer-role-guideline-ai",
+      "primary": true,
+      "note": "Revisado 2026-11-03. Aparece entre paréntesis tras \"increasing costs\"."
+    },
+    {
+      "claim": "Las métricas de entrada (uso de tokens, adopción de herramientas de IA, volumen de cambios o revisiones de código) se califican así: \"We are all aware of how deeply flawed these metrics are\" (todos sabemos lo defectuosas que son estas métricas).",
+      "source": "Amazon (aboutamazon.com), memo de Terk Terkowitz",
+      "url": "https://www.aboutamazon.com/news/company-news/amazon-software-engineer-role-guideline-ai",
+      "primary": true,
+      "note": "Revisado 2026-11-03. La enumeración de métricas es paráfrasis de la lectura de la página."
+    },
+    {
+      "claim": "Código: la nota NO dice \"más código no es más valor\". Lo más cercano es \"measuring LOC is at odds with invent and simplify\" (medir líneas de código choca con inventar y simplificar).",
+      "source": "Amazon (aboutamazon.com), memo de Terk Terkowitz",
+      "url": "https://www.aboutamazon.com/news/company-news/amazon-software-engineer-role-guideline-ai",
+      "primary": true,
+      "note": "Revisado 2026-11-03. Cita parcial: la frase original es más larga."
+    },
+    {
+      "claim": "\"If your work does not benefit from current AI tooling, that is a finding, not a failing\" (si tu trabajo no se beneficia de las herramientas de IA actuales, eso es un hallazgo, no un fallo).",
+      "source": "Amazon (aboutamazon.com), memo de Terk Terkowitz",
+      "url": "https://www.aboutamazon.com/news/company-news/amazon-software-engineer-role-guideline-ai",
+      "primary": true,
+      "note": "Revisado 2026-11-03."
+    },
+    {
+      "claim": "Resultado sobre herramienta: \"what matters most is the outcome, not which tools are used\" (lo que más importa es el resultado, no las herramientas que se usan). También: \"neither the developer role nor their output is defined by the use of AI\" (ni el rol del desarrollador ni su producción se definen por el uso de IA).",
+      "source": "Amazon (aboutamazon.com), memo de Terk Terkowitz",
+      "url": "https://www.aboutamazon.com/news/company-news/amazon-software-engineer-role-guideline-ai",
+      "primary": true,
+      "note": "Revisado 2026-11-03. Ambas son citas parciales de frases más largas."
+    },
+    {
+      "claim": "Lo que no cambia: \"The outcomes that matter aren't changing, even if the inputs, tools, and techniques are changing faster than ever\" (los resultados que importan no cambian, aunque las entradas, herramientas y técnicas cambien más rápido que nunca). El impacto: \"impact on our customers, our businesses, and our teams\" (en clientes, negocios y equipos).",
+      "source": "Amazon (aboutamazon.com), memo de Terk Terkowitz",
+      "url": "https://www.aboutamazon.com/news/company-news/amazon-software-engineer-role-guideline-ai",
+      "primary": true,
+      "note": "Revisado 2026-11-03."
+    },
+    {
+      "claim": "Los líderes deben trabajar con las herramientas \"hands-on rather than relying on what you hear\" (con las manos, no de oídas), y poder describir una tarea donde la IA ayudó y una donde no (paráfrasis).",
+      "source": "Amazon (aboutamazon.com), memo de Terk Terkowitz",
+      "url": "https://www.aboutamazon.com/news/company-news/amazon-software-engineer-role-guideline-ai",
+      "primary": true,
+      "note": "Revisado 2026-11-03. La parte de \"una tarea donde ayudó y una donde no\" es paráfrasis de la lectura, no cita."
+    },
+    {
+      "claim": "Para las métricas: \"We recommend paying special attention to the 10th percentile\" (y también al percentil 90) de adopción de IA. La nota dice que el efecto viene de \"increasing productivity and delivery on teams that have embraced AI the most\" (más productividad y entregas en los equipos que más han adoptado la IA).",
+      "source": "Amazon (aboutamazon.com), memo de Terk Terkowitz",
+      "url": "https://www.aboutamazon.com/news/company-news/amazon-software-engineer-role-guideline-ai",
+      "primary": true,
+      "note": "Revisado 2026-11-03. Citas parciales. El percentil 90 es paráfrasis de la lectura."
+    },
+    {
+      "claim": "Cierre del memo: \"obsession with our customers, and a long-term focus on delivering results\" (obsesión con nuestros clientes y foco de largo plazo en entregar resultados).",
+      "source": "Amazon (aboutamazon.com), memo de Terk Terkowitz",
+      "url": "https://www.aboutamazon.com/news/company-news/amazon-software-engineer-role-guideline-ai",
+      "primary": true,
+      "note": "Revisado 2026-11-03. Cita parcial."
+    },
+    {
+      "claim": "Las únicas cifras de la nota: \"thousands of SDEs\" (miles de SDEs) trabajando como líder en IA agéntica, \"two decades of technology trends\" (dos décadas de tendencias tecnológicas), percentiles 10 y 90 de adopción, y la cita de Bezos \"What's going to change in the next five to ten years?\". No hay ahorros, porcentajes de productividad ni números de equipos.",
+      "source": "Amazon (aboutamazon.com), memo de Terk Terkowitz",
+      "url": "https://www.aboutamazon.com/news/company-news/amazon-software-engineer-role-guideline-ai",
+      "primary": true,
+      "note": "Revisado 2026-11-03. La nota no contiene las palabras deployments, normalized, leaderboard ni cap."
+    }
+  ],
+  "calculations": [],
+  "illustrative": [],
+  "pendingToVerify": [
+    "Fecha de publicación en aboutamazon.com: la página no la muestra. CNBC (Annie Palmer, https://www.cnbc.com/2026/10/27/amazon-ai-coding-tokenmaxxing.html, publicado el martes 27-oct-2026) dice que el memo circuló internamente en septiembre y se publicó en el sitio de Amazon \"on Tuesday\". The Next Web (28-oct-2026) dice lo mismo. Es fuente secundaria: el 27 de octubre de 2026 es la fecha probable, no confirmada por la fuente primaria.",
+    "El Reel habla de 5 lecciones. La nota NO tiene lista numerada ni subtítulos (solo un cuerpo de texto con 2 notas al pie sobre Bezos). Los 5 temas existen como ideas dispersas, pero la numeración es del Reel, no de Amazon.",
+    "\"Más código no es más valor\": no hay frase así. Solo \"measuring LOC is at odds with invent and simplify\". No decir que Amazon dijo literalmente 'más código no es más valor'.",
+    "\"Los que más sacan de la IA son los que están más cerca del cliente\": la frase literal habla de \"closer to their products and businesses\". El cliente aparece en los párrafos vecinos (menos conectados con sus clientes; conectarse a fondo con sus clientes). Es una unión de dos ideas del mismo párrafo, no una frase única.",
+    "\"Lo difícil ya no es programar sino decidir qué construir\": no aparece en la nota; es lectura del Reel o del ángulo, no cita de Amazon.",
+    "Afirmaciones de prensa no confirmadas en la nota: \"normalised deployments\" (aparece en un resumen del buscador, no en la nota ni en TNW) y el cierre del leaderboard en mayo (CNBC/TNW lo citan; la nota no lo menciona).",
+    "Las citas se tomaron de lecturas de WebFetch (modelo pequeño que limita citas a ~125 caracteres); conviene abrir la página a mano si se quiere citar una frase completa."
+  ]
+}

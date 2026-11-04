@@ -305,6 +305,18 @@
       "license": "Archivo oficial del repositorio de Inngest (logo del dashboard, tema claro); marca de Inngest, uso nominativo",
       "sha256": "71bade86a5ca70c12b016b75810af14797d27811cb5c3a9d93df8993a1e6db06",
       "checkedAt": "2026-10-29"
+    },
+    {
+      "id": "amazon",
+      "type": "logo",
+      "title": "Amazon",
+      "tags": [],
+      "url": "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg",
+      "source": "https://commons.wikimedia.org/wiki/File:Amazon_logo.svg",
+      "author": "Amazon.com, Inc.",
+      "license": "Marca registrada de su dueño: uso nominativo, según sus reglas de uso",
+      "sha256": "60a60cfd55864e76a5fec5c851ca9898363bac5027e081b9ce6c4a4325fd197a",
+      "checkedAt": "2026-11-04"
     }
   ]
 }

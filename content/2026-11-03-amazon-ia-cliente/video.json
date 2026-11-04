@@ -1,0 +1,214 @@
+{
+  "$schema": "../../schemas/video.schema.json",
+  "format": "corto",
+  "topic": "La nota de Amazon sobre el rol del dev con IA: más código no es más valor, gana el que está cerca del cliente",
+  "world": "Un camino entre el escritorio del dev, tapado de hojas de código, y la puerta de su cliente; la nota de Amazon lo hace caminar hacia ella",
+  "meter": {
+    "label": "Cerca del cliente",
+    "from": "lejos",
+    "to": "en la puerta"
+  },
+  "cover": {
+    "scene": "gancho",
+    "at": 4
+  },
+  "target": 65.7,
+  "hooks": [
+    {
+      "said": "Para Amazon, más código no es más valor.",
+      "onScreen": "Más código no es más valor",
+      "formula": 22
+    },
+    {
+      "said": "¿Mides tu día en líneas de código? Amazon dice que esa métrica está rota.",
+      "onScreen": "¿Mides tu día en líneas?",
+      "formula": 16
+    },
+    {
+      "said": "En Amazon, el que más le saca a la IA no es el que más programa.",
+      "onScreen": "No gana el que más programa",
+      "formula": 29
+    }
+  ],
+  "scenes": [
+    {
+      "id": "gancho",
+      "say": "Para Amazon, más código no es más valor. Y se lo acaba de decir a sus propios ingenieros.",
+      "see": "Un escritorio al borde izquierdo del camino; una impresora escupe hojas de código que se apilan hasta tapar al dev, un contador de líneas corre hacia 99.999 y un sello cae sobre la pila con el gancho: MÁS CÓDIGO NO ES MÁS VALOR.",
+      "resource": "metafora",
+      "intent": "Que en 2 s se entienda la tensión: producir más código ya no es lo que Amazon premia.",
+      "metaphor": "Una pila de hojas de código que crece sola hasta tapar al que la escribe",
+      "alternatives": [
+        "Una balanza con líneas de código en un plato que no se mueve",
+        "Un trofeo de 'más líneas' que se rompe al levantarlo"
+      ],
+      "motion": "La pila crece a saltos con cada palabra, el contador sube rápido y el sello cae con resorte en 'valor'; en 'ingenieros' la cámara se abre y aparece el logo de Amazon sobre la pila."
+    },
+    {
+      "id": "quien",
+      "say": "No es un rumor: lo firma Terk Terkowitz, Distinguished Engineer de Amazon, en una nota pública.",
+      "see": "Desde la pila vuela una hoja distinta que se abre como la nota de aboutamazon.com: el título del memo, el logo de Amazon y el byline 'Written by Terk Terkowitz, VP/Distinguished Engineer'; una etiqueta con el dominio se pega abajo.",
+      "resource": "captura-anotada",
+      "intent": "Que la fuente es primaria, pública y con nombre y cargo.",
+      "metaphor": "La nota como una hoja más que sale de la pila, pero firmada",
+      "alternatives": [
+        "Un sobre lacrado que se abre",
+        "Un altavoz en la oficina de Amazon"
+      ],
+      "motion": "La hoja vuela al centro y se despliega; un subrayado marca el nombre en 'Terkowitz' y la etiqueta del dominio entra con un sello en 'pública'."
+    },
+    {
+      "id": "tokens",
+      "say": "Uno. Más IA no es más trabajo. Gastar tokens por gastar se llama tokenmaxxing, y la nota dice que choca con la frugalidad.",
+      "see": "En el escritorio, un medidor de combustible de tokens con la aguja al máximo y monedas-token que se queman en una chimenea sin mover nada del camino; una placa: 1 · MÁS IA ≠ MÁS TRABAJO; la palabra tokenmaxxing enorme y la etiqueta 'choca con la frugalidad'.",
+      "resource": "metafora",
+      "intent": "Que gastar tokens no avanza el trabajo: es gasto, no avance.",
+      "metaphor": "Un motor acelerado en neutro: quema combustible y el escritorio no se mueve",
+      "alternatives": [
+        "Una cinta de correr con contador de tokens",
+        "Monedas que caen en un pozo sin fondo"
+      ],
+      "motion": "La placa del 1 entra con sello; las fichas de token vuelan a la chimenea una por una con la voz, la aguja tiembla al tope y la cámara se queda en el escritorio, que no avanza ni un píxel."
+    },
+    {
+      "id": "lineas",
+      "say": "Dos. Medir líneas de código choca con inventar y simplificar.",
+      "see": "La pila de hojas se vuelve una maraña de cables de código; placa: 2 · MEDIR LÍNEAS ≠ VALOR; unas tijeras cortan la maraña y queda una sola línea limpia con la etiqueta 'inventar y simplificar'.",
+      "resource": "comparacion",
+      "intent": "Que el volumen de código no mide valor, y que simplificar sí.",
+      "metaphor": "Una maraña que se corta hasta quedar en una línea",
+      "alternatives": [
+        "Un contador de líneas que pesa como un ancla",
+        "Un libro gordo frente a una tarjeta"
+      ],
+      "motion": "La maraña crece en 'líneas de código', las tijeras entran en 'simplificar' y la pila del escritorio baja a la mitad, cambio que se queda para el resto del video."
+    },
+    {
+      "id": "hallazgo",
+      "say": "Tres. Si la IA no te sirve para una tarea, no fallaste: es un hallazgo.",
+      "see": "Una tarjeta de tarea en el escritorio; la IA intenta y aparece una X roja con la palabra FALLO, que gira como una ficha y del otro lado dice HALLAZGO, y la tarjeta queda clavada en un corcho.",
+      "resource": "metafora",
+      "intent": "Que descubrir dónde la IA no sirve es información útil, no un fracaso.",
+      "metaphor": "Una ficha de dos caras: fallo de un lado, hallazgo del otro",
+      "alternatives": [
+        "Un mapa donde se marca una zona sin camino",
+        "Una lupa que encuentra algo"
+      ],
+      "motion": "Placa del 3 con sello; la X cae en 'no fallaste' y la ficha gira con resorte en 'hallazgo', clavándose en el corcho."
+    },
+    {
+      "id": "clave",
+      "say": "La clave. Los que más provecho le sacan a la IA están cerca de su producto y su negocio. Por eso, la nota pide conectarse a fondo con los clientes.",
+      "see": "La cámara se abre y muestra el camino entero: el escritorio a la izquierda y la puerta del cliente a la derecha, con el medidor 'Distancia al cliente' arriba; el escritorio empieza a rodar por el camino hacia la puerta.",
+      "resource": "proceso",
+      "intent": "La tesis: la ventaja con IA viene de estar cerca del producto, del negocio y del cliente.",
+      "metaphor": "El escritorio que viaja por el camino hacia la puerta del cliente",
+      "alternatives": [
+        "Un imán que acerca al dev al cliente",
+        "Un mapa con dos pines que se juntan"
+      ],
+      "motion": "Paneo largo de la cámara a lo ancho del mundo; el escritorio avanza a saltos en 'producto', 'negocio' y 'clientes' y el medidor pasa de 'lejos' a 'cerca'."
+    },
+    {
+      "id": "resultado",
+      "say": "Importa el resultado, no la herramienta. Tu rol no se define por usar IA.",
+      "see": "Sobre el escritorio, ya a mitad del camino, una caja de herramientas y una pieza terminada; la palabra HERRAMIENTA se tacha y en su lugar entra RESULTADO, con la pieza que se entrega por la puerta entreabierta.",
+      "resource": "comparacion",
+      "intent": "Que el valor está en lo que llega al cliente, no en el método.",
+      "metaphor": "Tachar el verbo y escribir otro: herramienta por resultado",
+      "alternatives": [
+        "Una caja de herramientas que se cierra y queda atrás",
+        "Un podio donde sube el producto en vez del martillo"
+      ],
+      "motion": "Una línea tacha 'herramienta' en 'no la herramienta' y 'resultado' cae encima con sello; la pieza viaja hasta la puerta."
+    },
+    {
+      "id": "lideres",
+      "say": "Y a los líderes les pide probar la IA ellos mismos, no de oídas.",
+      "see": "Un líder en la línea del camino con una oreja enorme llena de rumores ('dicen que…'); las burbujas se apagan y aparecen dos manos sobre un teclado, con la etiqueta 'hands-on'.",
+      "resource": "comparacion",
+      "intent": "Que los líderes tienen que probarla ellos mismos.",
+      "metaphor": "La oreja que escucha rumores contra las manos en el teclado",
+      "alternatives": [
+        "Un informe de segunda mano que se tira al tacho",
+        "Un megáfono contra un teclado"
+      ],
+      "motion": "Las burbujas de rumor entran una por una y se apagan en 'no de oídas'; las manos teclean en 'ellos mismos'."
+    },
+    {
+      "id": "cierre",
+      "say": "Las herramientas de IA cambian más rápido que nunca. El resultado que importa, no: estar cerca de tu cliente.",
+      "see": "El escritorio llega a la puerta del cliente y el medidor marca 'en la puerta'; la pila de hojas del gancho ya no está, y detrás del camino pasan herramientas y logos genéricos a toda velocidad mientras el escritorio se queda quieto junto a la puerta.",
+      "resource": "proceso",
+      "intent": "Volver al gancho: lo que cuenta no es cuánto produces, sino cuánto te acercas al que lo usa.",
+      "metaphor": "Fondo que corre rápido, escritorio quieto junto a la puerta",
+      "alternatives": [
+        "Un reloj acelerado con una brújula fija",
+        "Un tren de herramientas que pasa y una casa que se queda"
+      ],
+      "motion": "El fondo corre en 'más rápido que nunca' y se frena en 'no'; la puerta se abre y aparece el cliente en 'cliente'."
+    },
+    {
+      "id": "cta",
+      "say": "Envíaselo a ese compañero que todavía mide su día en líneas de código.",
+      "see": "La escena final queda capturable: el camino completo con las tres placas del 1, el 2 y el 3 clavadas en el borde, el escritorio en la puerta, y un botón de enviar de Instagram que se presiona sobre una tarjeta con el contador de líneas.",
+      "resource": "artefacto",
+      "intent": "Un solo CTA: enviarlo a alguien concreto.",
+      "metaphor": "El contador de líneas del gancho, metido en un sobre para enviar",
+      "alternatives": [
+        "Un avión de papel que sale hacia el compañero",
+        "Un post-it en el monitor del compañero"
+      ],
+      "motion": "Las tres placas aparecen en fila en el borde, el contador entra al sobre y el botón de enviar se presiona en 'compañero'."
+    }
+  ],
+  "caption": "Para Amazon, más líneas de código no es más valor.\n\nLo firma Terk Terkowitz, VP/Distinguished Engineer de Amazon, en una nota pública en aboutamazon.com:\n\n1. Gastar tokens por gastar (tokenmaxxing) choca con la frugalidad.\n2. Medir líneas de código choca con inventar y simplificar.\n3. Si la IA no te sirve para una tarea, es un hallazgo, no un fallo.\n\nY la clave: los que más provecho le sacan a la IA están cerca de su producto y su negocio. Importa el resultado, no la herramienta.\n\nMi lectura: lo difícil ya no es escribir el código. Es saber para quién lo escribes.\n\nFuente: la nota de Terk Terkowitz en aboutamazon.com (news, company news).\n\nEnvíaselo a ese compañero que todavía mide su día en líneas de código.\n\nVoz con IA: elevenlabs.io\n\n#ia #programacion #amazon #desarrollodesoftware #ingenieriadesoftware",
+  "art": {
+    "direction": "collage",
+    "dealt": [
+      "collage",
+      "ficha-tecnica",
+      "elige-tu-camino"
+    ],
+    "reason": "Es una noticia con una lista corta de tres puntos y un giro: los stickers sobre un color plano dejan que cada punto sea un objeto pegado en el camino, y el tono ligero le baja el sermón al memo.",
+    "borrowed": [],
+    "palette": {
+      "bg": "#D7F24E",
+      "ink": "#141414",
+      "accent": "#2B3AE8",
+      "accentInk": "#FFFFFF",
+      "surface": "#FFFFFF",
+      "muted": "#4B5320"
+    },
+    "fonts": {
+      "display": "bricolage",
+      "text": "geist"
+    },
+    "anchor": {
+      "kind": "logo",
+      "ref": "amazon",
+      "source": "Wikimedia Commons, File:Amazon_logo.svg; marca registrada de Amazon.com, Inc., uso nominativo (assets/catalog.json)"
+    },
+    "tab": "nota-de-amazon.md",
+    "cierre": {
+      "tratamiento": "gesto-en-el-recurso",
+      "gesto": "enviar",
+      "porque": "El contador de líneas del gancho entra al sobre de enviar: el CTA vive dentro del mismo objeto que abrió el video."
+    }
+  },
+  "gateA": {
+    "approved": true,
+    "date": "2026-11-03",
+    "notes": "Jeremy en el chat: \"Sí, apruebo\" (ganchos, guion y storyboard; se queda la escena de líderes)."
+  },
+  "gateB": {
+    "approved": true,
+    "date": "2026-11-03",
+    "video": "7f9b1b2048b7a8ce6d911c147c7665ac929207ceae41d8dac97f5565fad01e6c",
+    "notes": "Jeremy en el chat: \"Sí, apruebo\"."
+  },
+  "visualFrozen": {
+    "hash": "e157311534be1e16",
+    "date": "2026-11-03"
+  }
+}
