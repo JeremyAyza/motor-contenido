@@ -394,6 +394,7 @@ Se completa después de cada fase.
 | Fecha | Fase | Pieza | Minutos | Renders completos | Líneas de `video.tsx` a mano | Llamadas a `agy` |
 |---|---|---|---|---|---|---|
 | 2026-11-03 | Línea base | `cinco-algoritmos-ml` | 87 | 7 | 1.836 | 0 |
+| 2026-11-03 | Fases 1 a 5 | `amazon-ia-cliente` (65 s, con las dos puertas) | 53, de ellos 41 trabajando | 4 | 623, en 10 escenas | 0 |
 
 ### Ejecución del 3 de noviembre de 2026
 
@@ -427,3 +428,21 @@ Jeremy pidió ejecutar el plan de corrido, en la rama `perf/plan-velocidad-reels
 - que su `video.tsx` quede en 600 líneas o menos, con una escena por archivo, y que su guion visual no cambie después de emparejar;
 - la primera cosecha de la biblioteca;
 - que Jeremy lo compare con el anterior y apruebe el núcleo (`AGENTS.md`, `docs/reel.md` y `docs/carrusel.md`).
+
+### El primer Reel con el flujo nuevo
+
+`amazon-ia-cliente`, una réplica de 65 s con las dos puertas, el 3 de noviembre de 2026 (sesión `a527c0f1`, medida con `scripts/medir-sesion.py`):
+
+| En qué | Tiempo |
+|---|---|
+| Del pedido a la puerta B | 53 min |
+| Esperando a Jeremy (puertas A y B) | 12 min |
+| Opus generando | 20 min (104 k tokens de salida; contexto medio de 206 k) |
+| Comandos | 21 min: 4 renders completos (6,9 min), 7 hojas de cuadros (3,9 min), 2 renders por escena (1,8 min), voz (0,4 min), 1 typecheck (12 s) |
+
+No se compara directo con la línea base: dura 65 s contra 159 s, y tuvo puertas. Lo que se cumplió: una escena por archivo y 623 líneas, `video:frames` para revisar, una ronda del crítico, el guion visual congelado y la voz en segundos.
+
+Lo que no se cumplió, y cómo se corrigió:
+- **4 renders completos con un tope de 2.** Después del render para el crítico, cada ajuste de posición se miró con el video entero (unos 5 min de más). El tope solo avisaba: desde ahora `video:render` niega el tercero salvo con `--forzar`.
+- **17 scripts de parches de Opus sobre las escenas** (unos 9 k tokens) y ninguna llamada a `agy`. Desde ahora un hook de Claude Code (`.claude/hooks/sin-parches.mjs`) niega reescribir un `.tsx` de una pieza con `sed -i`, Python, Node o PowerShell; probado con los comandos de esa sesión: niega 14, deja las lecturas y los comandos del motor.
+- **El contexto llegó a 206 k de media** porque lo creativo y la producción fueron en el mismo chat. Abrir la producción en un chat nuevo (`video:fase`) lo baja.

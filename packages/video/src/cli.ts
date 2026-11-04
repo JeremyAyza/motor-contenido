@@ -67,8 +67,10 @@ const USAGE = `Usage:
       Voice, word timing and files for Remotion, in content/<piece>/out/video/. Needs gate A.
   npm run video:studio -- content/<piece>
       Remotion Studio with the piece (run video:prepare first).
-  npm run video:render -- content/<piece> [--borrador] [--escena <id>[,<id>]]
+  npm run video:render -- content/<piece> [--borrador] [--escena <id>[,<id>]] [--forzar]
       MP4 at 1080×1920 (content/<piece>/out/video.mp4), a review sheet and the video's sha256 for gate B.
+      Two full renders per piece (out/renders.json): one for the critic and the final one. A third is
+      refused; --forzar allows it, only when Jeremy asks for a change after seeing the video.
       --borrador: 540×960 in out/video-borrador.mp4, with its sheet and inspector, to review before
       the final render. It never counts for gate B.
       --escena: only the stretch of those scenes, at 540×960 (out/escena-<ids>.mp4, with its sheet and
@@ -662,16 +664,21 @@ async function frames(args: string[]): Promise<void> {
 /** Full renders a Reel should need: one for the critic and the final one. Fixes are checked with video:frames and --escena. */
 const FULL_RENDERS = 2;
 
-/** Counts the full renders of a piece in out/renders.json and says when it goes past the cap. It warns; it does not stop. */
-function countFullRender(dir: string, draft: boolean): void {
+/** Counts the full renders of a piece in out/renders.json and refuses one past the cap unless forced. */
+function countFullRender(dir: string, draft: boolean, force = false): void {
   const file = join(dir, "out/renders.json");
-  const renders = existsSync(file) ? (JSON.parse(readFileSync(file, "utf8")) as { at: string; draft: boolean }[]) : [];
-  renders.push({ at: new Date().toISOString(), draft });
+  const renders = existsSync(file) ? (JSON.parse(readFileSync(file, "utf8")) as { at: string; draft: boolean; forced?: boolean }[]) : [];
+  if (renders.length >= FULL_RENDERS && !force) {
+    throw new VideoError(
+      `This piece already has ${renders.length} full renders (cap: ${FULL_RENDERS}). Check fixes with video:frames or video:render --escena; the final render is the last one. (--forzar only if Jeremy asks for a change after seeing the video.)`,
+    );
+  }
+  renders.push({ at: new Date().toISOString(), draft, ...(renders.length >= FULL_RENDERS ? { forced: true } : {}) });
   mkdirSync(dirname(file), { recursive: true });
   writeFileSync(file, `${JSON.stringify(renders, null, 2)}
 `);
   const note = `Full render ${renders.length} of this piece (cap: ${FULL_RENDERS}, one for the critic and the final one)`;
-  console.log(renders.length > FULL_RENDERS ? `! ${note}. Check fixes with video:frames or video:render --escena instead.` : note);
+  console.log(renders.length > FULL_RENDERS ? `! ${note}, forced.` : note);
 }
 
 /** video:render --escena: the stretch of some scenes, with the text inspector, never the video of gate B. */
@@ -716,7 +723,7 @@ async function render(args: string[]): Promise<void> {
   typecheck(dir);
   const only = flag(args, "--escena");
   if (only) return renderScenes(dir, piece, timeline, videoScript, only.split(","));
-  countFullRender(dir, args.includes("--borrador"));
+  countFullRender(dir, args.includes("--borrador"), args.includes("--forzar"));
   // A draft renders at 540×960 (about a third faster) to review before the final render; it never counts for gate B.
   const draft = args.includes("--borrador");
   const name = draft ? "video-borrador" : "video";

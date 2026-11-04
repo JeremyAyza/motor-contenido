@@ -101,7 +101,7 @@ Decidido con Jeremy el 3 de noviembre de 2026: la biblioteca no limita lo creati
 
 ## Los topes
 
-- **Dos renders completos por Reel:** uno para el crítico y el final. `video:render` los cuenta en `out/renders.json` y avisa desde el tercero. `--borrador` (540×960) existe, pero no está en el flujo: no es más rápido que el final y no sirve para la puerta B.
+- **Dos renders completos por Reel:** uno para el crítico y el final. `video:render` los cuenta en `out/renders.json` y niega el tercero; `--forzar`, solo si Jeremy pide un cambio después de ver el video. `--borrador` no está en el flujo: no es más rápido.
 - **Una ronda del crítico.** La segunda, con un contexto nuevo, solo si un punto sacó menos de 3 o hubo un error grave, y **la decide el comando**: `video:critique` lee el informe anterior y no arma una ronda que no corresponde. Nunca una tercera. `--forzar`, solo si Jeremy la pide.
 - **Los avisos del inspector no frenan la iteración:** se arreglan antes del render final, y en ese render cada aviso es un error salvo que se pueda defender en una frase. Los errores se arreglan siempre.
 
