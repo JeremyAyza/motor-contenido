@@ -38,14 +38,14 @@ Las fuentes y el referente corren a la vez, mientras el agente piensa el ángulo
 
 **1. El guion: `video.json`.** Los campos van en inglés y el contenido en español ([esquema](../schemas/video.schema.json)):
 - `hooks`: de 1 a 3 ganchos, con lo que dice la voz (`said`), lo que se ve (`onScreen`, hasta 6 palabras) y su fórmula de `skills/ig-es/ganchos-es.json`. El primero es el elegido, y la escena 1 empieza con él;
-- `scenes`: `id`, lo que dice la voz (`say`, escrito para el oído), lo que se ve (`see`, concreto) y el recurso visual (`resource`, de [recursos.json](../skills/carrusel-taste/recursos.json));
+- `scenes`: `id`, lo que dice la voz (`say`, escrito para el oído), lo que se ve (`see`, concreto), el recurso visual (`resource`, de [recursos.json](../skills/carrusel-taste/recursos.json)) y el **guion visual**: qué tiene que entender el público (`intent`), la metáfora elegida (`metaphor`) entre 2 o 3 pensadas (`alternatives`) y el movimiento (`motion`);
 - `world`: la metáfora física que dura todo el video, en una línea;
 - `meter`: lo que está en juego (`label`), su valor en el gancho (`from`) y en el cierre (`to`);
 - `cover`: la escena del cuadro más fuerte y el segundo (`at`);
 - `format`, `target` si es una réplica, `topic`, `art` y `caption`;
 - `gateA` y `gateB`.
 
-El guion sigue a `ig-reel` (`.agents/skills/ig-reel/SKILL.md`) a través de [skills/ig-es](../skills/ig-es/SKILL.md): el gancho en 2 s, una idea por frase y un cierre que vuelve al gancho.
+El guion sigue a `ig-reel` (`.agents/skills/ig-reel/SKILL.md`) a través de [skills/ig-es](../skills/ig-es/SKILL.md): el gancho en 2 s, una idea por frase y un cierre que vuelve al gancho. **Mientras se escribe, no se mira la biblioteca,** ni los `video.tsx` de otras piezas, ni sus capturas (ver "La biblioteca").
 
 **2. Revisar el guion:** `npm run video:script -- content/<pieza>`. Arma la hoja de la puerta A (`out/gate-a.md`) y avisa si:
 - el gancho tarda más de 3 s;
@@ -62,7 +62,7 @@ Corre `hookscore_es` y `beats_es` de `ig-reel` y la revisión de textos. Un ganc
 
 **4. Puerta A.** Solo el sí de Jeremy en el chat aprueba; el agente anota `gateA { approved: true, date }`. Sin ella no hay voz. Si después cambia lo que dice la voz, se vuelve a la puerta A.
 
-**5. Lo que se ve: `video.tsx`.** Exporta `defineVideo` de `@motor/video`: `captions`, `chapters`, `stage` (el mundo y su cámara), `meter` y una entrada por escena con el mismo `id`, `tone`, `chapter`, `sfx`, `camera` y `Visual`. La dirección de arte sale de `post.json → art` si la pieza tiene carrusel, o de `npm run video:baraja -- content/<pieza>`. Lo que dice la voz no va aquí. Todo lo del kit está en la [referencia](referencia/kit-video.md).
+**5. Lo que se ve.** Primero `npm run video:congelar -- content/<pieza>` (guarda el hash del guion visual; `video:script` avisa si cambia después) y `npm run video:emparejar -- content/<pieza>` (ver "La biblioteca"). Después, una escena por archivo en `content/<pieza>/scenes/<id>.tsx`, y `video.tsx` solo compone: exporta `defineVideo` de `@motor/video`: `captions`, `chapters`, `stage` (el mundo y su cámara), `meter` y una entrada por escena con el mismo `id`, `tone`, `chapter`, `sfx`, `camera` y `Visual`. La dirección de arte sale de `post.json → art` si la pieza tiene carrusel, o de `npm run video:baraja -- content/<pieza>`. Lo que dice la voz no va aquí. La gramática de movimiento (`fade`, `keys`, `At`, `Appear`, `rigAt`...) viene de `@motor/video` y no se redefine: `video:check` avisa. El kit está en la [referencia](referencia/kit-video.md) y en el [índice de la biblioteca](../packages/video/library/README.md).
 
 **6. Voz:** `npm run video:prepare -- content/<pieza>`. Pide la puerta A. Genera la voz de cada escena con los tiempos por palabra de ElevenLabs, baja los efectos del catálogo y deja todo en `out/video/`. La voz se guarda en caché: si el texto no cambia, no se vuelve a pagar.
 
@@ -87,7 +87,18 @@ Además del texto, mide el volumen, los congelados y la composición, que el ren
 
 **11. Publicar,** solo si Jeremy lo pide: `npm run video:publicar -- content/<pieza> [--ensayo]`. Exige la puerta B con el mismo sha256, sube la portada de `cover` y activa la etiqueta de IA de Meta.
 
-**Después:** a las 48 horas y a los 7 días, Jeremy pasa la captura de Insights. Se transcribe en `content/<pieza>/video-metrics.json` y `npm run video:metrics` regenera [el informe](metricas-video.md) ([cómo](referencia/metricas.md)).
+**Después de la puerta B:** `npm run video:cosechar -- content/<pieza>` propone escenas nuevas para la biblioteca. A las 48 horas y a los 7 días, Jeremy pasa la captura de Insights; se transcribe en `content/<pieza>/video-metrics.json` y `npm run video:metrics` regenera [el informe](metricas-video.md) ([cómo](referencia/metricas.md)).
+
+## La biblioteca: primero lo creativo
+
+Decidido con Jeremy el 3 de noviembre de 2026: la biblioteca no limita lo creativo. Tiene tres capas:
+- **la gramática** (`@motor/video`), cómo se mueven las cosas: se usa siempre;
+- **las escenas,** sacadas de piezas aprobadas: se miran solo después de congelar el guion visual;
+- **las protagonistas** (el gancho, el clímax y el mundo): siempre son nuevas.
+
+`video:emparejar` le pasa a `agy`, solo en texto, el guion visual congelado y las fichas, y deja `emparejar.json` con un veredicto por escena: `nueva` (ante la duda), `reutilizar`, `parametros` o `adaptar`. Con la biblioteca vacía, todas son nuevas y no se llama a `agy`. **El guion visual no cambia para encajar en la biblioteca.** Las escenas nuevas las escribe el agente principal, y las reutilizadas las conecta `agy` con una especificación. Las candidatas que propone `video:cosechar` pasan a la biblioteca cuando una segunda pieza las necesita o Jeremy las marca; `npm run video:biblioteca` regenera el índice.
+
+**El anclaje se mide** en `estado.md`: cuántas veces cambió el guion visual después de emparejar (tiene que ser 0), qué parte del tiempo en pantalla sale de la biblioteca (`video:render` la imprime; techo, 50 %) y si la pieza se parece a las últimas 3. Una escena sin uso en 10 piezas, o que bajó el puntaje donde se usó, pasa a `retirada`; el tope es de unas 30 a 40 activas.
 
 ## Los topes
 
@@ -122,22 +133,4 @@ Cada aviso es un error salvo que se pueda defender en una frase.
 
 ## Comandos del Reel
 
-```bash
-npm run video:baraja -- content/<pieza>      # 3 direcciones de arte para video.json → art
-npm run video:script -- content/<pieza>      # revisa el guion y arma la puerta A
-npm run video:capture -- content/<pieza>     # corre los comandos de captures.json y guarda su salida
-npm run video:storyboard -- content/<pieza>  # visuales sin voz, para la puerta A
-npm run video:prepare -- content/<pieza>     # voz y tiempos (pide la puerta A)
-npm run video:studio -- content/<pieza>      # vista previa
-npm run video:check -- content/<pieza>       # typecheck de la pieza
-npm run video:frames -- content/<pieza> <segundos...> | --escena <id>   # cuadros sueltos
-npm run video:render -- content/<pieza> --escena <id>[,<id>]           # un tramo, con inspector
-npm run video:render -- content/<pieza>      # el render completo (dos por Reel)
-npm run video:critique -- content/<pieza> [--guion] [--gemini] [--forzar]
-npm run video:publicar -- content/<pieza> [--ensayo]   # solo si Jeremy lo pide
-npm run video:metrics                        # docs/metricas-video.md
-npm run video:image -- content/<pieza> --name <n> --prompt "..." [--chroma] [--world]
-npm run video:music -- content/<pieza> --name <n> --prompt "..."
-npm run video:asset -- search "<consulta>"   # efectos CC0; add <bib>:<id> --id <n>
-npm run agy -- <especificación.md> --pieza content/<pieza>   # paso mecánico a Antigravity
-```
+Cada paso dice su comando; `npx tsx packages/video/src/cli.ts` sin argumentos imprime la sintaxis de todos. Los efectos CC0 se buscan con `npm run video:asset -- search "<consulta>"`.

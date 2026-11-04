@@ -185,7 +185,20 @@ export function main(args: string[]): number {
     console.log(USAGE);
     return 0;
   }
-  const options = parseArgs(args);
+  return runAgy(parseArgs(args)).code;
+}
+
+export interface AgyRun {
+  /** 0 when agy finished, did not go out of its scope and was not stopped. */
+  code: number;
+  /** What agy answered in the shape of the schema (structured_output), if it did. */
+  answer?: Record<string, unknown>;
+  changed: string[];
+  log: string;
+}
+
+/** Runs agy on a spec file and prints the summary. Other commands (video:emparejar, video:cosechar) call it too. */
+export function runAgy(options: AgyOptions): AgyRun {
   const specPath = resolve(options.spec);
   if (!existsSync(specPath)) throw new AgyError(`${specPath} does not exist`);
   const schema = options.schema ? readFileSync(resolve(options.schema), "utf8") : JSON.stringify(REPORT_SCHEMA);
@@ -268,7 +281,7 @@ export function main(args: string[]): number {
 
   const failed =
     result.status !== "SUCCESS" || Boolean(result.finished_reason) || Boolean(result.denied_actions?.length) || !report || outside.length > 0 || (!options.schema && report.terminado === false);
-  return failed ? 1 : 0;
+  return { code: failed ? 1 : 0, answer: report, changed, log: toRepoPath(logFile) };
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === resolve(import.meta.filename)) {

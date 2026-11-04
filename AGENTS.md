@@ -53,7 +53,8 @@ accounts/                 firma de cada cuenta (usuario, glifo, voz)
 assets/                   avatar, logos, objetos y catálogo de recursos de terceros (los archivos van a .cache/)
 packages/brand/           firma, tipografías y tema de Tailwind por pieza
 packages/carousel/        primitivas de @motor/ui, render, inspector, brief, crítica y CLI del carrusel
-packages/video/           video con Remotion: kit de @motor/video, composición, inspector y CLI
+packages/video/           video con Remotion: kit y gramática de @motor/video, composición, inspector y CLI
+packages/video/library/   biblioteca de escenas: fichas, candidatas e índice (README.md, generado)
 packages/media/           voz, imágenes, música y efectos detrás de puertos, con caché
 packages/publisher/       publica con Playwright y lleva publications.jsonl (sin imports de otros paquetes)
 packages/tools/           npm run agy y npm run docs:check

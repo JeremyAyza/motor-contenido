@@ -40,6 +40,10 @@ export const ScriptSceneSchema = z.object({
   say: z.string().trim().min(3).describe("What the voice says, written for the ear. The voice says exactly this"),
   see: z.string().trim().min(10).describe("What is seen, concrete: 'a lamp throwing rays that never reach the eye', not 'a diagram'"),
   resource: z.enum(RECURSO_IDS).describe("The visual resource of the scene (skills/carrusel-taste/recursos.json)"),
+  intent: z.string().trim().min(5).optional().describe("Visual script: what the audience has to understand in this scene"),
+  metaphor: z.string().trim().min(3).optional().describe("Visual script: the metaphor chosen, after thinking of 2 or 3"),
+  alternatives: z.array(z.string().trim()).max(3).optional().describe("Visual script: the metaphors considered and left out"),
+  motion: z.string().trim().min(3).optional().describe("Visual script: how it moves (what enters, what changes, what the camera does)"),
 });
 
 export const GateSchema = z.object({
@@ -101,6 +105,10 @@ export const VideoScriptSchema = z
     art: ArtSchema.optional().describe(
       "The art direction, like post.json → art: direction dealt by video:baraja, palette, fonts, anchor and tab. Without it, the piece's post.json → art, so the Reel looks like its carousel",
     ),
+    visualFrozen: z
+      .object({ hash: z.string(), date: z.iso.date() })
+      .optional()
+      .describe("The visual script frozen by video:congelar before looking at the library: video:script warns if it changes after"),
     gateA: GateSchema.default({ approved: false }).describe("Hooks, script and storyboard. Without it, video:prepare does not generate the voice"),
     gateB: GateBSchema.default({ approved: false }).describe("The final video. Without it, nothing is published"),
   })

@@ -151,6 +151,29 @@
               "artefacto"
             ],
             "description": "The visual resource of the scene (skills/carrusel-taste/recursos.json)"
+          },
+          "intent": {
+            "description": "Visual script: what the audience has to understand in this scene",
+            "type": "string",
+            "minLength": 5
+          },
+          "metaphor": {
+            "description": "Visual script: the metaphor chosen, after thinking of 2 or 3",
+            "type": "string",
+            "minLength": 3
+          },
+          "alternatives": {
+            "description": "Visual script: the metaphors considered and left out",
+            "maxItems": 3,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "motion": {
+            "description": "Visual script: how it moves (what enters, what changes, what the camera does)",
+            "type": "string",
+            "minLength": 3
           }
         },
         "required": [
@@ -412,6 +435,24 @@
         "palette",
         "fonts",
         "anchor"
+      ]
+    },
+    "visualFrozen": {
+      "description": "The visual script frozen by video:congelar before looking at the library: video:script warns if it changes after",
+      "type": "object",
+      "properties": {
+        "hash": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string",
+          "format": "date",
+          "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))$"
+        }
+      },
+      "required": [
+        "hash",
+        "date"
       ]
     },
     "gateA": {

@@ -169,6 +169,8 @@ export type { MeterDef, MeterKind, MeterStep } from "./meter.ts";
 export type { AvatarDef, AvatarEdge, AvatarShape, AvatarSprites, SceneAvatar, SceneCue } from "./avatar.tsx";
 export type { PanelCounter, PanelDef } from "./panel.ts";
 export { Pop, Sfx, usePop } from "./sfx.tsx";
+export { Appear, At, bump, CLAMP, clamp01, DUR, EASE, es, fade, keys, lerp, lerpPoint, popAt, rigAt, shakeAt, span, unit } from "./grammar.tsx";
+export type { RigShot } from "./grammar.tsx";
 export { Banner, PillTitle } from "./text.tsx";
 export type { SceneBackground, SceneTransition } from "./scene-fx.tsx";
 export { Along, Booth, Building, Bush, Car, Cloud, Coin, Cone, Document, House, Laptop, Machine, Person, Pine, pointAlong, RoadPath, Server, Sign, StreetLamp, Traffic, TrafficLight, Tree, Truck, usePath, Warehouse } from "./props.tsx";

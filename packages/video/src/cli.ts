@@ -35,7 +35,9 @@ import { criticRounds, markRound, prepareCritique, prepareScriptCritique, review
 import { recentSimilar, REPEAT_DAYS } from "./topics.ts";
 import { asVideoError, VideoError } from "./errors.ts";
 import { cachedBundle, scenesRange, secondsToFrames, sceneFrames } from "./bundle.ts";
-import { checkPiece } from "./check.ts";
+import { checkPiece, grammarRedefinitions } from "./check.ts";
+import { freeze, harvest, libraryIndex, match, reuseNote } from "./library-commands.ts";
+import { freezeWarnings } from "./library.ts";
 import type { VideoDef } from "./kit/index.ts";
 import { assetCommand, flag, imageCommand, musicCommand } from "./media-commands.ts";
 import { inspectComposition, inspectFrames, inspectFreezes, inspectLoudness, inspectTimeline, measureLoudness, normalizeLoudness, probeServer, sceneEntering, reviewSheet, sheetFrames, cameraMoving, type Issue } from "./inspector.ts";
@@ -77,7 +79,15 @@ const USAGE = `Usage:
       of video:prepare, or the storyboard's when there is no voice yet. No inspector.
   npm run video:check -- content/<piece>
       Typecheck of the piece and what it imports, without the other pieces (a few seconds). video:render,
-      video:frames and video:storyboard run it first.
+      video:frames and video:storyboard run it first. Warns when the piece redefines the motion grammar.
+  npm run video:congelar -- content/<piece>
+      Freezes the visual script (video.json → visualFrozen) before looking at the library.
+  npm run video:emparejar -- content/<piece>
+      Which frozen scenes the library already covers, by agy, in content/<piece>/emparejar.json.
+  npm run video:cosechar -- content/<piece>
+      After gate B, agy proposes new scenes of the piece as candidates (packages/video/library/candidatas/).
+  npm run video:biblioteca
+      Writes packages/video/library/README.md from the grammar and the fichas.
   npm run video:critique -- content/<piece> [--guion] [--gemini] [--forzar]
       The folder for the blind critic (content/<piece>/out/video-critica/), after video:render.
       One round; a second only if the first scored under 3 somewhere or found a grave error, never a
@@ -301,7 +311,7 @@ function script(args: string[]): void {
   const videoScript = scriptOf(dir);
   mkdirSync(join(dir, "out"), { recursive: true });
   const reel = runReelChecks(dir);
-  const warnings = [...scriptWarnings(videoScript), ...topicWarnings(piece, videoScript), ...reelWarnings(reel), ...reviewTexts(dir, videoScript)];
+  const warnings = [...scriptWarnings(videoScript), ...freezeWarnings(videoScript), ...topicWarnings(piece, videoScript), ...reelWarnings(reel), ...reviewTexts(dir, videoScript)];
   const sheet = join(dir, "out/gate-a.md");
   writeFileSync(sheet, gateASheet(piece, videoScript, warnings, reel.hooks ?? undefined));
   for (const w of warnings) console.log(`Aviso: ${w}`);
@@ -576,6 +586,7 @@ function typecheck(dir: string): void {
   const errors = checkPiece(dir);
   if (errors.length) throw new VideoError(`The piece does not compile (video:check):\n${errors.slice(0, 20).join("\n")}`);
   console.log(`video:check OK in ${((Date.now() - started) / 1000).toFixed(1)} s`);
+  for (const warning of grammarRedefinitions(dir)) console.log(`Aviso: ${warning}`);
 }
 
 function check(args: string[]): void {
@@ -736,6 +747,8 @@ async function render(args: string[]): Promise<void> {
     console.log(`Draft: ${output}\nSheet: ${sheet}\nNot for gate B: run video:render without --borrador once the draft looks right.`);
     return;
   }
+  const reuse = reuseNote(dir, timeline);
+  if (reuse) console.log(reuse);
   const sha256 = createHash("sha256").update(readFileSync(output)).digest("hex");
   writeFileSync(join(dir, "out/video.sha256"), `${sha256}\n`);
   console.log(`Video: ${output}\nSheet: ${sheet}\nsha256: ${sha256}`);
@@ -841,6 +854,10 @@ async function main(): Promise<void> {
   else if (command === "render") await render(args);
   else if (command === "frames") await frames(args);
   else if (command === "check") check(args);
+  else if (command === "congelar") freeze(args);
+  else if (command === "emparejar") match(args);
+  else if (command === "cosechar") harvest(args);
+  else if (command === "biblioteca") libraryIndex();
   else if (command === "critique") await critique(args);
   else if (command === "baraja") deal(args);
   else if (command === "capture") capture(args);

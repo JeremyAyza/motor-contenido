@@ -1,6 +1,6 @@
 # El kit de video
 
-La referencia de `@motor/video` (`packages/video/src/kit/`): qué hay y cómo se usa. El flujo del Reel está en [docs/reel.md](../reel.md). Se abre cuando hace falta un detalle, no al empezar.
+La referencia de `@motor/video` (`packages/video/src/kit/`): qué hay y cómo se usa. El flujo del Reel está en [docs/reel.md](../reel.md). Se abre cuando hace falta un detalle, no al empezar. La gramática de movimiento (`DUR`, `EASE`, `fade`, `keys`, `At`, `Appear`, `rigAt`, `shakeAt`, `es`) y las escenas de la biblioteca están en el [índice de la biblioteca](../../packages/video/library/README.md), que se genera solo.
 
 ## El lienzo y el marco de cada escena
 

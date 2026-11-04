@@ -1,5 +1,5 @@
 import { spawnSync } from "node:child_process";
-import { mkdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { basename, join, relative } from "node:path";
 import { REPO_ROOT } from "../../brand/src/index.ts";
 
@@ -38,4 +38,23 @@ export function checkPiece(dir: string): string[] {
     .map((l) => l.trim())
     .filter(Boolean)
     .map((l) => l.replace(/^(\.\.\/)+/, ""));
+}
+
+/** Names of the motion grammar (kit/grammar.tsx) that pieces used to write again. */
+const GRAMMAR = ["clamp", "fade", "span", "bump", "unit", "lerp", "keys", "popAt", "rigAt", "shakeAt", "inOut", "back", "easeInOut", "useT", "At", "Appear"];
+
+/** The piece's own definitions of the grammar: warnings, since @motor/video already has them. */
+export function grammarRedefinitions(dir: string): string[] {
+  const files: string[] = [];
+  const walk = (path: string) => {
+    for (const entry of readdirSync(path, { withFileTypes: true })) {
+      if (entry.isDirectory() && entry.name !== "out") walk(join(path, entry.name));
+      else if (/\.tsx?$/.test(entry.name)) files.push(join(path, entry.name));
+    }
+  };
+  if (existsSync(dir)) walk(dir);
+  const found = new Set<string>();
+  const pattern = new RegExp(`^(?:export )?(?:const|function) (${GRAMMAR.join("|")})\\b`, "gm");
+  for (const file of files) for (const m of readFileSync(file, "utf8").matchAll(pattern)) found.add(m[1]);
+  return found.size ? [`La pieza redefine ${[...found].join(", ")}: usa la gramática de @motor/video (packages/video/library/README.md)`] : [];
 }
