@@ -95,8 +95,10 @@ export const REPORT_SCHEMA = {
 
 /**
  * The commands agy may run headless, the same as permissions.allow in
- * ~/.gemini/antigravity-cli/settings.json (docs/reel.md says how to change it).
- * A command outside this list is auto-denied and ends agy's turn with no answer.
+ * ~/.gemini/antigravity-cli/settings.json (docs/referencia/agy.md says how to
+ * change it). A command outside this list is auto-denied and ends agy's turn
+ * with no answer. On Windows agy runs them in PowerShell, where npm.ps1 is
+ * blocked by the execution policy, so the rules accept npm.cmd and npx.cmd.
  */
 export const ALLOWED_COMMANDS = [
   "npm test",
@@ -127,6 +129,9 @@ export function buildPrompt(spec: string, options: Pick<AgyOptions, "scope" | "p
     "- No hagas commit ni push, no cambies de rama y no publiques nada.",
     "- No corras video:prepare, video:music ni video:image: gastan créditos.",
     `- Solo puedes correr estos comandos: ${ALLOWED_COMMANDS.join("; ")}. Cualquier otro se rechaza y corta tu trabajo sin respuesta: si la especificación pide otro, no lo corras y dilo en las notas.`,
+    ...(process.platform === "win32"
+      ? ["- En esta máquina escribe `npm.cmd` y `npx.cmd` en lugar de `npm` y `npx` (por ejemplo `npm.cmd run video:frames -- ...`): PowerShell bloquea `npm.ps1`. Si un comando aparece en la especificación con `npm`, córrelo igual con `npm.cmd`."]
+      : []),
     "- Si la especificación trae comandos de comprobación, córrelos al final y reporta su resultado real. No inventes salidas.",
     "- Si algo no está claro o no se puede, no improvises: dilo en las notas y marca terminado en false.",
     "- No cambies el diseño, el texto ni el guion más allá de lo que la especificación pide.",
@@ -135,6 +140,21 @@ export function buildPrompt(spec: string, options: Pick<AgyOptions, "scope" | "p
     "",
     spec.length <= INLINE_LIMIT || !specFile ? spec.trim() : `Es larga: está en ${specFile}. Léela completa antes de empezar.`,
   ].join("\n");
+}
+
+/**
+ * The environment for agy without the node_modules/.bin folders that `npm run`
+ * puts first in PATH: the repo's node_modules/.bin has a broken npm.cmd shim,
+ * and agy's own `npm run ...` has to reach the real npm.
+ */
+export function withoutLocalBins(env: NodeJS.ProcessEnv): NodeJS.ProcessEnv {
+  const key = Object.keys(env).find((k) => k.toLowerCase() === "path") ?? "PATH";
+  const separator = process.platform === "win32" ? ";" : ":";
+  const path = (env[key] ?? "")
+    .split(separator)
+    .filter((dir) => !/node_modules[\\/]\.bin[\\/]?$/i.test(dir))
+    .join(separator);
+  return { ...env, [key]: path };
 }
 
 /** Every changed or untracked file and a hash of its content, from git status. */
@@ -239,7 +259,7 @@ export function runAgy(options: AgyOptions): AgyRun {
     `${options.minutes}m`,
   ];
   console.log(`agy: ${basename(specPath)} with ${options.model} (${options.plan ? "read-only" : `scope: ${options.scope.join(", ") || "whole repo"}`})…`);
-  const run = spawnSync("agy", agyArgs, { cwd: REPO_ROOT, encoding: "utf8", maxBuffer: 64 * 1024 * 1024, timeout: (options.minutes + 2) * 60_000 });
+  const run = spawnSync("agy", agyArgs, { cwd: REPO_ROOT, env: withoutLocalBins(process.env), encoding: "utf8", maxBuffer: 64 * 1024 * 1024, timeout: (options.minutes + 2) * 60_000 });
   const after = snapshot();
 
   let result: AgyResult = {};

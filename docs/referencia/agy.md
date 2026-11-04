@@ -58,6 +58,8 @@ Vive en `~/.gemini/antigravity-cli/settings.json`. Se corrigió el 3 de noviembr
 
 Sin interfaz (`-p`), un comando que no está en `allow` se rechaza solo, y **`agy` termina el turno ahí, sin respuesta**. Un comando en `deny` también se rechaza, pero `agy` sigue y lo reporta. Por eso `npm run agy` le pasa la lista de comandos permitidos (`ALLOWED_COMMANDS` en `packages/tools/src/agy.ts`). Para sumar uno, se agrega en los dos lugares.
 
+**En Windows, `npm.cmd`.** `agy` corre los comandos en PowerShell, y en esta máquina la política de ejecución bloquea `npm.ps1`. Por eso `npm run agy` le pide escribir `npm.cmd` y `npx.cmd`, y las reglas aceptan las dos formas: `^npm(\.cmd)? run ...`. Las prohibiciones también, así que `npm.cmd run video:publicar` sigue rechazado. Además, `npm run agy` lanza `agy` sin las carpetas `node_modules/.bin` en el `PATH`, porque el repo trae ahí un `npm.cmd` roto. No se cambió la política de PowerShell: es una decisión de seguridad de Jeremy.
+
 ## Lo que se probó
 
 Con `agy` 1.4.8 y 1.4.12, el 3 de noviembre de 2026:
@@ -70,6 +72,10 @@ Con `agy` 1.4.8 y 1.4.12, el 3 de noviembre de 2026:
 | `npm run agy` con una especificación de prueba | Creó el archivo, corrió las pruebas y reportó 6 de 6 en 19 s |
 | Un comando no permitido (`video:storyboard`) | Rechazado; `npm run agy` lo reporta y sale con 1 |
 | Un comando en `deny` (`npm run publisher`) | Rechazado; `agy` siguió y lo reportó |
+| La auditoría de la documentación (`--plan`, con esquema) | 11 contradicciones, 34 decisiones con fecha y 16 referencias a código inexistente, en 15 min. Intentó un comando no permitido al final, pero dejó la respuesta |
+| Condensar `workflows/carrusel.md` a `docs/carrusel.md` | Un borrador bueno en 7 min; necesitó una corrección de una línea |
+| `video:emparejar` con una ficha de prueba | Veredictos sensatos con su razón, en 2 min |
+| `npm.cmd run video:frames` y mirar el cuadro | Generó el cuadro bien en 54 s. **Dijo "terminado" sin hacer el paso 2** (describir la imagen): la regla de confianza no es opcional |
 
 ## Medir
 

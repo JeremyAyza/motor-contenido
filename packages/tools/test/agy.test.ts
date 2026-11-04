@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { buildPrompt, changedFiles, inScope, INLINE_LIMIT, parseArgs, toRepoPath } from "../src/agy.ts";
+import { buildPrompt, changedFiles, inScope, INLINE_LIMIT, parseArgs, toRepoPath, withoutLocalBins } from "../src/agy.ts";
 import { REPO_ROOT } from "../src/repo.ts";
 
 describe("parseArgs", () => {
@@ -48,5 +48,13 @@ describe("buildPrompt", () => {
     const long = buildPrompt("x".repeat(INLINE_LIMIT + 1), { scope: [], plan: true }, ".cache/agy/s.spec.md");
     assert.match(long, /solo lectura/);
     assert.match(long, /está en \.cache\/agy\/s\.spec\.md/);
+  });
+});
+
+describe("withoutLocalBins", () => {
+  it("drops the node_modules/.bin folders npm run puts in PATH, and keeps the rest", () => {
+    const separator = process.platform === "win32" ? ";" : ":";
+    const path = ["C:/repo/node_modules/.bin", "C:/repo/packages/x/node_modules/.bin/", "C:/Program Files/Volta"].join(separator);
+    assert.equal(withoutLocalBins({ PATH: path }).PATH, "C:/Program Files/Volta");
   });
 });

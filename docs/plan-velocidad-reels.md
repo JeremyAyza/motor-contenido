@@ -394,3 +394,36 @@ Se completa después de cada fase.
 | Fecha | Fase | Pieza | Minutos | Renders completos | Líneas de `video.tsx` a mano | Llamadas a `agy` |
 |---|---|---|---|---|---|---|
 | 2026-11-03 | Línea base | `cinco-algoritmos-ml` | 87 | 7 | 1.836 | 0 |
+
+### Ejecución del 3 de noviembre de 2026
+
+Jeremy pidió ejecutar el plan de corrido, en la rama `perf/plan-velocidad-reels`, con un commit por fase. Las cinco fases quedaron hechas. Falta lo que solo se puede medir con el Reel siguiente.
+
+**Las 7 decisiones pendientes se tomaron con el valor que proponía el plan,** para no frenar la ejecución. Cualquiera se cambia con una línea en `docs/reel.md`:
+1. Extra alto solo en lo creativo; alto en la producción.
+2. Dos renders completos por Reel (`video:render` avisa desde el tercero, no lo impide) y una ronda del crítico (la segunda la decide `video:critique`).
+3. Los avisos del inspector se arreglan antes del render final.
+4. Modo directo: sin storyboard ni hoja de la puerta A, y las puertas se anotan con la frase de Jeremy. El crítico del guion sigue.
+5. El carrusel se reescribió ahora, corto (`docs/carrusel.md`, borrador de `agy` revisado).
+6. Las protagonistas son siempre nuevas.
+7. Techo de reutilización del 50 % (aviso).
+
+**Lo medido el 3 de noviembre de 2026,** con `cinco-algoritmos-ml` y la máquina compartida con otras apps:
+
+| Qué | Antes | Ahora |
+|---|---|---|
+| Empaquetar antes de cada render | 38,5 s, con las 31 piezas | Solo la pieza; 0 s cuando se reutiliza |
+| Comprobar el arreglo de una escena | Un render completo, de 4 a 5 min | `--escena`: 23 s para una escena de 13,7 s, con inspector |
+| Mirar cuadros sueltos | Un script propio sobre el MP4 | `video:frames`: 4 cuadros en 22 s; 3 en 5 s con el bundle reutilizado |
+| Borrador completo | 283 s | 257 s: no compensa, sale del flujo |
+| Typecheck | Todo el repo, de 13 a 50 s | Solo la pieza, de 2 a 4 s |
+| Editar una escena | Pagaba la voz de las vecinas | Paga solo esa; las 27 voces de 3 Reels siguen en caché |
+| Segunda ronda del crítico | La decidía el agente (hubo 2) | Con el informe de la línea base, el comando la habría negado |
+| Lo que lee el agente al empezar un Reel | ~30 k tokens, con contradicciones | ~7 k (`AGENTS.md` y `docs/reel.md`), sin contradicciones |
+| `agy` | 0 llamadas | Auditoría de docs (15 min, 11 contradicciones), borrador del carrusel (7 min) y emparejar (2 min) |
+
+**Falta, con el Reel siguiente:**
+- medirlo con `scripts/medir-sesion.py` y llenar la fila de esta tabla;
+- que su `video.tsx` quede en 600 líneas o menos, con una escena por archivo, y que su guion visual no cambie después de emparejar;
+- la primera cosecha de la biblioteca;
+- que Jeremy lo compare con el anterior y apruebe el núcleo (`AGENTS.md`, `docs/reel.md` y `docs/carrusel.md`).
