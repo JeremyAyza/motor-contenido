@@ -101,6 +101,8 @@ npm run video:asset -- search "<consulta>"  # efectos CC0 (catálogo, Openverse,
 npm run video:voices                      # prueba a ciegas de voces de Gemini
 npm run video:schema                      # regenera schemas/video.schema.json, video-metrics.schema.json y captures.schema.json
 npm run py -- skills/ig-es/<script>.py    # corre un wrapper con el Python que haya
+npm run agy -- <especificación.md> [--pieza content/<pieza>] [--plan]  # delega un paso mecánico a Antigravity (docs/referencia/agy.md)
+python scripts/medir-sesion.py <transcripción.jsonl>  # tiempo, tokens, renders y llamadas a agy de una sesión
 npm run typecheck
 npm test
 ```
