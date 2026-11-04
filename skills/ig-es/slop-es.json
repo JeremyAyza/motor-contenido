@@ -1,6 +1,6 @@
 {
   "version": "es-1",
-  "note": "Léxico en español para humanize.py y detect.py originales (se pasa con --lexicon desde skills/ig-es) y para el inspector del carrusel. words y phrases se reemplazan solos; solo_marcar no, porque borrarlas rompería la frase: humanize las reporta con la estructura relleno-marcado y el inspector las avisa. Si una palabra es parte de tu voz (docs/voz.md), sácala de aquí.",
+  "note": "Léxico en español para humanize.py y detect.py originales (se pasa con --lexicon desde skills/ig-es) y para el inspector del carrusel. words y phrases se reemplazan solos; solo_marcar no, porque borrarlas rompería la frase: humanize las reporta con la estructura relleno-marcado y el inspector las avisa. Si una palabra es parte de tu voz (docs/referencia/voz.md), sácala de aquí.",
   "invisible": [
     {
       "cp": "U+200B",

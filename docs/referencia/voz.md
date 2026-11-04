@@ -1,8 +1,8 @@
 # Voz
 
-Cómo suena Jeremy en lo que se publica. Lo leen todas las piezas (carrusel y video) y las skills `ig-*` en lugar de `~/.claude/instagram/voice.md`. Adapta [`templates/voice.md`](../.agents/instagram-agent-skill/templates/voice.md) de instagram-agent-skill.
+Cómo suena Jeremy en lo que se publica. Lo leen todas las piezas (carrusel y video) y las skills `ig-*` en lugar de `~/.claude/instagram/voice.md`. Adapta [`templates/voice.md`](../../.agents/instagram-agent-skill/templates/voice.md) de instagram-agent-skill.
 
-**Estado: falta completarlo.** Lo marcado como PENDIENTE lo tiene que dar Jeremy. El agente puede escribir un borrador a partir de 3 a 5 textos suyos y Jeremy lo corrige. Mientras siga pendiente, la voz es la regla mínima de [docs/anti-slop.md](anti-slop.md): español neutro, directo, sin relleno.
+**Estado: falta completarlo.** Lo marcado como PENDIENTE lo tiene que dar Jeremy. El agente puede escribir un borrador a partir de 3 a 5 textos suyos y Jeremy lo corrige. Mientras siga pendiente, la voz es la regla mínima de [docs/referencia/anti-slop.md](anti-slop.md): español neutro, directo, sin relleno.
 
 ## Quién habla
 

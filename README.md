@@ -6,7 +6,7 @@ Motor para producir carruseles y videos de Instagram con IA, con calidad editori
 - **Video (en construcción):** guion, voz con adaptadores por proveedor, Remotion y MP4 de 1080×1920.
 - **Marco semiconstante:** pestaña de archivo, textura de puntos y firma en todas las láminas; cambian de color con cada pieza. La firma vive en `accounts/`; tipografías y tema en `packages/brand/`; avatar en `assets/avatar/`.
 - **Dirección de arte:** [skills/carrusel-taste](skills/carrusel-taste/SKILL.md), con las 12 direcciones y sus referencias.
-- **Agnóstico al agente:** las reglas viven en [AGENTS.md](AGENTS.md) y los pasos en [workflows/](workflows/).
+- **Agnóstico al agente:** las reglas viven en [AGENTS.md](AGENTS.md) y los pasos en [docs/reel.md](docs/reel.md) y [docs/carrusel.md](docs/carrusel.md).
 
 ## Empezar
 
@@ -22,7 +22,7 @@ Las láminas quedan en `content/2026-10-16-mods-claude-code/out/`. Para usar un 
 
 Abre tu agente en el repo y pídelo en una línea:
 
-> Sigue workflows/carrusel.md y genera un carrusel para la cuenta dev sobre **[tema]**. Muéstrame la ficha, la idea y la hoja de revisión antes de darlo por terminado.
+> Sigue docs/carrusel.md y genera un carrusel para la cuenta dev sobre **[tema]**. Muéstrame la ficha, la idea y la hoja de revisión antes de darlo por terminado.
 
 ## Pieza de ejemplo
 

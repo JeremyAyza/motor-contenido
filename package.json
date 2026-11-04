@@ -39,6 +39,7 @@
     "video:critique": "tsx packages/video/src/cli.ts critique",
     "video:metrics": "tsx packages/video/src/cli.ts metrics",
     "agy": "tsx packages/tools/src/agy.ts",
+    "docs:check": "tsx packages/tools/src/docs-check.ts",
     "test": "node --import tsx --test \"packages/*/test/*.test.ts\"",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },

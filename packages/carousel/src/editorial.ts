@@ -28,7 +28,7 @@ export function scoreHooks(dir: string): { scores: HookScore[] | null; error?: s
  */
 export function puertaA(dir: string): { file: string; text: string; problems: string[] } {
   const load = loadBrief(dir);
-  if (load.status === "sin-brief") throw new Error(`No hay brief.json en ${dir}. Créalo con el paso 0 de workflows/carrusel.md.`);
+  if (load.status === "sin-brief") throw new Error(`No hay brief.json en ${dir}. Créalo con el paso 4 de docs/carrusel.md.`);
   if (load.status === "invalido") throw new Error(load.errors.join("\n"));
   const { brief, warnings } = load;
   const problems = [...warnings];
@@ -115,7 +115,7 @@ export function puertaA(dir: string): { file: string; text: string; problems: st
 function writeHookCritic(dir: string, tema: string, brief: Brief, ganchos: string[]): void {
   const folder = join(dir, "out", "critica-ganchos");
   mkdirSync(folder, { recursive: true });
-  const prompt = readFileSync(join(REPO_ROOT, "docs/critico-ciego.md"), "utf8");
+  const prompt = readFileSync(join(REPO_ROOT, "docs/referencia/critico-ciego.md"), "utf8");
   const seccion = prompt.split(/^## /m).find((s) => s.startsWith("Ganchos"));
   const lista = ganchos.length ? ganchos.map((g, i) => `${i + 1}. ${g}`).join("\n") : "(el filtro descartó todos: vuelve al brief)";
   writeFileSync(

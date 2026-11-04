@@ -3,7 +3,7 @@ import type { CSSProperties, ReactNode } from "react";
 import { useClock, useStage } from "./scene.ts";
 
 /*
- * Flat objects for a motion-graphics world (docs/plan-paridad-rick.md): no
+ * Flat objects for a motion-graphics world (docs/historia/plan-paridad-rick.md): no
  * outline, two-tone shading, small details. They take the piece's palette
  * through its CSS variables and move by themselves (lights blink, trees sway,
  * clouds drift, gears turn) on the clock of where they are, so a render

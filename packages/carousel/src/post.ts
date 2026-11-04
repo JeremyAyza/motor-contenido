@@ -37,7 +37,7 @@ export const ArtSchema = z.object({
   contador: z
     .boolean()
     .optional()
-    .describe("Experimento: muestra n/N en el pie de las láminas interiores. Se decide con las métricas (workflows/metricas.md)"),
+    .describe("Experimento: muestra n/N en el pie de las láminas interiores. Se decide con las métricas (docs/referencia/metricas.md)"),
   cierre: z
     .object({
       tratamiento: z.enum(TRATAMIENTO_IDS).describe("Cómo se ve el CTA en la última lámina (skills/carrusel-taste/cierres.json)"),

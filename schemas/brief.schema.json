@@ -58,7 +58,7 @@
       "description": "A quién se lo mandaría el lector, con su situación concreta"
     },
     "toma": {
-      "description": "La opinión de la persona, si la hay (docs/voz.md, posturas)",
+      "description": "La opinión de la persona, si la hay (docs/referencia/voz.md, posturas)",
       "type": "string"
     },
     "ganchos": {

@@ -15,9 +15,9 @@ La carpeta `content/<pieza>/`, el tema, el ángulo y una lista de preguntas. Si 
 
 1. **Fuentes primarias:** documentación oficial, especificaciones, changelogs, anuncios y repositorios del fabricante. Las secundarias (blogs, foros, Wikipedia) solo sirven para encontrar las primarias y no van en `facts.json`.
 2. **Abre cada página que cites** con WebFetch y toma el dato de lo que leíste, no de lo que recuerdas ni del resumen del buscador. Si una página no abre, el dato va a `pendingToVerify`.
-3. **Referentes:** los benchmarks y pruebas de terceros solo valen si están en `docs/referentes.md`. Lee sus reglas antes de citar uno.
+3. **Referentes:** los benchmarks y pruebas de terceros solo valen si están en `docs/referencia/referentes.md`. Lee sus reglas antes de citar uno.
 4. **Cifras:** cópialas tal como aparecen, con su unidad y su versión. Una cuenta tuya (pasar de TB a bloques, por ejemplo) va en `calculations`, con la operación escrita.
-5. Responde todas las preguntas que te dieron. Además, busca lo que pide el inventario del tema ([workflows/carrusel.md](../../workflows/carrusel.md), paso 3): los nombres propios, los números con fecha, el antes y el después, la letra chica, el error común y el ancla visual (el logo oficial o la interfaz real).
+5. Responde todas las preguntas que te dieron. Además, busca lo que pide el inventario del tema ([docs/carrusel.md](../../docs/carrusel.md), paso 3): los nombres propios, los números con fecha, el antes y el después, la letra chica, el error común y el ancla visual (el logo oficial o la interfaz real).
 
 ## Qué escribes
 
@@ -36,7 +36,7 @@ La carpeta `content/<pieza>/`, el tema, el ángulo y una lista de preguntas. Si 
 }
 ```
 
-Un referente lleva `"primary": false` y `"referente": "<id de docs/referentes.md>"`. No llenes `illustrative` ni `reference`: los decide el agente principal.
+Un referente lleva `"primary": false` y `"referente": "<id de docs/referencia/referentes.md>"`. No llenes `illustrative` ni `reference`: los decide el agente principal.
 
 ## Qué respondes
 

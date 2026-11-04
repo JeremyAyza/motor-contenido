@@ -665,7 +665,7 @@ export function Objeto({
 /**
  * Resaltado de marcador detrás de las palabras que importan, en el cuerpo, una
  * etiqueta o el código: señala dónde mirar sin agregar texto. En el título no
- * (docs/anti-slop.md: un solo color de título).
+ * (docs/referencia/anti-slop.md: un solo color de título).
  */
 export function Resalte({ children, className }: { children: ReactNode; className?: string }) {
   return <mark className={cx("rounded-[0.2em] bg-accent/25 px-[0.12em] text-inherit [box-decoration-break:clone]", className)}>{children}</mark>;

@@ -13,9 +13,9 @@ Las skills originales leen y escriben en `~/.claude/instagram/`. En este repo:
 
 | La skill pide | Usa |
 |---|---|
-| `~/.claude/instagram/voice.md` | [docs/voz.md](../../docs/voz.md) |
-| `~/.claude/instagram/swipe.md` | [docs/swipe.md](../../docs/swipe.md) (lo genera `npm run carrusel:swipe`) |
-| `~/.claude/instagram/plan.md` | `docs/radar/AAAA-MM-DD.md` ([workflows/radar.md](../../workflows/radar.md)) |
+| `~/.claude/instagram/voice.md` | [docs/referencia/voz.md](../../docs/referencia/voz.md) |
+| `~/.claude/instagram/swipe.md` | `docs/swipe.md` (lo genera `npm run carrusel:swipe`) |
+| `~/.claude/instagram/plan.md` | `docs/radar/AAAA-MM-DD.md` ([docs/referencia/radar.md](../../docs/referencia/radar.md)) |
 | `~/.claude/instagram/log.md` | `content/*/brief.json` y `content/*/metricas.json` |
 
 ## Herramientas: siempre por los wrappers
@@ -50,10 +50,10 @@ npm run carrusel:swipe -- docs/swipe/2026-10.tsv
 3. **Ganchos.** La portada se lee, no se dice: de 3 a 8 palabras, más una línea de promesa. Las fórmulas que requieren experiencia propia (1, 6, 8 y 15) solo se usan con una historia que Jeremy dio; las que requieren fuente (5, 23 y 25), con un dato de `facts.json`. Nunca se inventa una cifra ni un caso.
 4. **`ig-caption`.** Siempre es el trabajo B (el texto del post completa el carrusel). Hasta 5 hashtags: Instagram puso ese tope el 19 de diciembre de 2025. La única petición del texto es la misma que el CTA de la última lámina.
 5. **CTA con palabra clave por DM** ("comenta GUÍA y te lo mando"): no se usa, porque obliga a enviar DMs y aquí no se automatizan (AGENTS.md). Se puede usar si Jeremy responde a mano.
-6. **`ig-plan`.** La mezcla de Reels y formatos en inglés se reemplaza por la tabla de [workflows/radar.md](../../workflows/radar.md) hasta que exista el flujo de video.
+6. **`ig-plan`.** La mezcla de Reels y formatos en inglés se reemplaza por la tabla de [docs/referencia/radar.md](../../docs/referencia/radar.md) hasta que exista el flujo de video.
 7. **`ig-viral`.** Para carruseles la columna de vistas lleva me gusta (no hay vistas públicas). Lectura a ritmo humano con el navegador de Jeremy: nunca iniciar sesión por él ni hacer scraping.
-8. **`ig-audit`.** Las métricas van en `content/<pieza>/metricas.json` ([workflows/metricas.md](../../workflows/metricas.md)).
-9. **`ig-reel`, en el flujo de video** ([workflows/video.md](../../workflows/video.md)). Se toman su forma (gancho en 2 s, lo que está en juego, una idea por beat, el cierre que vuelve al gancho), sus 26 fórmulas y sus dos herramientas, que `video:script` corre por los wrappers. Lo que cambia:
+8. **`ig-audit`.** Las métricas van en `content/<pieza>/metricas.json` ([docs/referencia/metricas.md](../../docs/referencia/metricas.md)).
+9. **`ig-reel`, en el flujo de video** ([docs/reel.md](../../docs/reel.md)). Se toman su forma (gancho en 2 s, lo que está en juego, una idea por beat, el cierre que vuelve al gancho), sus 26 fórmulas y sus dos herramientas, que `video:script` corre por los wrappers. Lo que cambia:
    - **La voz es sintética:** el guion es para la voz de la cuenta (`accounts/dev.json`), no para que Jeremy lo grabe, y no hace falta `voice.md` de cámara.
    - **La duración** es de 30 a 60 s para un explicativo, no de 15 a 45.
    - **El guion y el texto en pantalla** van en `video.json` (`say` y `onScreen`), no en un bloque impreso.

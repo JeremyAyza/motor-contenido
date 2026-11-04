@@ -116,7 +116,7 @@ const NODE_STATE: Record<NodeState, string> = {
 };
 
 /**
- * A plan that grows (docs/analisis-reels-2026-10-22.md, the system design Reel):
+ * A plan that grows (docs/historia/analisis-reels-2026-10-22.md, the system design Reel):
  * nodes that appear, change state (ok, busy, fail with a red X, off), move and
  * get renamed by `events`, edges that draw when both ends are there and follow
  * them, and packets that travel along the edges. Times are seconds on the

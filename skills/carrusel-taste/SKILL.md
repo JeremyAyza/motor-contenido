@@ -7,7 +7,7 @@ description: Dirección de arte para carruseles de Instagram del motor. Úsala a
 
 Criterio visual para que cada carrusel se vea pensado para su tema y distinto del anterior, sin caer en el promedio de lo que hace un modelo. Adapta a láminas fijas de 1080×1350 los principios de [Taste Skill](https://github.com/Leonxlnx/taste-skill) (MIT); lo que es de páginas web (navegación, animación, búsqueda de fotos) quedó fuera.
 
-Se usa en el paso de dirección de arte de [workflows/carrusel.md](../../workflows/carrusel.md), después de que la persona aprobó el brief en la puerta A (tesis, gancho, esqueleto y CTA) y de tener la idea visual.
+Se usa en el paso de dirección de arte de [docs/carrusel.md](../../docs/carrusel.md), después de que la persona aprobó el brief en la puerta A (tesis, gancho, esqueleto y CTA) y de tener la idea visual.
 
 ## Qué es fijo y qué cambia
 
@@ -75,11 +75,11 @@ Un logo o una mascota va con su archivo oficial o de una fuente confiable (`<Log
 - **Grande para el celular:** el cuerpo en 16px de diseño o más; menos palabras antes que letra chica.
 - **El cierre también se diseña:** la última lámina es una despedida que cierra lo que abrió la portada (el mismo ancla, el mismo trazo, la respuesta al gancho), en la forma de la dirección elegida, con la despedida y el CTA del brief (`data-cta`). Es tan dinámica como la portada: no hay una lámina final fija, y la jugada de despedida y la forma del CTA cambian de una pieza a la siguiente (`cierres.json`). El CTA tiene su propio tratamiento visual (`art.cierre`): el ícono del gesto con `<Gesto>`, metido en el recurso de la dirección cuando se puede (la línea que termina en el marcador, la tarjeta con el marcador en la esquina). Combina tratamiento, gesto y dirección; no repitas la caja redondeada de siempre.
 - **La lámina de resumen,** cuando la hay, se diseña para que se entienda capturada y mandada sola.
-- Revisa también [docs/anti-slop.md](../../docs/anti-slop.md).
+- Revisa también [docs/referencia/anti-slop.md](../../docs/referencia/anti-slop.md).
 
 ### 7. El recurso visual de cada lámina
 
-Cada lámina interior lleva el recurso de `esqueleto[].visual`, de [recursos.json](recursos.json): diagrama de proceso, anatomía con etiquetas, analogía de escala, metáfora con objetos, comparación dibujada, barras, cifra gigante, línea de tiempo, matriz, capas, captura anotada o artefacto real con señal. Se dibuja con las primitivas de `@motor/ui` (tabla en workflows/carrusel.md, paso 9) dentro de la dirección: la misma paleta, el mismo trazo, la misma textura.
+Cada lámina interior lleva el recurso de `esqueleto[].visual`, de [recursos.json](recursos.json): diagrama de proceso, anatomía con etiquetas, analogía de escala, metáfora con objetos, comparación dibujada, barras, cifra gigante, línea de tiempo, matriz, capas, captura anotada o artefacto real con señal. Se dibuja con las primitivas de `@motor/ui` (tabla en docs/carrusel.md, paso 9) dentro de la dirección: la misma paleta, el mismo trazo, la misma textura.
 
 - **Grande:** el recurso es lo dominante de la lámina, no un adorno al pie. Si debajo del texto queda media lámina vacía, el recurso tenía que ocuparla.
 - **Explica, no decora** (Mayer, aprendizaje multimedia): palabras y dibujo juntos enseñan más que palabras solas; las etiquetas van pegadas a lo que nombran; una flecha o un resaltado dice dónde mirar; lo que no explica se borra.

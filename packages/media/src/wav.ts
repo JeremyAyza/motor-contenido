@@ -24,7 +24,7 @@ export function wavDurationMs(wav: Uint8Array): number {
 /**
  * How loud the voice is in each frame, from 0 to 1 (RMS of 16-bit PCM,
  * relative to the loudest frame). It moves the avatar's mouth: plan B of
- * docs/plan-piloto-automatico.md, a mouth that opens with the volume.
+ * docs/historia/plan-piloto-automatico.md, a mouth that opens with the volume.
  */
 export function wavLevels(wav: Uint8Array, fps: number): number[] {
   if (tag(wav, 0) !== "RIFF" || tag(wav, 8) !== "WAVE") throw new Error("Not a WAV file");

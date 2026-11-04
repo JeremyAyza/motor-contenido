@@ -110,7 +110,7 @@ export function informeMetricas(): { text: string; file: string; errores: string
     "",
     "▲ = por encima de la mediana de la cuenta. Compartidos por alcance es la señal más fuerte; luego guardados y seguidores por alcance.",
     "",
-    "Alcance alto con pocos seguidores es un problema del perfil; poco alcance es un problema del gancho (ver workflows/metricas.md).",
+    "Alcance alto con pocos seguidores es un problema del perfil; poco alcance es un problema del gancho (ver docs/referencia/metricas.md).",
   );
   if (errores.length) lines.push("", "## Archivos con errores", "", ...errores.map((e) => `- ${e}`));
   const text = lines.join("\n") + "\n";

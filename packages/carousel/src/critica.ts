@@ -20,8 +20,8 @@ export function prepararCritica(dir: string): { folder: string; files: string[] 
   for (const f of images) copyFileSync(join(out, f), join(folder, f));
   if (existsSync(join(out, "texto-del-post.txt"))) copyFileSync(join(out, "texto-del-post.txt"), join(folder, "texto-del-post.txt"));
 
-  const prompt = readFileSync(join(REPO_ROOT, "docs/critico-ciego.md"), "utf8");
-  const rubrica = readFileSync(join(REPO_ROOT, "docs/critica-carrusel.md"), "utf8");
+  const prompt = readFileSync(join(REPO_ROOT, "docs/referencia/critico-ciego.md"), "utf8");
+  const rubrica = readFileSync(join(REPO_ROOT, "docs/referencia/critica-carrusel.md"), "utf8");
   const laminas = images.filter((f) => /^\d{2}\.png$/.test(f)).sort();
   writeFileSync(
     join(folder, "LEEME.md"),

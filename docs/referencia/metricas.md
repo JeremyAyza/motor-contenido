@@ -1,11 +1,11 @@
 # Flujo: métricas y aprendizajes
 
-La única fuente honesta de lo que funciona para esta cuenta son sus propias piezas. Adapta [`ig-audit`](../.agents/skills/ig-audit/SKILL.md); lee esa skill para el criterio completo.
+La única fuente honesta de lo que funciona para esta cuenta son sus propias piezas. Adapta [`ig-audit`](../../.agents/skills/ig-audit/SKILL.md); lee esa skill para el criterio completo.
 
 ## Después de publicar
 
 1. **A las 48 horas y a los 7 días**, Jeremy le pasa al agente la captura de Instagram Insights de la pieza.
-2. El agente la transcribe en `content/<pieza>/metricas.json` ([esquema](../schemas/metricas.schema.json)):
+2. El agente la transcribe en `content/<pieza>/metricas.json` ([esquema](../../schemas/metricas.schema.json)):
 
 ```json
 {
@@ -19,7 +19,7 @@ La única fuente honesta de lo que funciona para esta cuenta son sus propias pie
 ```
 
    Las etiquetas salen de `brief.json` (formato, fórmula del gancho elegido, CTA) y de `post.json` (dirección, número de láminas). `animadas` es cuántas láminas salieron como video (`out/NN.mp4`): es el experimento de movimiento, y se decide con estos números. Si Instagram cambió el nombre de una métrica, anótalo en `notas` y usa el campo más parecido.
-3. `npm run carrusel:metricas` regenera [docs/metricas.md](../docs/metricas.md).
+3. `npm run carrusel:metricas` regenera `docs/metricas.md`.
 
 Más adelante se puede leer Insights con la API de Instagram para cuentas profesionales (solo lectura: necesita una app de Meta y un token). No publica nada ni envía DMs, así que no choca con la regla de no automatizar mensajes.
 
@@ -37,7 +37,7 @@ Alcance alto con pocos seguidores es un problema del perfil (bio, portadas fijad
 
 ## Reels
 
-Los Reels van aparte, en `content/<pieza>/video-metrics.json` ([esquema](../schemas/video-metrics.schema.json)), porque una pieza puede tener carrusel y Reel. `npm run video:metrics` regenera [docs/metricas-video.md](../docs/metricas-video.md); los pasos están en [workflows/video.md](video.md).
+Los Reels van aparte, en `content/<pieza>/video-metrics.json` ([esquema](../../schemas/video-metrics.schema.json)), porque una pieza puede tener carrusel y Reel. `npm run video:metrics` regenera [docs/metricas-video.md](../metricas-video.md); los pasos están en [docs/reel.md](../reel.md).
 
 Insights cambió en 2025 y 2026, así que se anotan estos nombres:
 - **Vistas** (`views`): cada vez que el Reel aparece en pantalla, con las repeticiones. Reemplazó a las reproducciones en abril de 2025.
@@ -57,9 +57,9 @@ Los Trial Reels se muestran primero a quien no sigue la cuenta: se comparan entr
 
 1. Pon lado a lado las 5 mejores piezas y las 5 peores por compartidos por alcance.
 2. Busca qué las separa, en este orden: fórmula del gancho, formato, tema, número de láminas, dirección de arte, tipo de CTA y, al final y solo si nada más explica la diferencia, día y hora.
-3. Escribe la conclusión en [docs/aprendizajes.md](../docs/aprendizajes.md) como una afirmación con su evidencia y el tamaño de la muestra. El radar (workflows/radar.md) lo lee antes de proponer temas.
+3. Escribe la conclusión en [docs/referencia/aprendizajes.md](aprendizajes.md) como una afirmación con su evidencia y el tamaño de la muestra. El radar (docs/referencia/radar.md) lo lee antes de proponer temas.
 4. Con menos de 15 piezas no hay conclusiones: dilo en lugar de inventar un patrón.
-5. Recalibra al crítico ciego con las piezas publicadas (docs/critico-ciego.md).
+5. Recalibra al crítico ciego con las piezas publicadas (docs/referencia/critico-ciego.md).
 
 ## El contador de láminas
 

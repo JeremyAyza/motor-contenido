@@ -69,7 +69,7 @@ function today(): string {
  * carrusel logo add <id> --url ... --title ... --source ... --author ...: baja
  * el archivo oficial de un logo que Simple Icons no tiene, le calcula el hash
  * y lo suma a assets/catalog.json (type logo). El archivo queda en .cache/assets,
- * fuera de git: el repo es público (regla 6 y docs/plan-sin-limites.md).
+ * fuera de git: el repo es público (regla 6 y docs/historia/plan-sin-limites.md).
  */
 async function agregarLogo(args: string[]): Promise<number> {
   const [id] = args;
@@ -176,7 +176,7 @@ async function main(): Promise<number> {
         `import { Logo, Nota, Slide } from "@motor/ui";
 
 // No escribas este archivo hasta que la puerta A esté aprobada (brief.json).
-// Lee workflows/carrusel.md y skills/carrusel-taste/SKILL.md antes de diseñar.
+// Lee docs/carrusel.md y skills/carrusel-taste/SKILL.md antes de diseñar.
 // La portada lleva el ancla visual grande (Logo, Icono o Img con ancla).
 // La última lámina es la despedida de brief.json, que cierra la portada, y un solo CTA marcado con data-cta,
 // con el tratamiento visual de post.json → art.cierre (skills/carrusel-taste/cierres.json). Lo de abajo es

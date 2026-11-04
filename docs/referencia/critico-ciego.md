@@ -51,4 +51,4 @@ El crítico solo es confiable si califica como Jeremy. Por eso:
 1. Jeremy califica una vez de 6 a 10 carruseles de cuentas que admira con esta misma rúbrica, en `skills/carrusel-taste/referencias/calibracion.json`.
 2. Las capturas van a `skills/carrusel-taste/referencias/externas/`, que está fuera de git: son de terceros y solo sirven para calibrar.
 3. El crítico califica las mismas capturas sin ver las notas de Jeremy. Si la diferencia promedio por punto es mayor a 0.5, se agregan a este archivo ejemplos de lo que Jeremy valora y se repite.
-4. Se recalibra una vez al mes, con las piezas publicadas y sus métricas (workflows/metricas.md).
+4. Se recalibra una vez al mes, con las piezas publicadas y sus métricas (docs/referencia/metricas.md).

@@ -11,7 +11,7 @@ Con 0 Reel(s) no hay conclusiones todavía: hacen falta al menos 15. Esto es un 
 
 ▲ = por encima de la mediana de la cuenta. Visto % es el tiempo de reproducción promedio sobre la duración del video.
 
-Cómo se lee (workflows/metricas.md):
+Cómo se lee (docs/referencia/metricas.md):
 - **Muchos saltos:** el problema es el gancho, es decir el primer cuadro y la primera frase.
 - **Pocos saltos y poco visto:** el video se cae en el medio.
 - **Mucho alcance y pocos seguidores:** el problema es el perfil, no el video.

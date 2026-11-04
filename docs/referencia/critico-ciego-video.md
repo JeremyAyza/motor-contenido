@@ -77,7 +77,7 @@ El informe va a la puerta A junto con el orden de los ganchos.
 
 ## Quién critica
 
-Jeremy decidió el 27 de octubre de 2026 usar Gemini por defecto, para no gastar la cuota de Claude, y pasar a Sonnet 5.5 si Gemini no llegaba al mínimo ([plan-consumo-y-tiempo.md](plan-consumo-y-tiempo.md), 1.3). La prueba con los dos Reels del 27, contra los informes de Opus, dio esto:
+Jeremy decidió el 27 de octubre de 2026 usar Gemini por defecto, para no gastar la cuota de Claude, y pasar a Sonnet 5.5 si Gemini no llegaba al mínimo ([plan-consumo-y-tiempo.md](../historia/plan-consumo-y-tiempo.md), 1.3). La prueba con los dos Reels del 27, contra los informes de Opus, dio esto:
 
 | Crítico | Modelo | Por qué |
 |---|---|---|
@@ -94,4 +94,4 @@ Jeremy decidió el 27 de octubre de 2026 usar Gemini por defecto, para no gastar
 Es la misma idea que en el carrusel ([critico-ciego.md](critico-ciego.md)): el crítico sirve si califica como Jeremy.
 - **Primero.** Jeremy califica de 6 a 10 Reels de cuentas que admira con [critica-video.md](critica-video.md). Las notas van en `skills/carrusel-taste/referencias/calibracion-video.json`, y los videos de terceros quedan fuera de git.
 - **Mientras tanto.** Hasta que exista esa calibración, el informe es una señal más, no el veredicto.
-- **Una vez al mes.** Se recalibra con los Reels publicados y sus métricas ([metricas-video.md](metricas-video.md)).
+- **Una vez al mes.** Se recalibra con los Reels publicados y sus métricas ([metricas-video.md](../metricas-video.md)).

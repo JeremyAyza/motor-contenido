@@ -6,7 +6,7 @@ import { SCRIPT_FILE, VideoScriptSchema, type VideoScript } from "./script.ts";
 
 /**
  * Metrics of a published Reel (content/<piece>/video-metrics.json), copied
- * from Instagram Insights at 48 hours and at 7 days (workflows/metricas.md).
+ * from Instagram Insights at 48 hours and at 7 days (docs/referencia/metricas.md).
  * The names follow Insights in 2026: Views replaced Plays in April 2025, and
  * the skip rate arrived in 2026. Confirm them when Instagram changes them.
  */
@@ -96,7 +96,7 @@ export function metricsRow(piece: string, metrics: VideoMetrics, script?: VideoS
   };
 }
 
-/** Fewer pieces than this and there are no conclusions, as in workflows/metricas.md. */
+/** Fewer pieces than this and there are no conclusions, as in docs/referencia/metricas.md. */
 export const MIN_PIECES = 15;
 
 /** docs/metricas-video.md, in Spanish. Sorted by shares per reach, the strongest signal. */
@@ -132,7 +132,7 @@ export function metricsReport(rows: MetricsRow[], errors: string[] = []): string
     "",
     "▲ = por encima de la mediana de la cuenta. Visto % es el tiempo de reproducción promedio sobre la duración del video.",
     "",
-    "Cómo se lee (workflows/metricas.md):",
+    "Cómo se lee (docs/referencia/metricas.md):",
     "- **Muchos saltos:** el problema es el gancho, es decir el primer cuadro y la primera frase.",
     "- **Pocos saltos y poco visto:** el video se cae en el medio.",
     "- **Mucho alcance y pocos seguidores:** el problema es el perfil, no el video.",

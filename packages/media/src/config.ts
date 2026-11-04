@@ -12,7 +12,7 @@ export const MediaConfigSchema = z.object({
   review: z
     .object({ provider: z.string(), model: z.string().optional() })
     .default({ provider: "gemini" })
-    .describe("The blind critic of video:critique --gemini (docs/critico-ciego-video.md)"),
+    .describe("The blind critic of video:critique --gemini (docs/referencia/critico-ciego-video.md)"),
   sounds: z.array(z.string()).default(["openverse", "freesound"]).describe("Sound libraries searched by video:asset, in order"),
 });
 export type MediaConfig = z.infer<typeof MediaConfigSchema>;

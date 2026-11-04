@@ -1,6 +1,6 @@
 # packages/media
 
-Voz, imágenes, música, alineación de palabras y recursos de terceros para los videos. El código va en inglés y no importa de otros paquetes. El plan está en [docs/plan-videos.md](../../docs/plan-videos.md).
+Voz, imágenes, música, alineación de palabras y recursos de terceros para los videos. El código va en inglés y no importa de otros paquetes. El plan está en [docs/historia/plan-videos.md](../../docs/historia/plan-videos.md).
 
 ## Puertos y adaptadores
 

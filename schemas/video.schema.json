@@ -7,7 +7,7 @@
     },
     "format": {
       "default": "corto",
-      "description": "The format, which sets the length the gate A sheet and the inspector check: corto (30 to 60 s), explicado (75 to 100 s, on trial) or largo (90 to 180 s, an explainer of several points with something changing every second, docs/plan-paridad-rick.md)",
+      "description": "The format, which sets the length the gate A sheet and the inspector check: corto (30 to 60 s), explicado (75 to 100 s, on trial) or largo (90 to 180 s, an explainer of several points with something changing every second, docs/historia/plan-paridad-rick.md)",
       "type": "string",
       "enum": [
         "corto",
@@ -362,7 +362,7 @@
           "maxLength": 40
         },
         "contador": {
-          "description": "Experimento: muestra n/N en el pie de las láminas interiores. Se decide con las métricas (workflows/metricas.md)",
+          "description": "Experimento: muestra n/N en el pie de las láminas interiores. Se decide con las métricas (docs/referencia/metricas.md)",
           "type": "boolean"
         },
         "cierre": {

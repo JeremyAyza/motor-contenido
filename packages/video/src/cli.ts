@@ -183,7 +183,7 @@ function deal(args: string[]): void {
 /** Where the music bed comes from: a file of the piece (video:music) or a catalog asset. */
 async function musicFor(video: VideoDef, dir: string, out: string, catalog: Catalog): Promise<TimelineMusic | undefined> {
   if (!video.music) return undefined;
-  // Low under the voice: it is a bed, not a track (docs/direccion-reels.md).
+  // Low under the voice: it is a bed, not a track (docs/historia/direccion-reels.md).
   const { file, asset, volume = 0.06 } = video.music;
   if (!file === !asset) throw new VideoError("video.tsx → music needs either file (a file of the piece) or asset (an id of the catalog)");
   let source: string;
@@ -278,7 +278,7 @@ function topicWarnings(piece: string, videoScript: VideoScript): string[] {
   if (!videoScript.topic) return ["Falta video.json → topic: sin el tema no se puede avisar si se repite uno de las últimas dos semanas"];
   return recentSimilar(join(REPO_ROOT, "content"), piece, videoScript.topic).map(
     (other) =>
-      `El tema se parece al de ${other.piece} ("${other.topic}"), de los últimos ${REPEAT_DAYS} días. Al referente, repetir un tema a los pocos días le costó 10 veces menos vistas (docs/analisis-rick-theengineer.md)`,
+      `El tema se parece al de ${other.piece} ("${other.topic}"), de los últimos ${REPEAT_DAYS} días. Al referente, repetir un tema a los pocos días le costó 10 veces menos vistas (docs/referencia/analisis-rick-theengineer.md)`,
   );
 }
 
@@ -293,7 +293,7 @@ function script(args: string[]): void {
   for (const w of warnings) console.log(`Aviso: ${w}`);
   console.log(`Gate A: ${videoScript.gateA.approved ? "approved" : "pending"}. Sheet for the person: ${sheet}`);
   if (!videoScript.gateA.approved) console.log(`Storyboard for the sheet, without a voice: npm run video:storyboard -- ${args[0]}`);
-  console.log(`Blind hook critic (a fresh context, docs/critico-ciego-video.md): ${writeHookCritic(dir, videoScript)}`);
+  console.log(`Blind hook critic (a fresh context, docs/referencia/critico-ciego-video.md): ${writeHookCritic(dir, videoScript)}`);
 }
 
 async function critique(args: string[]): Promise<void> {
@@ -313,7 +313,7 @@ async function critique(args: string[]): Promise<void> {
     console.log(`Blind critic folder (${prepared.files.length} files): ${folder}`);
   }
   if (!args.includes("--gemini")) {
-    console.log("Give only that folder to a fresh context (docs/critico-ciego-video.md). It writes informe.md there.");
+    console.log("Give only that folder to a fresh context (docs/referencia/critico-ciego-video.md). It writes informe.md there.");
     return;
   }
   // The critic of media.config.json → review watches the folder in one request, with no context of the design.

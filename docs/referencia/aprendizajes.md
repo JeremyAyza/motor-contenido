@@ -1,6 +1,6 @@
 # Aprendizajes
 
-Lo que las métricas de esta cuenta dicen que funciona. Lo escribe la revisión mensual de [workflows/metricas.md](../workflows/metricas.md) y lo lee el radar ([workflows/radar.md](../workflows/radar.md)) antes de proponer temas.
+Lo que las métricas de esta cuenta dicen que funciona. Lo escribe la revisión mensual de [docs/referencia/metricas.md](metricas.md) y lo lee el radar ([docs/referencia/radar.md](radar.md)) antes de proponer temas.
 
 Cada aprendizaje es una afirmación con su evidencia y el tamaño de la muestra. Con menos de 15 piezas publicadas no se escribe ninguno.
 

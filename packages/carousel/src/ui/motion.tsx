@@ -2,7 +2,7 @@ import type { CSSProperties, ReactNode } from "react";
 import { cx } from "./cx.ts";
 
 /**
- * Movimiento (experimento, workflows/carrusel.md): una lámina con algo animado
+ * Movimiento (experimento, docs/carrusel.md): una lámina con algo animado
  * sale también como MP4. Las animaciones son CSS que el render pasa cuadro a
  * cuadro; la lámina fija y la que mira el inspector son el último cuadro, así
  * que todo tiene que verse completo al final. Tiempos en segundos desde que

@@ -3,7 +3,7 @@ import { join } from "node:path";
 
 /*
  * Repeated topics. The reference account lost 10 times the views when it
- * repeated a topic a few days later (docs/analisis-rick-theengineer.md), so
+ * repeated a topic a few days later (docs/referencia/analisis-rick-theengineer.md), so
  * video:script warns when a piece of the last two weeks had a similar topic.
  */
 

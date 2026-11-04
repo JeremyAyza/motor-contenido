@@ -218,7 +218,7 @@
           "maxLength": 40
         },
         "contador": {
-          "description": "Experimento: muestra n/N en el pie de las láminas interiores. Se decide con las métricas (workflows/metricas.md)",
+          "description": "Experimento: muestra n/N en el pie de las láminas interiores. Se decide con las métricas (docs/referencia/metricas.md)",
           "type": "boolean"
         },
         "cierre": {

@@ -1,5 +1,5 @@
 {
-  "nota": "Catálogo de recursos visuales del carrusel (workflows/carrusel.md, pasos 4 y 9). Cada lámina interior lleva uno: se elige en el esqueleto del brief (esqueleto[].visual), la persona lo aprueba en la puerta A y se dibuja con las primitivas de @motor/ui. El recurso explica, no adorna: si se puede borrar sin perder nada, no es un recurso. Los ejemplos muestran la forma; no se copian.",
+  "nota": "Catálogo de recursos visuales del carrusel (docs/carrusel.md, pasos 4 y 9). Cada lámina interior lleva uno: se elige en el esqueleto del brief (esqueleto[].visual), la persona lo aprueba en la puerta A y se dibuja con las primitivas de @motor/ui. El recurso explica, no adorna: si se puede borrar sin perder nada, no es un recurso. Los ejemplos muestran la forma; no se copian.",
   "recursos": [
     {
       "id": "proceso",

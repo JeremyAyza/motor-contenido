@@ -1,6 +1,6 @@
 # packages/video
 
-El flujo de video con Remotion 4.0.537. El código va en inglés. El plan está en [docs/plan-videos.md](../../docs/plan-videos.md) y el paso a paso en [workflows/video.md](../../workflows/video.md).
+El flujo de video con Remotion 4.0.537. El código va en inglés. El plan está en [docs/historia/plan-videos.md](../../docs/historia/plan-videos.md) y el paso a paso en [docs/reel.md](../../docs/reel.md).
 
 ## Comandos
 

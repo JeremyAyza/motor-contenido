@@ -14,7 +14,7 @@ export function prepararPublicacion(dir: string): { manifest: Manifest; file: st
   const post = PostSchema.parse(JSON.parse(readFileSync(join(dir, "post.json"), "utf8")));
   const problemas: string[] = [];
   if (!post.puertaB.aprobado) {
-    problemas.push("La puerta B no está aprobada: muéstrale la pieza a la persona y anota su sí en post.json → puertaB (workflows/carrusel.md, paso 13)");
+    problemas.push("La puerta B no está aprobada: muéstrale la pieza a la persona y anota su sí en post.json → puertaB (docs/carrusel.md, paso 13)");
   }
 
   const outDir = join(dir, "out");

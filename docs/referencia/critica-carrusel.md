@@ -1,6 +1,6 @@
 # Crítica de un carrusel
 
-La hace el **crítico ciego** ([docs/critico-ciego.md](critico-ciego.md)): un contexto nuevo que solo ve lo que vería alguien en Instagram. Quien diseñó la pieza no se califica a sí mismo.
+La hace el **crítico ciego** ([docs/referencia/critico-ciego.md](critico-ciego.md)): un contexto nuevo que solo ve lo que vería alguien en Instagram. Quien diseñó la pieza no se califica a sí mismo.
 
 Mira las imágenes, no el código. Si un problema se ve en `revision.png` o en un PNG, es real. `revision.png` muestra las láminas a un tamaño parecido al de un celular: juzga la legibilidad ahí. `pulgar.png` muestra la portada como miniatura del perfil: juzga el ancla ahí.
 
@@ -15,7 +15,7 @@ Califica cada punto de 1 a 5 y escribe una línea de por qué.
 | Valor | 15% | El lector se lleva algo que puede usar o una lectura que no tenía |
 | Compartible | 10% | Hay una lámina que alguien mandaría por DM: un resumen, un dato o una comparación que se entiende sin contexto |
 | Cierre y CTA | 10% | La última lámina cierra lo que abrió la portada y pide una sola acción, específica del tema (no "compártelo con quien lo necesite"). Un cierre que podría ir en cualquier otro carrusel no pasa de 3 |
-| Voz | 5% | Suena a [docs/voz.md](voz.md), no a un texto genérico de IA |
+| Voz | 5% | Suena a [docs/referencia/voz.md](voz.md), no a un texto genérico de IA |
 | Legibilidad en el celular | 10% | Todo se lee en `revision.png` sin hacer zoom |
 | Ancla y dirección | 10% | En `pulgar.png` se sabe el tema sin leer; la dirección de arte se nota en todo el carrusel |
 | Progresión y recurso visual | 10% | Cada lámina avanza el argumento y se entiende antes de leer el párrafo: el diagrama, el dato, la metáfora o la captura explican. Tiene una sola cosa que se ve primero y ninguna sobra. Un carrusel de titulares con párrafo y caja no pasa de 3 |

@@ -1,6 +1,6 @@
 # publisher
 
-CLI que publica una pieza ya aprobada en una red social y lleva un registro de qué se subió, dónde y cuándo. Maneja tu Chrome con Playwright y una sesión guardada por cuenta, con pausas aleatorias entre acciones. No importa nada de otros paquetes, así que sirve para cualquier proyecto que le pase imágenes y un texto. El plan está en [docs/plan-publicar.md](../../docs/plan-publicar.md).
+CLI que publica una pieza ya aprobada en una red social y lleva un registro de qué se subió, dónde y cuándo. Maneja tu Chrome con Playwright y una sesión guardada por cuenta, con pausas aleatorias entre acciones. No importa nada de otros paquetes, así que sirve para cualquier proyecto que le pase imágenes y un texto. El plan está en [docs/historia/plan-publicar.md](../../docs/historia/plan-publicar.md).
 
 Plataformas con adaptador: Instagram. `mark` registra cualquier plataforma.
 

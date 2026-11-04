@@ -64,7 +64,7 @@ export type SceneDef = {
 };
 
 /**
- * A world that lasts the whole video (docs/plan-piloto-automatico.md, phase
+ * A world that lasts the whole video (docs/historia/plan-piloto-automatico.md, phase
  * 1): mounted once, under the frame, with a camera that moves between the
  * scenes' shots instead of cutting. Its components time themselves on the
  * whole video with useStage() and useStageCue(); the carousel primitives'
@@ -153,7 +153,7 @@ export type VideoDef = {
   /**
    * Which parts of the frame show: the file tab, the dot texture and the
    * signature. All on by default; a piece turns some off for full-bleed
-   * scenes (docs/direccion-reels.md). It is per piece, not a rule.
+   * scenes (docs/historia/direccion-reels.md). It is per piece, not a rule.
    */
   frame?: { tab?: boolean; dots?: boolean; signature?: boolean };
   scenes: SceneDef[];

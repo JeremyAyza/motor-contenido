@@ -389,11 +389,11 @@ export async function renderPiece(dir: string): Promise<{ files: string[]; issue
   const issues: Issue[] = [];
   const files: string[] = [];
 
-  // Paso 0: brief editorial y puerta A (workflows/carrusel.md).
+  // Paso 0: brief editorial y puerta A (docs/carrusel.md).
   const load = loadBrief(dir);
   let brief: Brief | null = null;
   if (load.status === "sin-brief") {
-    issues.push({ level: "aviso", where: "brief", message: "Sin brief.json: pieza anterior al paso 0 (workflows/carrusel.md)" });
+    issues.push({ level: "aviso", where: "brief", message: "Sin brief.json: pieza anterior al paso 0 (docs/carrusel.md)" });
   } else if (load.status === "invalido") {
     for (const e of load.errors) issues.push({ level: "error", where: "brief", message: e });
   } else {
@@ -509,7 +509,7 @@ export async function renderPiece(dir: string): Promise<{ files: string[]; issue
     issues.push({
       level: "aviso",
       where: "movimiento",
-      message: `${animadas.size} láminas animadas: el experimento pide 1 o 2 por pieza, en la portada o en el recurso clave (workflows/carrusel.md)`,
+      message: `${animadas.size} láminas animadas: el experimento pide 1 o 2 por pieza, en la portada o en el recurso clave (docs/carrusel.md)`,
     });
   }
 
@@ -520,7 +520,7 @@ export async function renderPiece(dir: string): Promise<{ files: string[]; issue
     issues.push({
       level: "error",
       where: lastWhere,
-      message: "La última lámina no tiene CTA: marca el llamado a la acción con data-cta (workflows/carrusel.md, el cierre)",
+      message: "La última lámina no tiene CTA: marca el llamado a la acción con data-cta (docs/carrusel.md, el cierre)",
     });
   } else if (brief && normalize(lastCta) !== normalize(brief.cta.texto)) {
     issues.push({ level: "aviso", where: lastWhere, message: `El CTA de la lámina ("${lastCta}") no es el del brief ("${brief.cta.texto}")` });

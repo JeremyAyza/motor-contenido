@@ -1,6 +1,6 @@
 # Crítica de un video
 
-La hace el **crítico ciego** ([docs/critico-ciego-video.md](critico-ciego-video.md)): un contexto nuevo que solo ve y oye lo que le llegaría a alguien en Instagram. Quien hizo el video no se califica a sí mismo.
+La hace el **crítico ciego** ([docs/referencia/critico-ciego-video.md](critico-ciego-video.md)): un contexto nuevo que solo ve y oye lo que le llegaría a alguien en Instagram. Quien hizo el video no se califica a sí mismo.
 
 Mira el video o las tiras, no el código. Si un problema se ve en una tira, en `hoja.png` o en `video.mp4`, es real:
 - **La interfaz.** El video no lleva encima la interfaz de Instagram, y el diseño usa todo el lienzo con 36 px de margen, sin esquivar los botones: es una decisión fija de la cuenta y no se juzga.
@@ -18,7 +18,7 @@ Califica cada punto de 1 a 5 y escribe una línea de por qué.
 | Retención | 10% | No hay un momento en que te irías: algo cambia en pantalla con cada idea, ninguna parte se estira y termina antes de cansar |
 | Compartible | 10% | Hay un momento que alguien mandaría por DM: un dato, una comparación o una frase que se entiende sin el resto |
 | Cierre y CTA | 10% | El final cumple lo que prometió el gancho y pide una sola acción, específica del tema. Si la última frase vuelve al gancho, verlo otra vez se siente natural. Un cierre que podría ir en cualquier otro video no pasa de 3 |
-| Voz y guion | 5% | Suena dicho, no leído: frases cortas, como en [docs/voz.md](voz.md), y la voz no tropieza ni corre |
+| Voz y guion | 5% | Suena dicho, no leído: frases cortas, como en [docs/referencia/voz.md](voz.md), y la voz no tropieza ni corre |
 | Legibilidad en el celular | 10% | Los subtítulos y el texto en pantalla se leen a tamaño de celular, sin choques ni textos encimados |
 | Recurso visual y composición | 10% | Cada parte explica con un dibujo, un dato o una metáfora antes de que lo diga la voz. Hay una sola cosa que se ve primero, y la imagen usa todo el lienzo, sin un hueco grande |
 

@@ -25,7 +25,7 @@ Estas reglas adaptan al formato carrusel los principios de [Taste Skill](https:/
 | Letra chica en el cuerpo (menos de 32px reales) | Menos texto y más grande; la letra chica es solo para fuente y fecha, con `<Nota>` |
 | Un cierre genérico ("compártelo con quien lo necesite", "sígueme para más") | Una despedida que cierra la portada y un CTA que nombra la situación concreta |
 | Dos peticiones en el cierre o en el texto del post | Una sola, la misma en la lámina y en el texto |
-| Láminas de titular, párrafo y caja, una detrás de otra | El recurso visual de `esqueleto[].visual` ([recursos.json](../skills/carrusel-taste/recursos.json)), grande |
+| Láminas de titular, párrafo y caja, una detrás de otra | El recurso visual de `esqueleto[].visual` ([recursos.json](../../skills/carrusel-taste/recursos.json)), grande |
 | Media lámina vacía debajo del texto | Un recurso que la ocupe o el contenido repartido |
 | Una metáfora que solo comparte el nombre ("la IA es un cerebro") | Una que copie la estructura: qué entra, qué se pierde, qué cuesta |
 | Animación de adorno: todo entra fundido o rebota sin motivo | Animar solo lo que explica (el recorrido, el orden, la barra que crece), en una o dos láminas |
@@ -42,8 +42,8 @@ Estas reglas adaptan al formato carrusel los principios de [Taste Skill](https:/
 
 ## Texto
 
-- Español neutro, en la voz de [docs/voz.md](voz.md).
-- Sin guiones largos (—) ni frases de relleno. La lista completa está en [skills/ig-es/slop-es.json](../skills/ig-es/slop-es.json): la usan el inspector (láminas) y el humanizador de `ig-human` (texto del post). Ejemplos: "potenciar", "sumérgete", "en el mundo actual", "cabe destacar que", "sin lugar a dudas", "un antes y un después", "al siguiente nivel", "revolucionario", "increíble".
+- Español neutro, en la voz de [docs/referencia/voz.md](voz.md).
+- Sin guiones largos (—) ni frases de relleno. La lista completa está en [skills/ig-es/slop-es.json](../../skills/ig-es/slop-es.json): la usan el inspector (láminas) y el humanizador de `ig-human` (texto del post). Ejemplos: "potenciar", "sumérgete", "en el mundo actual", "cabe destacar que", "sin lugar a dudas", "un antes y un después", "al siguiente nivel", "revolucionario", "increíble".
 - Sin las estructuras que delatan a un modelo: "No es solo X, es Y", "No se trata de X, se trata de Y", tríadas ("rápido, barato y fácil."), "¿El resultado?" en una línea, "Spoiler:", "¿Sabías que...?", "Todo lo que necesitas saber", preguntas genéricas de cierre ("¿Qué opinas?") y cebos ("etiqueta a alguien", "compártelo con quien lo necesite"). El render las marca en el texto y en las láminas.
 - Verbos concretos y números con fuente. Nada de testimonios, cifras ni clientes inventados.
 - Cada lámina responde a una sola afirmación del argumento.

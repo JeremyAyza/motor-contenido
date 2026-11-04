@@ -72,7 +72,7 @@ export const BriefSchema = z.object({
   queGana: z.string().trim().min(10).describe("Qué se lleva el lector: aprende a..., decide..., evita..."),
   objetivo: z.enum(OBJETIVOS),
   compartirCon: z.string().trim().min(10).describe("A quién se lo mandaría el lector, con su situación concreta"),
-  toma: z.string().trim().optional().describe("La opinión de la persona, si la hay (docs/voz.md, posturas)"),
+  toma: z.string().trim().optional().describe("La opinión de la persona, si la hay (docs/referencia/voz.md, posturas)"),
   ganchos: z.array(GanchoSchema).min(8).max(12).describe("De 8 a 10 candidatos de al menos 4 fórmulas distintas"),
   ganchoElegido: z.string().trim().optional().describe("El gancho que eligió la persona en la puerta A"),
   esqueleto: z

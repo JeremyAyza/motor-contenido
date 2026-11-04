@@ -12,7 +12,7 @@ export type ReviewResult = { text: string };
 
 /**
  * Port: a model that watches what a person would see and writes a review (the
- * blind critic, docs/critico-ciego-video.md). One adapter per provider in providers/.
+ * blind critic, docs/referencia/critico-ciego-video.md). One adapter per provider in providers/.
  */
 export interface ReviewProvider {
   readonly id: string;

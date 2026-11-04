@@ -1,5 +1,5 @@
 {
-  "nota": "Catálogo del cierre del carrusel (workflows/carrusel.md, paso 4 y paso 9). Cada pieza elige una jugada de despedida y una forma de CTA (en brief.json) y un tratamiento visual del CTA (en post.json → art.cierre). carrusel:brief y el render avisan si se repiten los de las dos piezas anteriores de la cuenta. Los ejemplos muestran la forma; no se copian.",
+  "nota": "Catálogo del cierre del carrusel (docs/carrusel.md, paso 4 y paso 9). Cada pieza elige una jugada de despedida y una forma de CTA (en brief.json) y un tratamiento visual del CTA (en post.json → art.cierre). carrusel:brief y el render avisan si se repiten los de las dos piezas anteriores de la cuenta. Los ejemplos muestran la forma; no se copian.",
   "despedidas": [
     {
       "id": "vuelta-a-la-portada",
@@ -16,7 +16,7 @@
     {
       "id": "el-veredicto",
       "nombre": "El veredicto",
-      "como": "La tesis en una frase, dicha como opinión de Jeremy (docs/voz.md, posturas).",
+      "como": "La tesis en una frase, dicha como opinión de Jeremy (docs/referencia/voz.md, posturas).",
       "ejemplo": "\"Para un equipo chico, todavía no.\""
     },
     {

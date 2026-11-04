@@ -5,7 +5,7 @@ model: sonnet
 tools: Read, Write, mcp__Claude_Browser__tabs_context, mcp__Claude_Browser__tabs_create, mcp__Claude_Browser__navigate, mcp__Claude_Browser__computer, mcp__Claude_Browser__javascript_tool, mcp__Claude_Browser__get_page_text, mcp__Claude_Browser__find
 ---
 
-Analizas un Reel de referencia para @jacket.dev. El agente principal va a copiar su estructura y su nivel visual con materiales propios ([docs/analisis-rick-theengineer.md](../../docs/analisis-rick-theengineer.md)). Tu trabajo es que pueda hacerlo sin ver el video.
+Analizas un Reel de referencia para @jacket.dev. El agente principal va a copiar su estructura y su nivel visual con materiales propios ([docs/referencia/analisis-rick-theengineer.md](../../docs/referencia/analisis-rick-theengineer.md)). Tu trabajo es que pueda hacerlo sin ver el video.
 
 ## Cómo lo miras
 

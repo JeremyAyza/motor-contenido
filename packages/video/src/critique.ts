@@ -8,7 +8,7 @@ import { estimateWords, type VideoScript } from "./script.ts";
 import { timelineMs, type Timeline } from "./timeline.ts";
 
 /**
- * The folders for the blind critic (docs/critico-ciego-video.md): only what
+ * The folders for the blind critic (docs/referencia/critico-ciego-video.md): only what
  * someone on Instagram would see and hear, without video.json, video.tsx or
  * the reasons behind the design. The brief goes apart, for step 2.
  */
@@ -74,7 +74,7 @@ export function writeHookCritic(dir: string, script: VideoScript): string {
     [
       "# Crítico ciego: ganchos del video",
       "",
-      section("docs/critico-ciego-video.md", "Ganchos"),
+      section("docs/referencia/critico-ciego-video.md", "Ganchos"),
       "## Material",
       "",
       `- Tema: ${topicOf(dir)}`,
@@ -110,8 +110,8 @@ export function prepareCritique(dir: string, script: VideoScript, timeline: Time
   if (script.caption) writeFileSync(join(folder, "texto-del-post.txt"), `${script.caption}\n`);
 
   const strips = stripCoverage(timelineMs(timeline)).filter((s) => existsSync(join(folder, s.file)));
-  const prompt = readFileSync(join(REPO_ROOT, "docs/critico-ciego-video.md"), "utf8");
-  const rubric = readFileSync(join(REPO_ROOT, "docs/critica-video.md"), "utf8");
+  const prompt = readFileSync(join(REPO_ROOT, "docs/referencia/critico-ciego-video.md"), "utf8");
+  const rubric = readFileSync(join(REPO_ROOT, "docs/referencia/critica-video.md"), "utf8");
   writeFileSync(
     join(folder, "LEEME.md"),
     [
@@ -178,13 +178,13 @@ export function prepareScriptCritique(dir: string, script: VideoScript): { folde
   const storyboard = join(dir, "out", "storyboard.png");
   if (existsSync(storyboard)) copyFileSync(storyboard, join(folder, "storyboard.png"));
   if (script.caption) writeFileSync(join(folder, "texto-del-post.txt"), `${script.caption}\n`);
-  const rubric = readFileSync(join(REPO_ROOT, "docs/critica-video.md"), "utf8");
+  const rubric = readFileSync(join(REPO_ROOT, "docs/referencia/critica-video.md"), "utf8");
   writeFileSync(
     join(folder, "LEEME.md"),
     [
       "# Crítico ciego: el guion del video",
       "",
-      section("docs/critico-ciego-video.md", "Guion"),
+      section("docs/referencia/critico-ciego-video.md", "Guion"),
       "---",
       "",
       rubric,
