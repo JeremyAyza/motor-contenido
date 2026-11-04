@@ -38,6 +38,7 @@ import { cachedBundle, scenesRange, secondsToFrames, sceneFrames } from "./bundl
 import { checkPiece, grammarRedefinitions } from "./check.ts";
 import { freeze, harvest, libraryIndex, match, reuseNote } from "./library-commands.ts";
 import { freezeWarnings } from "./library.ts";
+import { nextChat, pieceState } from "./phase.ts";
 import type { VideoDef } from "./kit/index.ts";
 import { assetCommand, flag, imageCommand, musicCommand } from "./media-commands.ts";
 import { inspectComposition, inspectFrames, inspectFreezes, inspectLoudness, inspectTimeline, measureLoudness, normalizeLoudness, probeServer, sceneEntering, reviewSheet, sheetFrames, cameraMoving, type Issue } from "./inspector.ts";
@@ -88,6 +89,9 @@ const USAGE = `Usage:
       After gate B, agy proposes new scenes of the piece as candidates (packages/video/library/candidatas/).
   npm run video:biblioteca
       Writes packages/video/library/README.md from the grammar and the fichas.
+  npm run video:fase -- content/<piece>
+      Where the Reel is (creative, production, critic, ready), the effort to open its next chat with
+      and the exact message to paste there.
   npm run video:critique -- content/<piece> [--guion] [--gemini] [--forzar]
       The folder for the blind critic (content/<piece>/out/video-critica/), after video:render.
       One round; a second only if the first scored under 3 somewhere or found a grave error, never a
@@ -589,6 +593,13 @@ function typecheck(dir: string): void {
   for (const warning of grammarRedefinitions(dir)) console.log(`Aviso: ${warning}`);
 }
 
+function phase(args: string[]): void {
+  if (!args[0]) throw new VideoError(`Missing the piece folder\n\n${USAGE}`);
+  const dir = resolve(args[0]);
+  const next = nextChat(dir, pieceState(dir));
+  console.log(`Phase: ${next.phase}. Open a new chat with Opus at effort "${next.effort}" and paste:\n\n${next.message}\n`);
+}
+
 function check(args: string[]): void {
   const { dir } = pieceDir(args[0], ["video.tsx"]);
   typecheck(dir);
@@ -858,6 +869,7 @@ async function main(): Promise<void> {
   else if (command === "emparejar") match(args);
   else if (command === "cosechar") harvest(args);
   else if (command === "biblioteca") libraryIndex();
+  else if (command === "fase") phase(args);
   else if (command === "critique") await critique(args);
   else if (command === "baraja") deal(args);
   else if (command === "capture") capture(args);

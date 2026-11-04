@@ -19,16 +19,15 @@ No cambian sin su sí en el chat. Una elección para una pieza no se vuelve regl
 
 ## Cómo se trabaja
 
-- **Un chat nuevo por Reel,** nunca a continuación de otro Reel ni después de un `/compact`. El traspaso entre chats es `content/<pieza>/estado.md`, no la conversación: la fase, el paso siguiente, las decisiones de Jeremy con sus palabras, lo que se probó y no funcionó, y lo pendiente para el motor.
-- **Los cambios al motor** (kit, inspector, comandos) no se hacen a mitad de una pieza: se anotan en `estado.md` y van en su propia sesión.
-- **Modo directo.** Si Jeremy dice "no me pidas aprobaciones", el Reel va de corrido en un solo chat: sin storyboard ni hoja de la puerta A, y las dos puertas se anotan con su frase en `notes`. Publicar sigue siendo otro pedido (regla 12).
-- **Lo creativo lo hace el agente principal:** el ángulo, la tesis, los ganchos, el guion, el mundo, la dirección de arte y `video.tsx`. Lo demás se delega:
+- **Un chat nuevo por Reel,** nunca a continuación de otro ni después de un `/compact`. Con aprobaciones son dos chats: **lo creativo en esfuerzo extra alto** (hasta la puerta A) y **la producción en alto**. En modo directo ("no me pidas aprobaciones") es uno solo, en alto, sin storyboard ni hoja de la puerta A, y las dos puertas se anotan con su frase en `notes`; publicar sigue siendo otro pedido. El esfuerzo lo elige Jeremy al abrir el chat: `npm run video:fase -- content/<pieza>` dice en qué fase está la pieza, con qué esfuerzo abrir el siguiente y el mensaje exacto para pegar.
+- **El traspaso es `content/<pieza>/estado.md`,** no la conversación: la fase, el paso siguiente, las decisiones de Jeremy con sus palabras, lo que no funcionó y lo pendiente para el motor. Los cambios al motor no se hacen a mitad de una pieza.
+- **El agente principal (Opus) hace lo creativo y nada mecánico:** el ángulo, la tesis, los ganchos, el guion, el guion visual, el mundo, la dirección de arte y las escenas nuevas. Si un paso cabe en una especificación cerrada (un margen, un tamaño, renombrar, extraer, conectar una escena de la biblioteca), escribe la especificación y la manda a `npm run agy` en segundo plano. No escribe scripts de parches.
 
 | Paso | Quién |
 |---|---|
 | Fuentes | Subagente `buscador-fuentes` (Sonnet 5.5): deja `facts.json` y responde una línea por dato |
 | Análisis del Reel de referencia | Subagente `analista-referente` (Sonnet 5.5): deja `referente.md` |
-| Arreglos mecánicos y revisión de cuadros | `npm run agy` ([referencia](referencia/agy.md)) |
+| Arreglos mecánicos, revisión de cuadros, emparejar y cosechar | `npm run agy` (Gemini 3.8 Flash; [referencia](referencia/agy.md)); si falla, un subagente Sonnet 5.5 |
 | Crítica del guion | Gemini (`video:critique --guion --gemini`) |
 | Crítica del video | Subagente `critico-ciego-video` (Sonnet 5.5), con un contexto nuevo |
 
@@ -108,7 +107,7 @@ Decidido con Jeremy el 3 de noviembre de 2026: la biblioteca no limita lo creati
 
 ## El inspector
 
-Lee lo que el render dibujó: la composición le pasa el texto de un cuadro cada medio segundo, con su posición, su tamaño y su opacidad.
+Lee lo que el render dibujó: el texto de un cuadro cada medio segundo, con su posición, tamaño y opacidad.
 
 **Errores** (bloquean la puerta B):
 - texto fuera del margen (36 px de diseño a cada lado, entre la pestaña y los subtítulos, que van de y 812 a 880);
@@ -129,7 +128,7 @@ Cada aviso es un error salvo que se pueda defender en una frase.
 - **Cualquier cuadro congelado se puede publicar:** sin dobles exposiciones en los cambios.
 - **El cierre se puede capturar** (una tabla, una pila, un ciclo) y lleva un solo CTA.
 - **Datos:** cada cifra sale de `facts.json`. Una interfaz de ejemplo se rotula "Ejemplo ilustrativo"; lo que muestra una `Terminal` sale de `video:capture`.
-- **Recursos de terceros:** solo los de `assets/catalog.json`, con licencia revisada y `sha256`. Imágenes y música generadas (`video:image`, `video:music`) se pagan: no se repiten ni se hacen variantes que nadie pidió.
+- **Recursos de terceros:** solo los de `assets/catalog.json`, con licencia revisada y `sha256`. Las imágenes y la música generadas (`video:image`, `video:music`) se pagan: solo cuando hacen falta.
 
 ## Comandos del Reel
 

@@ -38,6 +38,7 @@
     "video:emparejar": "tsx packages/video/src/cli.ts emparejar",
     "video:cosechar": "tsx packages/video/src/cli.ts cosechar",
     "video:biblioteca": "tsx packages/video/src/cli.ts biblioteca",
+    "video:fase": "tsx packages/video/src/cli.ts fase",
     "video:publicar": "tsx packages/video/src/cli.ts publicar",
     "video:image": "tsx packages/video/src/cli.ts image",
     "video:music": "tsx packages/video/src/cli.ts music",
