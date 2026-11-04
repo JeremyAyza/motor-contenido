@@ -3,7 +3,7 @@ import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { after, describe, it } from "node:test";
-import { reviewRequest, scriptSheet, stripCoverage, transcript } from "../src/critique.ts";
+import { nextRound, reportScores, reportsGraveError, reviewRequest, scriptSheet, stripCoverage, transcript } from "../src/critique.ts";
 import type { VideoScript } from "../src/script.ts";
 import type { Timeline } from "../src/timeline.ts";
 
@@ -82,5 +82,32 @@ describe("reviewRequest", () => {
     );
     assert.match(prompt, /1\. video\.mp4\n2\. hoja\.png\n3\. transcripcion\.md\n4\. paso-2-brief\.md/);
     assert.match(prompt, /La rúbrica\.$/);
+  });
+});
+
+describe("the rounds of the blind critic", () => {
+  const report = [
+    "| Punto | Peso | Puntaje | Por qué |",
+    "|---|---|---|---|",
+    "| Gancho | 15% | 4 | Se ve en el cuadro 1 |",
+    "| Retención | 10% | 3 | Tramos que no responden al gancho |",
+    "| Voz y guion | 5% | 4 | Frases cortas |",
+    "",
+    "Error grave: no",
+  ].join("\n");
+
+  it("reads the scores of the table and the grave error line", () => {
+    assert.deepEqual(reportScores(report), [4, 3, 4]);
+    assert.equal(reportsGraveError(report), false);
+    assert.equal(reportsGraveError("Error grave: sí, la cifra de 2:10 no tiene fuente"), true);
+    assert.equal(reportsGraveError("**Error grave:** Sí. Un logo deformado"), true);
+  });
+
+  it("allows one round, a second only under 3 or with a grave error, never a third", () => {
+    assert.equal(nextRound([]).allowed, true);
+    assert.equal(nextRound([{ date: "d", scores: [4, 3, 4], grave: false }]).allowed, false);
+    assert.equal(nextRound([{ date: "d", scores: [4, 2, 4], grave: false }]).allowed, true);
+    assert.equal(nextRound([{ date: "d", scores: [4, 4], grave: true }]).allowed, true);
+    assert.equal(nextRound([{ date: "d", scores: [2], grave: false }, { date: "d", scores: [2], grave: true }]).allowed, false);
   });
 });

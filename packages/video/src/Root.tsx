@@ -1,6 +1,6 @@
 import { Composition } from "remotion";
 import { calculatePieceMetadata, PieceVideo } from "./PieceVideo.tsx";
-import { PIECES } from "./pieces.ts";
+import { PIECES } from "@motor/pieces";
 import { FPS, HEIGHT, WIDTH } from "./timeline.ts";
 
 /**

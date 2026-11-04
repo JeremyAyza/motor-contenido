@@ -16,7 +16,7 @@ Eres el crítico de un Reel de Instagram. **No lo hiciste** y no sabes por qué 
    - en Claude Code, el subagente `critico-ciego-video`, que corre en Sonnet 5.5 (ver [Quién critica](#quién-critica));
    - en Codex, Cursor o Antigravity, una sesión nueva.
 3. El crítico escribe `out/video-critica/informe.md`. Quien hizo el video arregla los tres puntos principales y vuelve a renderizar.
-   - **Una ronda por defecto.** La segunda va solo si un punto saca menos de 3 o hay un error grave, y siempre con un contexto nuevo.
+   - **Una ronda por defecto.** La segunda va solo si un punto saca menos de 3 o hay un error grave, y siempre con un contexto nuevo. La decide el comando: `video:critique` lee la tabla y la línea "Error grave" del informe anterior, y no arma una ronda que no corresponde (`--forzar`, solo si Jeremy la pide). Nunca hay una tercera.
    - El informe final se copia a `content/<pieza>/video-critica.md`.
 
 ## Reglas para el crítico

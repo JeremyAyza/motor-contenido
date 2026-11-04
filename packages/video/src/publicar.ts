@@ -53,7 +53,7 @@ export function prepararPublicacionVideo(dir: string): { manifest: Manifest; fil
   const problemas: string[] = [];
 
   if (!script.gateB?.approved) {
-    problemas.push("La puerta B no está aprobada: muéstrale el video a la persona y anota su sí en video.json → gateB (docs/reel.md, paso 9)");
+    problemas.push("La puerta B no está aprobada: muéstrale el video a la persona y anota su sí en video.json → gateB (docs/reel.md, paso 10)");
   }
 
   const outDir = join(dir, "out");

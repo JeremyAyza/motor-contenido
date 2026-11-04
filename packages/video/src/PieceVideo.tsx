@@ -17,7 +17,7 @@ import { panelAt, resolvePanel } from "./kit/panel.ts";
 import { Sfx, SoundsContext } from "./kit/sfx.tsx";
 import { CapturesContext, SceneContext, StageContext, WorldContext, type StageClock } from "./kit/scene.ts";
 import { CssMotion, VIDEO_MOTION_CSS } from "./motion.tsx";
-import { PIECES } from "./pieces.ts";
+import { PIECES } from "@motor/pieces";
 import { Probe } from "./probe.tsx";
 import { frameAt, framesFor, HEIGHT, MIN_TEXT_PX, musicVolume, speechSpans, timelineMs, WIDTH, type Timeline, type TimelineScene } from "./timeline.ts";
 

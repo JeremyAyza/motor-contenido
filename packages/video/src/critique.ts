@@ -229,3 +229,62 @@ export function reviewRequest(folder: string): ReviewRequest {
   ].join("\n");
   return { prompt, files: names.map((name) => ({ path: join(folder, name), mimeType: MIME[extname(name)] })) };
 }
+
+/** The scores of a critic's report: the "Puntaje" column of its table (whole numbers from 1 to 5). */
+export function reportScores(report: string): number[] {
+  const scores: number[] = [];
+  for (const line of report.split("\n")) {
+    const cells = line.split("|").map((c) => c.trim());
+    if (cells.length < 5 || !/^\d+%$/.test(cells[2])) continue;
+    const score = Number(cells[3].replace(",", "."));
+    if (Number.isFinite(score) && score >= 1 && score <= 5) scores.push(score);
+  }
+  return scores;
+}
+
+/** The critic ends its report with "Error grave: sí, <cuál>" or "Error grave: no" (docs/referencia/critico-ciego-video.md). */
+export const reportsGraveError = (report: string): boolean => /^\s*\**error grave:?\**:?\s*s[ií](?![a-záéíóúñ])/im.test(report);
+
+export type CriticRound = { date: string; scores: number[]; grave: boolean };
+
+/**
+ * Whether another round of the blind critic is allowed. One round by default;
+ * a second, with a fresh context, only if a point scored under 3 or there was a
+ * grave error; never a third. The command decides, not the agent that made the video.
+ */
+export function nextRound(rounds: CriticRound[]): { allowed: boolean; reason: string } {
+  if (rounds.length === 0) return { allowed: true, reason: "first round" };
+  if (rounds.length >= 2) return { allowed: false, reason: `there were already ${rounds.length} rounds; tell Jeremy what is missing and why` };
+  const last = rounds[rounds.length - 1];
+  const low = last.scores.filter((s) => s < 3);
+  if (last.grave) return { allowed: true, reason: "the first round found a grave error" };
+  if (low.length) return { allowed: true, reason: `the first round scored ${low.join(", ")} (under 3)` };
+  if (!last.scores.length) return { allowed: true, reason: "the first report has no score table to judge by" };
+  return { allowed: false, reason: `the first round scored ${Math.min(...last.scores)} or more everywhere and found no grave error: fix its three problems and render, with no second round` };
+}
+
+const ROUNDS_FILE = "out/critica-rondas.json";
+
+/**
+ * Records the report the critic left in out/video-critica/ (the round that just
+ * ended) and says whether a new round may start. Called before the folder is
+ * prepared again, which deletes the old report.
+ */
+export function criticRounds(dir: string, today = new Date().toLocaleDateString("sv-SE")): { rounds: CriticRound[]; next: { allowed: boolean; reason: string } } {
+  const file = join(dir, ROUNDS_FILE);
+  const rounds: CriticRound[] = existsSync(file) ? (JSON.parse(readFileSync(file, "utf8")) as CriticRound[]) : [];
+  const report = join(dir, "out/video-critica/informe.md");
+  const pending = join(dir, "out/video-critica/.ronda");
+  if (existsSync(report) && existsSync(pending)) {
+    const text = readFileSync(report, "utf8");
+    rounds.push({ date: today, scores: reportScores(text), grave: reportsGraveError(text) });
+    writeFileSync(file, `${JSON.stringify(rounds, null, 2)}\n`);
+    rmSync(pending);
+  }
+  return { rounds, next: nextRound(rounds) };
+}
+
+/** Marks the folder as a round in progress, so its report is counted once. */
+export function markRound(folder: string): void {
+  writeFileSync(join(folder, ".ronda"), "");
+}

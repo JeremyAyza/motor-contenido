@@ -31,9 +31,11 @@ import { revisarTextos } from "../../carousel/src/texto.ts";
 import { stageAvatar } from "./avatar-manifest.ts";
 import { fetchLogos, type CatalogLogo } from "../../media/src/catalog.ts";
 import { CAPTURES_FILE, CapturesSchema, loadCaptures, runCapture, saveCaptures } from "./capture.ts";
-import { prepareCritique, prepareScriptCritique, reviewRequest, writeHookCritic } from "./critique.ts";
+import { criticRounds, markRound, prepareCritique, prepareScriptCritique, reviewRequest, writeHookCritic } from "./critique.ts";
 import { recentSimilar, REPEAT_DAYS } from "./topics.ts";
 import { asVideoError, VideoError } from "./errors.ts";
+import { cachedBundle, scenesRange, secondsToFrames, sceneFrames } from "./bundle.ts";
+import { checkPiece } from "./check.ts";
 import type { VideoDef } from "./kit/index.ts";
 import { assetCommand, flag, imageCommand, musicCommand } from "./media-commands.ts";
 import { inspectComposition, inspectFrames, inspectFreezes, inspectLoudness, inspectTimeline, measureLoudness, normalizeLoudness, probeServer, sceneEntering, reviewSheet, sheetFrames, cameraMoving, type Issue } from "./inspector.ts";
@@ -62,12 +64,24 @@ const USAGE = `Usage:
       Voice, word timing and files for Remotion, in content/<piece>/out/video/. Needs gate A.
   npm run video:studio -- content/<piece>
       Remotion Studio with the piece (run video:prepare first).
-  npm run video:render -- content/<piece> [--borrador]
+  npm run video:render -- content/<piece> [--borrador] [--escena <id>[,<id>]]
       MP4 at 1080×1920 (content/<piece>/out/video.mp4), a review sheet and the video's sha256 for gate B.
       --borrador: 540×960 in out/video-borrador.mp4, with its sheet and inspector, to review before
-      the final render. Faster, and it never counts for gate B.
-  npm run video:critique -- content/<piece> [--guion] [--gemini]
+      the final render. It never counts for gate B.
+      --escena: only the stretch of those scenes, at 540×960 (out/escena-<ids>.mp4, with its sheet and
+      the text inspector). Loudness, freezes and the hook are left for the full render; gate B untouched.
+  npm run video:frames -- content/<piece> [<seconds>...] [--escena <id>[,<id>]]
+      Renders only those frames with remotion still (540×960) and tiles them in out/cuadros/hoja.png;
+      each frame also goes alone to out/cuadros/<seconds>s.png. --escena: the start, middle and end of
+      those scenes. Without seconds or scenes, the frames of the review sheet. Uses the voice timing
+      of video:prepare, or the storyboard's when there is no voice yet. No inspector.
+  npm run video:check -- content/<piece>
+      Typecheck of the piece and what it imports, without the other pieces (a few seconds). video:render,
+      video:frames and video:storyboard run it first.
+  npm run video:critique -- content/<piece> [--guion] [--gemini] [--forzar]
       The folder for the blind critic (content/<piece>/out/video-critica/), after video:render.
+      One round; a second only if the first scored under 3 somewhere or found a grave error, never a
+      third (out/critica-rondas.json). --forzar skips that, only when Jeremy asks.
       --guion: the script critic before gate A (out/video-critica-guion/), with the storyboard sheet.
       --gemini: the critic of media.config.json → review watches the folder and writes informe.md.
   npm run video:publicar -- content/<piece> [--ensayo] [--forzar]
@@ -308,7 +322,11 @@ async function critique(args: string[]): Promise<void> {
     const timelineFile = join(dir, "out/video/timeline.json");
     if (!existsSync(timelineFile)) throw new VideoError(`Run first: npm run video:prepare -- ${args[0]} and npm run video:render -- ${args[0]}`);
     const timeline = JSON.parse(readFileSync(timelineFile, "utf8")) as Timeline;
+    const { rounds, next } = criticRounds(dir);
+    if (!next.allowed && !args.includes("--forzar")) throw new VideoError(`No new round of the blind critic: ${next.reason}. (--forzar only if Jeremy asks for it.)`);
+    console.log(`Blind critic, round ${rounds.length + 1}: ${next.allowed ? next.reason : "forced"}`);
     const prepared = asVideoError(() => prepareCritique(dir, videoScript, timeline, FFMPEG));
+    markRound(prepared.folder);
     folder = prepared.folder;
     console.log(`Blind critic folder (${prepared.files.length} files): ${folder}`);
   }
@@ -485,6 +503,7 @@ function remotionArgs(dir: string, publicDir = "out/video"): string[] {
  */
 async function storyboard(args: string[]): Promise<void> {
   const { dir, piece } = pieceDir(args[0], [SCRIPT_FILE, "video.tsx"]);
+  typecheck(dir);
   const videoScript = scriptOf(dir);
   const video = (await import(pathToFileURL(join(dir, "video.tsx")).href)).default as VideoDef;
   const scenesToShow = scenesOf(videoScript, video);
@@ -551,12 +570,131 @@ function runAsync(bin: string, args: string[], env?: NodeJS.ProcessEnv): Promise
   });
 }
 
+/** Stops before any render if the piece does not compile: tsc says why in seconds, Remotion in minutes. */
+function typecheck(dir: string): void {
+  const started = Date.now();
+  const errors = checkPiece(dir);
+  if (errors.length) throw new VideoError(`The piece does not compile (video:check):\n${errors.slice(0, 20).join("\n")}`);
+  console.log(`video:check OK in ${((Date.now() - started) / 1000).toFixed(1)} s`);
+}
+
+function check(args: string[]): void {
+  const { dir } = pieceDir(args[0], ["video.tsx"]);
+  typecheck(dir);
+}
+
+/** The piece bundled once with its public folder, reused by every still and render until something changes. */
+function bundleOf(dir: string, piece: string, publicDir: string): string {
+  const ref = cachedBundle(piece, dir, join(dir, publicDir), (outDir) =>
+    run(process.execPath, [REMOTION, "bundle", ENTRY, `--config=${CONFIG}`, `--public-dir=${join(dir, publicDir)}`, `--out-dir=${outDir}`, "--log=error"], { REMOTION_PIECE: piece }),
+  );
+  if (!ref.fresh) console.log("Bundle: reused (nothing changed)");
+  return ref.dir;
+}
+
+/** The public folder with a timeline: the voice's after video:prepare, else the storyboard's. */
+function timelineOf(dir: string, arg: string): { publicDir: string; timeline: Timeline } {
+  for (const publicDir of ["out/video", "out/storyboard"]) {
+    const file = join(dir, publicDir, "timeline.json");
+    if (existsSync(file)) return { publicDir, timeline: JSON.parse(readFileSync(file, "utf8")) as Timeline };
+  }
+  throw new VideoError(`Run first: npm run video:prepare -- ${arg} (or video:storyboard before gate A)`);
+}
+
+/** Frames of the given scenes to look at: just after they start, the middle and just before they end. */
+function sceneLookFrames(timeline: Timeline, ids: string[]): number[] {
+  asVideoError(() => scenesRange(timeline, ids));
+  return sceneFrames(timeline)
+    .filter((s) => ids.includes(s.id))
+    .flatMap((s) => [Math.min(s.to - 1, s.from + 15), Math.round((s.from + s.to) / 2), Math.max(s.from, s.to - 10)]);
+}
+
+async function frames(args: string[]): Promise<void> {
+  const { dir, piece } = pieceDir(args[0], [SCRIPT_FILE, "video.tsx"]);
+  typecheck(dir);
+  const { publicDir, timeline } = timelineOf(dir, args[0]);
+  const scenes = flag(args, "--escena")?.split(",");
+  const seconds = args.slice(1).filter((a, i, all) => !a.startsWith("--") && all[i] !== flag(args, "--escena"));
+  const wanted = scenes ? sceneLookFrames(timeline, scenes) : seconds.length ? asVideoError(() => secondsToFrames(seconds, timeline)) : sheetFrames(timeline);
+  const list = [...new Set(wanted)].sort((a, b) => a - b);
+  const out = join(dir, "out/cuadros");
+  rmSync(out, { recursive: true, force: true });
+  mkdirSync(out, { recursive: true });
+  const started = Date.now();
+  const bundle = bundleOf(dir, piece, publicDir);
+  const name = (frame: number) => `${(frame / timeline.fps).toFixed(1)}s`;
+  // A few stills at a time: each one opens its own browser.
+  await mapLimit(list, 3, (frame) =>
+    runAsync(process.execPath, [REMOTION, "still", bundle, piece, join(out, `${name(frame)}.png`), `--frame=${frame}`, `--config=${CONFIG}`, "--scale=1", "--image-format=png", "--log=error"], {
+      REMOTION_PIECE: piece,
+    }),
+  );
+  list.forEach((frame, i) => copyFileSync(join(out, `${name(frame)}.png`), join(out, `${String(i).padStart(3, "0")}.tile.png`)));
+  const columns = Math.min(list.length, 4);
+  ffmpeg(["-framerate", "1", "-i", join(out, "%03d.tile.png"), "-vf", `scale=270:-1,tile=${columns}x${Math.ceil(list.length / columns)}:padding=8:margin=8:color=white`, "-frames:v", "1", join(out, "hoja.png")]);
+  for (const file of readdirSync(out)) if (file.endsWith(".tile.png")) rmSync(join(out, file));
+  console.log(`${list.length} frame(s) in ${((Date.now() - started) / 1000).toFixed(0)} s (${publicDir === "out/storyboard" ? "storyboard timing" : "voice timing"}): ${list.map(name).join(", ")}`);
+  console.log(`Sheet: ${join(out, "hoja.png")} (left to right, top to bottom, in that order)`);
+}
+
+/** Full renders a Reel should need: one for the critic and the final one. Fixes are checked with video:frames and --escena. */
+const FULL_RENDERS = 2;
+
+/** Counts the full renders of a piece in out/renders.json and says when it goes past the cap. It warns; it does not stop. */
+function countFullRender(dir: string, draft: boolean): void {
+  const file = join(dir, "out/renders.json");
+  const renders = existsSync(file) ? (JSON.parse(readFileSync(file, "utf8")) as { at: string; draft: boolean }[]) : [];
+  renders.push({ at: new Date().toISOString(), draft });
+  mkdirSync(dirname(file), { recursive: true });
+  writeFileSync(file, `${JSON.stringify(renders, null, 2)}
+`);
+  const note = `Full render ${renders.length} of this piece (cap: ${FULL_RENDERS}, one for the critic and the final one)`;
+  console.log(renders.length > FULL_RENDERS ? `! ${note}. Check fixes with video:frames or video:render --escena instead.` : note);
+}
+
+/** video:render --escena: the stretch of some scenes, with the text inspector, never the video of gate B. */
+async function renderScenes(dir: string, piece: string, timeline: Timeline, videoScript: VideoScript, ids: string[]): Promise<void> {
+  const range = asVideoError(() => scenesRange(timeline, ids));
+  const name = `escena-${ids.join("-")}`;
+  const output = join(dir, `out/${name}.mp4`);
+  const started = Date.now();
+  const bundle = bundleOf(dir, piece, "out/video");
+  const server = await probeServer();
+  const propsFile = join(dir, `out/${name}-props.json`);
+  writeFileSync(propsFile, JSON.stringify({ inspect: server.url }));
+  try {
+    await runAsync(process.execPath, [REMOTION, "render", bundle, piece, output, `--config=${CONFIG}`, "--scale=1", "--crf=18", `--frames=${range.from}-${range.to}`, `--props=${propsFile}`], {
+      REMOTION_PIECE: piece,
+    });
+  } finally {
+    await server.close();
+    rmSync(propsFile, { force: true });
+  }
+  const inRange = (f: number) => f >= range.from && f <= range.to;
+  const sheet = join(dir, `out/${name}-hoja.png`);
+  const sheetList = [range.from, ...sheetFrames(timeline).filter(inRange), range.to].map((f) => f - range.from);
+  asVideoError(() => reviewSheet(FFMPEG, output, [...new Set(sheetList)].sort((a, b) => a - b), sheet));
+  const reports = [...server.reports.values()].filter((r) => inRange(r.frame));
+  const issues = inspectFrames(reports, timeline.fps, videoScript.hooks[0].onScreen, cameraMoving(timeline), sceneEntering(timeline, await transitionedScenes(dir)), {
+    hook: range.from === 0,
+  });
+  const lines = issues.length ? issues.map((i) => `${i.level === "error" ? "✗" : "!"} ${i.message}`) : ["✓ Sin problemas"];
+  writeFileSync(join(dir, `out/${name}-inspector.txt`), `${lines.join("\n")}\n`);
+  console.log(`\nInspector (${ids.join(", ")}):\n${lines.map((l) => `  ${l}`).join("\n")}\n`);
+  if (issues.some((i) => i.level === "error")) process.exitCode = 1;
+  console.log(`Scenes ${ids.join(", ")} (${((range.to - range.from + 1) / timeline.fps).toFixed(1)} s) in ${((Date.now() - started) / 1000).toFixed(0)} s: ${output}\nSheet: ${sheet}\nNot for gate B.`);
+}
+
 async function render(args: string[]): Promise<void> {
   const { dir, piece } = pieceDir(args[0], [SCRIPT_FILE, "video.tsx"]);
   const timelineFile = join(dir, "out/video/timeline.json");
   if (!existsSync(timelineFile)) throw new VideoError(`Run first: npm run video:prepare -- ${args[0]}`);
   const timeline = JSON.parse(readFileSync(timelineFile, "utf8")) as Timeline;
   const videoScript = scriptOf(dir);
+  typecheck(dir);
+  const only = flag(args, "--escena");
+  if (only) return renderScenes(dir, piece, timeline, videoScript, only.split(","));
+  countFullRender(dir, args.includes("--borrador"));
   // A draft renders at 540×960 (about a third faster) to review before the final render; it never counts for gate B.
   const draft = args.includes("--borrador");
   const name = draft ? "video-borrador" : "video";
@@ -567,7 +705,7 @@ async function render(args: string[]): Promise<void> {
   const propsFile = join(dir, "out/render-props.json");
   writeFileSync(propsFile, JSON.stringify({ inspect: server.url }));
   try {
-    await runAsync(process.execPath, [REMOTION, "render", ENTRY, piece, raw, ...remotionArgs(dir), `--scale=${draft ? 1 : SCALE}`, "--crf=18", `--props=${propsFile}`], {
+    await runAsync(process.execPath, [REMOTION, "render", bundleOf(dir, piece, "out/video"), piece, raw, `--config=${CONFIG}`, `--scale=${draft ? 1 : SCALE}`, "--crf=18", `--props=${propsFile}`], {
       REMOTION_PIECE: piece,
     });
   } finally {
@@ -701,6 +839,8 @@ async function main(): Promise<void> {
   else if (command === "prepare") await prepare(args);
   else if (command === "studio") studio(args);
   else if (command === "render") await render(args);
+  else if (command === "frames") await frames(args);
+  else if (command === "check") check(args);
   else if (command === "critique") await critique(args);
   else if (command === "baraja") deal(args);
   else if (command === "capture") capture(args);

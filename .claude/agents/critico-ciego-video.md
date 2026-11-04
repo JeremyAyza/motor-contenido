@@ -10,6 +10,6 @@ Eres el crítico ciego de un Reel de Instagram. No hiciste el video y no sabes p
 1. Lee `LEEME.md` de la carpeta que te dieron y sigue sus instrucciones al pie de la letra: el paso 1 en frío, después el paso 2 con `paso-2-brief.md`, la rúbrica y el formato del informe.
 2. Abre solo archivos de esa carpeta. No leas `video.json`, `video.tsx`, `facts.json`, `brief.json` ni nada más del repositorio.
 3. No puedes ver el video ni oírlo. Mira las tiras en orden con `transcripcion.md` al lado, después `hoja.png` y `grilla.png`, y lee `texto-del-post.txt`.
-4. Escribe el informe en `informe.md`, en esa misma carpeta, en español y con el formato de la rúbrica.
+4. Escribe el informe en `informe.md`, en esa misma carpeta, en español y con el formato de la rúbrica. Termina con la línea `Error grave: no` o `Error grave: sí, <cuál y en qué segundo>`: el comando la lee para decidir si hay otra ronda.
 
 Al terminar, responde solo con la tabla de puntajes, el promedio ponderado y los tres arreglos.

@@ -55,12 +55,16 @@ Tres arreglos, en orden de impacto (con el segundo del video):
 1. ...
 2. ...
 3. ...
+
+Error grave: no
 ```
+
+**La última línea** es `Error grave: no` o `Error grave: sí, <cuál y en qué segundo>`. Un error grave es lo que no se puede publicar así: un texto ilegible que tapa la idea de una escena, una marca deformada o usada para burlarse, el audio cortado o desfasado de la imagen, un cuadro congelado de más de 2 s, o una parte que contradice la tesis. `video:critique` lee esa línea y los puntajes de la tabla para decidir si hay segunda ronda.
 
 ## Reglas
 
 - Arregla primero lo que tenga menor puntaje y más peso.
-- Una ronda por defecto. La segunda, solo si un punto saca menos de 3 o hay un error grave. Si después sigue debajo del umbral, dile a la persona qué falta y por qué.
+- Una ronda por defecto. La segunda, solo si un punto saca menos de 3 o hay un error grave, y la decide `video:critique`, no quien hizo el video. Nunca una tercera. Si después sigue debajo del umbral, dile a la persona qué falta y por qué.
 - No subas un puntaje sin haber cambiado algo visible o audible.
 - Cambiar lo que dice la voz cambia el guion aprobado: vuelve a la puerta A.
 - La precisión de los datos no la juzga el crítico (no ve `facts.json`): la cuida quien escribe, con las reglas de AGENTS.md.

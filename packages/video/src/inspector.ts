@@ -97,6 +97,7 @@ export function inspectFrames(
   hookOnScreen: string,
   moving: (frame: number) => boolean = () => false,
   entering: (frame: number) => boolean = () => false,
+  options: { hook?: boolean } = {},
 ): Issue[] {
   const issues: Issue[] = [];
   const once = new Set<string>();
@@ -137,6 +138,8 @@ export function inspectFrames(
     }
   }
   const first = sorted[0];
+  // A stretch of the video (video:render --escena) may not start at frame 1: the hook is checked by the full render.
+  if (options.hook === false) return issues;
   if (first.frame !== 0) {
     issues.push({ level: "error", message: "Falta el cuadro 1 en el informe del render: no se pudo revisar el gancho" });
   } else {

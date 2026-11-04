@@ -66,23 +66,34 @@ Corre `hookscore_es` y `beats_es` de `ig-reel` y la revisión de textos. Un ganc
 
 **6. Voz:** `npm run video:prepare -- content/<pieza>`. Pide la puerta A. Genera la voz de cada escena con los tiempos por palabra de ElevenLabs, baja los efectos del catálogo y deja todo en `out/video/`. La voz se guarda en caché: si el texto no cambia, no se vuelve a pagar.
 
-**7. Render e inspector:** `npm run video:render -- content/<pieza>`. Deja:
+**7. Iterar por escena.** Mientras se construye y se arregla, nada de renders completos:
+- `npm run video:frames -- content/<pieza> <segundos...>` o `--escena <id>`: solo esos cuadros, en `out/cuadros/hoja.png`, en 5 a 25 s. Sin voz todavía, usa los tiempos del storyboard;
+- `npm run video:render -- content/<pieza> --escena <id>[,<id>]`: el tramo de esas escenas, con el inspector de texto, en `out/escena-<ids>.mp4` y su hoja. Una escena de 14 s tarda unos 25 s.
+
+Los dos corren primero `video:check`, el typecheck de la pieza (2 a 4 s; `npm run typecheck` es para los cambios del motor), y reutilizan el bundle de la pieza mientras no cambie nada. `npm run video:studio -- content/<pieza>` abre la vista previa.
+
+**8. Render completo:** `npm run video:render -- content/<pieza>`. Deja:
 - `out/video.mp4`: 1080×1920 a 30 fps, H.264 yuv420p en BT.709 y AAC, a −14 LUFS;
 - `out/video-hoja.png`: la portada, el final de cada escena y el medio de cada cambio. Es lo primero que se mira;
 - `out/video-inspector.txt` y `out/video.sha256`.
 
-`--borrador` sale a 540×960, en `out/video-borrador.mp4`, y no cuenta para la puerta B. `npm run video:studio -- content/<pieza>` abre la vista previa.
+Además del texto, mide el volumen, los congelados y la composición, que el render por escena no mide.
 
-**8. Crítico ciego:** `npm run video:critique -- content/<pieza>` arma `out/video-critica/`: el video, un cuadro cada 2 s en tiras, la hoja, la portada recortada, lo que se oye con sus tiempos y el texto del post. Se le da al subagente `critico-ciego-video`, que escribe `informe.md` con la rúbrica.
-- Se arreglan los tres problemas principales y se vuelve a renderizar.
-- **Una ronda.** La segunda, con un contexto nuevo, solo si un punto sacó menos de 3 o hubo un error grave.
+**9. Crítico ciego:** `npm run video:critique -- content/<pieza>` arma `out/video-critica/`: el video, un cuadro cada 2 s en tiras, la hoja, la portada recortada, lo que se oye con sus tiempos y el texto del post. Se le da al subagente `critico-ciego-video`, que escribe `informe.md` con la rúbrica y termina con la línea "Error grave".
+- Los tres problemas principales se arreglan y se comprueban por escena (paso 7); después va el segundo y último render completo.
 - El informe final se copia en `content/<pieza>/video-critica.md`.
 
-**9. Puerta B.** Jeremy ve el video, la hoja y el informe. Después de su sí, el agente anota `gateB { approved: true, date, video: "<sha256>" }`. Si un render posterior da otro archivo, `video:render` la vuelve a `false`.
+**10. Puerta B.** Jeremy ve el video, la hoja y el informe. Después de su sí, el agente anota `gateB { approved: true, date, video: "<sha256>" }`. Si un render posterior da otro archivo, `video:render` la vuelve a `false`.
 
-**10. Publicar,** solo si Jeremy lo pide: `npm run video:publicar -- content/<pieza> [--ensayo]`. Exige la puerta B con el mismo sha256, sube la portada de `cover` y activa la etiqueta de IA de Meta.
+**11. Publicar,** solo si Jeremy lo pide: `npm run video:publicar -- content/<pieza> [--ensayo]`. Exige la puerta B con el mismo sha256, sube la portada de `cover` y activa la etiqueta de IA de Meta.
 
 **Después:** a las 48 horas y a los 7 días, Jeremy pasa la captura de Insights. Se transcribe en `content/<pieza>/video-metrics.json` y `npm run video:metrics` regenera [el informe](metricas-video.md) ([cómo](referencia/metricas.md)).
+
+## Los topes
+
+- **Dos renders completos por Reel:** uno para el crítico y el final. `video:render` los cuenta en `out/renders.json` y avisa desde el tercero. `--borrador` (540×960) existe, pero no está en el flujo: no es más rápido que el final y no sirve para la puerta B.
+- **Una ronda del crítico.** La segunda, con un contexto nuevo, solo si un punto sacó menos de 3 o hubo un error grave, y **la decide el comando**: `video:critique` lee el informe anterior y no arma una ronda que no corresponde. Nunca una tercera. `--forzar`, solo si Jeremy la pide.
+- **Los avisos del inspector no frenan la iteración:** se arreglan antes del render final, y en ese render cada aviso es un error salvo que se pueda defender en una frase. Los errores se arreglan siempre.
 
 ## El inspector
 
@@ -118,8 +129,11 @@ npm run video:capture -- content/<pieza>     # corre los comandos de captures.js
 npm run video:storyboard -- content/<pieza>  # visuales sin voz, para la puerta A
 npm run video:prepare -- content/<pieza>     # voz y tiempos (pide la puerta A)
 npm run video:studio -- content/<pieza>      # vista previa
-npm run video:render -- content/<pieza> [--borrador]
-npm run video:critique -- content/<pieza> [--guion] [--gemini]
+npm run video:check -- content/<pieza>       # typecheck de la pieza
+npm run video:frames -- content/<pieza> <segundos...> | --escena <id>   # cuadros sueltos
+npm run video:render -- content/<pieza> --escena <id>[,<id>]           # un tramo, con inspector
+npm run video:render -- content/<pieza>      # el render completo (dos por Reel)
+npm run video:critique -- content/<pieza> [--guion] [--gemini] [--forzar]
 npm run video:publicar -- content/<pieza> [--ensayo]   # solo si Jeremy lo pide
 npm run video:metrics                        # docs/metricas-video.md
 npm run video:image -- content/<pieza> --name <n> --prompt "..." [--chroma] [--world]
