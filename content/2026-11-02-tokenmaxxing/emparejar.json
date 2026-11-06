@@ -1,0 +1,96 @@
+{
+  "hash": "00019796f3a020bc",
+  "date": "2026-11-04",
+  "escenas": [
+    {
+      "escena": "gancho",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "tablas",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "pregunta",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "token",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "modelo",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "agente",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "vueltas",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "maxxing",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "masivo",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "supuesto",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "dos",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "escenarios",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "engana",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "otrolado",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "preguntareal",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "cuentas",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "paradoja",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "cierre",
+      "veredicto": "nueva",
+      "candidatas": []
+    }
+  ]
+}

@@ -1,147 +1,318 @@
 {
   "$schema": "../../schemas/video.schema.json",
   "format": "largo",
-  "target": 170,
-  "topic": "Tokenmaxxing: las tablas de posiciones de tokens de IA en las empresas, y por qué los tokens miden gasto y no trabajo",
-  "world": "Una máquina de arcade. Su pantalla es una tabla de récords que cuenta fichas gastadas, no niveles pasados; cada idea entra como una jugada, y al final la tabla se reordena por trabajo entregado.",
+  "topic": "Tokenmaxxing desde cero: qué es un token, por qué un agente quema tantos y por qué gastar más no es entregar más",
+  "world": "Una máquina de arcade de dos jugadores con dos marcadores, FICHAS y ENTREGADO; cada nivel arranca con INSERT COIN, y al final la tabla de récords se reordena por lo entregado.",
   "meter": {
-    "label": "Lo que importa",
+    "label": "Trabajo entregado",
     "from": "0",
-    "to": "4"
+    "to": "5"
   },
   "cover": {
-    "scene": "gancho",
-    "at": 2.4
+    "scene": "pregunta",
+    "at": 4.5
   },
-  "art": {
-    "direction": "capa-por-capa",
-    "dealt": [
-      "capa-por-capa",
-      "chat",
-      "captura-anotada"
-    ],
-    "reason": "El tema es una tabla de posiciones: quién gana en qué. Cada fila es una capa, y el video termina reordenándolas. Fondo oscuro de pantalla de arcade, el ámbar de las fichas para los tokens, verde para lo entregado, y cada marca con su color en su bloque. Se separa del papel claro de los dos Reels anteriores.",
-    "palette": {
-      "bg": "#0F1218",
-      "ink": "#F3EFE4",
-      "accent": "#FFB020",
-      "accentInk": "#0F1218",
-      "surface": "#1A1F29",
-      "muted": "#98A0AE"
-    },
-    "fonts": {
-      "display": "geist",
-      "text": "geist"
-    },
-    "anchor": {
-      "kind": "icono",
-      "ref": "token-coin",
-      "source": "La ficha de arcade dibujada en código"
-    },
-    "tab": "leaderboard.json"
-  },
+  "target": 170,
   "hooks": [
     {
-      "said": "Más de un millón de dólares en tokens.",
-      "onScreen": "1,4 M USD en tokens",
-      "formula": 23
+      "said": "Esta es la nueva moda en Meta: quemar tokens.",
+      "onScreen": "La moda en Meta: quemar tokens",
+      "formula": 24
     },
     {
-      "said": "Hay ingenieros compitiendo por quemar más tokens de IA.",
-      "onScreen": "Compiten por gastar más IA",
+      "said": "Más tokens no es mejor trabajo. Y hay devs compitiendo por quemarlos.",
+      "onScreen": "Más tokens no es mejor",
       "formula": 22
     },
     {
-      "said": "Esta tabla premiaba al que más tokens quemaba.",
-      "onScreen": "Gana el que más tokens quema",
-      "formula": 24
+      "said": "¿Gastar más IA te vuelve más productivo?",
+      "onScreen": "¿Más IA = más trabajo?",
+      "formula": 16
     }
   ],
   "scenes": [
     {
       "id": "gancho",
-      "say": "Más de un millón de dólares en tokens. Eso pudo gastar un solo empleado de Meta en treinta días. Era el primero de una tabla interna: doscientos ochenta y un mil millones de tokens. ¿Gastar más es trabajar más?",
-      "see": "Desde el cuadro 1, la pantalla de la máquina de arcade con la tabla de récords 'TOKENS', la fila 1 marcada y la cifra '1,4 M USD en tokens' (estimación de Fortune). La fila 1 cuenta hasta 281.000.000.000 y entra la pregunta '¿Más tokens = más trabajo?'.",
-      "resource": "cifra"
+      "say": "Esta es la nueva moda en Meta: quemar tokens. Y no solo ahí: en Silicon Valley hay devs compitiendo por ver quién gasta más. Millones de tokens. A veces, miles de millones.",
+      "see": "Desde el cuadro 1, la máquina de arcade llena el cuadro con el rótulo 'La moda en Meta: quemar tokens'; por la ranura caen fichas y el marcador FICHAS gira de un millón a miles de millones. Al lado, el marcador ENTREGADO sigue en 0.",
+      "resource": "cifra",
+      "intent": "Que existe una competencia real por gastar tokens y que las cifras son enormes.",
+      "metaphor": "Fichas que caen sin parar en una máquina de arcade y un marcador que no deja de subir mientras el otro no se mueve.",
+      "alternatives": [
+        "Un taxímetro que corre con el auto parado",
+        "Una fogata que se come billetes"
+      ],
+      "motion": "Las fichas caen en cascada con resorte; los dígitos del marcador ruedan; la cámara se acerca a los dígitos cuando pasan a miles de millones."
     },
     {
-      "id": "ficha",
-      "say": "Un token es un pedazo de texto. El modelo cobra cada token que lee y cada uno que escribe. Como las fichas de una máquina de arcade: cada jugada cuesta.",
-      "see": "Una frase se parte en fichas de colores; cada ficha se vuelve una moneda que entra por la ranura 'INSERT TOKEN', con el contador de entrada y de salida.",
-      "resource": "metafora"
-    },
-    {
-      "id": "agente",
-      "say": "Con un agente de código, las fichas se van solas. Lee archivos, escribe, corre las pruebas, falla y vuelve a empezar. Cada vuelta, otra jugada. Con diez agentes, diez máquinas.",
-      "see": "Un ciclo de cuatro pasos (leer, escribir, probar, fallar) gira; cada vuelta escupe monedas. La pantalla se multiplica en diez máquinas y el contador se dispara.",
-      "resource": "proceso"
-    },
-    {
-      "id": "maxxing",
-      "say": "De ahí sale tokenmaxxing. Maxxing es jerga gamer: subir un personaje al máximo. Aquí, lo que se sube es el uso de IA. Y Dictionary.com eligió maxxing como palabra del año.",
-      "see": "La palabra 'tokenmaxxing' se arma con dos piezas, token y maxxing; una barra de nivel de personaje sube hasta MAX; la tarjeta de diccionario con la definición y el sello 'Palabra del año 2026'.",
-      "resource": "anatomia"
-    },
-    {
-      "id": "meta",
-      "say": "Las empresas lo volvieron competencia. La tabla de Meta se llamaba Claudeonomics: los doscientos cincuenta que más gastaban, entre más de ochenta y cinco mil empleados. En treinta días sumaron más de sesenta billones de tokens. Y repartía títulos, como Token Legend.",
-      "see": "Vuelve la tabla, ahora con el nombre 'Claudeonomics' y el logo de Meta; 250 puntos encendidos entre 85.000 apagados; el contador llega a 60 billones; aparece la insignia 'Token Legend'. Todo con su fuente.",
-      "resource": "datos"
-    },
-    {
-      "id": "metas",
-      "say": "En Salesforce, según The Pragmatic Engineer, había un mínimo: cien dólares por semana en Claude Code. Y el CEO de Nvidia dijo que si un ingeniero de quinientos mil dólares no gasta doscientos cincuenta mil en tokens, estaría profundamente alarmado.",
-      "see": "Una barra de gasto con la línea roja 'mínimo 100 USD por semana'; después la tarjeta de cita de Jensen Huang con el logo de Nvidia y la balanza de 500 mil contra 250 mil.",
-      "resource": "comparacion"
-    },
-    {
-      "id": "trampa",
-      "say": "¿Qué pasó? Lo de toda meta. En Amazon, gente puso agentes a hacer tareas inútiles para subir en su tabla, y Amazon la quitó. Uber, según la prensa, se gastó en cuatro meses el presupuesto de IA para código de todo el año. Es la ley de Goodhart: cuando una medida se vuelve meta, deja de medir.",
-      "see": "Agentes que mueven cajas vacías de un lado a otro mientras su fila sube; la tabla de Amazon se apaga; un calendario de 12 meses que se vacía en 4; la ley de Goodhart en grande.",
-      "resource": "metafora"
-    },
-    {
-      "id": "dos",
-      "say": "Imagina dos devs que entregan la misma función. Ella usa cincuenta millones de tokens. Él, cinco millones. En la tabla, ella gana por diez. En el trabajo, empatan. Y el conteo ni dice el costo: esos cincuenta millones salen entre veintiséis y novecientos dólares, según el modelo y la caché.",
-      "see": "Pantalla dividida, jugador 1 y jugador 2, rotulada 'Ejemplo ilustrativo': las dos barras de tokens (50 M contra 5 M) y las dos funciones entregadas iguales; después, el rango 26 a 900 USD para los mismos 50 M, con la cuenta.",
-      "resource": "comparacion"
-    },
-    {
-      "id": "sentir",
-      "say": "Sentirte más rápido tampoco es medir. En un estudio de METR, con herramientas de inicios de 2025, devs con experiencia tardaron diecinueve por ciento más con IA. Al terminar, creían que habían ido veinte por ciento más rápido.",
-      "see": "Dos cronómetros: lo que midió el estudio (+19 % de tiempo) y lo que creían (−20 %), con una flecha que apunta al revés.",
-      "resource": "cifra"
-    },
-    {
-      "id": "otro",
-      "say": "Ojo: gastar no es el problema. Hay trabajo que antes nadie hacía, como pruebas, documentación o probar una idea. Si un agente lo hace bien, quema tokens y entrega valor.",
-      "see": "Una lista de pendientes de 'algún día' que los agentes toman y completan; las monedas se vuelven tareas en verde.",
-      "resource": "proceso"
+      "id": "tablas",
+      "say": "Y hay empresas que llevan la cuenta por persona, en una tabla. La de Meta mostraba a los doscientos cincuenta que más gastaban. Entre más de ochenta y cinco mil empleados. El primero: doscientos ochenta y un mil millones de tokens en treinta días.",
+      "see": "La pantalla pasa a la tabla de récords 'TOP 250' con filas de avatares de píxel; detrás, una cuadrícula de puntos (más de 85.000) con 250 encendidos; la fila 1 cuenta hasta 281.000.000.000. Tarjeta de fuente: Fortune, 9 de abril de 2026.",
+      "resource": "datos",
+      "intent": "Que las empresas convirtieron el gasto en una competencia con ranking, y con qué tamaño.",
+      "metaphor": "La tabla de récords de la máquina: el que más fichas mete queda arriba.",
+      "alternatives": [
+        "Un podio olímpico de gasto",
+        "Una lista de deudores en la pared"
+      ],
+      "motion": "La tabla baja como una persiana sobre la pantalla; los 250 puntos se encienden en ola entre los apagados; la fila 1 se ilumina y su contador rueda."
     },
     {
       "id": "pregunta",
-      "say": "La pregunta no es cuántos tokens. Es: ¿se entregó? ¿Pasaron las pruebas? ¿Ahorró tiempo de verdad? ¿Y cuánto costó? Cien dólares que te ahorran un día valen la pena. Mil por diez minutos, no.",
-      "see": "La pantalla de 'continuar' de la máquina se vuelve una lista de cuatro casillas que se marcan una por una; después dos tarjetas de jugada: 100 USD por un día (sí) y 1.000 USD por 10 minutos (no).",
-      "resource": "proceso"
+      "say": "Pero, ¿qué es exactamente el tokenmaxxing? ¿Y gastar más IA te vuelve más productivo? Armémoslo desde cero.",
+      "see": "Título '¿Más IA = más trabajo?'; dos barras: 'IA usada' se llena en magenta y 'Trabajo hecho' se queda vacía. Después, la palanca INSERT COIN: los dos marcadores vuelven a 0.",
+      "resource": "comparacion",
+      "intent": "La pregunta que guía el video: ¿más uso significa más trabajo?",
+      "metaphor": "Dos barras de energía de jugador: una se llena y la otra no.",
+      "alternatives": [
+        "Una balanza con un solo plato cargado",
+        "Un tanque lleno y un vaso vacío"
+      ],
+      "motion": "La barra magenta se llena con un golpe; la verde azulada tiembla en cero; la palanca baja y los marcadores ruedan hacia atrás hasta 0."
     },
     {
-      "id": "final",
-      "say": "Meta cerró su tabla a los dos días de que se supo. En septiembre sacó el uso de IA de sus evaluaciones: ahora cuenta la calidad, la velocidad y la complejidad del trabajo. Y Amazon escribió que esas métricas tienen fallas profundas.",
-      "see": "La tabla de Meta se apaga con 'GAME OVER'; una línea de tiempo de abril a octubre con las tres decisiones, cada una con su fuente.",
-      "resource": "linea-de-tiempo"
+      "id": "token",
+      "say": "Primero, ¿qué es un token? Cuando le escribes a ChatGPT, a Claude o a Gemini, tu mensaje se parte en pedazos: tokens. Puede ser una palabra, una parte de una palabra o un carácter.",
+      "see": "Rótulo 'NIVEL 1 · LA FICHA'. Una ventana de chat con el selector ChatGPT, Claude y Gemini (logos oficiales); se escribe un mensaje y se envía. La frase se parte en fichas de colores y el cursor señala tres: una palabra, un pedazo de palabra y un carácter. Rótulo 'Ejemplo ilustrativo'.",
+      "resource": "anatomia",
+      "intent": "Qué es un token, con un mensaje que el público reconoce.",
+      "metaphor": "La frase se corta en fichas de arcade, una por pedazo.",
+      "alternatives": [
+        "Un tren de vagones de texto",
+        "Piezas de Lego que forman la frase"
+      ],
+      "motion": "El mensaje se escribe letra a letra; al enviarse, se parte con un corte seco y las fichas se separan con resorte; el cursor salta de ficha en ficha y cada una se agranda al señalarla."
+    },
+    {
+      "id": "modelo",
+      "say": "El modelo lee tokens y responde en tokens. Y cobra los que entran y los que salen. Más texto, más tokens.",
+      "see": "Las fichas entran por la ranura ENTRADA de la máquina; por SALIDA sale una tira de fichas nuevas; dos pilas de monedas crecen, una por lado, y el marcador FICHAS sube.",
+      "resource": "proceso",
+      "intent": "Que se cobra lo que entra y lo que sale, y que más texto cuesta más.",
+      "metaphor": "La máquina traga fichas por una ranura y escupe otras por la bandeja.",
+      "alternatives": [
+        "Un peaje de ida y vuelta",
+        "Un medidor de agua que cuenta dos caños"
+      ],
+      "motion": "Las fichas viajan a la ranura y desaparecen; la tira de salida se imprime de a una; las pilas suben moneda a moneda con un tic por moneda."
+    },
+    {
+      "id": "agente",
+      "say": "Ahora imagina que programas con Claude Code. Le pides una función nueva. El agente trabaja en ciclo: lee el código, hace cambios y verifica. Y repite hasta terminar.",
+      "see": "INSERT COIN, marcadores a 0, rótulo 'NIVEL 2 · UN DEV, UN AGENTE'. Una tarjeta con la mascota de Claude Code y el pedido 'Agrega una función nueva' (Ejemplo ilustrativo). Un anillo de tres fases (entender, cambiar, verificar), como el ciclo de la documentación de Claude Code, se ilumina fase por fase, con el contador 'Vuelta 3'.",
+      "resource": "proceso",
+      "intent": "Que un agente no hace una sola llamada: da vueltas a un ciclo hasta que funciona.",
+      "metaphor": "Un circuito de carreras de tres curvas que el agente recorre vuelta tras vuelta.",
+      "alternatives": [
+        "Una rueda de hámster",
+        "Una lavadora en ciclo"
+      ],
+      "motion": "La tarjeta sube desde abajo; cada paso del anillo se enciende con la palabra que lo dice; una ficha recorre el anillo y el contador de vueltas suma con un golpe."
+    },
+    {
+      "id": "vueltas",
+      "say": "Cada vuelta es otra llamada al modelo. Más fichas. Ahora corre doce agentes a la vez, y el consumo de tokens se dispara.",
+      "see": "Cada vuelta del anillo escupe fichas; un control 'Agentes' que el cursor arrastra de 1 a 12; la máquina se multiplica en doce pantallas y una curva 'tokens por semana' sale disparada. Rótulo 'Ejemplo ilustrativo'.",
+      "resource": "escala",
+      "intent": "Que el gasto crece por vueltas y por agentes en paralelo, no por una sola pregunta.",
+      "metaphor": "De una máquina a una sala de doce máquinas, todas tragando fichas.",
+      "alternatives": [
+        "Doce grifos abiertos",
+        "Un enjambre de abejas sobre un panal"
+      ],
+      "motion": "El cursor arrastra el control y por cada paso aparece una máquina nueva con pop; la cámara se aleja para que quepan las doce; la curva se traza hacia arriba y rompe el borde de su tarjeta."
+    },
+    {
+      "id": "maxxing",
+      "say": "Ahí entra el tokenmaxxing. Maxxing es jerga de internet: llevar algo al máximo. Aquí, el gasto en tokens.",
+      "see": "INSERT COIN, rótulo 'NIVEL 3 · LA MODA'. Las piezas 'token' y 'maxxing' se encajan en una sola palabra; una tarjeta de diccionario con la definición y el sello 'Palabra del año 2026 · Dictionary.com'; un medidor cuya aguja llega a MAX.",
+      "resource": "anatomia",
+      "intent": "De dónde sale la palabra y qué significa.",
+      "metaphor": "La palabra se arma como dos piezas que encajan, y un medidor de potencia al tope.",
+      "alternatives": [
+        "Un personaje de videojuego que sube de nivel",
+        "Un volumen al máximo"
+      ],
+      "motion": "Las dos piezas chocan y encajan con un clic; el sello cae sobre la tarjeta; la aguja barre de izquierda a derecha y rebota en MAX."
+    },
+    {
+      "id": "masivo",
+      "say": "En dos mil veintiséis se vuelve masivo: Meta, OpenAI, Shopify. Y el CEO de Nvidia fue más lejos. Se alarmaría si un ingeniero de quinientos mil dólares al año no gasta al menos la mitad en tokens.",
+      "see": "Cuatro fichas gigantes con los logos de Meta, OpenAI, Shopify y Nvidia caen en fila, cada una con su dato de una línea. La de Nvidia se abre en una tarjeta de cita: '500 mil USD de sueldo, 250 mil en tokens', Jensen Huang, marzo de 2026, y una balanza que se inclina a la mitad.",
+      "resource": "datos",
+      "intent": "Que no es una rareza de unos pocos: las empresas grandes lo empujan.",
+      "metaphor": "Las fichas de cada empresa entran en la misma máquina, una tras otra.",
+      "alternatives": [
+        "Pines en un mapa de Silicon Valley",
+        "Una fila de logos en una marquesina"
+      ],
+      "motion": "Cada ficha cae con el nombre que se dice y rebota; la de Nvidia gira y se abre en la tarjeta de cita; la balanza 500 contra 250 se inclina."
+    },
+    {
+      "id": "supuesto",
+      "say": "Y varias empresas empezaron a medir cuántos tokens gasta cada persona. La idea suena lógica: más uso, más trabajo. Pero gastar tokens no es lo mismo que ser productivo.",
+      "see": "Un tablero de la empresa: una cuadrícula de puntos (empleados) que se tiñen de magenta en cascada. La tarjeta 'uso = producción', con fichas de un lado y bloques entregados del otro; el '=' se rompe y queda '≠'.",
+      "resource": "metafora",
+      "intent": "El supuesto que hay detrás de las tablas, y que no se sostiene.",
+      "metaphor": "Un signo igual de vidrio que se raja.",
+      "alternatives": [
+        "Un puente entre dos orillas que se cae",
+        "Un engranaje que gira sin mover al otro"
+      ],
+      "motion": "Los puntos se tiñen en ola; el '=' aparece firme, vibra con la palabra 'pero' y se parte en dos trozos que caen; el '≠' entra con un sello."
+    },
+    {
+      "id": "dos",
+      "say": "Imagina dos devs con la misma tarea. Ana gasta cincuenta millones de tokens. Beto, cinco millones. ¿Quién entregó más? Todavía no lo sabemos.",
+      "see": "La pantalla se parte a sangre en dos: JUGADOR 1, Ana, en magenta, con 50 M de fichas; JUGADOR 2, Beto, en verde azulado, con 5 M. Debajo de cada uno, una caja 'Entregado: ?'. Rótulo 'Ejemplo ilustrativo'.",
+      "resource": "comparacion",
+      "intent": "El caso que prueba la tesis: diez veces más tokens para la misma tarea.",
+      "metaphor": "Una partida de dos jugadores con la pantalla partida.",
+      "alternatives": [
+        "Dos tanques de gasolina en una carrera",
+        "Dos recibos de supermercado"
+      ],
+      "motion": "La pantalla se corta de arriba abajo y cada mitad se tiñe de su color; los marcadores de Ana y Beto ruedan hasta 50 M y 5 M; las cajas '?' parpadean."
+    },
+    {
+      "id": "escenarios",
+      "say": "Quizá Ana usó bien sus agentes: investigó, cuidó la arquitectura, escribió pruebas y casos límite. Y entregó algo excelente. O quizá sus agentes se quedaron dando vueltas, y el código no funcionó. Mientras, Beto entregó la misma función con mucho menos.",
+      "see": "Del lado de Ana, dos pestañas que el cursor cambia: en A, cuatro globos (investigar, arquitectura, pruebas, casos límite) y el sello 'FUNCIONA'; en B, flechas en bucle con humo y el sello rojo 'NO FUNCIONA'. Del lado de Beto, pocas fichas y el sello 'FUNCIONA'.",
+      "resource": "comparacion",
+      "intent": "Que el mismo gasto puede ser trabajo excelente o un bucle inútil, y que el conteo no dice cuál.",
+      "metaphor": "Dos finales posibles de la misma partida, como pestañas de una repetición.",
+      "alternatives": [
+        "Una moneda que cae de un lado o del otro",
+        "Dos caminos en un mapa"
+      ],
+      "motion": "El cursor hace clic en la pestaña A y los globos salen uno por uno; clic en B y el humo tapa los globos; el sello de Beto cae con peso al final."
+    },
+    {
+      "id": "engana",
+      "say": "Por eso los tokens pueden engañar. Miden cuánto cómputo gastaste, no cuánto valor produjiste. Según Jellyfish, los que más gastan usan casi diez veces más tokens por cambio, para sacar cerca del doble.",
+      "see": "La tabla por fichas (Ana 50 M, Beto 5 M) recibe un sello inclinado 'ENGAÑOSA'. Debajo, dos barras: 'cómputo' (Ana larga, Beto corta) y 'trabajo' (iguales, 'MISMA FUNCIÓN'). Tarjeta de fuente: '~10x tokens por PR, ~2x PRs', Jellyfish, abril de 2026, 12.000 devs.",
+      "resource": "datos",
+      "intent": "Que el token mide gasto de cómputo, no valor, y que un estudio lo muestra a escala.",
+      "metaphor": "Un sello de árbitro sobre la tabla de récords.",
+      "alternatives": [
+        "Una lupa que muestra el truco",
+        "Un velocímetro que mide las vueltas del motor, no los kilómetros"
+      ],
+      "motion": "El sello cae inclinado y la tabla tiembla; las barras de cómputo crecen desparejas y las de trabajo crecen juntas; la tarjeta de Jellyfish sube con sus dos cifras una tras otra."
+    },
+    {
+      "id": "otrolado",
+      "say": "Pero hay otro lado. Un agente puede hacer lo que antes nadie hacía: documentar, investigar un bug viejo, refactorizar, escribir pruebas. Eso gasta más tokens. Y puede valer mucho.",
+      "see": "Una lista 'Algún día' con cinco tareas (documentar, el bug viejo, refactorizar, pruebas, explorar); un agente toma cada una, su barra avanza y se pone verde azulado. ENTREGADO sube de 0 a 5 mientras FICHAS también sube. Rótulo 'Ejemplo ilustrativo'.",
+      "resource": "proceso",
+      "intent": "Que gastar mucho no es malo en sí: hay trabajo nuevo que antes no se hacía.",
+      "metaphor": "Una lista de pendientes olvidados que por fin se tacha, ficha a ficha.",
+      "alternatives": [
+        "Un cajón desordenado que se ordena solo",
+        "Una pila de platos que se lava"
+      ],
+      "motion": "Cada fila se activa con la palabra que la nombra; su barra se llena y se tiñe; el marcador ENTREGADO suma con un golpe por tarea."
+    },
+    {
+      "id": "preguntareal",
+      "say": "Entonces la pregunta no es si gastar mucho es bueno o malo. Es si el resultado justifica el costo. ¿Funciona? ¿Pasó las pruebas? ¿Ahorró tiempo? ¿Cuánto costó?",
+      "see": "Un interruptor 'BUENO / MALO' se tacha; entra una balanza con fichas (COSTO) en un plato y bloques entregados (RESULTADO) en el otro; después, cuatro casillas que el cursor marca una por una.",
+      "resource": "proceso",
+      "intent": "Cambiar la pregunta: de cuánto gastas a si lo que obtuviste lo vale, con una prueba de cuatro preguntas.",
+      "metaphor": "Una balanza de feria: fichas contra trabajo.",
+      "alternatives": [
+        "Un control de calidad en una cinta",
+        "Un checklist de despegue"
+      ],
+      "motion": "El interruptor recibe una raya; la balanza baja de golpe y se equilibra; cada casilla se marca con la pregunta que la nombra."
+    },
+    {
+      "id": "cuentas",
+      "say": "Si cien dólares en tokens te ahorran un día de trabajo, es buena inversión. Mil dólares por una tarea de diez minutos, probablemente no.",
+      "see": "Dos tarjetas de jugada: '100 USD, 1 día ahorrado' con el sello 'BUENA JUGADA'; '1.000 USD, 10 minutos' con el sello 'PROBABLEMENTE NO'. Rótulo 'Ejemplo ilustrativo'.",
+      "resource": "comparacion",
+      "intent": "Aplicar la prueba a dos casos con números que se recuerdan.",
+      "metaphor": "Dos jugadas en la pantalla de resultados: una que vale la ficha y otra que no.",
+      "alternatives": [
+        "Dos recibos al lado",
+        "Un reloj de arena contra una pila de monedas"
+      ],
+      "motion": "La primera tarjeta sube y su sello cae; la segunda entra debajo y su sello cae inclinado, más fuerte."
+    },
+    {
+      "id": "paradoja",
+      "say": "Esa es la paradoja del tokenmaxxing. Nunca fue tan fácil quemar mil millones de tokens. Pero más IA no garantiza más valor.",
+      "see": "Rótulo 'LA PARADOJA'. Título 'Más fichas. No siempre más trabajo.'; una nube de puntos de devs (fichas contra entregado) sin ninguna tendencia. Rótulo 'Ejemplo ilustrativo'.",
+      "resource": "datos",
+      "intent": "Resumir la tesis en una frase y una imagen: más gasto, sin relación clara con más trabajo.",
+      "metaphor": "Una nube de puntos desordenada donde se esperaba una línea.",
+      "alternatives": [
+        "Una escalera que no sube",
+        "Un motor acelerado en neutro"
+      ],
+      "motion": "Los puntos caen como fichas y se quedan dispersos; una línea de tendencia intenta trazarse y se borra."
     },
     {
       "id": "cierre",
-      "say": "Ordena la tabla por trabajo entregado, y el que más quemaba ya no es el primero. Cuéntame en los comentarios: en tu equipo, ¿miden tokens o entregas?",
-      "see": "La tabla de récords del principio cambia de pestaña, de 'Tokens' a 'Entregado', y las filas se reordenan con animación: el primero baja al último puesto. Queda la pregunta para comentar.",
-      "resource": "datos"
+      "say": "La ventaja no es quemar más tokens. Es convertirlos en trabajo útil. Mándaselo a quien lidera la tabla de tokens de tu equipo.",
+      "see": "Vuelve la tabla de récords del gancho; el cursor cambia la pestaña de FICHAS a ENTREGADO y las filas se reordenan: el que más quemaba baja y Beto sube. El gesto de enviar entra en la fila 1.",
+      "resource": "datos",
+      "intent": "La moraleja, cerrando el gancho: la tabla correcta ordena por trabajo, no por gasto.",
+      "metaphor": "La misma tabla de récords, con otra pestaña.",
+      "alternatives": [
+        "Un podio que se da vuelta",
+        "Un marcador que cambia de deporte"
+      ],
+      "motion": "Clic en la pestaña; las filas se deslizan a su nuevo lugar con resortes; el marcador ENTREGADO llega a su valor final; el gesto de enviar entra con un pop y la imagen queda quieta para capturar."
     }
   ],
+  "caption": "Un empleado de Meta quemó 281 mil millones de tokens en 30 días. Y su empresa llevaba la tabla.\n\nHay devs compitiendo por ver quién gasta más IA.\n\nTokenmaxxing es usar toda la IA que puedas en el trabajo, según Dictionary.com, que eligió \"maxxing\" como palabra del año 2026.\n\nEn Meta, una tabla interna mostraba a los 250 que más tokens usaban, entre más de 85.000 empleados.\n\nPero los tokens miden cuánto cómputo gastaste, no cuánto entregaste. Dos devs pueden entregar la misma función con 50 millones y con 5 millones.\n\nYo cambiaría la pregunta. Las que sí sirven: ¿funciona?, ¿pasó las pruebas?, ¿ahorró tiempo de verdad?, ¿cuánto costó?\n\nMándaselo a quien lidera la tabla de tokens en tu equipo.\n\nLetra chica:\n- Meta: Fortune (9 de abril de 2026), que cita a The Information.\n- Jensen Huang lo dijo en el podcast All-In (21 de marzo de 2026), según The Decoder.\n- OpenAI: Sam Altman dijo que su líder interno usa unos 100 mil millones de tokens al mes (3 de junio de 2026). Shopify: memo de Tobi Lütke (abril de 2025).\n- Jellyfish (15 de abril de 2026), con datos de 12.000 devs de 200 empresas: el decil que más tokens usa por PR gasta casi 10 veces más que la mediana, para unas 2 veces más PRs por semana. Es una correlación, no una causa.\n- Ana, Beto, los agentes, los 100 y los 1.000 dólares son un ejemplo ilustrativo.\n\nFuentes revisadas el 4 de noviembre de 2026.\n\nVoz con IA: elevenlabs.io\n\n#tokenmaxxing #ia #programacion #claudecode #ingenieriadesoftware",
+  "art": {
+    "direction": "antes-despues",
+    "dealt": [
+      "antes-despues",
+      "ficha-tecnica",
+      "titular-gigante"
+    ],
+    "reason": "La tesis es un A contra B que dura todo el video: lo que gastas contra lo que entregas, Ana contra Beto, la tabla por fichas contra la tabla por entregas. Dos campos de color que se oponen sobre el negro violeta de una pantalla de arcade: magenta para las fichas que se queman y verde azulado, el acento, para el trabajo que sale, que es lo que importa. Se separa del collage lima de Amazon y de la línea continua de los algoritmos, y no toma el crema, ámbar y verde del original.",
+    "borrowed": [],
+    "palette": {
+      "bg": "#120E1F",
+      "ink": "#F4F0FF",
+      "accent": "#3EE6C4",
+      "accentInk": "#120E1F",
+      "surface": "#1F1934",
+      "muted": "#A49BBF"
+    },
+    "fonts": {
+      "display": "archivo",
+      "text": "geist"
+    },
+    "anchor": {
+      "kind": "icono",
+      "ref": "coins",
+      "source": "La ficha de arcade, dibujada en código a partir de la forma del ícono coins de Lucide (ISC)"
+    },
+    "tab": "high-scores.json",
+    "cierre": {
+      "tratamiento": "gesto-en-el-recurso",
+      "gesto": "enviar",
+      "porque": "El CTA entra en la fila 1 de la tabla ya reordenada: se envía a quien lidera la tabla de tokens, dentro del mismo objeto que cierra el video."
+    }
+  },
   "gateA": {
-    "approved": false
+    "approved": true,
+    "date": "2026-11-04",
+    "notes": "Jeremy en el chat: \"Apruebo\", sobre los ganchos, el guion de 18 escenas y el storyboard. Los arreglos 1 y 2 de Gemini quedan sin aplicar para mantener el orden del guion de Rick."
   },
   "gateB": {
-    "approved": false
+    "approved": true,
+    "date": "2026-11-05",
+    "video": "b3a65fcf4bde32cf71c2f29280c367e59501ba8bc47d474bc4b79b851142913c",
+    "notes": "Jeremy en el chat: \"Sí, apruebo\", sobre el render 3 (178,8 s, sin problemas del inspector), que él pidió con \"Sí, renderiza\"."
   },
-  "caption": "Más de un millón de dólares en tokens: eso pudo gastar un solo empleado de Meta en 30 días.\n\nTokenmaxxing es usar toda la IA que puedas en el trabajo. Así lo define Dictionary.com.\n\nLas tablas existieron:\n- Meta: \"Claudeonomics\" mostraba a los 250 que más tokens usaban, entre más de 85.000 empleados. En 30 días sumaron más de 60 billones de tokens, y el primero llegó a 281 mil millones.\n- Amazon: hubo gente que puso agentes a hacer tareas inútiles para subir en su ranking, y Amazon lo retiró.\n- Salesforce: un mínimo de 100 USD por semana en Claude Code.\n- Uber: según la prensa, gastó en cuatro meses el presupuesto de todo 2026 para herramientas de código con IA.\n\nEs la ley de Goodhart: cuando una medida se vuelve meta, deja de medir. Los tokens te dicen cuánta IA usaste, no cuánto entregaste. Ni siquiera dicen cuánto costó: los mismos 50 millones salen entre unos 26 y 900 USD, según el modelo y la caché.\n\nLo que yo mediría: si se entregó, si pasaron las pruebas, si ahorró tiempo de verdad y cuánto costó.\n\nLetra chica:\n- Lo de Meta viene de Fortune y The Pragmatic Engineer, que citan a The Information. El 1,4 M USD es la estimación de Fortune, a 5 USD por millón de tokens.\n- Lo de Amazon viene del Financial Times, vía Fortune y The Decoder. Salesforce, de The Pragmatic Engineer.\n- El rango de 26 a 900 USD es una cuenta nuestra con los precios oficiales de Anthropic y OpenAI y una mezcla supuesta de entrada, salida y caché.\n- El estudio de METR (julio de 2025) usó herramientas de inicios de 2025: 16 devs con experiencia y 246 tareas reales. Su repetición de 2026 da resultados menos claros.\n- En septiembre, Meta sacó el uso de IA de las evaluaciones de sus ingenieros. En octubre, Amazon escribió que esas métricas tienen fallas profundas.\n- Los dos devs y la tabla del final son un ejemplo ilustrativo.\n\nCuéntame en los comentarios: en tu equipo, ¿miden tokens o entregas?\n\nFuentes: Fortune, The Pragmatic Engineer, The Decoder, Dictionary.com, aboutamazon.com, METR y los precios de Anthropic y OpenAI. Revisadas el 2 de noviembre de 2026.\n\nVoz con IA: elevenlabs.io\n\n#tokenmaxxing #ia #programacion #claudecode #ingenieriadesoftware"
+  "visualFrozen": {
+    "hash": "00019796f3a020bc",
+    "date": "2026-11-04"
+  }
 }

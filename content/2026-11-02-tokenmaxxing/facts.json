@@ -1,6 +1,6 @@
 {
   "topic": "2026-11-02-tokenmaxxing",
-  "checkedAt": "2026-11-02",
+  "checkedAt": "2026-11-04",
   "facts": [
     {
       "claim": "Definición de «tokenmaxxing» en Dictionary.com (entrada del 19 de octubre de 2026): «The practice of using as much AI as possible, especially in one's job». Etimología: «token» + «maxxing» (jerga de comunidades gamer, de optimizar un personaje). Empezó en la cultura tecnológica de Silicon Valley y se volvió prominente en 2026. Dictionary.com no nombra a ningún inventor del término.",
@@ -262,6 +262,90 @@
       "url": "https://dora.dev/guides/dora-metrics/history/",
       "primary": true,
       "note": "Año en revisión: https://dora.dev/insights/dora-2025-year-in-review/ ."
+    },
+    {
+      "claim": "Jellyfish (15 de abril de 2026), cifra central: «The median developer uses about 7 million tokens per PR, while developers in the top decile use roughly 69 million.» Y enseguida: «That's nearly ten times more tokens for about two times the throughput.» El «casi diez veces» es tokens POR PR del decil superior frente a la mediana, no tokens totales. El rendimiento (throughput) es PR fusionados por semana: sube de unos 0.77 PR por semana en los niveles más bajos de uso a 2.15 en los más altos.",
+      "source": "Jellyfish, Is tokenmaxxing cost-effective? New data from Jellyfish explains (15 de abril de 2026)",
+      "url": "https://jellyfish.co/blog/is-tokenmaxxing-cost-effective-new-data-from-jellyfish-explains/",
+      "primary": true,
+      "note": "Leída el 4 de noviembre de 2026. Es el estudio propio de Jellyfish (empresa que vende analítica de ingeniería). La página no define «throughput» formalmente; lo reporta como PR por semana y mide la producción en «merged pull requests». El «about two times» es redondeo del propio artículo: 2.15 / 0.77 = 2.8 (ver calculations)."
+    },
+    {
+      "claim": "Jellyfish, muestra y periodo: «We analyzed 12,000 developers across 200 companies in Q1 of this year» (Q1 de 2026). Para unir tokens con actividad de PR usó «a subset of ~7,500 developers for whom we can join token usage to PR activity»; ese subconjunto es el de las cifras por PR y de rendimiento. Une el uso de tokens con la producción real medida en PR fusionados.",
+      "source": "Jellyfish, Is tokenmaxxing cost-effective? New data from Jellyfish explains (15 de abril de 2026)",
+      "url": "https://jellyfish.co/blog/is-tokenmaxxing-cost-effective-new-data-from-jellyfish-explains/",
+      "primary": true,
+      "note": "Leída el 4 de noviembre de 2026. Los dólares son estimaciones con precios publicados de la API de Claude, no facturas reales."
+    },
+    {
+      "claim": "Jellyfish, costo por PR fusionado: «The cost per merged PR increases from just $0.28 in the lowest usage tier to $89.32 in the highest.» El 20% de menor gasto usó unos 3 dólares en tokens en el trimestre y entregó unos 11 PR fusionados en promedio; el 20% de mayor gasto gastó 1,822 dólares y entregó unos 23. Conclusión del artículo: más uso da más producción, pero no proporcional.",
+      "source": "Jellyfish, Is tokenmaxxing cost-effective? New data from Jellyfish explains (15 de abril de 2026)",
+      "url": "https://jellyfish.co/blog/is-tokenmaxxing-cost-effective-new-data-from-jellyfish-explains/",
+      "primary": true,
+      "note": "Leída el 4 de noviembre de 2026. Los tramos son distintos de los de la cifra de 10x: aquí son quintiles de gasto (20% inferior y superior); allí, el decil superior de tokens por PR. Jellyfish habla de «correlate with», no de causa, y llama al conteo de tokens «directionally useful but ultimately incomplete»."
+    },
+    {
+      "claim": "Qué es un token según Anthropic: «Tokens are the smallest individual units of a language model, and can correspond to words, subwords, characters, or even bytes (in the case of Unicode).» El texto que recibe Claude se codifica en una serie de tokens. Los modelos 4.7 y posteriores usan un tokenizador nuevo que produce «approximately 30 percent more tokens for the same text»; en los anteriores, un token equivalía a unos 3.5 caracteres en inglés.",
+      "source": "Anthropic, Claude Developer Platform docs, Glossary (Tokens)",
+      "url": "https://platform.claude.com/docs/en/about-claude/glossary",
+      "primary": true,
+      "note": "Leída el 4 de noviembre de 2026. La página no muestra fecha. El glosario no habla de cobro: el cobro por entrada y salida está en la página de precios."
+    },
+    {
+      "claim": "Qué es un token según OpenAI (documentación de la API): «Tokens represent commonly occurring sequences of characters.» La página añade que, en los modelos de generación de texto, la entrada y la salida generada juntas no pueden pasar del contexto máximo del modelo.",
+      "source": "OpenAI, API docs, Key concepts (developers.openai.com)",
+      "url": "https://developers.openai.com/api/docs/concepts",
+      "primary": true,
+      "note": "Leída el 4 de noviembre de 2026 (lectura resumida). Esta página no dice nada del cobro. El artículo del centro de ayuda «What are tokens and how to count them» (help.openai.com/en/articles/4936856) devolvió HTTP 403, así que la regla de 4 caracteres o tres cuartos de palabra no se confirmó en la fuente: ver pendingToVerify."
+    },
+    {
+      "claim": "Cobro por entrada y salida: la tabla de precios de la API de Anthropic separa en columnas distintas «Base input tokens» y «Output tokens», con precios en dólares por millón de tokens (MTok); es decir, cada token que el modelo lee y cada token que genera se cobran, a tarifas distintas. Claude Code «charges by API token consumption», y los tokens de razonamiento extendido (thinking) «are billed as output tokens».",
+      "source": "Anthropic, Claude Developer Platform docs, Pricing (Model pricing); Claude Code docs, Manage costs effectively",
+      "url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "primary": true,
+      "note": "Leída el 4 de noviembre de 2026. Los precios concretos ya están en una entrada anterior. La cita de Claude Code sale de https://code.claude.com/docs/en/costs . En OpenAI, la tabla de precios también separa entrada, entrada en caché y salida (entrada anterior)."
+    },
+    {
+      "claim": "Ciclo agéntico de Claude Code según su documentación: «When you give Claude a task, it works through three phases: gather context, take action, and verify results.» El diagrama oficial añade «repeating until task complete». Claude decide cada paso según lo aprendido en el anterior, «chaining dozens of actions together». Un arreglo de errores «cycles through all three phases repeatedly». El ciclo lo mueven dos piezas: modelos que razonan y herramientas que actúan, y cada uso de herramienta devuelve información que alimenta «the loop».",
+      "source": "Anthropic, Claude Code docs, How Claude Code works (The agentic loop)",
+      "url": "https://code.claude.com/docs/en/how-claude-code-works",
+      "primary": true,
+      "note": "Leída el 4 de noviembre de 2026. La página no usa la palabra «repetir» como cuarta fase: son tres fases que se mezclan, y la repetición está en el diagrama. Conviene decir «tres fases que se repiten», no «cuatro pasos»."
+    },
+    {
+      "claim": "Cada vuelta llama al modelo y arrastra todo el contexto: «Claude Code sends your full conversation with every request, and each time Claude uses tools it sends another request carrying that batch of tool results.» Con caché de prompts, relee ese historial a la tarifa de caché, así que «a one-line question in a session that has been open all day still draws usage for the whole conversation».",
+      "source": "Anthropic, Claude Code docs, Manage costs effectively (Why usage climbs in a long session)",
+      "url": "https://code.claude.com/docs/en/costs",
+      "primary": true,
+      "note": "Leída el 4 de noviembre de 2026. Las dos frases citadas son textuales de la página. Es la base documental de por qué un agente consume muchos más tokens que un chat."
+    },
+    {
+      "claim": "Costo típico de Claude Code según Anthropic: «the average cost is around $13 per developer per active day and $150-250 per developer per month, with costs remaining below $30 per active day for 90% of users» (despliegues empresariales). Los costos «vary widely based on model selection, codebase size, and usage patterns such as running multiple instances or automation».",
+      "source": "Anthropic, Claude Code docs, Manage costs effectively",
+      "url": "https://code.claude.com/docs/en/costs",
+      "primary": true,
+      "note": "Leída el 4 de noviembre de 2026. La página no muestra fecha. Sirve de contraste con las cifras de los tableros de tokens (viberank, Meta)."
+    },
+    {
+      "claim": "Subagentes en paralelo según la documentación de Claude Code: «Background subagents run concurrently while you continue working.» Ejemplo oficial de prompt: «Research the authentication, database, and API modules in parallel using separate subagents». Cada subagente corre en su propia ventana de contexto. Por defecto, con 20 subagentes activos en una sesión, lanzar otro falla con «Concurrent subagent limit reached» (se cambia con CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTS). Sobre el costo: «each subagent spends tokens of its own while it runs», y sus solicitudes «count toward the same usage limits as your main conversation».",
+      "source": "Anthropic, Claude Code docs, Create custom subagents",
+      "url": "https://code.claude.com/docs/en/sub-agents",
+      "primary": true,
+      "note": "Leída el 4 de noviembre de 2026 (se leyeron los primeros 100,000 de 116,722 caracteres de la página)."
+    },
+    {
+      "claim": "Varias sesiones y equipos de agentes en paralelo: «Since sessions are tied to directories, you can run parallel Claude sessions by using git worktrees, which create separate directories for individual branches.» Los equipos de agentes (agent teams, desactivados por defecto) lanzan varias instancias de Claude Code, cada una con su ventana de contexto; la documentación de costos dice que «use approximately 7x more tokens than standard sessions when teammates run in plan mode», y que cada compañero activo «continues consuming tokens until it exits or the session ends».",
+      "source": "Anthropic, Claude Code docs, How Claude Code works (Work across branches); Manage costs effectively (Agent team token costs)",
+      "url": "https://code.claude.com/docs/en/how-claude-code-works",
+      "primary": true,
+      "note": "Leída el 4 de noviembre de 2026. Lo del 7x está en https://code.claude.com/docs/en/costs , sección «Manage agent team costs»; la cifra es de Anthropic y se refiere al modo plan, no a cualquier uso. La página de costos también advierte que tareas programadas, mensajes entre sesiones y subagentes envían sus propias solicitudes con todo el contexto."
+    },
+    {
+      "claim": "Dictionary.com sobre el sufijo: «-maxxing» «refers to the practice of pursuing an activity to the fullest or optimizing a certain aspect of your life», y viene de maximum, maximize y max. Ejemplos con definición: looksmaxxing («optimizing one's physical appearance»), tokenmaxxing («using as much AI at work as possible») y nonnamaxxing («bettering one's life by adopting the habits of an Italian grandmother»). También menciona moneymaxxing, statusmaxxing, surgerymaxxing, booksmaxxing, proteinmaxxing, cozymaxxing y salmonmaxxing sin definirlos.",
+      "source": "Dictionary.com, Word of the Year 2026: maxxing",
+      "url": "https://www.dictionary.com/word-of-the-year",
+      "primary": true,
+      "note": "Leída el 4 de noviembre de 2026. «Sleepmaxxing» NO aparece en esta página; no usarlo como ejemplo de Dictionary.com. La primera frase de la definición salió de una lectura que la presentó entre comillas como redacción del artículo; releer la página antes de citarla entre comillas en pantalla."
     }
   ],
   "calculations": [
@@ -273,7 +357,9 @@
     "Cifra de Anthropic: «decenas de miles» de dólares en un plan de 200 es como mínimo 20,000 / 200 = 100 veces lo que pagaba esa persona. Es una lectura mínima de «tens of thousands»; la frase no da el número exacto.",
     "Estudio de Anthropic sobre habilidades: 67% - 50% = 17 puntos porcentuales de diferencia en la prueba. En términos relativos, (67 - 50) / 67 = 25.4% menos. Anthropic y la prensa dicen «17% lower»; en el guion conviene decir «17 puntos».",
     "Fechas de Meta: Fortune (jueves 9 de abril de 2026) dice que The Information lo reportó «Monday» y que se retiró dos días después. El 9 de abril de 2026 cae en jueves, así que el lunes sería el 6 de abril y el retiro, el 8 de abril. Es deducción mía del calendario, no una fecha de la fuente.",
-    "Opus 5.5 frente a Opus 5: (5 - 4) / 5 = 20% más barato en entrada, y (25 - 20) / 25 = 20% en salida. Los dos precios bajaron 20%, pero Opus 5.5 usa el tokenizador nuevo que Anthropic dice que genera «approximately 30% more tokens for the same text» (nota de la página de precios: aplica a los modelos 4.7 en adelante, así que Opus 5 y 5.5 comparten tokenizador); la comparación de tokens no cambia entre ellos, pero sí frente a Sonnet 4.6 y anteriores."
+    "Opus 5.5 frente a Opus 5: (5 - 4) / 5 = 20% más barato en entrada, y (25 - 20) / 25 = 20% en salida. Los dos precios bajaron 20%, pero Opus 5.5 usa el tokenizador nuevo que Anthropic dice que genera «approximately 30% more tokens for the same text» (nota de la página de precios: aplica a los modelos 4.7 en adelante, así que Opus 5 y 5.5 comparten tokenizador); la comparación de tokens no cambia entre ellos, pero sí frente a Sonnet 4.6 y anteriores.",
+    "Jellyfish, la razón de tokens por PR: 69 millones / 7 millones = 9.86, o sea «casi diez veces» (decil superior frente a la mediana, en tokens por PR). Rendimiento: 2.15 / 0.77 = 2.79 veces entre el nivel más bajo y el más alto de uso, aunque el artículo dice «about two times». Por eso conviene citar la frase del artículo («about two times») o decir «entre dos y tres veces», y no mezclar los extremos 0.77 y 2.15 con los 69 y 7 millones, que son comparaciones distintas (mediana y decil, no mínimo y máximo).",
+    "Jellyfish, costo por PR: 89.32 / 0.28 = 319 veces entre el nivel más bajo y el más alto. Por quintiles de gasto: 1,822 / 3 = 607 veces el gasto (con «unos 3 dólares» como aproximación del artículo) para 23 / 11 = 2.09 veces los PR fusionados. Son estimaciones de Jellyfish con precios públicos de la API, no facturas; el «unos 3 dólares» es redondeado en la fuente, así que la razón de 607 es aproximada."
   ],
   "illustrative": [],
   "pendingToVerify": [
@@ -286,10 +372,13 @@
     "Que Microsoft canceló suscripciones a Claude Code para empleados de varias divisiones: Fortune (28 de mayo de 2026) lo cita de The Verge y aclara que no lo confirmó por su cuenta. Tampoco se abrió 404 Media (correo de Jay Parikh), que LeadDev cita.",
     "Despidos ligados al conteo de tokens: no se encontró ninguna fuente que diga que alguien fue despedido solo por pocos tokens. Hay una demanda de 26 empleados de Meta (julio de 2026) que alega que se usaron datos de productividad y de uso de tokens en las evaluaciones para despidos y que afectó a personas con licencia médica; solo se leyó en un resumen de búsqueda (publicación de Carlton Fields: https://www.carltonfields.com/insights/publications/2026/lawsuit-challenges-metas-use-of-artificial-intelligence-to-make-layoff-decisions , no abierta). Meta lo niega. Es una acusación, no un hecho probado.",
     "Otros tableros públicos (tokscale, Straude, ccclub, CostHawk, tokenflex.ing): solo aparecieron en una búsqueda, no se abrieron y no se confirmaron cifras. Sin fuente primaria. Solo viberank se abrió y se citó.",
-    "Estudios de 2026 que NO están en docs/referentes.md y por tanto no entran como hecho, aunque el contenido es útil para el ángulo (proponerlos a Jeremy si los quiere): Jellyfish, 15 de abril de 2026 (12,000 desarrolladores en 200 empresas; el decil de mayor gasto usa casi diez veces los tokens por unos dos veces el rendimiento de PR; costo por PR fusionado de 0.28 USD en el nivel más bajo a 89.32 USD en el más alto; URL https://jellyfish.co/blog/is-tokenmaxxing-cost-effective-new-data-from-jellyfish-explains/ , abierta el 2 de noviembre de 2026); Faros AI, marzo de 2026 (rotación de código de 861% con adopción alta, citado por TechCrunch del 17 de abril de 2026, sin abrir); GitClear, enero de 2026 (usuarios de IA con 9.4x más rotación de código, sin abrir); Waydev; la encuesta AI Impact Report 2026 de LeadDev (19% de los encuestados considera eficaz el tokenmaxxing, 57% dice que no mide el valor real y 58% dice que su organización mide el impacto de IA con tokens; LeadDev, 17 de agosto de 2026; el informe aparece como «upcoming» y no se vio el tamaño de muestra).",
+    "Estudios de 2026 que NO están en docs/referentes.md y por tanto no entran como hecho, aunque el contenido es útil para el ángulo (proponerlos a Jeremy si los quiere): Faros AI, marzo de 2026 (rotación de código de 861% con adopción alta, citado por TechCrunch del 17 de abril de 2026, sin abrir); GitClear, enero de 2026 (usuarios de IA con 9.4x más rotación de código, sin abrir); Waydev; la encuesta AI Impact Report 2026 de LeadDev (19% de los encuestados considera eficaz el tokenmaxxing, 57% dice que no mide el valor real y 58% dice que su organización mide el impacto de IA con tokens; LeadDev, 17 de agosto de 2026; el informe aparece como «upcoming» y no se vio el tamaño de muestra). (Jellyfish ya se confirmó el 4 de noviembre de 2026 como estudio propio; ver los hechos nuevos al final.)",
     "Coeficientes exactos del informe DORA 2025 (cuánto sube el throughput y cuánto cae la estabilidad por cada aumento de adopción): ninguna de las páginas abiertas los da; el PDF del informe pesa más de 10 MB y no se pudo leer. No usar cifras de 2024 (1.5% y 7.2%) como si fueran de 2025.",
     "Modelo principal de OpenAI para Codex: ninguna página lo nombra. La documentación de Codex recomienda Astra, Sol, Terra y Luna sin marcar un predeterminado; la tabla de la API solo etiqueta gpt-5.3-codex como «Codex». El guion debe decir cuál usó en la cuenta o presentar Sol y Astra como opciones. La página de modelos de Codex lista retiros ya cumplidos (GPT-5.3-Codex-Spark, 14 de septiembre de 2026; GPT-5.5 en Codex, 14 de octubre de 2026), así que gpt-5.3-codex puede quedar fuera de uso.",
     "Las páginas de precios de Anthropic, OpenAI y de planes (claude.com/pricing) no muestran fecha de actualización. Los precios son los de la lectura del 2 de noviembre de 2026; releer el día de grabar.",
-    "METR de febrero de 2026: la página no define el signo de «speedup» (la lectura de que -18% significa «menos tiempo» es una inferencia). No describir esa cifra como «18% más lento» ni como «18% más rápido» sin releer la sección de resultados."
+    "METR de febrero de 2026: la página no define el signo de «speedup» (la lectura de que -18% significa «menos tiempo» es una inferencia). No describir esa cifra como «18% más lento» ni como «18% más rápido» sin releer la sección de resultados.",
+    "Artículo del centro de ayuda de OpenAI «What are tokens and how to count them» (https://help.openai.com/en/articles/4936856): devolvió HTTP 403 a WebFetch en todas las variantes. Solo un resumen de búsqueda (secundario) lo describe con «1 token is approximately 4 characters» y «three-quarters of a word» y con tokens de entrada, salida, caché y razonamiento (estos últimos facturados como salida). No usar esas frases como cita hasta abrir la página; la definición de OpenAI que sí se leyó es la de la documentación de la API (hecho nuevo).",
+    "Jellyfish: la página no define «throughput» de forma formal ni dice cómo se agrupan exactamente los niveles de uso (deciles frente a quintiles de gasto) más allá de las frases citadas. Los dólares son estimaciones con precios públicos de la API de Claude. Jellyfish vende productos de analítica de ingeniería. La lectura fue un resumen de la página, no una copia completa.",
+    "Dictionary.com, palabra del año: la frase «refers to the practice of pursuing an activity to the fullest or optimizing a certain aspect of your life» llegó entre comillas en una lectura resumida de la página. «Sleepmaxxing» no aparece en la página. Releer antes de poner la frase en pantalla."
   ]
 }
