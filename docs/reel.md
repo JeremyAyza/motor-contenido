@@ -61,22 +61,22 @@ Corre `hookscore_es` y `beats_es` de `ig-reel` y la revisión de textos. Un ganc
 
 **4. Puerta A.** Solo el sí de Jeremy en el chat aprueba; el agente anota `gateA { approved: true, date }`. Sin ella no hay voz. Si después cambia lo que dice la voz, se vuelve a la puerta A. Una réplica lleva `out/comparar.png` ([cómo](referencia/kit-video.md#comparar-con-el-referente)).
 
-**5. Lo que se ve.** Primero `npm run video:congelar -- content/<pieza>` (guarda el hash del guion visual; `video:script` avisa si cambia después) y `npm run video:emparejar -- content/<pieza>` (ver "La biblioteca"). Después, una escena por archivo en `content/<pieza>/scenes/<id>.tsx`, y `video.tsx` solo compone: exporta `defineVideo` de `@motor/video`: `captions`, `chapters`, `stage` (el mundo y su cámara), `meter` y una entrada por escena con el mismo `id`, `tone`, `chapter`, `sfx`, `camera` y `Visual`. La dirección de arte sale de `post.json → art` si la pieza tiene carrusel, o de `npm run video:baraja -- content/<pieza>`. Lo que dice la voz no va aquí. La gramática de movimiento (`fade`, `keys`, `At`, `Appear`, `rigAt`...) viene de `@motor/video` y no se redefine: `video:check` avisa. El kit está en la [referencia](referencia/kit-video.md) y en el [índice de la biblioteca](../packages/video/library/README.md).
+**5. Lo que se ve.** Primero `video:congelar` (guarda el hash del guion visual) y `video:emparejar` (ver "La biblioteca"). Después, una escena por archivo en `content/<pieza>/scenes/<id>.tsx`, y `video.tsx` solo compone: exporta `defineVideo` de `@motor/video`: `captions`, `chapters`, `stage` (el mundo y su cámara), `meter` y una entrada por escena con el mismo `id`, `tone`, `chapter`, `sfx`, `camera` y `Visual`. La dirección de arte sale de `post.json → art` si la pieza tiene carrusel, o de `npm run video:baraja -- content/<pieza>`. Lo que dice la voz no va aquí. La gramática de movimiento (`fade`, `keys`, `At`, `Appear`, `rigAt`...) viene de `@motor/video` y no se redefine: `video:check` avisa. El kit está en la [referencia](referencia/kit-video.md) y en el [índice de la biblioteca](../packages/video/library/README.md).
 
-**6. Voz:** `npm run video:prepare -- content/<pieza>`. Pide la puerta A. Genera la voz de cada escena con los tiempos por palabra de ElevenLabs, baja los efectos del catálogo y deja todo en `out/video/`. La voz se guarda en caché: si el texto no cambia, no se vuelve a pagar.
+**6. Voz:** `npm run video:prepare -- content/<pieza>`. Genera la voz de cada escena con los tiempos por palabra de ElevenLabs, baja los efectos del catálogo y deja todo en `out/video/`, con `reloj.md`: cada palabra con su segundo, para los `useCue`. La voz va en caché: si el texto no cambia, no se vuelve a pagar.
 
 **7. Iterar por escena.** Mientras se construye y se arregla, nada de renders completos:
 - `npm run video:frames -- content/<pieza> <segundos...>` o `--escena <id>`: solo esos cuadros, en `out/cuadros/hoja.png`, en 5 a 25 s. Sin voz todavía, usa los tiempos del storyboard;
 - `npm run video:render -- content/<pieza> --escena <id>[,<id>]`: el tramo de esas escenas, con el inspector de texto, en `out/escena-<ids>.mp4` y su hoja. Una escena de 14 s tarda unos 25 s.
 
-Los dos corren primero `video:check`, el typecheck de la pieza (2 a 4 s; `npm run typecheck` es para los cambios del motor), y reutilizan el bundle de la pieza mientras no cambie nada. `npm run video:studio -- content/<pieza>` abre la vista previa.
+Los dos corren primero `video:check` (typecheck de la pieza en 2 a 4 s; avisa si un `useCue` o un efecto cae a menos de 0,7 s del corte) y reutilizan el bundle si nada cambió. `video:studio` abre la vista previa.
 
 **8. Render completo:** `npm run video:render -- content/<pieza>`. Deja:
 - `out/video.mp4`: 1080×1920 a 30 fps, H.264 yuv420p en BT.709 y AAC, a −14 LUFS;
 - `out/video-hoja.png`: la portada, el final de cada escena y el medio de cada cambio. Es lo primero que se mira;
 - `out/video-inspector.txt` y `out/video.sha256`.
 
-Además del texto, mide el volumen, los congelados y la composición, que el render por escena no mide.
+Además del texto, mide lo que el render por escena no mide: volumen, congelados, cortes y composición.
 
 **9. Crítico ciego:** `npm run video:critique -- content/<pieza>` arma `out/video-critica/`: el video, un cuadro cada 2 s en tiras, la hoja, la portada recortada, lo que se oye con sus tiempos y el texto del post. Se le da al subagente `critico-ciego-video`, que escribe `informe.md` con la rúbrica y termina con la línea "Error grave".
 - Los tres problemas principales se arreglan y se comprueban por escena (paso 7); después va el segundo y último render completo.
@@ -115,7 +115,7 @@ Lee lo que el render dibujó: el texto de un cuadro cada medio segundo, con su p
 - el gancho (`onScreen`) no se ve completo en el cuadro 1;
 - subtítulos sin todas las palabras del guion.
 
-**Avisos:** más de 6 palabras en pantalla sin contar subtítulos ni interfaces; la escena 1 abre con un título en vez de un objeto que se mueve; el gancho fuera del centro 3:4 de la grilla; vacío de más de 130 px sobre los subtítulos; una portada que ocupa menos del 35 % del recorte; más de 2 s sin cambio; `meter` sin mostrar; el volumen lejos de −14 LUFS; una duración fuera de rango.
+**Avisos:** más de 6 palabras en pantalla sin contar subtítulos ni interfaces; la escena 1 abre con un título en vez de un objeto que se mueve; el gancho fuera del centro 3:4 de la grilla; vacío de más de 130 px sobre los subtítulos; una portada que ocupa menos del 35 % del recorte; más de 2 s sin cambio; un cambio de escena que casi no cambia la imagen; `meter` sin mostrar; el volumen lejos de −14 LUFS o un pico sobre −1 dBTP; una duración fuera de rango.
 
 ## Reglas de forma
 

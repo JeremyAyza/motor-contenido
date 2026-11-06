@@ -207,6 +207,22 @@ Los detalles y los valores por defecto están en [assets/avatar](../../assets/av
 
 `useCue("palabra")` da los segundos en que se dice esa palabra dentro de la escena. Por ejemplo, `anim={{ en: useCue("ojo") }}`. Si la voz cambia, todo se mueve con ella. Los efectos también van por palabra, con `at: "ojo"`.
 
+- **El reloj:** `video:prepare` deja `out/video/reloj.md` (y `video:storyboard`, `out/storyboard/reloj.md` con los tiempos estimados): cada palabra con su segundo dentro de la escena, las pausas, las cifras en negrita y con ⚠ lo que cae cerca del corte. Se lee eso, no `timeline.json`.
+- **Nada a medias en el corte:** lo que dispara un cue necesita medio segundo para terminar. `video:check` avisa si un `useCue` de `scenes/<id>.tsx`, un `useStageCue` o un efecto cae a menos de 0,7 s del final de su escena. Se arregla con una palabra anterior, con `hold` en la escena o pasándolo a la siguiente.
+- **Silencio antes del dato:** `drop: "palabra"` en la escena de `defineVideo` baja la música casi a cero 1,2 s antes de que se diga esa palabra y la devuelve con un golpe cuando se dice. Para la cifra clave o el clímax, una o dos veces por video: si se usa en todas, deja de pegar.
+
+## Títulos, cifras y trazos
+
+Piezas del kit para no escribir lo mismo en cada escena. Toman la tipografía y el acento de la dirección de arte de la pieza, así que no son una plantilla. Se usan después de decidir qué muestra la escena, no al revés.
+
+- **`<SaidTitle text highlight at size>`:** el título entra palabra por palabra y `highlight` se ilumina sobre el acento cuando la voz lo dice, nunca a menos de 0,7 s del corte. Falla si la palabra no está en el título o no se dice en la escena. `size` de 42 px o más.
+- **`<StatCard value text at>`:** la cifra grande en una tarjeta, con un golpe, cuando se dice la primera palabra de `value` (o en `at`). La cifra sale de `facts.json`.
+- **`<DrawPath d at dur>`:** un trazo que se dibuja solo (una flecha, una conexión, la línea de un gráfico). Es un `<path>`: va dentro del `<svg>` de la escena. `drawn(d, t, at, dur)` da lo mismo como props, para un trazo propio.
+- **`<Morph from to at dur>`:** una forma que se transforma en otra: el mundo cambia de estado en vez de reemplazarse. Funciona mejor con formas de cantidad de puntos parecida.
+- **`<SplitWords text at stagger>`:** una frase que entra palabra por palabra, con un blip. Para la idea que se arma en pantalla, no para los subtítulos.
+- **`wobble(t, seed, amplitude)`:** un vaivén orgánico para lo que está quieto (una tarjeta que flota, un letrero colgado), con el ruido de Remotion: la misma semilla se mueve siempre igual.
+- Lo que viaja por un recorrido ya existe: `<Along>` y `pointAlong` del kit del mundo.
+
 ## Estilo: el del carrusel
 
 Cada Reel se ve como un carrusel de la cuenta: lo que identifica a la cuenta no cambia, y lo demás sale del tema. Dos videos seguidos no se parecen, igual que dos carruseles.

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { cameraMoving, inspectFrames, inspectLoudness, inspectTimeline, reviewFrames, sheetFrames, stillStretches } from "../src/inspector.ts";
+import { cameraMoving, changedShare, inspectFrames, inspectLoudness, inspectTimeline, invisibleCuts, parseLoudness, reviewFrames, sheetFrames, stillStretches } from "../src/inspector.ts";
 import { camerasOver, type ProbedText } from "../src/probe.tsx";
 import { VideoScriptSchema } from "../src/script.ts";
 import type { Timeline } from "../src/timeline.ts";
@@ -180,5 +180,32 @@ describe("the first frame", () => {
   it("warns when scene 1 opens with a SceneFrame title", () => {
     const issues = inspectFrames([{ frame: 0, texts: [text({ title: true })] }], 30, "La luz, al revés");
     assert.match(messages(issues), /La escena 1 abre con el título de SceneFrame/);
+  });
+});
+
+describe("parseLoudness", () => {
+  it("reads the integrated loudness and the true peak of the summary", () => {
+    const log = "[Parsed_ebur128_0] Summary:\n\n  Integrated loudness:\n    I:         -14.1 LUFS\n    Threshold: -24.3 LUFS\n\n  True peak:\n    Peak:       -0.8 dBFS\n";
+    assert.deepEqual(parseLoudness(log), { lufs: -14.1, truePeak: -0.8 });
+    assert.deepEqual(parseLoudness("Summary:\n    I:         -14.0 LUFS\n"), { lufs: -14 });
+  });
+
+  it("warns when the true peak goes over -1 dBTP", () => {
+    assert.deepEqual(inspectLoudness(-14, -1.4), []);
+    assert.match(inspectLoudness(-14, -0.8)[0].message, /-0\.8 dBTP/);
+  });
+});
+
+describe("invisibleCuts", () => {
+  const frame = (changed: number) => {
+    const pixels = new Uint8Array(1000);
+    pixels.fill(200, 0, changed);
+    return pixels;
+  };
+  it("flags a scene start where under 2% of the picture changes in its first second", () => {
+    // 90 frames at 30 fps: a cut at 30 that changes a third of the picture, one at 60 that changes 1%.
+    const frames = [...Array(30).fill(frame(0)), ...Array(30).fill(frame(330)), ...Array(30).fill(frame(340))];
+    assert.deepEqual(invisibleCuts(frames, [30, 60], 30), [60]);
+    assert.ok(Math.abs(changedShare(frame(0), frame(330)) - 0.33) < 1e-9);
   });
 });

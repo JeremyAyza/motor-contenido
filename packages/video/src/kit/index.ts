@@ -43,6 +43,12 @@ export type SceneDef = {
    * a punchline, a reveal or a transition, as the references do. 0 by default.
    */
   hold?: number;
+  /**
+   * A word of the scene where its key figure lands (a number, the climax):
+   * the music goes almost silent 1.2 s before it and comes back with a hit
+   * when the voice says it. One or two per video; the silence is what makes it land.
+   */
+  drop?: string;
   /** Without a stage: a pattern over the scene's tone ("grid", "stripes"). */
   background?: SceneBackground;
   /** Without a stage: how the scene comes in ("blur", "zoom", "slide", "whip"), with a whoosh. */
@@ -169,9 +175,10 @@ export type { MeterDef, MeterKind, MeterStep } from "./meter.ts";
 export type { AvatarDef, AvatarEdge, AvatarShape, AvatarSprites, SceneAvatar, SceneCue } from "./avatar.tsx";
 export type { PanelCounter, PanelDef } from "./panel.ts";
 export { Pop, Sfx, usePop } from "./sfx.tsx";
-export { Appear, At, bump, CLAMP, clamp01, DUR, EASE, es, fade, keys, lerp, lerpPoint, popAt, rigAt, shakeAt, span, unit } from "./grammar.tsx";
+export { Appear, At, bump, CLAMP, clamp01, DUR, EASE, es, fade, keys, lerp, lerpPoint, popAt, rigAt, shakeAt, span, unit, wobble } from "./grammar.tsx";
+export { DrawPath, drawn, Morph, SplitWords } from "./paths.tsx";
 export type { RigShot } from "./grammar.tsx";
-export { Banner, PillTitle } from "./text.tsx";
+export { Banner, highlightAt, PillTitle, SaidTitle, saidAt, StatCard } from "./text.tsx";
 export type { SceneBackground, SceneTransition } from "./scene-fx.tsx";
 export { Along, Booth, Building, Bush, Car, Cloud, Coin, Cone, Document, House, Laptop, Machine, Person, Pine, pointAlong, RoadPath, Server, Sign, StreetLamp, Traffic, TrafficLight, Tree, Truck, usePath, Warehouse } from "./props.tsx";
 export { Board, Label, Plate, Spot } from "./world.tsx";

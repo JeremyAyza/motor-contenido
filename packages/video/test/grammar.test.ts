@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
-import { bump, EASE, es, fade, keys, rigAt, shakeAt, span, unit } from "../src/kit/grammar.tsx";
+import { bump, EASE, es, fade, keys, rigAt, shakeAt, span, unit, wobble } from "../src/kit/grammar.tsx";
+import { drawn } from "../src/kit/paths.tsx";
+import { highlightAt, saidAt } from "../src/kit/text.tsx";
 
 describe("the motion grammar", () => {
   it("fades and spans in seconds, holding the ends", () => {
@@ -47,5 +49,38 @@ describe("the motion grammar", () => {
     assert.equal(es(0.25, 2), "0,25");
     assert.equal(es(1234.5, 1), "1.234,5");
     assert.equal(es(-3), "−3");
+  });
+});
+
+describe("wobble", () => {
+  it("sways within its amplitude, the same way for the same seed", () => {
+    const a = wobble(1.3, "carta", 4);
+    assert.deepEqual(a, wobble(1.3, "carta", 4));
+    assert.notDeepEqual(a, wobble(1.3, "otra", 4));
+    for (let t = 0; t < 10; t += 0.37) {
+      const w = wobble(t, "carta", 4);
+      assert.ok(Math.abs(w.x) <= 4 && Math.abs(w.y) <= 4 && Math.abs(w.rotate) <= 1.6);
+    }
+  });
+});
+
+describe("the title's highlight", () => {
+  const scene = { words: [{ text: "Azul", startMs: 1200, endMs: 1500 }, { text: "cielo", startMs: 3600, endMs: 3900 }], durationMs: 4000 };
+  it("lights up when its word is said", () => {
+    assert.equal(saidAt(scene, "azul"), 1.2);
+    assert.equal(saidAt(scene, "verde"), null);
+    assert.equal(highlightAt(scene, "azul", 0.5), 1.2);
+  });
+  it("never later than the cut margin, nor before the scene", () => {
+    assert.equal(highlightAt(scene, "cielo", 0.5), 3.3);
+    assert.equal(highlightAt(scene, "verde", 0.5), 0.5);
+  });
+});
+
+describe("drawn", () => {
+  it("draws a stroke from nothing to all of it", () => {
+    const d = "M 0 0 L 100 0";
+    assert.ok(drawn(d, 0, 1).strokeDashoffset >= 100, "nothing drawn before `at`");
+    assert.equal(drawn(d, 5, 1).strokeDashoffset, 0);
   });
 });

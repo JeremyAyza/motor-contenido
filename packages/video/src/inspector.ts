@@ -244,26 +244,92 @@ export function inspectFreezes(ffmpeg: string, video: string): Issue[] {
   }));
 }
 
-/** Integrated loudness (EBU R128) of the file's audio, in LUFS. */
-export function measureLoudness(ffmpeg: string, file: string): number {
-  const log = ffmpegStderr(ffmpeg, ["-i", file, "-af", "ebur128", "-f", "null", "-"]);
+/** The highest true peak a Reel can have, in dBTP: above it, the platforms' encoders clip it. */
+export const MAX_TRUE_PEAK = -1;
+
+/** The integrated loudness (LUFS) and the true peak (dBTP) out of ffmpeg's ebur128 summary. */
+export function parseLoudness(log: string): { lufs: number; truePeak?: number } {
   const summary = log.slice(log.lastIndexOf("Summary"));
-  const match = summary.match(/I:\s+(-?[\d.]+) LUFS/);
-  if (!match) throw new Error(`ffmpeg did not report the loudness of ${file}`);
-  return Number(match[1]);
+  const lufs = summary.match(/I:\s+(-?[\d.]+) LUFS/);
+  if (!lufs) throw new Error("ffmpeg did not report the loudness");
+  const peak = summary.slice(summary.indexOf("True peak")).match(/Peak:\s+(-?[\d.]+|-inf) dBFS/);
+  return { lufs: Number(lufs[1]), ...(peak && peak[1] !== "-inf" ? { truePeak: Number(peak[1]) } : {}) };
 }
 
-export function inspectLoudness(lufs: number): Issue[] {
-  if (Math.abs(lufs - TARGET_LUFS) <= LUFS_TOLERANCE) return [];
-  return [{ level: "aviso", message: `El volumen está en ${lufs.toFixed(1)} LUFS y se busca ${TARGET_LUFS}` }];
+/** Small gray frames for the cut check: enough to see a change, cheap at every frame. */
+const CUT_W = 72;
+const CUT_H = Math.round((CUT_W * CAPTIONS_TOP) / WIDTH);
+/** How long after a scene starts its change has to show, in seconds. */
+const CUT_WINDOW_S = 1;
+/** The least share of the picture (above the captions) that changes across a cut. */
+export const MIN_CUT_SHARE = 0.02;
+
+/** Share of pixels clearly different (PIXEL_CHANGE) between two frames. */
+export function changedShare(a: Uint8Array, b: Uint8Array): number {
+  let changed = 0;
+  for (let p = 0; p < a.length; p++) if (Math.abs(a[p] - b[p]) > PIXEL_CHANGE) changed++;
+  return changed / a.length;
 }
 
 /**
- * Two-pass loudness normalization to TARGET_LUFS (true peak -1.5 dB), in
+ * Scene starts (in frames) where the picture barely changes: from just before
+ * the start to CUT_WINDOW_S after it, less than MIN_CUT_SHARE of the pixels
+ * changed. A new title, an object coming in or a camera move pass; a scene
+ * that only swaps its captions does not.
+ */
+export function invisibleCuts(frames: Uint8Array[], starts: number[], fps: number): number[] {
+  return starts.filter((start) => {
+    const before = frames[Math.max(0, start - 2)];
+    const after = frames[Math.min(frames.length - 1, start + Math.round(CUT_WINDOW_S * fps))];
+    return before && after && changedShare(before, after) < MIN_CUT_SHARE;
+  });
+}
+
+/** Scene changes the eye would miss, measured above the captions (they always change). */
+export function inspectCuts(ffmpeg: string, video: string, timeline: Timeline): Issue[] {
+  const result = spawnSync(
+    ffmpeg,
+    ["-loglevel", "error", "-i", video, "-vf", `crop=iw:ih*${CAPTIONS_TOP}/${HEIGHT}:0:0,scale=${CUT_W}:${CUT_H},format=gray`, "-an", "-f", "rawvideo", "-"],
+    { maxBuffer: 512 * 1024 * 1024 },
+  );
+  if (result.status !== 0) throw new Error(`ffmpeg could not sample ${video} for the scene changes`);
+  const size = CUT_W * CUT_H;
+  const frames: Uint8Array[] = [];
+  for (let at = 0; at + size <= result.stdout.length; at += size) frames.push(result.stdout.subarray(at, at + size));
+  const starts: Array<{ id: string; frame: number }> = [];
+  let at = 0;
+  for (const [i, scene] of timeline.scenes.entries()) {
+    if (i > 0) starts.push({ id: scene.id, frame: at });
+    at += Math.max(1, Math.round((scene.durationMs / 1000) * timeline.fps));
+  }
+  const missed = new Set(invisibleCuts(frames, starts.map((s) => s.frame), timeline.fps));
+  const names = starts.filter((s) => missed.has(s.frame)).map((s) => `"${s.id}" (${seconds(s.frame, timeline.fps)})`);
+  if (!names.length) return [];
+  return [{ level: "aviso", message: `Al empezar ${names.join(", ")} casi no cambia la imagen: el público no nota que pasó a otra idea. Que entre algo, cambie el plano o el mundo de estado` }];
+}
+
+/** Integrated loudness (EBU R128) of the file's audio, in LUFS, and its true peak in dBTP. */
+export function measureLoudness(ffmpeg: string, file: string): { lufs: number; truePeak?: number } {
+  return parseLoudness(ffmpegStderr(ffmpeg, ["-i", file, "-af", "ebur128=peak=true", "-f", "null", "-"]));
+}
+
+export function inspectLoudness(lufs: number, truePeak?: number): Issue[] {
+  const issues: Issue[] = [];
+  if (Math.abs(lufs - TARGET_LUFS) > LUFS_TOLERANCE) issues.push({ level: "aviso", message: `El volumen está en ${lufs.toFixed(1)} LUFS y se busca ${TARGET_LUFS}` });
+  if (truePeak !== undefined && truePeak > MAX_TRUE_PEAK) {
+    issues.push({ level: "aviso", message: `El pico real del audio es ${truePeak.toFixed(1)} dBTP y no pasa de ${MAX_TRUE_PEAK}: Instagram lo recorta al codificar. Baja la música o los efectos` });
+  }
+  return issues;
+}
+
+/**
+ * Two-pass loudness normalization to TARGET_LUFS (true peak -2 dB), in
  * linear mode so the mix keeps its dynamics. The video stream is copied.
+ * The peak aims under MAX_TRUE_PEAK because the AAC encoding raises it: with
+ * -1.5, three published Reels came out between -0.8 and -0.1 dBTP.
  */
 export function normalizeLoudness(ffmpeg: string, input: string, output: string): void {
-  const target = `I=${TARGET_LUFS}:TP=-1.5:LRA=11`;
+  const target = `I=${TARGET_LUFS}:TP=-2:LRA=11`;
   const log = ffmpegStderr(ffmpeg, ["-i", input, "-af", `loudnorm=${target}:print_format=json`, "-f", "null", "-"]);
   const json = log.slice(log.lastIndexOf("{"), log.lastIndexOf("}") + 1);
   const m = JSON.parse(json) as { input_i: string; input_tp: string; input_lra: string; input_thresh: string; target_offset: string };

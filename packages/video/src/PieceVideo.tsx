@@ -19,7 +19,7 @@ import { CapturesContext, SceneContext, StageContext, WorldContext, type StageCl
 import { CssMotion, VIDEO_MOTION_CSS } from "./motion.tsx";
 import { PIECES } from "@motor/pieces";
 import { Probe } from "./probe.tsx";
-import { frameAt, framesFor, HEIGHT, MIN_TEXT_PX, musicVolume, speechSpans, timelineMs, WIDTH, type Timeline, type TimelineScene } from "./timeline.ts";
+import { dropMoments, frameAt, framesFor, HEIGHT, MIN_TEXT_PX, musicVolume, speechSpans, timelineMs, WIDTH, type Timeline, type TimelineScene } from "./timeline.ts";
 
 /** `inspect` is the URL of the inspector's local server, set only by video:render. */
 export type PieceProps = { piece: string; timeline: Timeline | null; inspect: string | null };
@@ -59,6 +59,7 @@ function useFonts(faces: Timeline["faces"]) {
 /** The music under the whole video: looped, with fades, lower while the voice speaks. */
 function MusicBed({ timeline }: { timeline: Timeline }) {
   const spans = useMemo(() => speechSpans(timeline), [timeline]);
+  const drops = useMemo(() => dropMoments(timeline), [timeline]);
   const totalMs = timelineMs(timeline);
   const { src, volume } = timeline.music!;
   return (
@@ -67,8 +68,20 @@ function MusicBed({ timeline }: { timeline: Timeline }) {
       src={staticFile(src)}
       loop
       loopVolumeCurveBehavior="extend"
-      volume={(frame) => musicVolume((frame / timeline.fps) * 1000, totalMs, volume, spans)}
+      volume={(frame) => musicVolume((frame / timeline.fps) * 1000, totalMs, volume, spans, drops)}
     />
+  );
+}
+
+/** The hit when each key figure lands (SceneDef.drop), after the music's silence. */
+function DropHits({ timeline }: { timeline: Timeline }) {
+  const drops = useMemo(() => dropMoments(timeline), [timeline]);
+  return (
+    <>
+      {drops.map((ms, i) => (
+        <Sfx key={i} id="golpe" at={ms / 1000} volume={0.32} />
+      ))}
+    </>
   );
 }
 
@@ -107,6 +120,7 @@ export function PieceVideo({ piece, timeline, inspect }: PieceProps) {
           </CapturesContext.Provider>
         </AssetContext.Provider>
         {video.panel ? <PanelHud video={video} timeline={timeline} defs={defs} /> : video.meter ? <MeterHud video={video} timeline={timeline} defs={defs} /> : null}
+        <DropHits timeline={timeline} />
       </SoundsContext.Provider>
       {timeline.music ? <MusicBed timeline={timeline} /> : null}
       {inspect ? <Probe url={inspect} /> : null}

@@ -35,13 +35,14 @@ import { criticRounds, markRound, prepareCritique, prepareScriptCritique, review
 import { recentSimilar, REPEAT_DAYS } from "./topics.ts";
 import { asVideoError, VideoError } from "./errors.ts";
 import { cachedBundle, referentFrames, scenesRange, secondsToFrames, sceneFrames } from "./bundle.ts";
-import { checkPiece, grammarRedefinitions } from "./check.ts";
+import { checkPiece, grammarRedefinitions, pieceCueWarnings } from "./check.ts";
+import { clockSheet } from "./clock.ts";
 import { freeze, harvest, libraryIndex, match, reuseNote } from "./library-commands.ts";
 import { freezeWarnings } from "./library.ts";
 import { nextChat, pieceState } from "./phase.ts";
 import type { VideoDef } from "./kit/index.ts";
 import { assetCommand, flag, imageCommand, musicCommand } from "./media-commands.ts";
-import { inspectComposition, inspectFrames, inspectFreezes, inspectLoudness, inspectTimeline, measureLoudness, normalizeLoudness, probeServer, sceneEntering, reviewSheet, sheetFrames, cameraMoving, type Issue } from "./inspector.ts";
+import { inspectComposition, inspectCuts, inspectFrames, inspectFreezes, inspectLoudness, inspectTimeline, measureLoudness, normalizeLoudness, probeServer, sceneEntering, reviewSheet, sheetFrames, cameraMoving, type Issue } from "./inspector.ts";
 import { VideoMetricsSchema, writeMetricsReport } from "./metrics.ts";
 import { piecePalette } from "./palette.ts";
 import { reelWarnings, runReelChecks } from "./reel.ts";
@@ -167,7 +168,7 @@ function scenesOf(script: VideoScript, video: VideoDef) {
   return script.scenes.map((scene) => {
     const def = video.scenes.find((s) => s.id === scene.id);
     if (!def) throw new VideoError(`Scene "${scene.id}" of video.json has no visual in video.tsx`);
-    return { ...scene, sfx: def.sfx ?? [], holdMs: (def.hold ?? 0) * 1000 };
+    return { ...scene, sfx: def.sfx ?? [], holdMs: (def.hold ?? 0) * 1000, drop: def.drop };
   });
 }
 
@@ -479,7 +480,8 @@ async function prepare(args: string[]): Promise<void> {
     const audioMs = wavDurationMs(wav);
     const speechEndMs = words.length ? Math.min(audioMs, words[words.length - 1].endMs) : audioMs;
     const durationMs = Math.round(speechEndMs + (i === scenesToVoice.length - 1 ? END_TAIL_MS : TAIL_MS) + scene.holdMs);
-    scenes.push({ id: scene.id, voice: voiceFile, durationMs, words, sfx, levels: wavLevels(wav, FPS) });
+    const drops = scene.drop ? [wordStartMs(words, scene.drop, scene.id)] : undefined;
+    scenes.push({ id: scene.id, voice: voiceFile, durationMs, words, sfx, levels: wavLevels(wav, FPS), ...(drops ? { drops } : {}) });
     console.log(`  ${scene.id}: ${(durationMs / 1000).toFixed(1)} s, ${words.length} words${speech.cached ? " (cached voice)" : ""}`);
   }
 
@@ -500,8 +502,10 @@ async function prepare(args: string[]): Promise<void> {
     music: await musicFor(video, dir, out, catalog),
   };
   writeFileSync(join(out, "timeline.json"), JSON.stringify(timeline, null, 2));
+  writeFileSync(join(out, "reloj.md"), clockSheet(timeline));
   const total = scenes.reduce((sum, s) => sum + s.durationMs, 0) / 1000;
   console.log(`Ready: ${total.toFixed(1)} s${timeline.music ? `, music ${timeline.music.src}` : ""} in ${join(out, "timeline.json")}`);
+  console.log(`Clock (every word with its second, for useCue): ${join(out, "reloj.md")}`);
 }
 
 /** The scenes of video.tsx that come in with a transition (SceneDef.transition). */
@@ -541,6 +545,7 @@ async function storyboard(args: string[]): Promise<void> {
   const logos = await fetchLogos(loadCatalog(join(REPO_ROOT, "assets/catalog.json")), join(CACHE, "assets"));
   const timeline: Timeline = { ...stageOf(dir, piece, art, palette, account, logos, out, videoScript.meter), brand: account, scenes };
   writeFileSync(join(out, "timeline.json"), JSON.stringify(timeline, null, 2));
+  writeFileSync(join(out, "reloj.md"), clockSheet(timeline));
   console.log(`${piece}: storyboard of ${scenes.length} scene(s), ${(timelineMs(timeline) / 1000).toFixed(1)} s estimated, art direction ${art.direction} (${from})`);
 
   const mp4 = join(dir, "out/storyboard.mp4");
@@ -596,7 +601,7 @@ function typecheck(dir: string): void {
   const errors = checkPiece(dir);
   if (errors.length) throw new VideoError(`The piece does not compile (video:check):\n${errors.slice(0, 20).join("\n")}`);
   console.log(`video:check OK in ${((Date.now() - started) / 1000).toFixed(1)} s`);
-  for (const warning of grammarRedefinitions(dir)) console.log(`Aviso: ${warning}`);
+  for (const warning of [...grammarRedefinitions(dir), ...pieceCueWarnings(dir)]) console.log(`Aviso: ${warning}`);
 }
 
 function phase(args: string[]): void {
@@ -791,7 +796,11 @@ async function render(args: string[]): Promise<void> {
     ...inspectTimeline(timeline, videoScript),
     ...asVideoError(() => inspectComposition(FFMPEG, output, timeline)),
     ...asVideoError(() => inspectFreezes(FFMPEG, output)),
-    ...asVideoError(() => inspectLoudness(measureLoudness(FFMPEG, output))),
+    ...asVideoError(() => {
+      const { lufs, truePeak } = measureLoudness(FFMPEG, output);
+      return inspectLoudness(lufs, truePeak);
+    }),
+    ...asVideoError(() => inspectCuts(FFMPEG, output, timeline)),
     ...videoWarnings(videoScript, (await import(pathToFileURL(join(dir, "video.tsx")).href)).default as VideoDef),
   ];
   const lines = issues.length ? issues.map((i) => `${i.level === "error" ? "✗" : "!"} ${i.message}`) : ["✓ Sin problemas"];

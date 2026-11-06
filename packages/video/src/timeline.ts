@@ -19,6 +19,8 @@ export type TimelineScene = {
   sfx: TimelineSfx[];
   /** How loud the voice is in each frame of the scene, 0 to 1: it moves the avatar's mouth. */
   levels?: number[];
+  /** When the key figure lands (SceneDef.drop), in ms from the scene's start: the music goes quiet before it. */
+  drops?: number[];
 };
 
 export type TimelineFont = { family: string; url: string; weight: string; style?: string; stretch?: string };
@@ -73,15 +75,46 @@ export function speechSpans(timeline: Timeline): Array<[number, number]> {
   return spans;
 }
 
+/** The drops of the whole video (SceneDef.drop), in ms from its start. */
+export function dropMoments(timeline: Pick<Timeline, "scenes">): number[] {
+  const moments: number[] = [];
+  let offset = 0;
+  for (const scene of timeline.scenes) {
+    for (const ms of scene.drops ?? []) moments.push(offset + ms);
+    offset += scene.durationMs;
+  }
+  return moments;
+}
+
 const FADE_MS = 600;
 const DUCK = 0.45;
 const DUCK_RAMP_MS = 250;
+/** The silence before a key figure: the music drops to DROP_LEVEL this long before it, and comes back with the hit. */
+export const DROP_LEAD_MS = 1200;
+const DROP_LEVEL = 0.08;
+const DROP_RAMP_IN_MS = 200;
+const DROP_RAMP_OUT_MS = 150;
+
+/** How much of the music is left around the drops: 1 away from them, DROP_LEVEL right before one. */
+function dropFactor(ms: number, drops: number[]): number {
+  let factor = 1;
+  for (const d of drops) {
+    const ahead = d - ms;
+    let f = 1;
+    if (ahead > 0 && ahead <= DROP_LEAD_MS) f = 1 - (1 - DROP_LEVEL) * Math.min(1, (DROP_LEAD_MS - ahead) / DROP_RAMP_IN_MS);
+    else if (ahead <= 0 && -ahead < DROP_RAMP_OUT_MS) f = DROP_LEVEL + (1 - DROP_LEVEL) * (-ahead / DROP_RAMP_OUT_MS);
+    factor = Math.min(factor, f);
+  }
+  return factor;
+}
 
 /**
- * Music volume at a moment: it fades in and out, and goes down to DUCK while
- * the voice speaks, with a short ramp so the change is not heard as a jump.
+ * Music volume at a moment: it fades in and out, goes down to DUCK while
+ * the voice speaks, with a short ramp so the change is not heard as a jump,
+ * and almost goes silent DROP_LEAD_MS before each drop (the key figure), to
+ * come back when it lands.
  */
-export function musicVolume(ms: number, totalMs: number, base: number, spans: Array<[number, number]>): number {
+export function musicVolume(ms: number, totalMs: number, base: number, spans: Array<[number, number]>, drops: number[] = []): number {
   const fade = Math.min(1, ms / FADE_MS, Math.max(0, totalMs - ms) / FADE_MS);
   let distance = Infinity;
   for (const [start, end] of spans) {
@@ -92,8 +125,15 @@ export function musicVolume(ms: number, totalMs: number, base: number, spans: Ar
     distance = Math.min(distance, ms < start ? start - ms : ms - end);
   }
   const speaking = distance === Infinity ? 0 : Math.max(0, 1 - distance / DUCK_RAMP_MS);
-  return base * fade * (1 - (1 - DUCK) * speaking);
+  return base * fade * (1 - (1 - DUCK) * speaking) * dropFactor(ms, drops);
 }
+
+/**
+ * The least time between a cue and the end of its scene. What a cue starts
+ * (a pop, a stroke, a sound) needs about half a second to finish; closer to
+ * the cut it is left halfway, and a sound effect is cut with its scene.
+ */
+export const CUT_MARGIN_MS = 700;
 
 export const FPS = 30;
 /**

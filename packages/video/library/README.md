@@ -26,6 +26,7 @@ Tres capas ([docs/reel.md](../../../docs/reel.md), "La biblioteca"):
 | `RigShot` | A shot of a piece's own camera: where it goes (x, y, zoom z) from `at`, in `dur` seconds. |
 | `rigAt` | A piece's own camera: the shot at time `t`, eased from one to the next, and whether it is moving. The div it moves carries data-zoom and, while moving, data-camera-moving, so the inspector measures its text right. |
 | `shakeAt` | A hit that shakes the frame for 0.4 s, decaying: the offset at `t` for hits at those seconds. |
+| `wobble` | A slow organic sway for a thing at rest (a floating card, a character breathing, a hanging sign): the offset in px and the turn in degrees at `t`, from Remotion's noise, so the same seed always moves the same way. Give each thing its own `seed`. |
 | `es` | A number the Spanish way: 1.000.000 and 0,25. |
 | `At` | A box at absolute coordinates (px of design, or of the world inside a stage). |
 | `Appear` | Pops in at `at` (rises `from` px and grows from 72 %), and fades out at `until` if given; not mounted outside that time. For a sound with it, use <Pop>. |

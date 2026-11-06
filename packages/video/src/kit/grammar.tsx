@@ -1,3 +1,4 @@
+import { noise2D } from "@remotion/noise";
 import type { CSSProperties, ReactNode } from "react";
 import { interpolate, spring } from "remotion";
 import { useClock } from "./scene.ts";
@@ -96,6 +97,20 @@ export function shakeAt(t: number, hits: number[], amplitude = 8): { x: number; 
     y += Math.cos(dt * 61) * amp;
   }
   return { x, y };
+}
+
+/**
+ * A slow organic sway for a thing at rest (a floating card, a character
+ * breathing, a hanging sign): the offset in px and the turn in degrees at
+ * `t`, from Remotion's noise, so the same seed always moves the same way.
+ * Give each thing its own `seed`.
+ */
+export function wobble(t: number, seed: string | number, amplitude = 4, speed = 0.5): { x: number; y: number; rotate: number } {
+  return {
+    x: noise2D(`${seed}-x`, t * speed, 0) * amplitude,
+    y: noise2D(`${seed}-y`, 0, t * speed) * amplitude,
+    rotate: noise2D(`${seed}-r`, t * speed, t * speed) * amplitude * 0.4,
+  };
 }
 
 /** A number the Spanish way: 1.000.000 and 0,25. */
