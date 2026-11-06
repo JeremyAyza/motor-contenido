@@ -33,6 +33,7 @@
     "video:studio": "tsx packages/video/src/cli.ts studio",
     "video:render": "tsx packages/video/src/cli.ts render",
     "video:frames": "tsx packages/video/src/cli.ts frames",
+    "video:comparar": "tsx packages/video/src/cli.ts comparar",
     "video:check": "tsx packages/video/src/cli.ts check",
     "video:congelar": "tsx packages/video/src/cli.ts congelar",
     "video:emparejar": "tsx packages/video/src/cli.ts emparejar",

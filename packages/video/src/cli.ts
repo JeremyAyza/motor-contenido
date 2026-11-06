@@ -34,7 +34,7 @@ import { CAPTURES_FILE, CapturesSchema, loadCaptures, runCapture, saveCaptures }
 import { criticRounds, markRound, prepareCritique, prepareScriptCritique, reviewRequest, writeHookCritic } from "./critique.ts";
 import { recentSimilar, REPEAT_DAYS } from "./topics.ts";
 import { asVideoError, VideoError } from "./errors.ts";
-import { cachedBundle, scenesRange, secondsToFrames, sceneFrames } from "./bundle.ts";
+import { cachedBundle, referentFrames, scenesRange, secondsToFrames, sceneFrames } from "./bundle.ts";
 import { checkPiece, grammarRedefinitions } from "./check.ts";
 import { freeze, harvest, libraryIndex, match, reuseNote } from "./library-commands.ts";
 import { freezeWarnings } from "./library.ts";
@@ -80,6 +80,10 @@ const USAGE = `Usage:
       each frame also goes alone to out/cuadros/<seconds>s.png. --escena: the start, middle and end of
       those scenes. Without seconds or scenes, the frames of the review sheet. Uses the voice timing
       of video:prepare, or the storyboard's when there is no voice yet. No inspector.
+  npm run video:comparar -- content/<piece> <seconds of the referent>...
+      For a replica: our frames at the referent's moments (each second scaled by our length over
+      video.json → target), to the right of out/referente-cuadros.jpg (the referent's frames, 4 per
+      row, from scripts/cuadros-referente.js), in out/comparar.png. Before gate A and in its sheet.
   npm run video:check -- content/<piece>
       Typecheck of the piece and what it imports, without the other pieces (a few seconds). video:render,
       video:frames and video:storyboard run it first. Warns when the piece redefines the motion grammar.
@@ -641,6 +645,12 @@ async function frames(args: string[]): Promise<void> {
   const seconds = args.slice(1).filter((a, i, all) => !a.startsWith("--") && all[i] !== flag(args, "--escena"));
   const wanted = scenes ? sceneLookFrames(timeline, scenes) : seconds.length ? asVideoError(() => secondsToFrames(seconds, timeline)) : sheetFrames(timeline);
   const list = [...new Set(wanted)].sort((a, b) => a - b);
+  const sheet = await stillsSheet(dir, piece, publicDir, timeline, list);
+  console.log(`Sheet: ${sheet} (left to right, top to bottom, in that order)`);
+}
+
+/** Renders those frames with remotion still into out/cuadros/<seconds>s.png and tiles them, in that order, 4 per row, in out/cuadros/hoja.png. */
+async function stillsSheet(dir: string, piece: string, publicDir: string, timeline: Timeline, list: number[]): Promise<string> {
   const out = join(dir, "out/cuadros");
   rmSync(out, { recursive: true, force: true });
   mkdirSync(out, { recursive: true });
@@ -648,7 +658,7 @@ async function frames(args: string[]): Promise<void> {
   const bundle = bundleOf(dir, piece, publicDir);
   const name = (frame: number) => `${(frame / timeline.fps).toFixed(1)}s`;
   // A few stills at a time: each one opens its own browser.
-  await mapLimit(list, 3, (frame) =>
+  await mapLimit([...new Set(list)], 3, (frame) =>
     runAsync(process.execPath, [REMOTION, "still", bundle, piece, join(out, `${name(frame)}.png`), `--frame=${frame}`, `--config=${CONFIG}`, "--scale=1", "--image-format=png", "--log=error"], {
       REMOTION_PIECE: piece,
     }),
@@ -658,7 +668,36 @@ async function frames(args: string[]): Promise<void> {
   ffmpeg(["-framerate", "1", "-i", join(out, "%03d.tile.png"), "-vf", `scale=270:-1,tile=${columns}x${Math.ceil(list.length / columns)}:padding=8:margin=8:color=white`, "-frames:v", "1", join(out, "hoja.png")]);
   for (const file of readdirSync(out)) if (file.endsWith(".tile.png")) rmSync(join(out, file));
   console.log(`${list.length} frame(s) in ${((Date.now() - started) / 1000).toFixed(0)} s (${publicDir === "out/storyboard" ? "storyboard timing" : "voice timing"}): ${list.map(name).join(", ")}`);
-  console.log(`Sheet: ${join(out, "hoja.png")} (left to right, top to bottom, in that order)`);
+  return join(out, "hoja.png");
+}
+
+/** The referent's frames, made with scripts/cuadros-referente.js in the built-in browser. */
+const REFERENT_FRAMES = ["out/referente-cuadros.jpg", "out/referente-cuadros.png"];
+
+/**
+ * A replica next to its referent: our frames at the referent's seconds (scaled by our length over
+ * video.json → target) to the right of the referent's, in out/comparar.png, so a different look shows
+ * before gate A and not after publishing.
+ */
+async function compare(args: string[]): Promise<void> {
+  const { dir, piece } = pieceDir(args[0], [SCRIPT_FILE, "video.tsx"]);
+  const seconds = args.slice(1).filter((a) => !a.startsWith("--"));
+  if (!seconds.length) throw new VideoError(`Give the referent's seconds, in the order of out/referente-cuadros: npm run video:comparar -- ${args[0]} 1 9.5 17 ...`);
+  const reference = REFERENT_FRAMES.map((file) => join(dir, file)).find((file) => existsSync(file));
+  if (!reference) {
+    throw new VideoError(
+      `Missing ${join(dir, REFERENT_FRAMES[0])}: the referent's frames at those seconds, 4 per row. Make them with scripts/cuadros-referente.js in the built-in browser and copy the screenshot there (docs/reel.md, step 3)`,
+    );
+  }
+  const script = scriptOf(dir);
+  if (!script.target) throw new VideoError(`${SCRIPT_FILE} → target is missing: a replica lasts what its referent does, and the comparison needs it`);
+  typecheck(dir);
+  const { publicDir, timeline } = timelineOf(dir, args[0]);
+  const list = asVideoError(() => referentFrames(seconds, script.target!, timeline));
+  const sheet = await stillsSheet(dir, piece, publicDir, timeline, list);
+  const output = join(dir, "out/comparar.png");
+  ffmpeg(["-i", reference, "-i", sheet, "-filter_complex", "[0:v]scale=-2:1400[a];[1:v]scale=-2:1400[b];[a][b]hstack=inputs=2", "-frames:v", "1", output]);
+  console.log(`Comparison: ${output} (left, the referent at ${seconds.join(", ")} s; right, ours at the same moments)`);
 }
 
 /** Full renders a Reel should need: one for the critic and the final one. Fixes are checked with video:frames and --escena. */
@@ -871,6 +910,7 @@ async function main(): Promise<void> {
   else if (command === "studio") studio(args);
   else if (command === "render") await render(args);
   else if (command === "frames") await frames(args);
+  else if (command === "comparar") await compare(args);
   else if (command === "check") check(args);
   else if (command === "congelar") freeze(args);
   else if (command === "emparejar") match(args);

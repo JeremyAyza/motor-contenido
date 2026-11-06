@@ -8,9 +8,9 @@ No cambian sin su sí en el chat. Una elección para una pieza no se vuelve regl
 
 - **Estilo** (24 de octubre de 2026): motion graphics plano dibujado en código, con un mundo y una cámara que se mueve por él. El objeto del momento llena el cuadro, un acento para lo que importa, movimiento con peso (resortes, sellos, cosas que viajan, no solo fundidos) y el dato clave enorme. **3D o isométrico, solo si Jeremy lo pide.**
 - **Dirección de arte por pieza** (20 de octubre de 2026): la de la baraja del carrusel, con su paleta y sus tipografías. Fijos: el marco (pestaña, puntos y firma) y los subtítulos. Dos Reels seguidos no se parecen.
-- **Duración** (24 de octubre de 2026): `corto`, de 45 a 60 s, por defecto. `largo` (90 a 180 s) para una explicación de varios puntos. `explicado` (75 a 100 s), solo si Jeremy lo pide. **Una réplica dura lo que su referencia** (`video.json → target`, con un 10 % de margen), sumando datos o pausas con `hold`, nunca estirando la voz.
+- **Duración** (24 de octubre de 2026): `corto`, de 45 a 60 s, por defecto. `largo` (90 a 180 s) para una explicación de varios puntos. `explicado` (75 a 100 s), solo si Jeremy lo pide. **Una réplica dura lo que su referencia** (`target`, ±10 %), con datos o pausas (`hold`), sin estirar la voz.
 - **Ritmo:** algo cambia en pantalla cada 1 a 1,5 s; de 5 a 7 escenas de 2 o 3 frases cortas.
-- **Réplica con marca propia** (27 de octubre de 2026): se copian la estructura, el ritmo y la profundidad del referente; los materiales, el acabado y el acento son de @jacket.dev.
+- **Réplica parecida** (5 de noviembre de 2026): se copia también el aspecto del referente; de @jacket.dev son el acento, el acabado, el marco, la firma y el avatar ([detalle](referencia/kit-video.md#réplica-parecida)).
 - **Voz** (24 de octubre de 2026): ElevenLabs, voz F (`accounts/dev.json → voice`), estabilidad 0,5 y `tempo` 1,12. Una réplica larga puede subir el `tempo` de la pieza hasta 1,4 (27 de octubre). No se prueban otros proveedores sin que Jeremy lo pida.
 - **Licencia de la voz** (1 de noviembre de 2026): se usa el plan gratuito, sin licencia comercial. No se propone pagar ni regenerar para aprobar una pieza. El post lleva "Voz con IA: elevenlabs.io".
 - **Audio:** música al 0,06, que baja mientras habla la voz; pocos efectos, debajo de la música.
@@ -59,7 +59,7 @@ Corre `hookscore_es` y `beats_es` de `ig-reel` y la revisión de textos. Un ganc
 - `npm run video:storyboard -- content/<pieza>`: los visuales de un primer `video.tsx`, sin voz, al ritmo estimado (`out/storyboard.png` y `.mp4`);
 - `npm run video:critique -- content/<pieza> --guion --gemini`: Gemini lee el guion y el storyboard, y deja `out/video-critica-guion/informe.md` para la puerta A.
 
-**4. Puerta A.** Solo el sí de Jeremy en el chat aprueba; el agente anota `gateA { approved: true, date }`. Sin ella no hay voz. Si después cambia lo que dice la voz, se vuelve a la puerta A.
+**4. Puerta A.** Solo el sí de Jeremy en el chat aprueba; el agente anota `gateA { approved: true, date }`. Sin ella no hay voz. Si después cambia lo que dice la voz, se vuelve a la puerta A. Una réplica lleva `out/comparar.png` ([cómo](referencia/kit-video.md#comparar-con-el-referente)).
 
 **5. Lo que se ve.** Primero `npm run video:congelar -- content/<pieza>` (guarda el hash del guion visual; `video:script` avisa si cambia después) y `npm run video:emparejar -- content/<pieza>` (ver "La biblioteca"). Después, una escena por archivo en `content/<pieza>/scenes/<id>.tsx`, y `video.tsx` solo compone: exporta `defineVideo` de `@motor/video`: `captions`, `chapters`, `stage` (el mundo y su cámara), `meter` y una entrada por escena con el mismo `id`, `tone`, `chapter`, `sfx`, `camera` y `Visual`. La dirección de arte sale de `post.json → art` si la pieza tiene carrusel, o de `npm run video:baraja -- content/<pieza>`. Lo que dice la voz no va aquí. La gramática de movimiento (`fade`, `keys`, `At`, `Appear`, `rigAt`...) viene de `@motor/video` y no se redefine: `video:check` avisa. El kit está en la [referencia](referencia/kit-video.md) y en el [índice de la biblioteca](../packages/video/library/README.md).
 
@@ -116,8 +116,6 @@ Lee lo que el render dibujó: el texto de un cuadro cada medio segundo, con su p
 - subtítulos sin todas las palabras del guion.
 
 **Avisos:** más de 6 palabras en pantalla sin contar subtítulos ni interfaces; la escena 1 abre con un título en vez de un objeto que se mueve; el gancho fuera del centro 3:4 de la grilla; vacío de más de 130 px sobre los subtítulos; una portada que ocupa menos del 35 % del recorte; más de 2 s sin cambio; `meter` sin mostrar; el volumen lejos de −14 LUFS; una duración fuera de rango.
-
-Cada aviso es un error salvo que se pueda defender en una frase.
 
 ## Reglas de forma
 

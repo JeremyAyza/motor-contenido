@@ -117,6 +117,41 @@ Varias salen del repo [`brag`](https://github.com/latent-spaces/brag) (MIT), tom
 
 Cuando la pieza replica un Reel de referencia, `video.json → target` lleva los segundos de la referencia y `format` es el que la contiene. `video:script` avisa si la voz estimada se aleja más de un 10 %, y el render avisa con la duración real. Para llegar, suma frases con datos o pausas sin voz con `SceneDef.hold` (segundos de imagen después de la voz): un remate, una revelación, una transición. El `tempo` de la voz (`accounts/dev.json`) acorta todo un 12 %: tenlo en cuenta al escribir.
 
+## Réplica parecida
+
+Decidido con Jeremy el 5 de noviembre de 2026 ("Sí, más parecido"). Reemplaza "Réplica con marca propia", del 27 de octubre.
+
+- **Del referente:** la estructura, el ritmo, la profundidad y el aspecto:
+  - el fondo claro u oscuro;
+  - dónde va cada cosa: presentador, escenario, HUD, tarjetas y subtítulos;
+  - el escenario que dura todo el video;
+  - el tamaño y la alineación de los títulos;
+  - la densidad;
+  - los colores con su función.
+- **De @jacket.dev, con cambios ligeros:**
+  - el acento;
+  - los materiales y el acabado (bordes, sombras y esquinas);
+  - el marco y la firma;
+  - el avatar en el lugar de su presentador.
+- **No se copian:** su personaje, su nombre ni su logo.
+- **Ni un clon ni otro video.**
+  - El 27 de octubre una réplica salió "idéntica" y Jeremy pidió cambios "muy muy ligeros".
+  - El 5 de noviembre, tokenmaxxing salió "muy muy diferente": fondo oscuro de arcade donde Rick es crema, sin presentador, un marco en vez de un escenario fijo, y títulos gigantes y centrados donde los suyos son chicos y a la izquierda.
+- **Sin baraja:** `art.direction` es la dirección más cercana al referente, y la paleta sale de él. Una réplica puede parecerse al Reel anterior.
+- **3D o isométrico:** si el referente lo usa, se pregunta en la puerta A, con lo que cuesta.
+
+### Comparar con el referente
+
+Para ver si la réplica se parece, se ponen sus cuadros al lado de los del referente, en los mismos momentos. Se hace antes de diseñar el mundo y otra vez con el storyboard, también en modo directo.
+
+1. **Abre el reproductor incrustado del referente** en el navegador integrado (`https://www.instagram.com/reel/<id>/embed/`) y lleva la vista a 800×1100 con `resize_window`.
+2. **Arma la cuadrícula:** pega [scripts/cuadros-referente.js](../../scripts/cuadros-referente.js) en `javascript_tool`, con los 12 segundos de "Cuadros del aspecto" de `referente.md` en `SECONDS`. Pone los cuadros de 4 en 4, sin barras de desplazamiento.
+3. **Captura a escala 1** y copia el archivo a `content/<pieza>/out/referente-cuadros.jpg`. La ruta del archivo viene en la respuesta de la captura. Si la captura vence por tiempo, repítela. Al terminar, vuelve la vista a `desktop`.
+4. **Corre `npm run video:comparar -- content/<pieza> <los mismos segundos>`.** Renderiza nuestros cuadros en los mismos momentos de la historia: cada segundo se escala por nuestra duración sobre `target`, con la voz si ya existe o con el storyboard si no. Deja `out/comparar.png`, con el referente a la izquierda y lo nuestro a la derecha.
+5. **Arregla lo que no coincida** en fondo, zonas, títulos, densidad o escenario, salvo que sea marca propia: acento, materiales, marco, firma y avatar. La hoja de la puerta A lleva `out/comparar.png`.
+
+Los cuadros del referente quedan en `out/`, que no entra en git: son de otra cuenta y el repo es público.
+
 ## Escenas cortadas, sin marco (opcional, por pieza)
 
 Para un Reel cortado escena por escena, como el de @sebastiankra.ia sobre Replica (la pieza de ejemplo es `content/2026-10-24-replica-skills`). Todo esto es opcional: por defecto el marco y los subtítulos siguen como siempre.

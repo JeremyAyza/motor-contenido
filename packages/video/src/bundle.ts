@@ -86,3 +86,17 @@ export function secondsToFrames(values: string[], timeline: Timeline): number[] 
     return Math.min(last, Math.round(seconds * timeline.fps));
   });
 }
+
+/**
+ * Frames of a replica at its referent's seconds: each one scaled by our length over the referent's
+ * (`target`), so a replica 5 % longer is compared at the same point of the story, not at the same clock.
+ */
+export function referentFrames(values: string[], target: number, timeline: Timeline): number[] {
+  const ours = timeline.scenes.reduce((sum, s) => sum + s.durationMs, 0) / 1000;
+  const scaled = values.map((value) => {
+    const seconds = Number(value.replace(",", "."));
+    if (!Number.isFinite(seconds) || seconds < 0) throw new Error(`"${value}" is not a second of the referent`);
+    return String((seconds * ours) / target);
+  });
+  return secondsToFrames(scaled, timeline);
+}
