@@ -177,6 +177,7 @@ export type { PanelCounter, PanelDef } from "./panel.ts";
 export { Pop, Sfx, usePop } from "./sfx.tsx";
 export { Appear, At, bump, CLAMP, clamp01, DUR, EASE, es, fade, keys, lerp, lerpPoint, popAt, rigAt, shakeAt, span, unit, wobble } from "./grammar.tsx";
 export { DrawPath, drawn, Morph, SplitWords } from "./paths.tsx";
+export { Stamp, stampScale, Tag } from "./marks.tsx";
 export type { RigShot } from "./grammar.tsx";
 export { Banner, highlightAt, PillTitle, SaidTitle, saidAt, StatCard } from "./text.tsx";
 export type { SceneBackground, SceneTransition } from "./scene-fx.tsx";

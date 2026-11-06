@@ -220,6 +220,8 @@ Piezas del kit para no escribir lo mismo en cada escena. Toman la tipografía y 
 - **`<DrawPath d at dur>`:** un trazo que se dibuja solo (una flecha, una conexión, la línea de un gráfico). Es un `<path>`: va dentro del `<svg>` de la escena. `drawn(d, t, at, dur)` da lo mismo como props, para un trazo propio.
 - **`<Morph from to at dur>`:** una forma que se transforma en otra: el mundo cambia de estado en vez de reemplazarse. Funciona mejor con formas de cantidad de puntos parecida.
 - **`<SplitWords text at stagger>`:** una frase que entra palabra por palabra, con un blip. Para la idea que se arma en pantalla, no para los subtítulos.
+- **`<Stamp at until x y color rotate size>`:** un sello que cae sobre la escena con un golpe ("APROBADO", "BORRADO"), inclinado, en el acento por defecto. Seis piezas lo escribían a mano.
+- **`<Tag at until x y color>`:** una etiqueta chica que salta junto a algo, con un blip: el nombre de una parte, una versión, un estado. `x` e `y` son su centro.
 - **`wobble(t, seed, amplitude)`:** un vaivén orgánico para lo que está quieto (una tarjeta que flota, un letrero colgado), con el ruido de Remotion: la misma semilla se mueve siempre igual.
 - Lo que viaja por un recorrido ya existe: `<Along>` y `pointAlong` del kit del mundo.
 

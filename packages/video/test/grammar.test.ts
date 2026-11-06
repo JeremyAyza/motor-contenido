@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { bump, EASE, es, fade, keys, rigAt, shakeAt, span, unit, wobble } from "../src/kit/grammar.tsx";
+import { stampScale } from "../src/kit/marks.tsx";
 import { drawn } from "../src/kit/paths.tsx";
 import { highlightAt, saidAt } from "../src/kit/text.tsx";
 
@@ -82,5 +83,14 @@ describe("drawn", () => {
     const d = "M 0 0 L 100 0";
     assert.ok(drawn(d, 0, 1).strokeDashoffset >= 100, "nothing drawn before `at`");
     assert.equal(drawn(d, 5, 1).strokeDashoffset, 0);
+  });
+});
+
+describe("stampScale", () => {
+  it("falls from big onto the page and presses a little when it lands", () => {
+    assert.equal(stampScale(0.85, 1), 2.6);
+    assert.ok(Math.abs(stampScale(0.95, 1) - 1.8) < 1e-9);
+    assert.equal(stampScale(1, 1), 1.05);
+    assert.ok(stampScale(1.5, 1) < 1.001);
   });
 });
