@@ -1,0 +1,292 @@
+{
+  "$schema": "../../schemas/video.schema.json",
+  "format": "largo",
+  "topic": "API frente a SDK con OpenAI: la API es el contrato y el SDK es el kit que arma la misma petición por ti",
+  "world": "Un lienzo claro con rejilla fina y un conmutador API | SDK arriba; abajo, el camino vertical de tu app a OpenAI, que vuelve en cada capítulo hasta que la caja SDK se posa sobre la ficha API.",
+  "meter": {
+    "label": "Líneas a mano",
+    "from": "35",
+    "to": "1"
+  },
+  "cover": {
+    "scene": "una-funcion",
+    "at": 4
+  },
+  "target": 101.5,
+  "hooks": [
+    {
+      "said": "Tu SDK no es una API.",
+      "onScreen": "Tu SDK no es una API",
+      "formula": 29
+    },
+    {
+      "said": "No confundas tu API con tu SDK. Uno vive dentro del otro.",
+      "onScreen": "No confundas API con SDK",
+      "formula": 2
+    },
+    {
+      "said": "¿En qué se diferencian una API y un SDK? Te lo muestro con OpenAI.",
+      "onScreen": "¿API o SDK?",
+      "formula": 16
+    }
+  ],
+  "scenes": [
+    {
+      "id": "gancho",
+      "say": "Tu SDK no es una API. La lleva adentro. Suenan parecido, pero no son lo mismo.",
+      "see": "Desde el cuadro 1, el rótulo 'Tu SDK no es una API' sobre un muro de código oscuro (app.js, las 35 líneas hechas a mano) que sube en bucle. En 'API' cae una ficha violeta enorme; en 'adentro' baja una caja naranja de herramientas y la ficha entra en ella. En 'parecido' el fondo se parte en diagonal: violeta arriba para la API, durazno abajo para el SDK.",
+      "resource": "comparacion",
+      "intent": "Que API y SDK son dos cosas distintas y que una va dentro de la otra.",
+      "metaphor": "Una ficha que entra en una caja de herramientas.",
+      "alternatives": [
+        "Una muñeca rusa con la API en el centro",
+        "Un sobre con una carta adentro"
+      ],
+      "motion": "El código sube sin parar; la ficha cae con resorte, la caja baja y la traga con un pop; una cuña diagonal parte el fondo en dos colores."
+    },
+    {
+      "id": "app",
+      "say": "Imagina que tu app necesita un chat con IA. No vas a entrenar tu propio modelo: usas el de OpenAI.",
+      "see": "Corte a fondo claro. A la derecha, la tarjeta de tu app: una caja de chat con 'Resume este ticket' y un botón Enviar que el cursor pulsa en 'chat'. El avatar asoma por la izquierda. En 'entrenar' saltan una a una nueve fichas blancas (GPUs, datos, entrenamiento, servidores, escalado, moderación, latencia, costos, seguridad) que se amontonan; en 'OpenAI' entra la ficha con su logo y un aro de ondas. Rótulo 'Ejemplo ilustrativo' en la tarjeta del chat.",
+      "resource": "metafora",
+      "intent": "Que nadie arma un modelo propio: se lo pides a un tercero, y ahí nace la pregunta.",
+      "metaphor": "Una montaña de fichas de trabajo que una sola ficha, la de OpenAI, reemplaza.",
+      "alternatives": [
+        "Una fábrica entera detrás del botón Enviar",
+        "Una lista de compras imposible"
+      ],
+      "motion": "El cursor pulsa Enviar; las fichas saltan con la voz y se desordenan; la ficha de OpenAI entra con resorte y un aro que se expande."
+    },
+    {
+      "id": "pregunta",
+      "say": "Pero, ¿cómo habla tu app con OpenAI? Con su API.",
+      "see": "La cámara se aleja: la tarjeta del chat queda chica arriba, una línea gris baja hasta la ficha de OpenAI y en el medio late un '?'. En 'API' cae una ficha violeta sobre la línea, la línea se pinta de violeta y el conmutador de arriba se enciende del lado API.",
+      "resource": "proceso",
+      "intent": "Que entre tu app y OpenAI hace falta un idioma acordado, y que se llama API.",
+      "metaphor": "Un camino con un hueco que la ficha API rellena.",
+      "alternatives": [
+        "Dos personas que no hablan el mismo idioma",
+        "Un enchufe sin toma"
+      ],
+      "motion": "Zoom hacia atrás; el '?' late; la ficha cae con resorte y la línea se pinta de arriba abajo."
+    },
+    {
+      "id": "sigla",
+      "say": "Interfaz de programación de aplicaciones. Es un contrato: qué le puedes pedir a OpenAI y qué te devuelve.",
+      "see": "Las letras A, P, I apiladas a la izquierda, con las iniciales en violeta; al lado se completan 'Application', 'Programming', 'Interface' y debajo, más chico, 'interfaz de programación de aplicaciones'. Después, una tarjeta de contrato con cuatro filas: MÉTODO POST, DIRECCIÓN /v1/responses, ENVÍAS modelo e input, RECIBES JSON. Entre 'tu app' y 'OpenAI' viaja un punto violeta.",
+      "resource": "anatomia",
+      "intent": "Qué significa la sigla y que la API es un acuerdo de qué se pide y qué se recibe.",
+      "metaphor": "Un contrato con filas que se llenan.",
+      "alternatives": [
+        "Un formulario con campos obligatorios",
+        "Un enchufe con su forma exacta"
+      ],
+      "motion": "Las letras caen una a una y las palabras se escriben; las filas del contrato pasan de fantasma a sólidas con la voz; el punto viaja de un chip al otro."
+    },
+    {
+      "id": "menu",
+      "say": "Como la carta de un restaurante. Sabes qué pedir y cómo pedirlo, sin entrar a la cocina.",
+      "see": "Una carta de restaurante crema, con letra serif, aterriza inclinada y se aplana; sus platos son las rutas de OpenAI: 'Responses', 'Embeddings', 'Images', 'Audio', con su ruta en mono. El avatar asoma por la izquierda. En 'pedir' un resaltador lila marca Responses; en 'cocina' la carta sube y debajo pasa una franja con fichas que se deslizan (GPUs, modelo, tokens, cola, caché), atenuada.",
+      "resource": "metafora",
+      "intent": "Que la API te dice qué pedir sin mostrarte cómo se cocina.",
+      "metaphor": "La carta de un restaurante y su cocina escondida.",
+      "alternatives": [
+        "El mostrador de una farmacia",
+        "Un control remoto y lo que hay dentro de la tele"
+      ],
+      "motion": "La carta cae en perspectiva y se aplana con resorte; el resaltador barre una fila; la franja de la cocina entra desde abajo y sus fichas corren en dos filas."
+    },
+    {
+      "id": "peticion",
+      "say": "Tu app manda una petición a una dirección exacta. Por ejemplo: resume este ticket. Y va con tu clave.",
+      "see": "El camino vertical vuelve: 'tu app' arriba, OpenAI abajo y un globo punteado de internet en el medio. Una tarjeta de petición baja por la línea: POST api.openai.com/v1/responses, model gpt-6-astra, input 'Resume este ticket'. En 'clave' se enciende la fila Authorization: Bearer con la clave tapada. La dirección '/v1/responses' queda enorme un momento.",
+      "resource": "proceso",
+      "intent": "Cómo se ve una petición real: una dirección, un cuerpo y una clave.",
+      "metaphor": "Una tarjeta que viaja por un cable.",
+      "alternatives": [
+        "Un sobre con remitente y destinatario",
+        "Un pedido escrito en una comanda"
+      ],
+      "motion": "Desenfoque de entrada; la tarjeta baja por la línea; las filas se encienden con la voz; la dirección crece y vuelve a su lugar."
+    },
+    {
+      "id": "respuesta",
+      "say": "OpenAI responde con un JSON. Tu texto viene en output, content, text.",
+      "see": "Un spinner gira sobre la ficha de OpenAI; aparece el chip verde '200 OK' y sube una tarjeta oscura de JSON (id, object response, status completed, model, output). En 'output' se ilumina la ruta output, content, text, que lleva hasta 'El cliente no puede pagar…'.",
+      "resource": "captura-anotada",
+      "intent": "Que la respuesta es un JSON con estructura y que el texto está anidado.",
+      "metaphor": "Una caja con cajones donde el texto está en el último.",
+      "alternatives": [
+        "Una matrioska de llaves",
+        "Un paquete con varias capas de envoltorio"
+      ],
+      "motion": "Spinner, pop del 200 OK, la tarjeta sube desde OpenAI; un trazo violeta baja de output a content y a text con la voz."
+    },
+    {
+      "id": "problema",
+      "say": "Y aquí empieza el problema: hablarle a una API a mano cansa.",
+      "see": "Una cuña azul noche cubre el cuadro. Aparece el editor oscuro app.js, todavía en 0 líneas, con cuatro etiquetas apagadas: clave, formato, errores, reintentos. El avatar asoma por la izquierda. Entra una lista de cinco tareas con casillas vacías: armar la petición, mandar la clave, sacar el texto, manejar errores, reintentar.",
+      "resource": "proceso",
+      "intent": "Que usar la API directo trae trabajo que nadie ve.",
+      "metaphor": "Una lista de pendientes que crece.",
+      "alternatives": [
+        "Una mochila que se llena de piedras",
+        "Un formulario infinito"
+      ],
+      "motion": "La cuña barre en diagonal; el editor entra con pop; las casillas aparecen una por una con la voz."
+    },
+    {
+      "id": "a-mano",
+      "say": "Armas cada petición. Mandas la clave. Sacas el texto del JSON. Manejas errores, como el 429. Y reintentas si se cae la red.",
+      "see": "El editor app.js crece hasta casi todo el ancho y el código se escribe solo; un contador de líneas sube de 3 a 35 y el medidor 'Código a mano' lo sigue. Cada etiqueta se enciende cuando la voz la nombra. En '429' aparece un aviso rojo '429 Too Many Requests'; en 'red', otro: 'Error de conexión: intento 2 de 3'. Rótulo 'Ejemplo ilustrativo' en el editor.",
+      "resource": "artefacto",
+      "intent": "El costo real de hacerlo a mano: 35 líneas para una sola llamada.",
+      "metaphor": "Un archivo que no para de crecer.",
+      "alternatives": [
+        "Una torre de bloques que se tambalea",
+        "Un rollo de papel que se desenrolla"
+      ],
+      "motion": "El editor se agranda; el código se escribe con el contador; las etiquetas se encienden en orden; los avisos rojos entran con un golpe."
+    },
+    {
+      "id": "sdk",
+      "say": "Para eso existe el SDK: kit de desarrollo de software. Una caja con librerías para tu lenguaje y documentación con ejemplos.",
+      "see": "La caja SDK naranja cae sobre el código atenuado y el conmutador pasa a SDK. Las letras S, D, K en naranja, con 'Software Development Kit' y debajo 'kit de desarrollo de software'. El fondo azul noche pasa a claro y la caja se abre: salen dos tarjetas con borde durazno. Librerías: 'npm install openai' y 'pip install openai' con los logos de JavaScript y Python. Documentación: una página con responses.create() y un ejemplo de código.",
+      "resource": "anatomia",
+      "intent": "Qué es un SDK y qué trae adentro.",
+      "metaphor": "Una caja de herramientas que se abre.",
+      "alternatives": [
+        "Un kit de muebles con manual",
+        "Una mochila de viaje ya armada"
+      ],
+      "motion": "La caja cae con resorte y rebota; las letras caen una a una; la tapa se abre; las dos tarjetas suben como fantasmas y se llenan con la voz."
+    },
+    {
+      "id": "una-funcion",
+      "say": "En vez de treinta y cinco líneas, una función. Y el texto llega listo en output text, que agrega el SDK.",
+      "see": "Vuelve app.js en claro, con sus 35 líneas. En 'treinta y cinco' el 35 se tacha en rojo, una flecha lo empuja y queda un 1 naranja enorme; el medidor llega a '1 línea'. Debajo, una tarjeta de una sola línea con pestañas Python y JavaScript: client.responses.create(...). En 'output text' aparece el chip verde response.output_text; en 'agrega' un sello 'del SDK' cae sobre el chip.",
+      "resource": "cifra",
+      "intent": "El contraste en un número: 35 líneas contra una función, y el atajo que solo da el SDK.",
+      "metaphor": "Un 35 que se aplasta hasta ser un 1.",
+      "alternatives": [
+        "Una pila de papeles que se vuelve una tarjeta",
+        "Un nudo que se desata con un tirón"
+      ],
+      "motion": "El tachado se dibuja; la flecha empuja; el 1 crece con resorte; las pestañas cambian de Python a JavaScript; el sello cae con un golpe."
+    },
+    {
+      "id": "por-dentro",
+      "say": "Por dentro, arma la misma petición a la misma API. Y si la red falla, reintenta solo.",
+      "see": "La caja SDK se vuelve un contorno naranja de rayos X. Adentro aparece la misma tarjeta de petición de antes: POST /v1/responses, Authorization: Bearer, Content-Type. En 'API' cae la ficha API debajo, unida por un trazo violeta; en 'red' se encienden cuatro chips verdes: clave, formato, errores, reintentos.",
+      "resource": "capas",
+      "intent": "Que el SDK no reemplaza a la API: la usa por debajo.",
+      "metaphor": "Una radiografía de la caja.",
+      "alternatives": [
+        "Un auto con el capó abierto",
+        "Un reloj con la tapa transparente"
+      ],
+      "motion": "La caja se desvanece a contorno; la tarjeta aparece adentro; los chips se encienden con la voz; la ficha API cae y el trazo la une."
+    },
+    {
+      "id": "android",
+      "say": "Hay SDKs que van más lejos. El de Android trae un emulador y adb, para probar y depurar apps enteras.",
+      "see": "Cuña verde menta. La caja SDK queda chica abajo; arriba, el logo de Android y 'Android SDK'. Un teléfono oscuro muestra el chat de tu app. Al lado, dos tarjetas con barras que se llenan: PROBAR, con el emulador, y DEPURAR, con adb y logcat.",
+      "resource": "artefacto",
+      "intent": "Que un SDK puede ser mucho más que una librería.",
+      "metaphor": "La caja chica al lado de un taller entero.",
+      "alternatives": [
+        "Una caja de herramientas que se vuelve un garaje",
+        "Un estuche que se abre en varios pisos"
+      ],
+      "motion": "La cuña barre; el logo y el teléfono entran con pop; las barras se llenan una tras otra con la voz."
+    },
+    {
+      "id": "repaso",
+      "say": "La API es el contrato. El SDK es el kit para usarlo más rápido, en tu lenguaje.",
+      "see": "Degradado violeta arriba y claro abajo, en diagonal. El avatar vuelve a la izquierda. La tarjeta de contrato de la API: ficha API, api.openai.com, 'lo que puedes pedir', 'lo que te devuelve'; una firma azul se dibuja al pie. En 'kit' la mitad de abajo pasa a durazno, la caja SDK abierta y una fila de logos: Python, JavaScript, .NET, Ruby, y Java y Go con la etiqueta 'beta'.",
+      "resource": "comparacion",
+      "intent": "La regla para recordar, en dos frases.",
+      "metaphor": "Un contrato firmado y la caja que lo usa.",
+      "alternatives": [
+        "Un plano y la caja de herramientas del obrero",
+        "Una receta y el robot de cocina"
+      ],
+      "motion": "La cuña diagonal entra; la firma se dibuja; el fondo de abajo cambia a durazno; los logos saltan uno a uno."
+    },
+    {
+      "id": "cierre",
+      "say": "Puedes usar una API sin SDK. Pero casi todo SDK lleva una API adentro. El de OpenAI sale de la especificación de su API.",
+      "see": "El diagrama final de tres nodos: tu app, la ficha API y OpenAI, unidos por la línea violeta. En 'sin SDK' un punto baja directo de la app a OpenAI. En 'adentro' la caja SDK cae sobre la ficha API y la envuelve, igual que en el gancho, y aparece el chip '200 OK'. En 'especificación' una hoja 'OpenAPI' se asoma detrás de la caja y una chispa corre por la línea.",
+      "resource": "capas",
+      "intent": "La respuesta al gancho: la API va adentro del SDK, y en OpenAI el SDK sale de la API.",
+      "metaphor": "La caja del gancho que vuelve a tragarse la ficha.",
+      "alternatives": [
+        "Una muñeca rusa que se cierra",
+        "Un sobre que se sella"
+      ],
+      "motion": "El punto baja; la caja cae con resorte y envuelve la ficha; el chip hace pop; la hoja se asoma y la chispa corre."
+    },
+    {
+      "id": "cta",
+      "say": "Sígueme para aprender más conceptos de programación e IA. Y guarda este video para cuando integres la API de OpenAI o de Mercado Pago.",
+      "see": "El diagrama se queda arriba, chico. El avatar entra por la izquierda con un botón 'Seguir'. A la derecha, dos íconos grandes de Instagram: el avión de compartir y el marcador de guardar; en 'guarda' el marcador se rellena con el acento. Debajo, dos fichas con los logos de OpenAI y Mercado Pago, que se encienden con la voz.",
+      "resource": "artefacto",
+      "intent": "Seguir a la cuenta y guardar el video para la próxima integración.",
+      "metaphor": "El marcador que se rellena sobre las dos integraciones que vienen.",
+      "alternatives": [
+        "Una lista de pendientes con dos integraciones",
+        "Un llavero con dos llaves"
+      ],
+      "motion": "El avatar sube con resorte; el botón Seguir hace pop; el marcador se rellena; las fichas se encienden una por una y la imagen queda quieta para capturar."
+    }
+  ],
+  "caption": "35 líneas a mano o 1 función. Tu SDK de OpenAI no es una API: la lleva adentro.\n\nImagina que tu app necesita un chat con IA. No vas a entrenar un modelo: usas el de OpenAI. Pero, ¿cómo habla tu app con sus servidores?\n\nLa API es el contrato: qué puedes pedir y qué te devuelve. Como la carta de un restaurante, pides sin entrar a la cocina. En OpenAI es un POST a /v1/responses con el modelo, tu mensaje y tu clave, y la respuesta llega en JSON.\n\nA mano, todo eso lo haces tú:\n- armar cada petición\n- mandar la clave\n- sacar el texto del JSON\n- manejar errores, como el 429\n- reintentar cuando se cae la red\n\nEl SDK es el kit: librerías para tu lenguaje y documentación con ejemplos. Con el de OpenAI, todo eso es client.responses.create(), en Python o en JavaScript. Por dentro arma la misma petición y llama a la misma API.\n\nAlgunos van más lejos: el SDK de Android trae un emulador y adb para probar y depurar apps.\n\nPuedes usar una API sin SDK. Pero casi todo SDK lleva una API adentro.\n\nSígueme para aprender más conceptos de programación e IA, y guarda este video para cuando integres la API de OpenAI o de Mercado Pago.\n\nLetra chica:\n- El endpoint, la autenticación y el quickstart salen de la documentación de OpenAI, con gpt-6-astra, el modelo que usa hoy.\n- output_text es una propiedad de los SDK oficiales, no un campo del JSON.\n- El SDK de Python reintenta 2 veces por defecto los errores de conexión, 408, 409, 429 y 500 o más (README de openai-python).\n- Los SDK de OpenAI se generan desde su especificación OpenAPI (README de openai-node).\n- Herramientas del Android SDK: documentación de Android Developers.\n- El código hecho a mano (35 líneas), el chat y el ticket son un ejemplo ilustrativo.\n\nFuentes revisadas el 9 de noviembre de 2026.\n\nVoz con IA: elevenlabs.io\n\n#api #sdk #openai #programacion #ia",
+  "art": {
+    "direction": "antes-despues",
+    "dealt": [
+      "antes-despues"
+    ],
+    "reason": "Réplica parecida: no corre la baraja y se toma la dirección más cercana a Rick. Su video es un A contra B que dura todo el tiempo, con un conmutador API | SDK y dos campos de color por función (violeta para la API, naranja y durazno para el SDK) sobre un lienzo claro con rejilla.",
+    "borrowed": [
+      "captura-anotada"
+    ],
+    "palette": {
+      "bg": "#F3F6F9",
+      "ink": "#0F2540",
+      "accent": "#4F46E5",
+      "accentInk": "#FFFFFF",
+      "surface": "#FFFFFF",
+      "muted": "#5B6577"
+    },
+    "fonts": {
+      "display": "archivo",
+      "text": "geist"
+    },
+    "anchor": {
+      "kind": "logo",
+      "ref": "openai",
+      "source": "Catálogo de assets (LobeHub Icons, MIT); marca registrada de OpenAI, uso nominativo"
+    },
+    "tab": "api-vs-sdk.md",
+    "cierre": {
+      "tratamiento": "fila-de-gestos",
+      "gesto": "guardar",
+      "porque": "Jeremy pidió seguir y guardar con los íconos de compartir y guardar: la fila de gestos los pone juntos, sobre las dos integraciones que el video te ayuda a recordar."
+    }
+  },
+  "gateA": {
+    "approved": true,
+    "date": "2026-11-09",
+    "notes": "Jeremy en el chat: \"apruebo\", sobre el gancho, el guion de 16 escenas y el storyboard. La caja del SDK queda plana (no pidió 3D). Los arreglos 1 a 3 de Gemini quedan sin aplicar: el CTA de dos pedidos lo pidió Jeremy y los otros dos rompen el orden del guion de Rick."
+  },
+  "gateB": {
+    "approved": true,
+    "date": "2026-11-09",
+    "video": "6eec2fe9c6876f9cbd13556b61e515add6bda208323da15a884a9fcf68653d9a",
+    "notes": "Jeremy en el chat: \"Me gusta mucho el resultado actual, a mi parecer esta listo\", sobre el primer render. Queda este render: no se hace el segundo ni se arreglan los dos choques visuales que marcó el crítico (1:28 y 0:30). Pidió no publicarlo todavía."
+  },
+  "visualFrozen": {
+    "hash": "db5a01d5a52d7a46",
+    "date": "2026-11-09"
+  }
+}

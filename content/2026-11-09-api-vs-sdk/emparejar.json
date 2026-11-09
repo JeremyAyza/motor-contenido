@@ -1,0 +1,86 @@
+{
+  "hash": "db5a01d5a52d7a46",
+  "date": "2026-11-09",
+  "escenas": [
+    {
+      "escena": "gancho",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "app",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "pregunta",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "sigla",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "menu",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "peticion",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "respuesta",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "problema",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "a-mano",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "sdk",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "una-funcion",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "por-dentro",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "android",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "repaso",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "cierre",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "cta",
+      "veredicto": "nueva",
+      "candidatas": []
+    }
+  ]
+}
