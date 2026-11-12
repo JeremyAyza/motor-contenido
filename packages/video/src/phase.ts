@@ -3,9 +3,9 @@ import { basename, join } from "node:path";
 
 /*
  * `npm run video:fase -- content/<piece>`: where a Reel is and the exact
- * message to open its next chat (docs/reel.md, "Quién piensa y cuánto"). The
- * creative phase runs at extra high effort; production, at high. The person
- * picks the effort when opening the chat: the agent cannot change it midway.
+ * message to resume it in a new chat when the one that started it was cut
+ * (docs/reel.md, "Cómo se trabaja"). A Reel runs in one chat at high effort,
+ * opened with /content-engine-copy or /content-engine-new.
  */
 
 export type Phase = "creativa" | "produccion" | "critica" | "lista";
@@ -13,8 +13,6 @@ export type Phase = "creativa" | "produccion" | "critica" | "lista";
 export interface PieceState {
   hasScript: boolean;
   gateA: boolean;
-  /** Jeremy delegated the gates ("no me pidas aprobaciones"): one chat for everything. */
-  direct: boolean;
   hasVoice: boolean;
   hasVideo: boolean;
   gateB: boolean;
@@ -23,11 +21,10 @@ export interface PieceState {
 
 export function pieceState(dir: string): PieceState {
   const scriptFile = join(dir, "video.json");
-  const script = existsSync(scriptFile) ? (JSON.parse(readFileSync(scriptFile, "utf8")) as { gateA?: { approved?: boolean; notes?: string }; gateB?: { approved?: boolean } }) : undefined;
+  const script = existsSync(scriptFile) ? (JSON.parse(readFileSync(scriptFile, "utf8")) as { gateA?: { approved?: boolean }; gateB?: { approved?: boolean } }) : undefined;
   return {
     hasScript: Boolean(script),
     gateA: Boolean(script?.gateA?.approved),
-    direct: /deleg/i.test(script?.gateA?.notes ?? ""),
     hasVoice: existsSync(join(dir, "out/video/timeline.json")),
     hasVideo: existsSync(join(dir, "out/video.mp4")),
     gateB: Boolean(script?.gateB?.approved),
@@ -42,21 +39,19 @@ export function phaseOf(state: PieceState): Phase {
   return "produccion";
 }
 
-const EFFORT: Record<Phase, string> = { creativa: "extra alto", produccion: "alto", critica: "alto", lista: "alto" };
 
 const NEXT: Record<Phase, string> = {
-  creativa: "Termina lo creativo: ángulo, ganchos, guion y guion visual (intent y metaphor por escena), congela con video:congelar y lleva la pieza a la puerta A.",
+  creativa: "Termina lo creativo: si gateA no tiene mis respuestas, hazme la ronda de preguntas (docs/reel.md, paso 0); después ángulo, ganchos, guion y guion visual (intent y metaphor por escena), y congela con video:congelar. No me muestres el guion para aprobarlo.",
   produccion: "Producción: empareja con la biblioteca (video:emparejar), construye video.tsx con una escena por archivo, comprueba por escena (video:frames y --escena), genera la voz y haz el primer render completo para el crítico.",
-  critica: "Crítica y cierre: corre video:critique y el subagente critico-ciego-video, arregla sus tres problemas comprobando por escena, haz el segundo y último render completo y muéstrame el video para la puerta B.",
-  lista: "La pieza tiene la puerta B. Publicar solo si te lo pido; si no, cosecha escenas para la biblioteca con video:cosechar.",
+  critica: "Crítica y cierre: corre video:critique y el subagente critico-ciego-video, arregla sus tres problemas comprobando por escena, haz el segundo y último render completo, pásame el video y pregúntame si lo publicas (puerta B).",
+  lista: "La pieza tiene la puerta B. Si te dije que la publiques y no está en npm run publisher -- status, publícala; si no, cosecha escenas para la biblioteca con video:cosechar.",
 };
 
-/** The message to paste in a new chat, and the effort to open it with. */
+/** The message to paste in a new chat, and the effort to open it with: always high. */
 export function nextChat(dir: string, state: PieceState): { phase: Phase; effort: string; message: string } {
   const phase = phaseOf(state);
   const piece = basename(dir);
   const read = ["AGENTS.md", "docs/reel.md", ...(state.hasEstado ? [`content/${piece}/estado.md`] : [])].join(", ");
-  const direct = state.direct ? " Jeremy delegó las puertas: no pidas aprobaciones; anótalas con su frase." : "";
-  const message = `Sigue con el Reel content/${piece}. Lee ${read}, y nada más de chats anteriores. ${NEXT[phase]}${direct} Antes de cerrar, actualiza estado.md con la fase, el paso siguiente y lo que decidí.`;
-  return { phase, effort: EFFORT[phase], message };
+  const message = `Sigue con el Reel content/${piece}. Lee ${read}, y nada más de chats anteriores. ${NEXT[phase]} Antes de cerrar, actualiza estado.md con la fase, el paso siguiente y lo que decidí.`;
+  return { phase, effort: "alto", message };
 }

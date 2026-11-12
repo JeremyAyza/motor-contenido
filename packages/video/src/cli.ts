@@ -326,8 +326,7 @@ function script(args: string[]): void {
   const sheet = join(dir, "out/gate-a.md");
   writeFileSync(sheet, gateASheet(piece, videoScript, warnings, reel.hooks ?? undefined));
   for (const w of warnings) console.log(`Aviso: ${w}`);
-  console.log(`Gate A: ${videoScript.gateA.approved ? "approved" : "pending"}. Sheet for the person: ${sheet}`);
-  if (!videoScript.gateA.approved) console.log(`Storyboard for the sheet, without a voice: npm run video:storyboard -- ${args[0]}`);
+  console.log(`Gate A: ${videoScript.gateA.approved ? "approved" : "pending: ask the person the round of questions (docs/reel.md, step 0)"}. Script summary: ${sheet}`);
   console.log(`Blind hook critic (a fresh context, docs/referencia/critico-ciego-video.md): ${writeHookCritic(dir, videoScript)}`);
 }
 
@@ -431,7 +430,7 @@ async function prepare(args: string[]): Promise<void> {
   const videoScript = scriptOf(dir);
   if (!videoScript.gateA.approved) {
     throw new VideoError(
-      `Gate A is not approved, so there is no voice yet. Show the sheet (npm run video:script -- ${args[0]}) and, after the person's yes in the chat, set video.json → gateA.`,
+      `Gate A is not approved, so there is no voice yet. Ask the person the round of questions (docs/reel.md, step 0) and set video.json → gateA with their answers in notes.`,
     );
   }
   const video = (await import(pathToFileURL(join(dir, "video.tsx")).href)).default as VideoDef;

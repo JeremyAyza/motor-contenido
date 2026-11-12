@@ -17,22 +17,24 @@ Un motor que produce contenido para la cuenta de Instagram @jacket.dev con dos f
 
 ## Reglas
 
-1. **Datos con fuente.** Cada dato sale de `facts.json`, con su URL y la fecha en que se revisó. Lo que no tenga fuente primaria o de un referente de [docs/referencia/referentes.md](docs/referencia/referentes.md) no entra. Lo de un referente se escribe "Según <referente>", nunca como dato oficial.
-2. **Lo reciente se investiga.** Si el tema es de los últimos 12 meses, lee la documentación oficial o el anuncio antes de escribir. No confíes en la memoria del modelo.
+1. **Datos con fuente.** Cada dato sale de `facts.json`, con su URL y la fecha en que se revisó. Lo que no tenga fuente primaria o de un referente de [docs/referencia/referentes.md](docs/referencia/referentes.md) no entra. Lo de un referente se escribe "Según <referente>", nunca como dato oficial. **En una copia** (`/content-engine-copy`), la fuente es el Reel copiado: no se investiga, no se revisa su guion y no hace falta `facts.json`.
+2. **Lo reciente se investiga** (salvo en una copia). Si el tema es de los últimos 12 meses, lee la documentación oficial o el anuncio antes de escribir. No confíes en la memoria del modelo.
 3. **No inventes** comandos, salidas de terminal, interfaces, versiones, cifras, casos ni testimonios. Lo ilustrativo se rotula "Ejemplo ilustrativo".
-4. **Primero lo editorial.** Ningún `slides.tsx` sin un `brief.json` aprobado. Ningún `video.tsx` final ni ninguna voz sin el guion de `video.json` aprobado.
+4. **Primero lo editorial.** Ningún `slides.tsx` sin `brief.json` ni ningún `video.tsx` final ni voz sin el guion de `video.json`, los dos con la puerta A anotada.
 5. **Diseño propio por tema,** con [skills/carrusel-taste](skills/carrusel-taste/SKILL.md) y [docs/referencia/anti-slop.md](docs/referencia/anti-slop.md). Cada lámina o escena explica con un recurso visual de [recursos.json](skills/carrusel-taste/recursos.json), no solo con texto. El cierre lleva un solo CTA específico del tema, y la despedida cambia entre piezas ([cierres.json](skills/carrusel-taste/cierres.json)).
 6. **Marcas fieles al original** (27 de octubre de 2026). Un logo o una mascota va con su archivo oficial, o de una fuente confiable (Simple Icons, kit de prensa, repositorio oficial), con `<Logo>` y el catálogo [assets/logos](assets/logos/README.md). El orden: oficial, librería, pedírselo a Jeremy, recrearlo idéntico. Una interfaz real (Claude Code, VS Code, Zed) se puede recrear igual a su versión actual; lo que muestra es real o lleva el rótulo de la regla 3. Nunca sugieras un patrocinio ni te burles de una marca.
-7. **Dos puertas humanas.** Jeremy aprueba el guion o el brief en la **puerta A** y la pieza final en la **puerta B**. Solo su sí en el chat aprueba: el agente lo anota en `brief.json → puertaA` y `post.json → puertaB`, o en `video.json → gateA` y `gateB` (con el sha256 del video). Si Jeremy delega las puertas ("no me pidas aprobaciones"), se anotan con su frase en `notes`.
+7. **Dos toques de Jeremy** (9 de noviembre de 2026). No se le muestra el guion ni el brief para aprobarlo:
+   - **Puerta A, la ronda de preguntas.** Tras un análisis corto, una sola ronda de 2 a 4 preguntas sobre lo que cambia la pieza, cada una con opciones y la recomendada primero. Lo ya decidido en la página del flujo no se pregunta. Sus respuestas se anotan en `video.json → gateA` o `brief.json → puertaA`, con la fecha y sus palabras en `notes`. Después se produce todo sin pedir más aprobaciones; solo se vuelve a preguntar si algo bloquea la pieza.
+   - **Puerta B, "¿la publico?".** Al final se le muestra la pieza y se le pregunta si se publica. Su sí se anota en `video.json → gateB` (con el sha256 del video) o `post.json → puertaB`, y es también el pedido de publicar.
 8. **Crítica ciega.** Quien diseña no se califica. La crítica la hace un contexto nuevo que solo ve la pieza terminada ([carrusel](docs/referencia/critico-ciego.md), [video](docs/referencia/critico-ciego-video.md)).
 9. **El inspector manda.** Se corrigen todos los errores del render. Cada aviso es un error salvo que se pueda defender en una frase.
 10. **Confidencialidad.** Nunca uses código, capturas, proyectos, clientes ni métricas del empleador de Jeremy.
 11. **Estilo de texto:** español neutro, en la voz de [docs/referencia/voz.md](docs/referencia/voz.md), sin guiones largos (—), sin relleno, una afirmación por lámina o escena.
-12. **Nada se publica sin que Jeremy lo pida,** y solo con la puerta B aprobada (`carrusel:publicar` o `video:publicar`). El agente corre los comandos, también el login. Jeremy escribe su usuario y su contraseña en la ventana de Chrome que abren: el agente nunca los escribe ni los pide. No se automatizan DMs, comentarios ni solicitudes.
+12. **Nada se publica sin el sí de Jeremy** a la pregunta final de la regla 7 (o un pedido suyo), y solo con la puerta B anotada (`carrusel:publicar` o `video:publicar`). El agente corre los comandos, también el login. Jeremy escribe su usuario y su contraseña en la ventana de Chrome que abren: el agente nunca los escribe ni los pide. No se automatizan DMs, comentarios ni solicitudes.
 
 ## Cómo se trabaja
 
-- **Un chat nuevo por pieza,** nunca a continuación de otra ni después de un `/compact`. El traspaso entre chats es `content/<pieza>/estado.md`, no la conversación. En el Reel, lo creativo va en esfuerzo extra alto y la producción en alto (`npm run video:fase` dice cuál toca).
+- **Un chat nuevo por pieza,** nunca a continuación de otra ni después de un `/compact`, abierto con uno de los dos comandos de Jeremy: `/content-engine-copy <link> [indicaciones]` replica un Reel y `/content-engine-new <idea> [indicaciones]` crea uno desde cero (un carrusel, si lo pide). Están en `.claude/skills/`; otro agente lee su `SKILL.md`. La pieza entera va en ese chat, en esfuerzo alto. Si se corta, el traspaso es `content/<pieza>/estado.md`, no la conversación (`npm run video:fase` da el mensaje para retomar).
 - **Los cambios al motor** (paquetes, kit, inspector, comandos) van en su propia sesión y su propia rama, nunca a mitad de una pieza. Terminan con `npm test` y `npm run typecheck`. El commit, solo cuando Jeremy lo pide.
 - **Lo mecánico se delega.** Un paso que cabe en una especificación cerrada (un margen, un tamaño, renombrar, extraer, auditar) va a `npm run agy` ([docs/referencia/agy.md](docs/referencia/agy.md)), en segundo plano, y lo que devuelve se comprueba con `git diff` y volviendo a correr la comprobación. El agente principal no escribe scripts de parches: en Claude Code, un hook (`.claude/hooks/sin-parches.mjs`) niega reescribir el `.tsx` de una pieza desde la terminal.
 - **Código en inglés** (identificadores, archivos, comandos, flags, campos JSON y mensajes de CLI). Los docs, el contenido y las respuestas, en español. Lo viejo en español (`carrusel:*`, `brief.json`, `puertaA`) no se renombra por cuenta propia.
@@ -62,6 +64,7 @@ schemas/                  JSON Schema de post.json, brief.json, video.json y las
 skills/                   capas propias: carrusel-taste, ig-es y video-es
 .agents/skills/           skills de terceros sin modificar: ig-* (MIT) y remotion-* (se instalan por máquina, fuera de git)
 .claude/agents/           subagentes: buscador-fuentes, analista-referente y critico-ciego-video
+.claude/skills/           los comandos content-engine-copy y content-engine-new, y caveman
 ```
 
 ## Comandos

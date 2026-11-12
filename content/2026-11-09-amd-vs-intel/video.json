@@ -1,0 +1,341 @@
+{
+  "$schema": "../../schemas/video.schema.json",
+  "format": "largo",
+  "topic": "AMD contra Intel: el mismo x86, distinto silicio (chiplets y caché contra núcleos mixtos y tiles) y cuál elegir",
+  "world": "Una ficha técnica oscura con retícula y etiqueta de capítulo, donde el bando rojo (AMD) y el azul (Intel) se desarman capa por capa hasta volver a los dos chips del principio.",
+  "meter": {
+    "label": "Diferencias",
+    "from": "0",
+    "to": "4"
+  },
+  "cover": {
+    "scene": "gancho",
+    "at": 1.5
+  },
+  "target": 147.5,
+  "hooks": [
+    {
+      "said": "AMD contra Intel.",
+      "onScreen": "AMD contra Intel",
+      "formula": 17
+    },
+    {
+      "said": "AMD e Intel hablan el mismo idioma, pero por dentro no se parecen en nada.",
+      "onScreen": "Mismo idioma, otro silicio",
+      "formula": 22
+    },
+    {
+      "said": "¿AMD o Intel? Primero mira cómo están hechos por dentro.",
+      "onScreen": "¿AMD o Intel?",
+      "formula": 17
+    }
+  ],
+  "scenes": [
+    {
+      "id": "gancho",
+      "say": "AMD contra Intel. Casi cualquier PC con Windows lleva un procesador de una de las dos.",
+      "see": "Desde el cuadro 1, el rótulo 'AMD contra Intel' sobre el negro con retícula. El logo de AMD arriba a la izquierda con su chip plano inclinado y un brillo rojo; el de Intel abajo a la derecha con su chip y un brillo azul; una 'VS' chica en mono entre los dos. En 'PC' corte a una rejilla de 24 equipos de línea fina (monitores, laptops, torres) bajo una barra 'AMD | PC CON WINDOWS | INTEL'; los contornos se encienden en oleada y en 'procesador' cada equipo recibe un punto rojo o azul, 12 y 12.",
+      "resource": "comparacion",
+      "intent": "Que son los dos bandos de casi todas las PC con Windows.",
+      "metaphor": "Dos esquinas de un ring, rojo contra azul, y después la tribuna llena de equipos que ya eligieron bando.",
+      "alternatives": [
+        "Un mapa de la tienda partido en dos colores",
+        "Dos cables que se reparten todos los enchufes"
+      ],
+      "motion": "Los logos pasan de fantasma a pleno con su brillo; los chips entran con resorte en diagonal; la rejilla se enciende en oleada y los puntos caen uno tras otro con un blip."
+    },
+    {
+      "id": "distintos",
+      "say": "Por fuera, los dos corren Windows y tus juegos. Por dentro, están hechos muy distinto. ¿Qué cambia de verdad? ¿Y cuál te conviene?",
+      "see": "Dos placas verdes con su tapa gris, una con borde rojo y otra con borde azul, rótulo 'Por dentro, distintos'. En 'dentro' las tapas se levantan: bajo la roja, tres piezas separadas; bajo la azul, un bloque de tiles. En '¿Qué cambia' corte a dos tarjetas de pregunta, '¿Qué cambia?' y '¿Cuál elijo?', con las placas en miniatura; el avatar entra por la izquierda.",
+      "resource": "anatomia",
+      "intent": "Que se parecen por fuera y se diferencian por dentro, y que el video responde dos preguntas.",
+      "metaphor": "Dos cajas iguales que, al abrirse, traen piezas distintas.",
+      "alternatives": [
+        "Dos autos con el capó levantado",
+        "Dos relojes con la tapa trasera abierta"
+      ],
+      "motion": "Las tapas suben con resorte y una sombra; las piezas de adentro se encienden de a una; las dos tarjetas de pregunta caen una tras otra."
+    },
+    {
+      "id": "x86",
+      "say": "Primero, lo que comparten: los dos hablan x86, el mismo vocabulario de órdenes: sumar, mover, comparar, saltar.",
+      "see": "Capítulo '01 · LO QUE COMPARTEN'. Los logos de AMD e Intel unidos por una línea; 'x86' gigante en gris fantasma que pasa a blanco cuando se dice. Después, la tarjeta 'El vocabulario' con seis órdenes en mono (ADD, MOV, CMP, JMP, CALL, RET) que se encienden con el acento al nombrarlas. El avatar sigue a la izquierda.",
+      "resource": "anatomia",
+      "intent": "Que AMD e Intel entienden el mismo conjunto de instrucciones.",
+      "metaphor": "Un diccionario compartido de palabras cortas.",
+      "alternatives": [
+        "Un teclado con las mismas teclas en dos colores",
+        "Dos intérpretes con el mismo libro de frases"
+      ],
+      "motion": "La línea se dibuja entre los logos; 'x86' se enciende de gris a blanco; las filas de la tarjeta se iluminan una por una con la voz."
+    },
+    {
+      "id": "bytes",
+      "say": "Cada orden se vuelve un código de máquina. Por eso el mismo programa corre en un AMD y en un Intel.",
+      "see": "Tres tarjetas en fila: 'add eax, ebx' a la izquierda y '01 D8' a la derecha con el acento, después 'mov eax, ebx' con '89 D8' y 'jmp' con 'EB'. En 'programa' corte a una caja 'UN PROGRAMA' con bytes, de la que salen dos flechas hacia las placas roja y azul; en 'Intel' las dos se marcan con un visto y el rótulo 'Los mismos bytes'.",
+      "resource": "proceso",
+      "intent": "Que por hablar lo mismo, el mismo software corre en los dos.",
+      "metaphor": "Una sola carta que llega igual a dos buzones.",
+      "alternatives": [
+        "Un enchufe universal",
+        "Una partitura que tocan dos orquestas"
+      ],
+      "motion": "Cada orden se traduce con una flecha que se dibuja; las flechas del programa se dibujan hacia las dos placas y los vistos caen con un pop."
+    },
+    {
+      "id": "silicio",
+      "say": "Hablan el mismo idioma. Lo que cambia es cómo convierten esas órdenes en silicio.",
+      "see": "Rótulo 'Mismas órdenes, otro silicio'. Los bytes arriba y dos curvas del acento que bajan a las dos placas: la roja con 'PIEZAS SEPARADAS' y la azul con 'TILES SOBRE UNA BASE'. El avatar a la izquierda. El medidor 'Diferencias' sigue en 0.",
+      "resource": "comparacion",
+      "intent": "Que la diferencia está en la construcción, no en el idioma.",
+      "metaphor": "La misma receta en dos cocinas distintas.",
+      "alternatives": [
+        "Los mismos planos y dos edificios",
+        "Dos imprentas con el mismo texto"
+      ],
+      "motion": "Las curvas se dibujan desde los bytes y los rótulos de cada placa se encienden al llegar."
+    },
+    {
+      "id": "transistores",
+      "say": "Un procesador son miles de millones de transistores: interruptores diminutos grabados en silicio. Más chicos, caben más y gastan menos.",
+      "see": "Capítulo '02 · FABRICACIÓN'. 'MILES DE MILLONES' gigante sobre un plano de pistas de cobre que se desplaza. En 'interruptores', un transistor plano en corte con FUENTE, COMPUERTA y DRENADOR y un interruptor que pasa de APAGADO a ENCENDIDO. En 'chicos', una rejilla de 16 transistores que se vuelve de 64 en la misma área, con el contador y una barra de energía por cambio que baja.",
+      "resource": "escala",
+      "intent": "Que un chip son interruptores y que hacerlos más chicos da más por chip y menos energía.",
+      "metaphor": "Una ciudad de interruptores que se encoge y se vuelve más densa.",
+      "alternatives": [
+        "Un tablero de luces que se multiplica",
+        "Hormigas en un hormiguero"
+      ],
+      "motion": "Las pistas se desplazan; la compuerta baja y el interruptor cambia con un clic; la rejilla se subdivide de 16 a 64 y la barra de energía baja."
+    },
+    {
+      "id": "fabrica",
+      "say": "Intel diseña sus chips y también los fabrica, en sus propias fábricas. AMD solo los diseña: los fabrica TSMC.",
+      "see": "Dos cajas unidas por una flecha: bajo el logo de Intel, 'DISEÑA' y 'FABRICA', las dos azules, con un ícono de fábrica; el avatar a la izquierda. En 'AMD' corte: bajo su logo, 'DISEÑA' en rojo, y la flecha lleva a una caja 'TSMC · FABRICA' en gris.",
+      "resource": "proceso",
+      "intent": "Que Intel hace todo en casa y AMD encarga la fabricación.",
+      "metaphor": "Un restaurante con su propia granja frente a uno que compra a un proveedor.",
+      "alternatives": [
+        "Un estudio que imprime sus libros y otro que usa una imprenta",
+        "Dos marcas de ropa, una con taller propio"
+      ],
+      "motion": "Las cajas aparecen con la voz y la flecha se dibuja entre ellas; la caja de TSMC entra con resorte."
+    },
+    {
+      "id": "ensamblado",
+      "say": "Ahora, cómo se arma cada uno por dentro. Levantemos las tapas.",
+      "see": "Capítulo '03 · ENSAMBLADO'. Los dos chips planos con su tapa, rojo a la izquierda y azul a la derecha, con su zócalo rotulado; el avatar a la izquierda. En 'tapas', las dos tapas tiemblan.",
+      "resource": "anatomia",
+      "intent": "Que lo que sigue es mirar adentro de cada chip.",
+      "metaphor": "Dos cajas a punto de abrirse.",
+      "alternatives": [
+        "Un mecánico frente a dos motores",
+        "Dos regalos sin abrir"
+      ],
+      "motion": "Los chips entran con resorte y las tapas tiemblan con un golpe chico."
+    },
+    {
+      "id": "chiplets",
+      "say": "AMD arma sus procesadores con piezas separadas: chiplets. Un Ryzen de escritorio lleva uno o dos con los núcleos, y otro chip para la memoria y las conexiones.",
+      "see": "'CHIPLETS' gigante en rojo arriba a la izquierda; la tapa del chip rojo sale y queda la placa verde con tres piezas oscuras. En 'Ryzen' la placa se ve desde arriba: CCD 0 y CCD 1 se tiñen de rojo con '16 NÚCLEOS', y en 'memoria' la pieza 'E/S' se enciende y tira líneas punteadas a DDR5, PCIe 5.0 y USB. Nota al pie: 'Ryzen 9 9950X · esquema simplificado'. Sube el medidor a 1.",
+      "resource": "anatomia",
+      "intent": "Que AMD parte el procesador en piezas: núcleos en chiplets y un chip de entrada y salida.",
+      "metaphor": "Un juego de bloques que se encaja en una placa.",
+      "alternatives": [
+        "Un tren de vagones separados",
+        "Una mesa con platos separados"
+      ],
+      "motion": "La tapa sale hacia arriba; la placa gira a vista cenital; las piezas se tiñen de rojo de a una y las líneas punteadas se dibujan hacia las conexiones."
+    },
+    {
+      "id": "obleas",
+      "say": "¿Por qué partirlo? Las obleas de silicio traen defectos diminutos. Un defecto en un chip grande lo arruina entero. Con chiplets, el daño es mucho menor.",
+      "see": "Rótulo '¿Por qué partirlo?'. Una oblea circular de 300 mm con puntos rojos de defectos; el avatar a la izquierda. En 'grande', una rejilla de chips grandes sobre la oblea: los que tocan un defecto se tachan y el contador dice '85 de 96 · 89 %'. En 'chicas', la rejilla se vuelve fina: '856 de 870 · 98 %'. Nota al pie: 'Ejemplo ilustrativo'.",
+      "resource": "datos",
+      "intent": "Que piezas chicas desperdician menos silicio cuando hay defectos.",
+      "metaphor": "Una masa con piedritas: si cortas galletas chicas, pierdes menos.",
+      "alternatives": [
+        "Un vidrio con burbujas que se corta en baldosas",
+        "Un rollo de tela con manchas"
+      ],
+      "motion": "Los defectos aparecen con un parpadeo; la rejilla grande se dibuja y las X caen; la rejilla se subdivide y el porcentaje sube contando."
+    },
+    {
+      "id": "fabric",
+      "say": "Y esas piezas se hablan por un enlace muy rápido: Infinity Fabric.",
+      "see": "La placa roja desde arriba; 'Infinity Fabric' en rojo; entre los chiplets y la pieza de E/S, unas líneas por donde corren pulsos de luz, con el rótulo 'ENLACE ENTRE PIEZAS'.",
+      "resource": "anatomia",
+      "intent": "Que las piezas separadas se conectan con un enlace propio.",
+      "metaphor": "Una autopista corta entre barrios.",
+      "alternatives": [
+        "Un cable trenzado",
+        "Tuberías de un edificio"
+      ],
+      "motion": "Las líneas se dibujan y los pulsos corren de ida y vuelta sin parar."
+    },
+    {
+      "id": "tiles",
+      "say": "Intel hace algo parecido con tiles: uno para el cómputo, otro para los gráficos, otros para entrada y salida. Y los monta sobre una base, con Foveros.",
+      "see": "'TILES' gigante en azul; la tapa del chip azul sale. Vista desde arriba con cuatro tiles rotulados: CÓMPUTO, GRÁFICOS, SOC y E/S, que se encienden con la voz. Nota al pie: 'Core Ultra 9 285K · esquema simplificado'. En 'Foveros', 'FOVEROS' en azul claro y la vista se separa en capas: los tiles arriba, la base abajo y puntitos de unión en medio. Sube el medidor a 2.",
+      "resource": "capas",
+      "intent": "Que Intel también divide, en tiles con un trabajo cada uno, y los apila sobre una base.",
+      "metaphor": "Baldosas de un piso, cada una con su función, sobre un contrapiso.",
+      "alternatives": [
+        "Un sándwich de capas",
+        "Un edificio de pisos"
+      ],
+      "motion": "La tapa sale; los tiles se encienden en orden; la vista se separa en capas que se abren hacia arriba y abajo."
+    },
+    {
+      "id": "hibrido",
+      "say": "Intel usa un diseño híbrido: núcleos de rendimiento para lo pesado y núcleos de eficiencia, más chicos, para lo de fondo. Thread Director ayuda a repartir las tareas.",
+      "see": "Capítulo '04 · LOS NÚCLEOS'. Rótulo 'Intel: híbrido'. Una fila de 8 núcleos P grandes y azules y otra de 16 núcleos E chicos; el avatar a la izquierda. En 'pesado' cae la ficha JUEGO en un núcleo P; en 'fondo' caen SINCRONIZAR, CORREO y ACTUALIZAR en los E. En 'Thread Director', arriba aparecen la caja SISTEMA y la caja THREAD DIRECTOR, unidas por una flecha 'PISTAS', y las fichas VIDEO y ESCANEO bajan a su núcleo.",
+      "resource": "proceso",
+      "intent": "Que Intel mezcla núcleos grandes y chicos y algo reparte el trabajo.",
+      "metaphor": "Un taller con operarios fuertes y ayudantes, y un capataz que reparte.",
+      "alternatives": [
+        "Camiones y motos en una empresa de reparto",
+        "Un equipo con titulares y suplentes"
+      ],
+      "motion": "Los núcleos aparecen en fila; las fichas caen con un golpe en su núcleo, que se enciende; las cajas de arriba entran y la flecha se dibuja."
+    },
+    {
+      "id": "hilos",
+      "say": "AMD, en escritorio, usa un solo tipo de núcleo, todos grandes, y cada uno corre dos hilos a la vez. Los Intel de escritorio más nuevos ya no: 24 núcleos, 24 hilos.",
+      "see": "Rótulo 'AMD: un solo tipo'. Dos CCD con 16 núcleos rojos iguales, '16 núcleos iguales'. En 'hilos' la vista se acerca a un núcleo: dos carriles, HILO A en el acento y HILO B en violeta, que se turnan por las ranuras. En 'Intel' corte a dos tarjetas lado a lado: AMD '16 núcleos · 32 hilos' y Intel '24 núcleos · 24 hilos'. Sube el medidor a 3.",
+      "resource": "comparacion",
+      "intent": "Que AMD usa núcleos iguales con dos hilos cada uno, e Intel ya no usa dos hilos por núcleo.",
+      "metaphor": "Una cocina con dos cocineros por hornalla contra otra con una hornalla por cocinero.",
+      "alternatives": [
+        "Una carretera de dos carriles por puente",
+        "Dos manos en un mismo teclado"
+      ],
+      "motion": "La rejilla de núcleos se enciende; la cámara entra a un núcleo y los dos hilos llenan las ranuras alternándose; las tarjetas cuentan hasta sus cifras."
+    },
+    {
+      "id": "cache",
+      "say": "Para el procesador, la RAM está lejísimos. Por eso guarda memoria rapidísima dentro del chip: la caché. L1 y L2 van pegadas a cada núcleo; la L3 es más grande y compartida.",
+      "see": "Capítulo '05 · LA CACHÉ'. NÚCLEO a la izquierda y RAM a la derecha, lejos, con una línea punteada por la que viaja un punto; una tabla 'ESPERA POR VIAJE': L1 ~1 ns, L2 ~3 ns, L3 ~10 ns, RAM ~80 ns, con barras. Nota: 'Aproximado · ejemplo ilustrativo'. En 'caché', L1, L2 y L3 se encienden en verde entre el núcleo y la RAM. En 'pegadas', un CCD con L1 48 KB y L2 1 MB junto a cada núcleo y la L3 de 32 MB en el centro.",
+      "resource": "escala",
+      "intent": "Que la caché acorta el viaje a la memoria y tiene niveles.",
+      "metaphor": "La alacena al lado de la cocina contra el supermercado lejos.",
+      "alternatives": [
+        "Un escritorio, un cajón y un depósito",
+        "Bolsillo, mochila y casillero"
+      ],
+      "motion": "El punto viaja lento hasta la RAM; las barras crecen; los niveles de caché se encienden en verde de a uno y el punto vuelve rápido desde la L1."
+    },
+    {
+      "id": "vcache",
+      "say": "Y aquí AMD tiene un truco: en algunos modelos apila otra capa de L3 encima. Se llama 3D V-Cache: 32 más 64, 96 megas. Los juegos piden datos sin parar, y tenerlos cerca los acelera mucho.",
+      "see": "Rótulo 'Un truco extra'. Tarjeta 'Ryzen 7 7800X3D' con su vista lateral; el avatar a la izquierda. En 'apila', una capa oscura 'CACHÉ 64 MB' baja sobre el chiplet 'L3 32 MB'. '3D V-CACHE' gigante en blanco y la tarjeta '32 MB + 64 MB = 96 MB'. En 'juegos', dos carriles NÚCLEO a RAM: arriba L3 32 MB, abajo L3 96 MB; caen pedidos como casillas, verdes si los encuentra la caché y grises si van a la RAM; abajo hay muchas más verdes y salta la ficha 'GRAN EMPUJÓN'. Sube el medidor a 4.",
+      "resource": "capas",
+      "intent": "Que AMD apila caché extra y eso ayuda mucho a los juegos.",
+      "metaphor": "Una segunda alacena encima de la primera.",
+      "alternatives": [
+        "Un piso más en la biblioteca",
+        "Un estante extra al lado de la mesa"
+      ],
+      "motion": "La capa de caché baja y encaja con un golpe; la ecuación se arma con un contador; las casillas caen en los dos carriles y el de abajo se llena de verde."
+    },
+    {
+      "id": "elegir",
+      "say": "¿Cuál eliges? Para jugar, los chips con 3D V-Cache suelen ser los que hay que vencer. Para editar video y multitarea, Intel rinde muy bien: muchos núcleos y Quick Sync. En laptops, depende del modelo.",
+      "see": "Capítulo '06 · ¿CUÁL ELEGIR?'. Una tabla de tres filas (JUEGOS, EDICIÓN Y MULTITAREA, LAPTOPS) con columnas AMD e Intel; el avatar a la izquierda. En 'jugar', la fila de juegos se resalta en rojo con un visto y '3D V-CACHE'. En 'editar', la fila de edición se resalta en azul con un visto y 'QUICK SYNC', y al lado una línea de tiempo de edición y cuatro tarjetas (EXPORTAR, NAVEGADOR, STREAM, COMPILAR) con barras. En 'laptops', las dos columnas dicen 'SEGÚN EL MODELO' y aparece una laptop con una batería que se llena.",
+      "resource": "matriz",
+      "intent": "Qué conviene según el uso.",
+      "metaphor": "Una tabla de decisión que se marca fila por fila.",
+      "alternatives": [
+        "Tres puertas con un cartel cada una",
+        "Un menú con recomendaciones del chef"
+      ],
+      "motion": "La tabla entra; cada fila se resalta con la voz y su visto cae con un pop; las barras de las tarjetas crecen; la batería se llena por celdas."
+    },
+    {
+      "id": "modelo",
+      "say": "Para recordarlo: los dos hablan el mismo idioma. AMD apuesta por chiplets y mucha caché; Intel, por mezclar núcleos grandes y chicos.",
+      "see": "Capítulo '07 · EL MODELO MENTAL'. La placa roja, 'x86' en medio y la placa azul; el avatar a la izquierda. Dos tarjetas que crecen: 'LA APUESTA DE AMD · chiplets + caché' en rojo y 'LA APUESTA DE INTEL · núcleos grandes + chicos' en azul, que se encienden cuando se nombran. El medidor queda en 4.",
+      "resource": "comparacion",
+      "intent": "Las dos apuestas en una línea cada una.",
+      "metaphor": "Dos fichas de un mismo juego con estrategias opuestas.",
+      "alternatives": [
+        "Dos recetas del mismo plato",
+        "Dos equipos con la misma pelota"
+      ],
+      "motion": "Las placas vuelven a su lugar; las tarjetas crecen desde ellas y se encienden en su color con la voz."
+    },
+    {
+      "id": "moraleja",
+      "say": "El mejor chip es el que está hecho para lo que tú haces.",
+      "see": "Los dos chips del gancho vuelven, rojo arriba a la izquierda y azul abajo a la derecha, con 'x86' punteado entre ellos y los rótulos 'CHIPLETS + CACHÉ' y 'NÚCLEOS GRANDES + CHICOS'. La frase 'El mejor chip es el hecho para tu trabajo' se aclara de gris a blanco con la voz.",
+      "resource": "comparacion",
+      "intent": "La moraleja: no hay ganador absoluto, depende del uso.",
+      "metaphor": "El ring del principio, ahora con el veredicto escrito en el medio.",
+      "alternatives": [
+        "Una balanza que queda en equilibrio",
+        "Dos herramientas sobre la mesa de trabajo"
+      ],
+      "motion": "Los chips entran desde sus esquinas con su brillo; la frase se enciende palabra por palabra."
+    },
+    {
+      "id": "cta",
+      "say": "Sígueme para más, guarda este video para tu próxima PC y dime en comentarios: ¿AMD o Intel?",
+      "see": "Los dos chips se quedan arriba, chicos. Debajo, dos botones grandes, 'AMD' en rojo e 'INTEL' en azul, y entre ellos el ícono de comentar de Instagram, que salta en 'comentarios'. El avatar sube por la izquierda con un botón 'Seguir'; en 'guarda', el marcador de guardar se rellena con el acento sobre la placa del chip.",
+      "resource": "artefacto",
+      "intent": "Comentar de qué bando eres, seguir a la cuenta y guardar el video.",
+      "metaphor": "La votación del final: dos botones y el marcador sobre el chip.",
+      "alternatives": [
+        "Un marcador de tribuna rojo contra azul",
+        "Dos urnas de votación"
+      ],
+      "motion": "Los botones entran con resorte; el ícono de comentar rebota; el avatar sube; el marcador se rellena y la imagen queda quieta para capturar."
+    }
+  ],
+  "caption": "AMD contra Intel: hablan el mismo idioma, pero arman el silicio distinto.\n\nLos dos entienden x86, el mismo vocabulario de órdenes. Por eso el mismo programa corre en cualquiera de los dos. La diferencia está en cómo convierten esas órdenes en un chip.\n\nAMD: piezas separadas.\n- Chiplets con los núcleos y un chip aparte para la memoria y las conexiones, unidos por Infinity Fabric.\n- Si la oblea trae un defecto, una pieza chica desperdicia menos silicio.\n- Núcleos iguales, con dos hilos cada uno.\n- 3D V-Cache: otra capa de L3 apilada encima, que ayuda mucho en juegos.\n\nIntel: núcleos mixtos.\n- Núcleos de rendimiento para lo pesado y de eficiencia para lo de fondo, con Thread Director repartiendo.\n- Tiles con un trabajo cada uno, montados sobre una base con Foveros.\n- Quick Sync, su motor de video integrado.\n\n¿Cuál elegir?\n- Para jugar: los chips con 3D V-Cache suelen ser los que hay que vencer.\n- Para editar video y multitarea pesada: Intel rinde muy bien.\n- En laptops: depende del modelo.\n\nEl mejor chip es el que está hecho para lo que tú haces.\n\nGuárdalo para cuando armes tu próxima PC. Y dime en comentarios: ¿AMD o Intel?\n\nLetra chica:\n- Réplica en español de un Reel de @rick.theengineer: los modelos, las cifras y los esquemas salen de ahí.\n- Las obleas, los porcentajes y las latencias son un ejemplo ilustrativo, no una medición.\n\nVoz con IA: elevenlabs.io\n\n#amd #intel #cpu #pcgamer #hardware",
+  "art": {
+    "direction": "capa-por-capa",
+    "dealt": [
+      "capa-por-capa"
+    ],
+    "reason": "Réplica parecida: no corre la baraja y se toma la dirección más cercana a Rick. Su video es una ficha técnica oscura que desarma dos chips capa por capa, con cada marca en su color fijo (rojo AMD, azul Intel) sobre un fondo casi negro con retícula.",
+    "borrowed": [],
+    "palette": {
+      "bg": "#05070A",
+      "ink": "#F4F6FA",
+      "accent": "#8B85FF",
+      "accentInk": "#05070A",
+      "surface": "#0D1117",
+      "muted": "#8B93A3"
+    },
+    "fonts": {
+      "display": "geist",
+      "text": "geist"
+    },
+    "anchor": {
+      "kind": "icono",
+      "ref": "cpu",
+      "source": "Lucide (ISC)"
+    },
+    "tab": "amd-vs-intel.md",
+    "cierre": {
+      "tratamiento": "gesto-en-el-recurso",
+      "gesto": "comentar",
+      "porque": "El cierre es una votación entre los dos chips del video: el gesto de comentar va entre los botones de AMD e Intel, y el de guardar se rellena sobre la placa del chip, que es el recurso de toda la pieza."
+    }
+  },
+  "gateA": {
+    "approved": true,
+    "date": "2026-11-09",
+    "notes": "Ronda de preguntas en el chat. Chips: \"Planos, en código (Recomendado)\". Avatar: \"Sí, por momentos (Recomendado)\". Cierre: \"mezcla de las dos primeras opciones\", es decir, la pregunta para comentar (AMD o Intel) y además sígueme y guarda."
+  },
+  "gateB": {
+    "approved": true,
+    "date": "2026-11-12",
+    "video": "bcdb76a0c7d101c927833b2c7ddb2533daefe1cf1bf114519757ea457b38a51a"
+  },
+  "visualFrozen": {
+    "hash": "df8f8e14f1d8b34c",
+    "date": "2026-11-09"
+  }
+}

@@ -47,18 +47,18 @@ Después califica con la rúbrica de [critica-video.md](critica-video.md) y escr
 
 ## Ganchos
 
-En la puerta A todavía no hay video. `npm run video:script -- content/<pieza>` arma `out/video-critica-ganchos/` con el tema, el público y los ganchos, sin puntajes. Cada gancho tiene lo que dice la voz y lo que se lee en pantalla desde el cuadro 1. En un contexto nuevo:
+Antes de la voz todavía no hay video. `npm run video:script -- content/<pieza>` arma `out/video-critica-ganchos/` con el tema, el público y los ganchos, sin puntajes. Cada gancho tiene lo que dice la voz y lo que se lee en pantalla desde el cuadro 1. En un contexto nuevo:
 
 - Ordena los ganchos para ese público y di en una línea por qué cada uno detendría el pulgar en los primeros 2 s, con sonido y sin sonido.
 - Descarta los que no entenderías sin contexto o que servirían igual para otro tema.
 - Marca cualquier gancho que prometa algo que un video de menos de un minuto no puede cumplir.
-- No reescribas los ganchos: eso lo decide la persona.
+- No reescribas los ganchos: eso lo decide quien escribe la pieza.
 
-Escribe la respuesta en `out/video-critica-ganchos/informe.md`. El orden va a la puerta A junto con los avisos; la decisión es de la persona.
+Escribe la respuesta en `out/video-critica-ganchos/informe.md`. Quien escribe la pieza lo usa junto con los avisos para elegir el gancho.
 
 ## Guion
 
-Antes de la puerta A, cuando ya hay guion y storyboard pero todavía no hay voz. `npm run video:critique -- content/<pieza> --guion` arma `out/video-critica-guion/` con:
+Cuando ya hay guion (y storyboard, si se hizo) pero todavía no hay voz. No en una copia. `npm run video:critique -- content/<pieza> --guion` arma `out/video-critica-guion/` con:
 - `guion.md`: lo que se oye y lo que se ve, escena por escena, con el segundo estimado en que empieza cada una;
 - `storyboard.png`, si ya existe;
 - el texto del post;
@@ -71,9 +71,9 @@ Sirve para encontrar en el papel lo que después cuesta una voz, un render y una
 - Califica solo los puntos que se juzgan en papel: Gancho, Tesis, Valor, Retención, Compartible, Cierre y CTA, y Voz y guion. Deja fuera Legibilidad y Recurso visual y composición: eso lo juzga el crítico del video. El promedio se calcula sobre los puntos calificados.
 - En Retención, di el tramo exacto en que te irías ("de 0:13 a 0:45 repasa lo que el gancho da por sabido") y qué escenas lo forman.
 - Los tres arreglos son del guion: qué frase sacar, qué escena acortar o mover, qué falta.
-- No reescribas el guion: eso lo decide la persona.
+- No reescribas el guion: eso lo decide quien escribe la pieza.
 
-El informe va a la puerta A junto con el orden de los ganchos.
+Quien escribe la pieza arregla lo que valga del informe antes de la voz.
 
 ## Quién critica
 

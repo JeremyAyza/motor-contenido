@@ -459,7 +459,7 @@
       "default": {
         "approved": false
       },
-      "description": "Hooks, script and storyboard. Without it, video:prepare does not generate the voice",
+      "description": "The person's answers to the round of questions, in notes (AGENTS.md, rule 7). Without it, video:prepare does not generate the voice",
       "type": "object",
       "properties": {
         "approved": {
@@ -482,7 +482,7 @@
       "default": {
         "approved": false
       },
-      "description": "The final video. Without it, nothing is published",
+      "description": "The person's yes to publishing the final video. Without it, nothing is published",
       "type": "object",
       "properties": {
         "approved": {

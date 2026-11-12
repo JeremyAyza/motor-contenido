@@ -66,5 +66,5 @@ Error grave: no
 - Arregla primero lo que tenga menor puntaje y más peso.
 - Una ronda por defecto. La segunda, solo si un punto saca menos de 3 o hay un error grave, y la decide `video:critique`, no quien hizo el video. Nunca una tercera. Si después sigue debajo del umbral, dile a la persona qué falta y por qué.
 - No subas un puntaje sin haber cambiado algo visible o audible.
-- Cambiar lo que dice la voz cambia el guion aprobado: vuelve a la puerta A.
+- Cambiar lo que dice la voz cambia el guion: si contradice una respuesta de la ronda de preguntas (puerta A), se le pregunta a la persona.
 - La precisión de los datos no la juzga el crítico (no ve `facts.json`): la cuida quien escribe, con las reglas de AGENTS.md.

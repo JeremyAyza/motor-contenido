@@ -100,7 +100,7 @@ export function puertaA(dir: string): { file: string; text: string; problems: st
     lines.push("", "## Para revisar", "");
     for (const p of problems) lines.push(`- ${p}`);
   }
-  lines.push("", "---", "Para aprobar: elige un gancho (o reescríbelo) y di que sí. El agente anota `ganchoElegido` y `puertaA.aprobado: true` en brief.json.");
+  lines.push("", "---", "Resumen del brief para el agente: no se le muestra a Jeremy. La puerta A son sus respuestas a la ronda de preguntas (AGENTS.md, regla 7): el agente elige `ganchoElegido` y anota `puertaA` con esas respuestas en `notas`.");
   const text = lines.join("\n") + "\n";
 
   const outDir = join(dir, "out");

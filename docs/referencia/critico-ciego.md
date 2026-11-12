@@ -35,14 +35,14 @@ Después califica con la rúbrica de [critica-carrusel.md](critica-carrusel.md) 
 
 ## Ganchos
 
-En la puerta A todavía no hay láminas. `npm run carrusel:brief -- content/<pieza>` arma `out/critica-ganchos/` con el tema, el público y los ganchos que pasaron el filtro, sin puntajes. En un contexto nuevo:
+Antes de diseñar todavía no hay láminas. `npm run carrusel:brief -- content/<pieza>` arma `out/critica-ganchos/` con el tema, el público y los ganchos que pasaron el filtro, sin puntajes. En un contexto nuevo:
 
 - Ordena los 3 mejores para ese público y di en una línea por qué cada uno detendría el scroll.
 - Descarta los que no entenderías sin contexto o que servirían igual para otro tema.
 - Marca cualquier gancho que prometa algo que el tema no puede cumplir.
 - No reescribas los ganchos: eso lo decide la persona.
 
-Escribe la respuesta en `out/critica-ganchos/informe.md`. El orden va a la puerta A junto con el filtro; la decisión es de la persona.
+Escribe la respuesta en `out/critica-ganchos/informe.md`. Quien escribe la pieza lo usa junto con el filtro para elegir el gancho.
 
 ## Calibración
 

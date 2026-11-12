@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { describe, it } from "node:test";
 import { nextChat, phaseOf, type PieceState } from "../src/phase.ts";
 
-const base: PieceState = { hasScript: true, gateA: false, direct: false, hasVoice: false, hasVideo: false, gateB: false, hasEstado: true };
+const base: PieceState = { hasScript: true, gateA: false, hasVoice: false, hasVideo: false, gateB: false, hasEstado: true };
 
 describe("the phase of a Reel", () => {
   it("goes creative, production, critic and ready by its gates and files", () => {
@@ -13,12 +13,13 @@ describe("the phase of a Reel", () => {
     assert.equal(phaseOf({ ...base, gateA: true, hasVideo: true, gateB: true }), "lista");
   });
 
-  it("opens the creative chat at extra high and production at high, reading only the core and estado.md", () => {
+  it("resumes any phase at high effort, reading only the core and estado.md", () => {
     const creative = nextChat("content/2026-11-04-x", base);
-    assert.equal(creative.effort, "extra alto");
+    assert.equal(creative.effort, "alto");
     assert.match(creative.message, /Lee AGENTS\.md, docs\/reel\.md, content\/2026-11-04-x\/estado\.md/);
-    const production = nextChat("content/2026-11-04-x", { ...base, gateA: true, direct: true });
-    assert.equal(production.effort, "alto");
-    assert.match(production.message, /no pidas aprobaciones/);
+    assert.match(creative.message, /ronda de preguntas/);
+    const critic = nextChat("content/2026-11-04-x", { ...base, gateA: true, hasVoice: true, hasVideo: true });
+    assert.equal(critic.effort, "alto");
+    assert.match(critic.message, /pregúntame si lo publicas/);
   });
 });

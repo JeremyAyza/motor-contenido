@@ -283,7 +283,7 @@
     "approved": true,
     "date": "2026-11-09",
     "video": "6eec2fe9c6876f9cbd13556b61e515add6bda208323da15a884a9fcf68653d9a",
-    "notes": "Jeremy en el chat: \"Me gusta mucho el resultado actual, a mi parecer esta listo\", sobre el primer render. Queda este render: no se hace el segundo ni se arreglan los dos choques visuales que marcó el crítico (1:28 y 0:30). Pidió no publicarlo todavía."
+    "notes": "Jeremy en el chat: \"Me gusta mucho el resultado actual, a mi parecer esta listo\", sobre el primer render. Queda este render: no se hace el segundo ni se arreglan los dos choques visuales que marcó el crítico (1:28 y 0:30). Pidió no publicarlo todavía. El mismo 2026-11-09 pidió en el chat: \"publica el video el de API vs SDK\". video.publicar se frenó porque video.tsx era más nuevo que out/video.mp4: video.tsx tiene el código de otro render que también se hizo y no se eligió. Jeremy confirmó publicar este video aprobado igual (\"publica, en video.tsx esta otro render que tambien hicimos\")."
   },
   "visualFrozen": {
     "hash": "db5a01d5a52d7a46",

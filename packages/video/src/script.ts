@@ -109,8 +109,8 @@ export const VideoScriptSchema = z
       .object({ hash: z.string(), date: z.iso.date() })
       .optional()
       .describe("The visual script frozen by video:congelar before looking at the library: video:script warns if it changes after"),
-    gateA: GateSchema.default({ approved: false }).describe("Hooks, script and storyboard. Without it, video:prepare does not generate the voice"),
-    gateB: GateBSchema.default({ approved: false }).describe("The final video. Without it, nothing is published"),
+    gateA: GateSchema.default({ approved: false }).describe("The person's answers to the round of questions, in notes (AGENTS.md, rule 7). Without it, video:prepare does not generate the voice"),
+    gateB: GateBSchema.default({ approved: false }).describe("The person's yes to publishing the final video. Without it, nothing is published"),
   })
   .superRefine((script, ctx) => {
     const seen = new Set<string>();

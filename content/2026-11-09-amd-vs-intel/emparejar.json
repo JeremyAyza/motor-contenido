@@ -1,0 +1,106 @@
+{
+  "hash": "df8f8e14f1d8b34c",
+  "date": "2026-11-09",
+  "escenas": [
+    {
+      "escena": "gancho",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "distintos",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "x86",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "bytes",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "silicio",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "transistores",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "fabrica",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "ensamblado",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "chiplets",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "obleas",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "fabric",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "tiles",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "hibrido",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "hilos",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "cache",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "vcache",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "elegir",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "modelo",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "moraleja",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "cta",
+      "veredicto": "nueva",
+      "candidatas": []
+    }
+  ]
+}

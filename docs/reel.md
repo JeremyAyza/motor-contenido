@@ -19,21 +19,23 @@ No cambian sin su sí en el chat. Una elección para una pieza no se vuelve regl
 
 ## Cómo se trabaja
 
-- **Un chat nuevo por Reel,** nunca a continuación de otro ni después de un `/compact`. Con aprobaciones son dos chats: **lo creativo en esfuerzo extra alto** (hasta la puerta A) y **la producción en alto**. En modo directo ("no me pidas aprobaciones") es uno solo, en alto, sin storyboard ni hoja de la puerta A, y las dos puertas se anotan con su frase en `notes`; publicar sigue siendo otro pedido. El esfuerzo lo elige Jeremy al abrir el chat: `npm run video:fase -- content/<pieza>` dice en qué fase está la pieza, con qué esfuerzo abrir el siguiente y el mensaje exacto para pegar.
+- **Un chat nuevo por Reel,** en esfuerzo alto, abierto con `/content-engine-copy` (réplica) o `/content-engine-new` (desde cero), con los dos toques de Jeremy (regla 7 de [AGENTS.md](../AGENTS.md)). Si se corta, `npm run video:fase -- content/<pieza>` da el mensaje para retomarlo.
 - **El traspaso es `content/<pieza>/estado.md`,** no la conversación: la fase, el paso siguiente, las decisiones de Jeremy con sus palabras, lo que no funcionó y lo pendiente para el motor. Los cambios al motor no se hacen a mitad de una pieza.
 - **El agente principal (Opus) hace lo creativo y nada mecánico:** el ángulo, la tesis, los ganchos, el guion, el guion visual, el mundo, la dirección de arte y las escenas nuevas. Si un paso cabe en una especificación cerrada (un margen, un tamaño, renombrar, extraer, conectar una escena de la biblioteca), escribe la especificación y la manda a `npm run agy` en segundo plano. No escribe scripts de parches.
 
 | Paso | Quién |
 |---|---|
-| Fuentes | Subagente `buscador-fuentes` (Sonnet 5.5): deja `facts.json` y responde una línea por dato |
+| Fuentes (no en una copia) | Subagente `buscador-fuentes` (Sonnet 5.5): deja `facts.json` y responde una línea por dato |
 | Análisis del Reel de referencia | Subagente `analista-referente` (Sonnet 5.5): deja `referente.md` |
 | Arreglos mecánicos, revisión de cuadros, emparejar y cosechar | `npm run agy` (Gemini 3.8 Flash; [referencia](referencia/agy.md)); si falla, un subagente Sonnet 5.5 |
-| Crítica del guion | Gemini (`video:critique --guion --gemini`) |
+| Crítica del guion (no en una copia) | Gemini (`video:critique --guion --gemini`) |
 | Crítica del video | Subagente `critico-ciego-video` (Sonnet 5.5), con un contexto nuevo |
 
 Las fuentes y el referente corren a la vez, mientras el agente piensa el ángulo. El agente trabaja con sus respuestas: abre `facts.json` solo para la cifra exacta que va en pantalla.
 
 ## Los pasos
+
+**0. La ronda de preguntas (puerta A).** Tras un análisis corto, de 2 a 4 preguntas a Jeremy con opciones, la recomendada primera, sobre lo que cambia el Reel (el detalle está en cada comando). Lo de "Decisiones vigentes" no se pregunta. Sus respuestas van a `gateA { approved: true, date, notes }`.
 
 **1. El guion: `video.json`.** Los campos van en inglés y el contenido en español ([esquema](../schemas/video.schema.json)):
 - `hooks`: de 1 a 3 ganchos, con lo que dice la voz (`said`), lo que se ve (`onScreen`, hasta 6 palabras) y su fórmula de `skills/ig-es/ganchos-es.json`. El primero es el elegido, y la escena 1 empieza con él;
@@ -46,20 +48,18 @@ Las fuentes y el referente corren a la vez, mientras el agente piensa el ángulo
 
 El guion sigue a `ig-reel` (`.agents/skills/ig-reel/SKILL.md`) a través de [skills/ig-es](../skills/ig-es/SKILL.md): el gancho en 2 s, una idea por frase y un cierre que vuelve al gancho. **Mientras se escribe, no se mira la biblioteca,** ni los `video.tsx` de otras piezas, ni sus capturas (ver "La biblioteca").
 
-**2. Revisar el guion:** `npm run video:script -- content/<pieza>`. Arma la hoja de la puerta A (`out/gate-a.md`) y avisa si:
+**2. Revisar el guion:** `npm run video:script -- content/<pieza>`. Avisa, y el agente arregla, si:
 - el gancho tarda más de 3 s;
 - el texto en pantalla pasa de 6 palabras;
 - la duración sale de su formato o de su `target`;
 - el tema se parece al de una pieza de los últimos 14 días;
 - falta `world`, `meter` o `cover`.
 
-Corre `hookscore_es` y `beats_es` de `ig-reel` y la revisión de textos. Un gancho elegido con menos de 50 se discute con Jeremy, no se esconde. También arma `out/video-critica-ganchos/` para que un contexto nuevo ordene los ganchos.
+Corre `hookscore_es` y `beats_es` de `ig-reel` y la revisión de textos. Un gancho elegido con menos de 50 se cambia (en una copia manda el del referente). También arma `out/video-critica-ganchos/`.
 
-**3. Storyboard y crítico del guion** (se saltan en modo directo, salvo el crítico):
-- `npm run video:storyboard -- content/<pieza>`: los visuales de un primer `video.tsx`, sin voz, al ritmo estimado (`out/storyboard.png` y `.mp4`);
-- `npm run video:critique -- content/<pieza> --guion --gemini`: Gemini lee el guion y el storyboard, y deja `out/video-critica-guion/informe.md` para la puerta A.
+**3. Crítico del guion** (no en una copia): `npm run video:critique -- content/<pieza> --guion --gemini` deja `out/video-critica-guion/informe.md`, y el agente arregla lo que valga. `video:storyboard` (visuales sin voz) es solo para el agente.
 
-**4. Puerta A.** Solo el sí de Jeremy en el chat aprueba; el agente anota `gateA { approved: true, date }`. Sin ella no hay voz. Si después cambia lo que dice la voz, se vuelve a la puerta A. Una réplica lleva `out/comparar.png` ([cómo](referencia/kit-video.md#comparar-con-el-referente)).
+**4. Antes de la voz.** Sin `gateA` no hay voz. Si el guion contradice una respuesta de Jeremy, se le pregunta antes. Una réplica se compara con su referente ([cómo](referencia/kit-video.md#comparar-con-el-referente)).
 
 **5. Lo que se ve.** Primero `video:congelar` (guarda el hash del guion visual) y `video:emparejar` (ver "La biblioteca"). Después, una escena por archivo en `content/<pieza>/scenes/<id>.tsx`, y `video.tsx` solo compone: exporta `defineVideo` de `@motor/video`: `captions`, `chapters`, `stage` (el mundo y su cámara), `meter` y una entrada por escena con el mismo `id`, `tone`, `chapter`, `sfx`, `camera` y `Visual`. La dirección de arte sale de `post.json → art` si la pieza tiene carrusel, o de `npm run video:baraja -- content/<pieza>`. Lo que dice la voz no va aquí. La gramática de movimiento (`fade`, `keys`, `At`, `Appear`, `rigAt`...) viene de `@motor/video` y no se redefine: `video:check` avisa. El kit está en la [referencia](referencia/kit-video.md) y en el [índice de la biblioteca](../packages/video/library/README.md).
 
@@ -82,9 +82,9 @@ Además del texto, mide lo que el render por escena no mide: volumen, congelados
 - Los tres problemas principales se arreglan y se comprueban por escena (paso 7); después va el segundo y último render completo.
 - El informe final se copia en `content/<pieza>/video-critica.md`.
 
-**10. Puerta B.** Jeremy ve el video, la hoja y el informe. Después de su sí, el agente anota `gateB { approved: true, date, video: "<sha256>" }`. Si un render posterior da otro archivo, `video:render` la vuelve a `false`.
+**10. Puerta B: "¿lo publico?".** Jeremy recibe el video, la hoja, el texto del post y lo que el crítico dejó sin arreglar, y se le pregunta si se publica. Con su sí anota `gateB { approved: true, date, video: "<sha256>" }`. Los cambios van por escena y con render `--forzar`. Si un render posterior da otro archivo, `video:render` la vuelve a `false`.
 
-**11. Publicar,** solo si Jeremy lo pide: `npm run video:publicar -- content/<pieza> [--ensayo]`. Exige la puerta B con el mismo sha256, sube la portada de `cover` y activa la etiqueta de IA de Meta.
+**11. Publicar,** con ese sí o un pedido de Jeremy: `npm run video:publicar -- content/<pieza> [--ensayo]`. Exige la puerta B con el mismo sha256, sube la portada de `cover` y activa la etiqueta de IA de Meta.
 
 **Después de la puerta B:** `npm run video:cosechar -- content/<pieza>` propone escenas nuevas para la biblioteca. A las 48 horas y a los 7 días, Jeremy pasa la captura de Insights; se transcribe en `content/<pieza>/video-metrics.json` y `npm run video:metrics` regenera [el informe](metricas-video.md) ([cómo](referencia/metricas.md)).
 

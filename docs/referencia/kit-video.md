@@ -138,17 +138,17 @@ Decidido con Jeremy el 5 de noviembre de 2026 ("Sí, más parecido"). Reemplaza 
   - El 27 de octubre una réplica salió "idéntica" y Jeremy pidió cambios "muy muy ligeros".
   - El 5 de noviembre, tokenmaxxing salió "muy muy diferente": fondo oscuro de arcade donde Rick es crema, sin presentador, un marco en vez de un escenario fijo, y títulos gigantes y centrados donde los suyos son chicos y a la izquierda.
 - **Sin baraja:** `art.direction` es la dirección más cercana al referente, y la paleta sale de él. Una réplica puede parecerse al Reel anterior.
-- **3D o isométrico:** si el referente lo usa, se pregunta en la puerta A, con lo que cuesta.
+- **3D o isométrico:** si el referente lo usa, se pregunta en la ronda de preguntas (puerta A), con lo que cuesta.
 
 ### Comparar con el referente
 
-Para ver si la réplica se parece, se ponen sus cuadros al lado de los del referente, en los mismos momentos. Se hace antes de diseñar el mundo y otra vez con el storyboard, también en modo directo.
+Para ver si la réplica se parece, se ponen sus cuadros al lado de los del referente, en los mismos momentos. Se hace antes de diseñar el mundo y otra vez con los primeros cuadros (storyboard o voz), antes del primer render completo.
 
 1. **Abre el reproductor incrustado del referente** en el navegador integrado (`https://www.instagram.com/reel/<id>/embed/`) y lleva la vista a 800×1100 con `resize_window`.
 2. **Arma la cuadrícula:** pega [scripts/cuadros-referente.js](../../scripts/cuadros-referente.js) en `javascript_tool`, con los 12 segundos de "Cuadros del aspecto" de `referente.md` en `SECONDS`. Pone los cuadros de 4 en 4, sin barras de desplazamiento.
 3. **Captura a escala 1** y copia el archivo a `content/<pieza>/out/referente-cuadros.jpg`. La ruta del archivo viene en la respuesta de la captura. Si la captura vence por tiempo, repítela. Al terminar, vuelve la vista a `desktop`.
 4. **Corre `npm run video:comparar -- content/<pieza> <los mismos segundos>`.** Renderiza nuestros cuadros en los mismos momentos de la historia: cada segundo se escala por nuestra duración sobre `target`, con la voz si ya existe o con el storyboard si no. Deja `out/comparar.png`, con el referente a la izquierda y lo nuestro a la derecha.
-5. **Arregla lo que no coincida** en fondo, zonas, títulos, densidad o escenario, salvo que sea marca propia: acento, materiales, marco, firma y avatar. La hoja de la puerta A lleva `out/comparar.png`.
+5. **Arregla lo que no coincida** en fondo, zonas, títulos, densidad o escenario, salvo que sea marca propia: acento, materiales, marco, firma y avatar. Lo que no se pudo igualar se anota en `estado.md`.
 
 Los cuadros del referente quedan en `out/`, que no entra en git: son de otra cuenta y el repo es público.
 

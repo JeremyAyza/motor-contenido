@@ -74,8 +74,12 @@ export function prepararPublicacionVideo(dir: string): { manifest: Manifest; fil
     problemas.push("video.json no tiene 'caption' (texto del post para el Reel)");
   }
 
+  // With the approved sha256 on record, the hash is the proof: the person approved this exact file,
+  // even if video.tsx changed later (a trial render that was not chosen, or a git checkout that
+  // rewrote the file dates). The date check only guards a gate B without a recorded hash.
   const videoTsx = join(dir, "video.tsx");
-  if (existsSync(videoTsx) && statSync(videoFile).mtimeMs < statSync(videoTsx).mtimeMs) {
+  const approvedByHash = Boolean(script.gateB?.approved && script.gateB.video === actualHash);
+  if (!approvedByHash && existsSync(videoTsx) && statSync(videoFile).mtimeMs < statSync(videoTsx).mtimeMs) {
     problemas.push("out/video.mp4 es anterior al último cambio de video.tsx: corre npm run video:render y vuelve a pedir la puerta B");
   }
 

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, utimesSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, it } from "node:test";
@@ -54,6 +54,23 @@ describe("prepararPublicacionVideo", () => {
   it("rejects when caption is missing", () => {
     const { dir } = setup({ caption: "" });
     assert.throws(() => prepararPublicacionVideo(dir), /no tiene 'caption'/);
+  });
+
+  it("publishes the approved video even when video.tsx is newer, if the hash matches", () => {
+    const { dir, outDir } = setup();
+    writeFileSync(join(dir, "video.tsx"), "export const Video = () => null;");
+    utimesSync(join(outDir, "video.mp4"), new Date("2026-11-09T15:53:00"), new Date("2026-11-09T15:53:00"));
+    assert.doesNotThrow(() => prepararPublicacionVideo(dir));
+  });
+
+  it("rejects a video older than video.tsx when gate B has no hash", () => {
+    const { dir, outDir } = setup();
+    const script = JSON.parse(readFileSync(join(dir, "video.json"), "utf8"));
+    delete script.gateB.video;
+    writeFileSync(join(dir, "video.json"), JSON.stringify(script, null, 2));
+    writeFileSync(join(dir, "video.tsx"), "export const Video = () => null;");
+    utimesSync(join(outDir, "video.mp4"), new Date("2026-11-09T15:53:00"), new Date("2026-11-09T15:53:00"));
+    assert.throws(() => prepararPublicacionVideo(dir), /anterior al último cambio de video\.tsx/);
   });
 
   it("generates publication.json and returns manifest on valid piece", () => {

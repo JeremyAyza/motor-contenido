@@ -7,7 +7,7 @@ description: Dirección de arte para carruseles de Instagram del motor. Úsala a
 
 Criterio visual para que cada carrusel se vea pensado para su tema y distinto del anterior, sin caer en el promedio de lo que hace un modelo. Adapta a láminas fijas de 1080×1350 los principios de [Taste Skill](https://github.com/Leonxlnx/taste-skill) (MIT); lo que es de páginas web (navegación, animación, búsqueda de fotos) quedó fuera.
 
-Se usa en el paso de dirección de arte de [docs/carrusel.md](../../docs/carrusel.md), después de que la persona aprobó el brief en la puerta A (tesis, gancho, esqueleto y CTA) y de tener la idea visual.
+Se usa en el paso de dirección de arte de [docs/carrusel.md](../../docs/carrusel.md), con el brief listo (tesis, gancho, esqueleto y CTA) y la puerta A anotada y de tener la idea visual.
 
 ## Qué es fijo y qué cambia
 
@@ -100,6 +100,6 @@ Cada lámina interior lleva el recurso de `esqueleto[].visual`, de [recursos.jso
 - [ ] Dos familias como mucho por lámina, sin contar el código.
 - [ ] Ninguna lámina repite la composición de la anterior.
 - [ ] Cada lámina interior dibuja su recurso de `esqueleto[].visual`, grande, y ninguna es solo titular, párrafo y caja.
-- [ ] La portada usa el gancho aprobado en la puerta A.
+- [ ] La portada usa el gancho elegido en el brief.
 - [ ] La última lámina cierra la portada con la despedida del brief y tiene un solo CTA con `data-cta`.
 - [ ] `art.cierre` tiene un tratamiento distinto al de las dos piezas anteriores, y el gesto destacado es el que pide el CTA.
