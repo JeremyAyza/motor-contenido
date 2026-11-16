@@ -1,0 +1,292 @@
+{
+  "$schema": "../../schemas/video.schema.json",
+  "format": "largo",
+  "topic": "Por qué tantos programadores prefieren Mac: Unix, Apple Silicon, ecosistema y experiencia, sus contras, Windows y Linux",
+  "world": "Un escritorio de macOS oscuro, con barra de menú, carpetas a la izquierda y el Dock abajo, donde cada razón abre su ventana y el presentador se queda a un costado.",
+  "meter": {
+    "label": "Razones Mac",
+    "from": "0/5",
+    "to": "5/5"
+  },
+  "cover": {
+    "scene": "gancho",
+    "at": 1.6
+  },
+  "target": 158.8,
+  "hooks": [
+    {
+      "said": "¿Por qué tantos programadores prefieren Mac?",
+      "onScreen": "¿Por qué los devs prefieren Mac?",
+      "formula": 16
+    },
+    {
+      "said": "Entra a cualquier startup: casi todos programan en una MacBook.",
+      "onScreen": "Casi todos con MacBook",
+      "formula": 22
+    },
+    {
+      "said": "Mac contra Windows para programar.",
+      "onScreen": "Mac o Windows para programar",
+      "formula": 17
+    }
+  ],
+  "scenes": [
+    {
+      "id": "gancho",
+      "say": "¿Por qué tantos programadores prefieren Mac? Entras a una startup y ves MacBooks por todos lados. ¿Pero por qué? ¿macOS es mejor para programar, o es pura marca? Vamos por partes.",
+      "see": "Desde el cuadro 1, dos paneles altos lado a lado sobre el fondo oscuro de ondas: a la izquierda el logo de Apple grande con 'Mac' y 'macOS' debajo; a la derecha el logo de Windows en azul con 'Windows' y 'Windows 11'. Encima, el rótulo '¿Por qué los devs prefieren Mac?'. El avatar abajo a la izquierda. En 'startup' los paneles se encogen y aparece una mesa larga vista desde arriba con siete laptops abiertas, seis con la manzana; en '¿Pero por qué?' un signo de pregunta enorme con un brillo; en 'Vamos por partes' los dos paneles vuelven y se atenúan.",
+      "resource": "comparacion",
+      "intent": "Que la pregunta es por qué la Mac gana entre devs, y que el video la va a desarmar.",
+      "metaphor": "Dos fichas de producto lado a lado, como las de una tienda, antes de comparar.",
+      "alternatives": [
+        "Dos puertas de oficina con su logo",
+        "Una encuesta con barras de Mac y Windows"
+      ],
+      "motion": "Los paneles suben con resorte desde abajo, uno tras otro; las laptops de la mesa se abren en cadena; el signo de pregunta cae con un sello y un destello."
+    },
+    {
+      "id": "unix",
+      "say": "Primero, Unix. macOS está construido sobre Unix, así que se siente muy parecido a Linux. Y eso importa, porque casi todo el software moderno corre en servidores Linux: backends, la nube, Docker y herramientas de IA.",
+      "see": "El escritorio de macOS aparece entero: barra de menú arriba, tres carpetas a la izquierda (Projects, dotfiles, Screenshots) y el Dock abajo. Se abre una Terminal: escribe 'uname' y responde 'Darwin', con una etiqueta 'Unix certificado'. En 'Linux' entra una segunda terminal conectada por ssh a un servidor con 'Welcome to Ubuntu 24.04.1 LTS'. En 'servidores' aparece encima una consola de nube con cuatro instancias 'Running' y 'Linux/UNIX'; en 'Docker' una tarjeta de Docker con '6 contenedores · linux/arm64'.",
+      "resource": "captura-anotada",
+      "intent": "Que macOS y los servidores Linux son parientes, y por eso la Mac se siente en casa.",
+      "metaphor": "La misma terminal que habla igual en tu laptop y en el servidor.",
+      "alternatives": [
+        "Un árbol genealógico Unix con macOS y Linux como primos",
+        "Dos enchufes del mismo tipo"
+      ],
+      "motion": "La terminal escribe letra por letra; la segunda terminal se desliza desde abajo; la consola y la tarjeta caen apiladas como notificaciones."
+    },
+    {
+      "id": "terminal",
+      "say": "Abres la terminal y ya tienes ssh, grep, curl y git. Instalas lo que quieras con Homebrew, y corres Python, JavaScript, Go o Rust sin montar un Linux aparte.",
+      "see": "La terminal crece y teclea 'cd ~/code/api', 'ls', 'git status'; en 'curl' corre un 'curl -s api.dev/health' que responde '{\"status\":\"ok\"}' y un 'git push'. En 'Homebrew' corre 'brew install python node go rust' y las líneas 'Installing...' bajan una por una. En 'Rust' aparecen cuatro archivos en una ventana de Finder: app.py, server.js, main.go, main.rs.",
+      "resource": "artefacto",
+      "intent": "Que las herramientas de todos los días ya están ahí, sin instalar otro sistema.",
+      "metaphor": "Una caja de herramientas que ya viene llena.",
+      "alternatives": [
+        "Una lista de chequeo con ssh, grep, curl y git",
+        "Un cajón que se abre con los lenguajes adentro"
+      ],
+      "motion": "Cada comando se escribe con la voz; las líneas de instalación caen en cascada; los cuatro archivos entran con un pop cada uno."
+    },
+    {
+      "id": "wsl",
+      "say": "Windows también puede, sobre todo con WSL, el subsistema de Windows para Linux. Pero macOS ya viene con Unix de fábrica.",
+      "see": "Una ventana de navegador con la página de Microsoft Learn 'Instalar Linux en Windows con WSL' y un bloque de PowerShell con 'wsl --install'. En 'subsistema' el comando se resalta y entra una tarjeta 'WSL · Windows Subsystem for Linux' con el pingüino. En 'desde que lo prendes' la ventana se cierra y la búsqueda del escritorio muestra 'Acerca de esta Mac'.",
+      "resource": "captura-anotada",
+      "intent": "Que Windows llega con un paso extra y macOS ya viene así.",
+      "metaphor": "Un adaptador que hay que comprar aparte frente a un enchufe que ya calza.",
+      "alternatives": [
+        "Dos cajas: una con instalador y otra lista para usar",
+        "Un paso más en una escalera"
+      ],
+      "motion": "El navegador sube con resorte; el comando se subraya; la tarjeta WSL entra con un pop; la ventana se cierra hacia el Dock."
+    },
+    {
+      "id": "chip",
+      "say": "Ahora, el hardware. Las Mac usan Apple Silicon, los chips de la serie M: CPU, gráficos y aceleradores en un solo chip, muy integrado.",
+      "see": "La ventana 'Acerca de esta Mac': una MacBook Pro dibujada, 'MacBook Pro, 14 pulgadas, noviembre de 2024', las filas Chip 'Apple M4 Pro', Memoria '24 GB', macOS 'Sequoia 15.4', y abajo la serie M en cuatro casillas: M1, M2, M3, M4, con la M4 resaltada. En 'CPU' se abre 'Resumen del hardware': cuatro bloques CPU, GPU, Neural Engine y Media que se juntan dentro de un solo contorno verde 'un chip', con 'CPU 14 núcleos · 10P + 4E', 'GPU 20 núcleos' y 'Neural Engine 16 núcleos'.",
+      "resource": "anatomia",
+      "intent": "Que todo lo que antes eran piezas separadas vive en un mismo chip.",
+      "metaphor": "Cuatro cuartos que se juntan bajo un mismo techo.",
+      "alternatives": [
+        "Piezas de una placa que se funden en una",
+        "Un mapa de barrios dentro de una ciudad"
+      ],
+      "motion": "Las filas aparecen una por una; las casillas M1 a M4 se encienden en secuencia; los cuatro bloques se acercan y el contorno verde los encierra con un sello."
+    },
+    {
+      "id": "vatio",
+      "say": "Su gran ventaja es el rendimiento por vatio: mucha potencia con poca energía. Ideal para un día con el IDE, servidores de desarrollo, pestañas y procesos abiertos. Y eso es batería para rato, sin buscar el cargador.",
+      "see": "Un titular grande 'Rendimiento por vatio.' con 'por vatio' en verde, bajo una etiqueta 'Apple Silicon'. Debajo, el Monitor de Actividad con un gráfico de carga del CPU que sube a '86 %' en 'potencia' y una curva de impacto energético que se queda baja en 'poca energía'. En 'IDE' la lista de procesos se llena: Visual Studio Code, node (dev server), Safari con 38 pestañas, Docker. En 'batería' un reloj de las 9:45 AM y una batería al 100 %; en 'cargador' la batería baja apenas a 78 % con 'Fuente: batería'.",
+      "resource": "datos",
+      "intent": "Que la Mac rinde mucho gastando poco, y eso se siente en la batería.",
+      "metaphor": "Un medidor de potencia alto y uno de consumo bajo, uno al lado del otro.",
+      "alternatives": [
+        "Un auto que recorre mucho con un tanque chico",
+        "Una barra de batería que casi no baja en un día de trabajo"
+      ],
+      "motion": "El titular entra palabra por palabra; la curva de CPU se dibuja hacia arriba y la de energía se queda plana; los procesos se suman en lista; la batería se vacía apenas."
+    },
+    {
+      "id": "xcode",
+      "say": "Luego, el ecosistema de Apple. ¿Vas a hacer una app para iPhone? Xcode, el entorno oficial, solo corre en macOS. Igual que casi todo el desarrollo nativo para iOS, macOS y las demás plataformas de Apple. Si programas para Apple, la Mac casi siempre es obligatoria.",
+      "see": "Un editor de Xcode con un 'ContentView' de SwiftUI que dice 'Hello, Jeremy!'. En 'iPhone' entra un iPhone con la app corriendo. En 'solo corre en macOS' una ficha de la App Store de Xcode con 'Compatibilidad: requiere macOS 14.5 o posterior' y una etiqueta 'Solo Mac'. En 'plataformas' la ventana de plantilla nueva de Xcode con cinco casillas marcadas: iOS, macOS, watchOS, tvOS y visionOS. En 'obligatoria' un sello 'REQUISITO' sobre la ficha.",
+      "resource": "captura-anotada",
+      "intent": "Que para programar para Apple no hay otra puerta que una Mac.",
+      "metaphor": "Una puerta con una sola cerradura y la Mac como la llave.",
+      "alternatives": [
+        "Un mapa de plataformas Apple con un solo puerto de entrada",
+        "Un pase de acceso que solo da Apple"
+      ],
+      "motion": "El código se escribe; el iPhone sube con resorte y su botón Run parpadea; las casillas se marcan en cadena; el sello cae con un golpe."
+    },
+    {
+      "id": "experiencia",
+      "say": "Después, la experiencia. macOS junta apps pulidas con una terminal potente: VS Code, JetBrains, Docker, terminales y bases de datos locales, todo fluido.",
+      "see": "El escritorio con tres espacios de trabajo arriba y un Launchpad con seis apps: Xcode, Safari, Notas, FaceTime, VS Code y Docker. En 'terminal' una terminal muestra 'brew list' con gh, git, jq, node, python, ripgrep y tmux. En 'Docker' se abre un 'npm run dev' que escucha en ':3000' y responde peticiones GET y POST con 200 en pocos milisegundos.",
+      "resource": "captura-anotada",
+      "intent": "Que en la Mac conviven apps lindas y herramientas serias.",
+      "metaphor": "Un escritorio ordenado donde las apps y la terminal trabajan juntas.",
+      "alternatives": [
+        "Una vitrina de apps con su ficha",
+        "Un tablero de control con todo prendido"
+      ],
+      "motion": "Las apps del Launchpad entran con un pop en rejilla; la terminal escribe; las peticiones bajan una por una con su código 200."
+    },
+    {
+      "id": "gusto",
+      "say": "Y, siendo honestos, a muchos les gusta usarla: el trackpad, la pantalla, lo bien hecha que está. Si la miras todo el día, eso cuenta.",
+      "see": "El presentador al centro con un corazón que late frente a él. En 'trackpad' un trackpad dibujado con un gesto de dos dedos; en 'pantalla' una pantalla nítida; en 'bien hecha' el borde de aluminio de una MacBook. En 'todo el día' la ventana 'Tiempo en pantalla' con un promedio diario y siete barras de la semana.",
+      "resource": "metafora",
+      "intent": "Que el gusto también pesa cuando trabajas con la máquina todo el día.",
+      "metaphor": "Una herramienta de oficio que se cuida porque se usa todo el día.",
+      "alternatives": [
+        "Un sillón cómodo frente a uno duro",
+        "Una lista de detalles con corazones"
+      ],
+      "motion": "El corazón late dos veces; las tres piezas entran una por una con la voz; las barras del tiempo en pantalla crecen."
+    },
+    {
+      "id": "control",
+      "say": "También hay coherencia. Apple controla el software y el hardware, así que todo encaja y hay menos problemas de compatibilidad.",
+      "see": "La ventana 'Acerca de' con dos filas, Software 'macOS Sequoia' y Hardware 'Apple M4 Pro', unidas por una llave. En 'encaja' dos notificaciones arriba: 'AirPods Pro conectados' y 'Studio Display conectado, sin configurar'. En 'compatibilidad' Configuración muestra 'Tu Mac está al día, macOS Sequoia 15.4' con un check verde, y una tarjeta 'Drivers por instalar: ninguno'.",
+      "resource": "captura-anotada",
+      "intent": "Que cuando una sola empresa hace las dos partes, encajan sin pelear.",
+      "metaphor": "Dos piezas de rompecabezas del mismo fabricante que calzan sin forzar.",
+      "alternatives": [
+        "Un engranaje que mueve al otro",
+        "Un enchufe y su toma del mismo color"
+      ],
+      "motion": "Las dos filas se unen con un clic; las notificaciones caen desde arriba; el check se dibuja y 'ninguno' entra enorme con un sello."
+    },
+    {
+      "id": "contras",
+      "say": "Pero la Mac no es perfecta. Es cara, casi no se puede ampliar después de comprarla, y hay software que todavía no corre nativo en Apple Silicon.",
+      "see": "El escritorio se oscurece y entra la página de compra de Apple, 'Configura': Memoria '24 GB de memoria unificada' y Almacenamiento '512 GB SSD', con un aviso rojo 'No se puede ampliar después de la compra'. En 'cara' el precio se tapa con una etiqueta roja '$$$'. En 'software' una tarjeta de app con un aviso 'No nativo en Apple Silicon'.",
+      "resource": "captura-anotada",
+      "intent": "Que la Mac tiene costos: precio, nada de ampliarla después y algún software que no corre bien.",
+      "metaphor": "Una configuración que se congela al pagar.",
+      "alternatives": [
+        "Una caja sellada con candado",
+        "Un recibo con letra chica en rojo"
+      ],
+      "motion": "El escritorio baja el brillo; las filas de la configuración entran; el aviso rojo vibra al aparecer; la tarjeta de software cae con un golpe seco."
+    },
+    {
+      "id": "docker",
+      "say": "Y los contenedores. Casi todos los de producción corren en Linux, y como macOS no usa el kernel de Linux, Docker en una Mac vive dentro de una máquina virtual de Linux. No es igual que Docker nativo.",
+      "see": "Docker Desktop con tres contenedores (api, db y cache) y su plataforma 'linux/amd64', con la nota 'Producción corre en Linux'. En 'kernel' una terminal corre 'docker run alpine uname -r' y responde '6.10.14-linuxkit', con 'linuxkit' resaltado. En 'máquina virtual' un diagrama por capas: una caja 'macOS · kernel Darwin', adentro otra 'Linux VM · kernel linuxkit', y adentro las pastillas api, db y cache.",
+      "resource": "capas",
+      "intent": "Que en la Mac Docker corre dentro de un Linux escondido, no directo.",
+      "metaphor": "Una caja dentro de otra caja: macOS, adentro un Linux, adentro tus contenedores.",
+      "alternatives": [
+        "Una pecera dentro de una casa",
+        "Un traductor entre dos idiomas"
+      ],
+      "motion": "Los contenedores se listan uno por uno; la terminal escribe y la palabra linuxkit se ilumina; las cajas se anidan desde afuera hacia adentro y las pastillas caen al fondo."
+    },
+    {
+      "id": "windows",
+      "say": "¿Y Windows? Es excelente para .NET, apps de escritorio y el software que solo existe ahí. Y con WSL tienes un Linux de verdad adentro.",
+      "see": "El escritorio deja paso a un panel de Windows con su logo azul y el título 'Windows'. Una lista de fortalezas se llena con la voz: '.NET', 'Apps de escritorio', 'Software solo de Windows'. En 'WSL' entra la tarjeta 'WSL · Linux de verdad' con el pingüino.",
+      "resource": "comparacion",
+      "intent": "Que Windows tiene su terreno donde es el mejor.",
+      "metaphor": "Una ficha de fortalezas, como la del otro candidato.",
+      "alternatives": [
+        "Un mapa con el territorio de Windows",
+        "Una caja de herramientas distinta"
+      ],
+      "motion": "El panel sube desde abajo; cada fila entra con un blip y un check; la tarjeta WSL se pega abajo con un pop."
+    },
+    {
+      "id": "linux",
+      "say": "Linux, en cambio, manda en servidores e infraestructura, y lo adoran quienes quieren control total.",
+      "see": "Un tercer panel entra a la derecha con el pingüino y 'Linux'. Sus filas: 'Servidores', 'Infraestructura', 'Lo eligen los devs', 'Control total: tu kernel, tus reglas'.",
+      "resource": "comparacion",
+      "intent": "Que Linux también gana en lo suyo.",
+      "metaphor": "El tercer candidato con su propia ficha.",
+      "alternatives": [
+        "Una torre de servidores con el pingüino",
+        "Un panel de control abierto"
+      ],
+      "motion": "El panel se desliza desde la derecha; las filas entran en cadena con la voz."
+    },
+    {
+      "id": "modelo",
+      "say": "Entonces, el modelo mental. Muchos eligen Mac porque junta Unix, hardware potente con buena batería, un escritorio pulido y el ecosistema de Apple. Pero eso no la hace mejor para todos.",
+      "see": "Una nota en la app Notas titulada 'Modelo mental' con cinco filas, cada una con su ícono: 'Basado en Unix (zsh, ssh, git, brew)', 'Potente y eficiente (Apple Silicon)', 'Batería para todo el día', 'Escritorio pulido (apps y terminal)', 'Ecosistema de Apple (Xcode, iOS, macOS)'. Cada fila se marca en verde cuando se nombra y el medidor llega a 5/5. En 'mejor para todos' aparece abajo '¿Mejor para todos?' tachado en rojo.",
+      "resource": "matriz",
+      "intent": "Las cinco razones juntas, y que no la vuelven la mejor para todos.",
+      "metaphor": "Una lista de chequeo que se completa y una línea tachada al final.",
+      "alternatives": [
+        "Un podio de razones",
+        "Cinco piezas que arman la Mac"
+      ],
+      "motion": "Cada fila se pinta de verde con un check en su palabra; la línea final aparece y una raya roja la cruza."
+    },
+    {
+      "id": "cierre",
+      "say": "Hay gran software hecho en Windows, en Linux y en macOS. El mejor sistema es el que encaja con tus herramientas, tu forma de trabajar y lo que construyes. Y para muchos, la Mac cumple las tres. Si estás por comprarte una laptop para programar, Mac o Windows, guárdalo o envíaselo a quien esté por comprarse una.",
+      "see": "Tres tarjetas iguales lado a lado: Windows, Linux y macOS, cada una con su logo y 'Gran software'. En 'el mejor sistema' el titular 'El mejor sistema es el que encaja' y tres filas: 'Tus herramientas', 'Tu forma de trabajar', 'Lo que construyes', que se marcan con check. En 'la Mac cumple las tres' una manzana chica aparece al lado de cada check y el titular cambia a '3 de 3'. En 'guárdalo' entra abajo una tarjeta con una laptop y los íconos de guardar y enviar de Instagram.",
+      "resource": "comparacion",
+      "intent": "Que no hay un ganador universal, que la elección depende de tres cosas, y qué hacer con el video.",
+      "metaphor": "Tres candidatos empatados y una lista de tres preguntas que decide por ti.",
+      "alternatives": [
+        "Una balanza en equilibrio",
+        "Una tabla de tres columnas"
+      ],
+      "motion": "Las tres tarjetas suben juntas; las filas se marcan con la voz; las manzanas saltan una tras otra; la tarjeta del CTA sube con resorte y los íconos laten."
+    }
+  ],
+  "caption": "¿Por qué tantos programadores eligen Mac?\n\nHay cinco razones, y la marca no es una de ellas:\n- Unix: macOS se siente como los servidores Linux donde corre casi todo.\n- Apple Silicon: mucho rendimiento por vatio y batería para todo el día.\n- Ecosistema: para apps de iPhone, Xcode solo corre en macOS.\n- Experiencia: apps pulidas y una terminal potente en el mismo lugar.\n- Coherencia: Apple hace el software y el hardware.\n\nY sus contras: es cara, no se amplía después de comprarla y Docker corre dentro de una máquina virtual de Linux.\n\nWindows sigue siendo el lugar para .NET y apps de escritorio, y Linux manda en servidores. El mejor sistema es el que encaja con tus herramientas, tu forma de trabajar y lo que construyes.\n\nSi estás por comprarte una laptop para programar, guárdalo o envíaselo a quien esté por comprarse una.\n\nVoz con IA: elevenlabs.io\n\n#programacion #macbook #windows #linux #desarrolladores",
+  "art": {
+    "direction": "captura-anotada",
+    "dealt": [
+      "captura-anotada"
+    ],
+    "reason": "Réplica parecida: no corre la baraja y se toma la dirección más cercana a Rick. Su video pasa entero dentro de un escritorio de macOS oscuro, con ventanas reales (Terminal, Acerca de esta Mac, Monitor de Actividad, Xcode, Docker) que se abren y se anotan con la voz.",
+    "borrowed": [
+      "titular-gigante"
+    ],
+    "palette": {
+      "bg": "#0B0D12",
+      "ink": "#F2F4F8",
+      "accent": "#8B85FF",
+      "accentInk": "#0B0D12",
+      "surface": "#1A1D24",
+      "muted": "#8E95A3"
+    },
+    "fonts": {
+      "display": "geist",
+      "text": "geist"
+    },
+    "anchor": {
+      "kind": "logo",
+      "ref": "apple",
+      "source": "Simple Icons (CC0); marca registrada de Apple, uso nominativo"
+    },
+    "tab": "mac-para-programar.md",
+    "cierre": {
+      "tratamiento": "gesto-en-el-recurso",
+      "gesto": "guardar",
+      "porque": "El cierre es la lista de tres preguntas para elegir sistema: los gestos de guardar y enviar van en una tarjeta con la laptop que el público está por comprar, debajo de la lista."
+    }
+  },
+  "gateA": {
+    "approved": true,
+    "date": "2026-11-16",
+    "notes": "Ronda de preguntas con AskUserQuestion. Pedido inicial: \"Quiero copiar ese video con nuestro branding y avatar. Lo unico que no me gustó es esas barras de vida estilo juegos de pelea, despues de ahi puedes parafrasear el guion. el CTA debe ser una recomendacion a guardar o compartir el video por si estas a punto de comprarte una computadora/laptop\". Marco de pelea: \"Quitar todo lo de pelea\" (sin barras, VS, rounds, retador ni knockout). Versiones: \"Copiar las de Rick tal cual\" (M4 Pro, Sequoia 15.4, 24 GB, 512 GB). CTA: \"Las dos en una frase\" (guardar o enviar). Ángulo: \"Igual que Rick (Recomendado)\"."
+  },
+  "gateB": {
+    "approved": true,
+    "date": "2026-11-16",
+    "video": "376af8fd08dc5fdefc158421d4061248c37043b66124c82d28f3ba43c0ab9261",
+    "notes": "Jeremy: \"no lo publiques, apruebo\". El video está aprobado, pero no se publica hasta que él lo pida."
+  },
+  "visualFrozen": {
+    "hash": "08f0fe6bddc8e2f4",
+    "date": "2026-11-16"
+  }
+}

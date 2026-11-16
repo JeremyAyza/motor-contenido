@@ -1,0 +1,86 @@
+{
+  "hash": "08f0fe6bddc8e2f4",
+  "date": "2026-11-16",
+  "escenas": [
+    {
+      "escena": "gancho",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "unix",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "terminal",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "wsl",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "chip",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "vatio",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "xcode",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "experiencia",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "gusto",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "control",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "contras",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "docker",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "windows",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "linux",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "modelo",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "cierre",
+      "veredicto": "nueva",
+      "candidatas": []
+    }
+  ]
+}

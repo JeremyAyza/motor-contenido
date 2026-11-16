@@ -1,0 +1,26 @@
+{
+  "id": "lista-chequeo",
+  "capa": "escena",
+  "intencion": "Comprobar o resumir una lista de razones o puntos secuenciales que se marcan con la voz, con un remate o salvedad al final.",
+  "usar_cuando": "Se sintetizan de 3 a 6 puntos, características o razones antes de una conclusión, objeción o contraste.",
+  "no_usar_cuando": "Hay un solo concepto protagónico, los puntos requieren demostración visual compleja, o no hay lista secuencial.",
+  "parametros": [
+    "titulo",
+    "filas",
+    "conclusion"
+  ],
+  "duracion": "6 a 12 s",
+  "etiquetas": {
+    "metafora": "lista de chequeo",
+    "layout": "lista",
+    "movimiento": "check secuencial"
+  },
+  "usos": {
+    "piezas": [
+      "2026-11-16-mac-para-programar"
+    ],
+    "ultima": "2026-11-16"
+  },
+  "estado": "candidata",
+  "razon_retiro": null
+}

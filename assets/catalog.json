@@ -317,6 +317,32 @@
       "license": "Marca registrada de su dueño: uso nominativo, según sus reglas de uso",
       "sha256": "60a60cfd55864e76a5fec5c851ca9898363bac5027e081b9ce6c4a4325fd197a",
       "checkedAt": "2026-11-04"
+    },
+    {
+      "id": "windows",
+      "type": "logo",
+      "title": "Windows",
+      "tags": [],
+      "url": "https://cdn.jsdelivr.net/gh/selfhst/icons/svg/microsoft-windows.svg",
+      "source": "https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks",
+      "author": "Microsoft",
+      "license": "CC BY 4.0 (selfh.st/icons); marca registrada de Microsoft, uso nominativo",
+      "attribution": "Icono de selfh.st/icons (CC BY 4.0)",
+      "sha256": "d778548786d06a8ddd87ff43375df55504ee55473b683cede178f3308f00257d",
+      "checkedAt": "2026-11-16"
+    },
+    {
+      "id": "visual-studio-code",
+      "type": "logo",
+      "title": "Visual Studio Code",
+      "tags": [],
+      "url": "https://cdn.jsdelivr.net/gh/selfhst/icons/svg/visual-studio-code.svg",
+      "source": "https://code.visualstudio.com/brand",
+      "author": "Microsoft",
+      "license": "CC BY 4.0 (selfh.st/icons); marca registrada de Microsoft, uso nominativo",
+      "attribution": "Icono de selfh.st/icons (CC BY 4.0)",
+      "sha256": "1b5ea33f07b1e94ef1557de07e718d691137bce93b8176330a6a39c729b63c6a",
+      "checkedAt": "2026-11-16"
     }
   ]
 }
