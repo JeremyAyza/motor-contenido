@@ -1,0 +1,106 @@
+{
+  "hash": "70fa59dc2f2e1f6d",
+  "date": "2026-11-17",
+  "escenas": [
+    {
+      "escena": "gancho",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "pregunta",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "pixeles",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "reglas",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "ejemplos",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "cnn",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "filtro",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "detectores",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "capas",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "aprender",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "entrenar",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "clasificar",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "galeria",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "detectar",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "segmentar",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "rostros",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "lenguaje",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "video",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "cierre",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "cta",
+      "veredicto": "nueva",
+      "candidatas": []
+    }
+  ]
+}

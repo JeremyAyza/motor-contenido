@@ -1,0 +1,345 @@
+{
+  "$schema": "../../schemas/video.schema.json",
+  "format": "largo",
+  "topic": "Visión por computadora explicada: píxeles, CNN, detección, segmentación, embeddings y modelos de visión y lenguaje",
+  "world": "Una app oscura, 'vista-máquina', con pestañas que avanzan por capítulo y un panel donde cada foto se vuelve números; el presentador, a la izquierda.",
+  "meter": {
+    "label": "Imágenes vistas",
+    "from": "0",
+    "to": "361.264"
+  },
+  "cover": {
+    "scene": "gancho",
+    "at": 1.2
+  },
+  "target": 165,
+  "hooks": [
+    {
+      "said": "Visión por computadora, explicada.",
+      "onScreen": "Visión por computadora",
+      "formula": 27
+    },
+    {
+      "said": "Una computadora no ve imágenes: ve números.",
+      "onScreen": "No ve imágenes: ve números",
+      "formula": 29
+    },
+    {
+      "said": "Así ve una computadora una foto.",
+      "onScreen": "Así ve una foto",
+      "formula": 24
+    }
+  ],
+  "scenes": [
+    {
+      "id": "gancho",
+      "say": "Visión por computadora, explicada. Tu teléfono se desbloquea al ver tu cara, tu galería encuentra a tu perro y un auto autónomo frena solo en rojo.",
+      "see": "Cuadro 1: el avatar grande a la izquierda, dentro de una caja de detección amarilla con la etiqueta 'persona 0.97', y a la derecha el título 'VISIÓN POR COMPUTADORA' en dos líneas, la segunda en el acento, con 'YOLO · corrido sobre este cuadro' en monoespaciada. En 'teléfono' entra la foto de un rostro con una malla de puntos y un recuadro que se cierra sobre la cara y un sello 'DESBLOQUEADO'; en 'galería', una grilla de fotos donde las del perro se marcan con un check; en 'auto', una calle con cajas amarillas sobre autos y un semáforo en rojo con 'ALTO'.",
+      "resource": "captura-anotada",
+      "intent": "Que la visión por computadora ya está en tres cosas que usas todos los días.",
+      "metaphor": "El propio presentador detectado por la máquina, como si el video lo estuviera mirando una red.",
+      "alternatives": [
+        "Un ojo de cámara que se abre sobre una foto",
+        "Tres apps del teléfono en fila"
+      ],
+      "motion": "La caja de detección se dibuja alrededor del avatar con su etiqueta que cae con sello; el título sube palabra por palabra; cada foto entra con resorte desde la derecha y su caja se cierra con un clic."
+    },
+    {
+      "id": "pregunta",
+      "say": "¿Cómo sabe qué hay en una imagen? La clave: una computadora no ve imágenes.",
+      "see": "Aparece la app 'vista-máquina': barra superior con la marca, el archivo 'calle.jpg' a la derecha y diez pestañas apagadas. Arriba del panel, el título '¿CÓMO LO SABE?'. Dentro, la foto de la calle con taxis amarillos. En 'no ve imágenes' la foto se tacha con una línea del acento.",
+      "resource": "captura-anotada",
+      "intent": "Plantear la pregunta del video y la respuesta a medias que engancha.",
+      "metaphor": "La app que va a abrir la foto como un archivo, no como un cuadro.",
+      "alternatives": [
+        "Un ojo humano y una cámara frente a la misma calle",
+        "Un signo de pregunta sobre la foto"
+      ],
+      "motion": "La ventana de la app se arma desde arriba (barra, pestañas, panel); la foto entra con zoom suave; la tachadura se dibuja de izquierda a derecha."
+    },
+    {
+      "id": "pixeles",
+      "say": "Ve números. Una foto de un gato es una grilla de píxeles, y cada píxel son tres números del cero al doscientos cincuenta y cinco: rojo, verde y azul. Una foto son millones de números, y ninguno dice gato.",
+      "see": "Se enciende la pestaña PÍXELES y el archivo pasa a 'gato.jpg'. La foto del gato llena el panel; la cámara se acerca a un ojo y la foto se cuantiza en bloques; los bloques se vuelven una grilla de valores de 0 a 255 sacados de la foto. En 'rojo, verde y azul' un píxel se abre en tres cifras de color, R, G y B. En 'millones' aparece abajo '6.000 × 4.000 × 3'. En 'gato' la palabra 'gato' tachada sobre la grilla.",
+      "resource": "escala",
+      "intent": "Que para la computadora una foto es solo una tabla enorme de números.",
+      "metaphor": "Un zoom que no se detiene en el pelaje sino en los números debajo.",
+      "alternatives": [
+        "Una hoja de cálculo con la foto pegada",
+        "Un mosaico de baldosas numeradas"
+      ],
+      "motion": "Zoom continuo de la cámara hacia el ojo; los bloques se convierten en cifras con un barrido; el píxel elegido se separa y se abre en tres; la cuenta grande cae con sello."
+    },
+    {
+      "id": "reglas",
+      "say": "Durante años, los ingenieros escribieron reglas a mano para detectar bordes, esquinas, formas y texturas. Funcionó, pero solo hasta cierto punto.",
+      "see": "Título 'REGLAS ESCRITAS A MANO'. En el panel, un editor con la función 'es_gato(imagen)' que se escribe línea por línea: si no tiene dos ojos, falso; si no tiene orejas puntiagudas, falso; si la textura no es pelaje, falso. En 'cierto punto' entran dos fotos: un gato de perfil durmiendo hecho una bola y un gato con gorro, y la función responde 'falso' en rojo con un ✗ en cada una. Rotulado 'Ejemplo ilustrativo'.",
+      "resource": "captura-anotada",
+      "intent": "Que las reglas a mano se rompen apenas la foto cambia un poco.",
+      "metaphor": "Un checklist rígido que rechaza gatos de verdad.",
+      "alternatives": [
+        "Un portero con una lista que no deja pasar",
+        "Un molde que no encaja con la forma"
+      ],
+      "motion": "El código se teclea; las fotos caen desde arriba encima del editor y el ✗ se estampa en cada una con un golpe seco."
+    },
+    {
+      "id": "ejemplos",
+      "say": "El aprendizaje profundo cambió eso: en vez de reglas, le mostramos a una red millones de imágenes con etiqueta. Esto es un perro, esto es un gato, esto es un auto.",
+      "see": "Título 'MILLONES DE IMÁGENES CON ETIQUETA'. Un muro de miniaturas que se llena en cascada (perros, gatos, autos, pájaros, una bicicleta), cada una con su etiqueta en monoespaciada; en 'perro', 'gato' y 'auto' se resalta una con su etiqueta en el acento. Abajo, 'IMÁGENES CON ETIQUETA MOSTRADAS A ESTA RED' y un contador que sube hasta 263.616, con 'CIFAR-10 · 50.000 imágenes × 30 pasadas'.",
+      "resource": "datos",
+      "intent": "Que el cambio fue aprender de ejemplos en vez de escribir reglas.",
+      "metaphor": "Un mazo infinito de fichas con respuesta, como tarjetas de estudio.",
+      "alternatives": [
+        "Una cinta transportadora de fotos",
+        "Un álbum que se hojea solo"
+      ],
+      "motion": "Las miniaturas aparecen en ola de izquierda a derecha; las tres nombradas saltan al frente; el contador gira rápido y se frena."
+    },
+    {
+      "id": "cnn",
+      "say": "La arquitectura clave es la red convolucional, o CNN. Está hecha de filtros: grillas diminutas de números, de tres por tres.",
+      "see": "Se enciende la pestaña FILTROS. 'CNN' enorme en el acento arriba del panel, con 'red neuronal convolucional' en monoespaciada. Debajo, una pila de bloques en perspectiva de mayor a menor: ENTRADA, CONV1, CAPA 1 a CAPA 4 y SALIDA en amarillo, con '224×224×3 píxeles entran · 1.000 puntajes salen'. En 'filtros' la pila se aparta y entra un mosaico de 36 filtros de colores de 3×3; en 'tres por tres' uno se agranda hasta ser una grilla con −1, 0, +1 / −2, 0, +2 / −1, 0, +1.",
+      "resource": "anatomia",
+      "intent": "Que una CNN es una pila de capas hechas de filtros, y que un filtro es solo una grillita de números.",
+      "metaphor": "Un tubo que se angosta: entra una foto, salen puntajes, y adentro todo son plantillas pequeñas.",
+      "alternatives": [
+        "Una fábrica con estaciones en fila",
+        "Un juego de sellos de goma"
+      ],
+      "motion": "Los bloques entran de izquierda a derecha en cadena; el mosaico se arma en ola; el filtro elegido viaja al centro y crece con resorte."
+    },
+    {
+      "id": "filtro",
+      "say": "El filtro se desliza por la imagen, multiplica sus números por los píxeles de abajo y suma. Si coinciden con su patrón, digamos un borde vertical, el resultado es alto.",
+      "see": "Título 'MULTIPLICA Y SUMA'. Una grilla de 16×12 valores de gris sacados de un recorte de la calle, cada celda con su tono; a la derecha el filtro 3×3 y debajo 'PÍXELES DEBAJO' con los 9 valores. Un recuadro del acento de 3×3 se desliza por la grilla; abajo se escribe la cuenta con los valores reales y '= ?'. En 'borde vertical' el recuadro se para donde el gris cambia de oscuro a claro, el título pasa a 'UN BORDE VERTICAL' y el resultado aparece grande en amarillo.",
+      "resource": "proceso",
+      "intent": "Que un filtro es una cuenta de multiplicar y sumar que da alto donde encuentra su patrón.",
+      "metaphor": "Una lupa con plantilla que recorre la foto y se enciende donde encaja.",
+      "alternatives": [
+        "Un sello que solo marca donde coincide",
+        "Un detector de metales sobre la arena"
+      ],
+      "motion": "El recuadro salta de celda en celda con un tic; la cuenta se reescribe en cada parada; en el borde el resultado cae con sello y destello."
+    },
+    {
+      "id": "detectores",
+      "say": "Así, un filtro se vuelve un detector de bordes. Otro detecta un color, y otro, una textura.",
+      "see": "Título 'CADA FILTRO, UN DETECTOR'. Tres paneles en columna sacados de la foto de la calle: el mapa de bordes (líneas claras sobre negro), el mapa de amarillo (solo los taxis encendidos, el resto oscuro) y el de textura (el asfalto y las fachadas resaltados). Cada uno con su nombre en monoespaciada.",
+      "resource": "comparacion",
+      "intent": "Que cada filtro aprende a ver una sola cosa.",
+      "metaphor": "La misma calle vista con tres anteojos distintos.",
+      "alternatives": [
+        "Tres linternas de colores",
+        "Tres sensores en un tablero"
+      ],
+      "motion": "La foto se triplica y cada copia baja a su lugar mientras se convierte en su mapa, con un barrido de arriba abajo."
+    },
+    {
+      "id": "capas",
+      "say": "Las capas se apilan. Las primeras ven bordes y líneas; las profundas los combinan en pelaje, ojos, ruedas y caras, y al final en objetos completos.",
+      "see": "Se enciende la pestaña CAPAS. Arriba, 'PRIMERAS CAPAS: BORDES, LÍNEAS' con cuatro mapas de bordes en azul. En 'profundas' el título cambia a 'MÁS ADENTRO: PELAJE, OJOS, RUEDAS, CARAS' y entran cuatro fotos en grilla 2×2 (el golden, el gato, el auto y el rostro), cada una con un brillo amarillo justo sobre el pelaje, los ojos, las ruedas o la cara. En 'objetos completos' el brillo cubre al animal o al objeto entero.",
+      "resource": "capas",
+      "intent": "Que las capas van de lo simple a lo complejo.",
+      "metaphor": "Un edificio donde cada piso ve algo más grande que el de abajo.",
+      "alternatives": [
+        "Letras que forman palabras que forman frases",
+        "Piezas de Lego que arman un modelo"
+      ],
+      "motion": "Los mapas suben como láminas apiladas; las fotos entran una por una y su brillo late al nombrarse; el brillo se expande al final."
+    },
+    {
+      "id": "aprender",
+      "say": "Y nadie programa esos filtros: la red los aprende. Empieza al azar, y ante la foto de un perro, adivina: auto.",
+      "see": "Se enciende la pestaña APRENDE y el archivo pasa a 'red sin entrenar · paso 0'. Título 'ADIVINA: AUTO'. La foto del perrito blanco pixelada a 32×32 en un recuadro con esquinas, rotulada 'imagen de prueba · 32 × 32' y 'perro' en el acento. A la derecha, diez barras de clase casi iguales (avión, auto, pájaro, gato, ciervo, perro, rana, caballo, barco, camión), todas cerca de 10 %; en 'auto' la barra de auto se pinta de rojo y queda primera. Abajo: 'red al azar: cada clase cerca del 10 %'.",
+      "resource": "datos",
+      "intent": "Que al principio la red no sabe nada y se equivoca.",
+      "metaphor": "Un estudiante el primer día que responde al azar.",
+      "alternatives": [
+        "Una ruleta de etiquetas",
+        "Un dado que elige la clase"
+      ],
+      "motion": "Las barras crecen temblando como si dudaran; la de auto se dispara y se vuelve roja con un zumbido."
+    },
+    {
+      "id": "entrenar",
+      "say": "Medimos el error y movemos cada número un poquito hacia la respuesta correcta. Millones de veces después, los filtros se forman solos.",
+      "see": "Título 'REPETIR, MILLONES DE VECES'. Un mosaico de 64 filtros de 3×3 que empieza como ruido de colores y, mientras sube el contador hasta 'paso 2.822 · 361.264 imágenes', se ordena en franjas, bordes y manchas de color. Debajo, una curva de error en el acento que baja, con 'error de 2,11 a 0,15'.",
+      "resource": "proceso",
+      "intent": "Que entrenar es corregir un poquito muchas veces, y así aparecen los filtros.",
+      "metaphor": "Ruido que se peina solo hasta formar patrones.",
+      "alternatives": [
+        "Una escultura que se lija",
+        "Un enfoque que pasa de borroso a nítido"
+      ],
+      "motion": "El mosaico parpadea y se asienta por zonas; el contador corre; la curva se dibuja de izquierda a derecha."
+    },
+    {
+      "id": "clasificar",
+      "say": "Al final sale una lista de probabilidades: noventa y cuatro por ciento perro, cinco lobo, uno gato. Eso es clasificar.",
+      "see": "Se enciende la pestaña CLASES y el archivo pasa a 'ResNet-50 · ImageNet'. Título 'UNA LISTA DE PROBABILIDADES'. La cara del husky en un recuadro y debajo tres barras: PERRO, LOBO, GATO. En 'noventa y cuatro' la de perro se llena en amarillo hasta 93,8 %, lobo 5,0 % y gato 1,2 %. En 'clasificar', '94 % PERRO' enorme en amarillo arriba de la foto.",
+      "resource": "cifra",
+      "intent": "Que la salida es una apuesta con porcentajes, no una certeza.",
+      "metaphor": "Un marcador con tres apuestas donde una gana por paliza.",
+      "alternatives": [
+        "Una balanza con tres platillos",
+        "Un podio"
+      ],
+      "motion": "Las barras se llenan en orden con su número girando; la cifra grande cae con sello y un destello amarillo."
+    },
+    {
+      "id": "galeria",
+      "say": "Por eso tu galería encuentra a tu perro en fotos que nunca vio.",
+      "see": "Título 'UN PERRO QUE NUNCA VIO'. Una galería de teléfono con buscador 'perro' arriba y una grilla de 12 fotos (el golden, el perrito blanco, el husky, el gato, el auto, la calle, el pájaro, el barco y otras); en 'perro' las tres de perros se marcan con un check amarillo y las demás se atenúan.",
+      "resource": "captura-anotada",
+      "intent": "Que esa misma cuenta es la que usa tu galería.",
+      "metaphor": "La búsqueda del teléfono como prueba de que funciona.",
+      "alternatives": [
+        "Un álbum que se ordena solo",
+        "Una pila de fotos que se separa"
+      ],
+      "motion": "Se escribe 'perro' en el buscador letra por letra; los checks se estampan uno tras otro."
+    },
+    {
+      "id": "detectar",
+      "say": "La detección va más lejos: qué es y dónde está. Un auto autónomo encierra en una caja cada peatón, cada auto y cada semáforo.",
+      "see": "Se enciende la pestaña CAJAS y el archivo vuelve a 'calle.jpg'. Título '¿QUÉ ES? ¿Y DÓNDE?'. La calle llena el panel y se dibujan cajas amarillas con etiqueta y puntaje: 'persona 0.91' en los peatones, 'auto 0.95' en los taxis y 'semáforo 0.88' en el semáforo. Abajo, el conteo de personas, autos y semáforos.",
+      "resource": "captura-anotada",
+      "intent": "Que detectar es clasificar más la posición.",
+      "metaphor": "La calle vista por el parabrisas de un auto autónomo.",
+      "alternatives": [
+        "Un mapa con pines",
+        "Una mira que salta de objeto en objeto"
+      ],
+      "motion": "Las cajas se dibujan con un trazo rápido en el orden en que la voz las nombra; el conteo sube en el pie."
+    },
+    {
+      "id": "segmentar",
+      "say": "La segmentación etiqueta cada píxel. Así tu videollamada desenfoca el fondo pero no a ti, y un programa marca un tumor en una resonancia.",
+      "see": "Se enciende la pestaña MÁSCARA. Título 'SEGMENTACIÓN'. La calle cubierta por zonas de color (pista en azul, autos en amarillo, veredas en gris) rotulada 'Ejemplo ilustrativo'. En 'videollamada' entra la persona en su cuarto de colores: el fondo se desenfoca y ella queda nítida con un borde amarillo. En 'tumor' entra la resonancia cerebral y un contorno del acento rodea la masa.",
+      "resource": "comparacion",
+      "intent": "Que segmentar es pintar cada píxel con su clase, y que lo usas sin saberlo.",
+      "metaphor": "Un libro de colorear donde la máquina pinta cada zona.",
+      "alternatives": [
+        "Recortar con tijera",
+        "Capas de acetato encimadas"
+      ],
+      "motion": "Las zonas de color se llenan como pintura que se expande; el desenfoque crece detrás de la persona; el contorno se dibuja alrededor de la masa."
+    },
+    {
+      "id": "rostros",
+      "say": "El reconocimiento facial es distinto: convierte tu cara en una lista de números, un embedding. Dos fotos tuyas quedan cerca; un desconocido, lejos. El teléfono solo mide la distancia.",
+      "see": "Se enciende la pestaña EMBEDDING. Título 'TU CARA, UNA LISTA DE NÚMEROS'. La foto del hombre y a su lado una columna de valores con '512 números'. En 'cercanos' el título cambia a 'MISMA PERSONA: CERCA' y aparece un plano con caras como puntos redondos: dos del hombre juntas, unidas por una línea corta, y la mujer del gorro lejos, con una línea larga. Rotulado 'Ejemplo ilustrativo'.",
+      "resource": "metafora",
+      "intent": "Que reconocer una cara es medir la distancia entre dos listas de números.",
+      "metaphor": "Un mapa donde cada cara es un punto y los parecidos viven cerca.",
+      "alternatives": [
+        "Huellas digitales que se superponen",
+        "Dos códigos de barras"
+      ],
+      "motion": "Los números salen de la foto como una cascada; las caras se ubican en el plano con resorte; las líneas de distancia se trazan."
+    },
+    {
+      "id": "lenguaje",
+      "say": "Los modelos de visión y lenguaje cortan la imagen en parches, y cada parche se vuelve números que el modelo lee como palabras. Por eso le mandas una captura a ChatGPT y le preguntas qué pasa.",
+      "see": "Se enciende la pestaña TOKENS. Título 'IMÁGENES Y LENGUAJE'. La calle se corta en una grilla de 4×4 parches que se separan; los parches viajan a una fila 'parches de imagen' y al lado aparece la fila 'tokens de texto' con '¿Qué', 'está', 'pasando?'; las dos filas caen en una barra amarilla 'UN MODELO LEE LOS DOS'. En 'ChatGPT' una ventana de chat con el logo de OpenAI, la foto de la calle enviada y la pregunta '¿Qué está pasando aquí?'. Rotulado 'Ejemplo ilustrativo'.",
+      "resource": "proceso",
+      "intent": "Que el modelo lee una foto como si fueran palabras.",
+      "metaphor": "Una foto cortada en fichas que se ponen en la misma fila que las palabras.",
+      "alternatives": [
+        "Un rompecabezas que se lee de corrido",
+        "Un traductor entre dos idiomas"
+      ],
+      "motion": "Los cortes se dibujan como un cuchillo de luz; los parches vuelan uno tras otro a su fila; el chat sube desde abajo y la pregunta se escribe."
+    },
+    {
+      "id": "video",
+      "say": "El video suma el tiempo: el modelo sigue cada cosa de un cuadro al siguiente. Así una transmisión sigue la pelota.",
+      "see": "Se enciende la pestaña SEGUIR. Título 'CUADRO A CUADRO'. La toma aérea del partido con cajas sobre cada jugador y una caja amarilla sobre la pelota que deja una estela punteada; arriba a la derecha 'cuadro 1 → 2 → 3' que avanza. Abajo: 'misma pelota, mismo número: id 7'.",
+      "resource": "linea-de-tiempo",
+      "intent": "Que el video es una foto más el tiempo, y la red sigue cada objeto.",
+      "metaphor": "Un rastro de migas que deja la pelota.",
+      "alternatives": [
+        "Una tira de fotogramas",
+        "Un radar con puntos que se mueven"
+      ],
+      "motion": "La cámara se desliza siguiendo la pelota; las cajas se mueven con los jugadores; la estela se alarga punto por punto."
+    },
+    {
+      "id": "cierre",
+      "say": "La idea de fondo es la misma: convertir la imagen en números, aprender patrones y predecir qué hay. Tú ves una calle. La computadora ve millones de valores que, capa por capa, terminan significando auto, persona, calle y semáforo. Eso es visión por computadora.",
+      "see": "Todas las pestañas encendidas. Título 'LA IDEA DE FONDO'. Tres tarjetas en columna que entran con la voz: '01 Convertir la imagen en números' con la grilla del gato, '02 Aprender patrones' con el mosaico de filtros y '03 Predecir qué contiene' con el husky y '94 % perro'. En 'calle' las tarjetas se van y vuelve la grilla de números; capa por capa la grilla se aclara hasta ser la calle con todas sus cajas, y en 'auto, persona, calle y semáforo' se encienden sus etiquetas una por una abajo. El indicador 'Lo que ve' pasa de 'números' a 'auto, persona'.",
+      "resource": "proceso",
+      "intent": "Cerrar con los tres pasos que resumen todo y volver a la calle del principio, ahora entendida.",
+      "metaphor": "Los números que se revelan como la calle, la misma que el público vio al empezar.",
+      "alternatives": [
+        "Una receta de tres pasos",
+        "Una escalera de tres peldaños"
+      ],
+      "motion": "Las tarjetas caen con resorte una tras otra; la grilla se disuelve en la foto con un barrido de abajo arriba; las etiquetas se estampan al ritmo de la voz."
+    },
+    {
+      "id": "cta",
+      "say": "Cuéntame en los comentarios si ya lo sabías, y qué tema quieres para el próximo video.",
+      "see": "La calle etiquetada se atenúa al fondo. El avatar se queda a la izquierda. A la derecha, un comentario armado con el gesto de comentar: '¿Ya lo sabías?' y debajo una caja de respuesta donde se escriben y se borran tres ideas: 'embeddings', 'YOLO' y 'modelos de visión y lenguaje', con un cursor.",
+      "resource": "artefacto",
+      "intent": "Pedir un comentario concreto que dé el tema del siguiente Reel.",
+      "metaphor": "Una caja de comentarios abierta, esperando la respuesta del público.",
+      "alternatives": [
+        "Un buzón de sugerencias",
+        "Una encuesta de tres opciones"
+      ],
+      "motion": "El comentario sube con resorte; las ideas se escriben y se borran en la caja; el ícono de comentar late una vez."
+    }
+  ],
+  "caption": "Una computadora no ve imágenes: ve números.\n\nAsí funciona la visión por computadora, de punta a punta:\n- Píxeles: cada uno son tres números de 0 a 255 (rojo, verde y azul).\n- Filtros: grillas de 3×3 que recorren la imagen y se encienden con un borde, un color o una textura.\n- Capas: las primeras ven bordes; las profundas, ojos, ruedas y caras.\n- Entrenamiento: nadie programa los filtros; la red los aprende corrigiendo su error millones de veces.\n- Clasificar, detectar y segmentar: qué es, dónde está y a qué pertenece cada píxel.\n- Embeddings: tu cara como una lista de números; el teléfono mide la distancia.\n- Visión y lenguaje: la imagen se corta en parches que el modelo lee como palabras.\n\n¿Ya lo sabías? Cuéntame en los comentarios qué tema quieres para el próximo video.\n\n#visionporcomputadora #inteligenciaartificial #machinelearning #deeplearning #programacion",
+  "art": {
+    "direction": "captura-anotada",
+    "dealt": [
+      "captura-anotada"
+    ],
+    "reason": "Réplica parecida: no corre la baraja y se toma la dirección más cercana al referente. Todo el video pasa dentro de una app oscura de visión por computadora, con fotos que se anotan con cajas, grillas de números y barras de probabilidad.",
+    "borrowed": [
+      "titular-gigante",
+      "terminal"
+    ],
+    "palette": {
+      "bg": "#07090D",
+      "ink": "#F2F4F8",
+      "accent": "#8B85FF",
+      "accentInk": "#07090D",
+      "surface": "#10141B",
+      "muted": "#8E95A3"
+    },
+    "fonts": {
+      "display": "archivo",
+      "text": "geist"
+    },
+    "anchor": {
+      "kind": "imagen",
+      "ref": "img/calle.png",
+      "source": "Generada con Gemini por agy (suscripción de Jeremy), 17 de noviembre de 2026"
+    },
+    "tab": "vision-por-computadora.md",
+    "cierre": {
+      "tratamiento": "gesto-en-el-recurso",
+      "gesto": "comentar",
+      "porque": "El cierre pide un comentario con el tema del próximo video: el gesto de comentar va dentro de una caja de comentario donde se escriben ideas de temas."
+    }
+  },
+  "gateA": {
+    "approved": true,
+    "date": "2026-11-17",
+    "notes": "Ronda de preguntas con AskUserQuestion. Pedido inicial: \"Quiero copiar ese video con nuestro branding y avatar. Espero poder alcanzar el mismo arte visual sin complicarnos tantos. Espero no perder perder la claridad. Dame una sugerenia de CTA para disaparar mas el reel.\" Fotos: \"Generarlas con agy (Recomendado)\". Avatar: \"Busto a la izquierda, como Rick (Recomendado)\". CTA: \"Cómentame sí ya sabías esto, y que temas te gustaría que hablemops en el siguiente video. Algo así\". Duración: \"Aparfrasealo, esta bien si dura un poco mas, pero si ves que llega a pasar los 3min ya sí aplica la primera opcion de fases mas cortas\"."
+  },
+  "gateB": {
+    "approved": true,
+    "date": "2026-11-17",
+    "video": "53019551c9769ad8318774fb31169dde25f3df1e7b2d486724750e389f67a7cc",
+    "notes": "Jeremy: \"aprobado no lo publiques, comit hasta aca\". El video está aprobado, pero no se publica hasta que él lo pida."
+  },
+  "visualFrozen": {
+    "hash": "70fa59dc2f2e1f6d",
+    "date": "2026-11-17"
+  }
+}

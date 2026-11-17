@@ -1,0 +1,25 @@
+{
+  "note": "Photos generated on 2026-11-17 by agy (Antigravity, Gemini image model) with Jeremy's Google AI Pro subscription, for the replica of a computer-vision Reel. Every prompt ended with: 'Fotografía realista, natural, sin texto legible, sin logos, sin marcas de agua.' The *-bordes, calle-amarillo, calle-textura and perro-blanco-32 files are computed from these with ffmpeg (edgedetect, sobel, a yellow threshold, a Laplacian, a 32 × 32 downscale).",
+  "images": {
+    "calle.png": "Calle muy transitada de una gran ciudad de día: taxis amarillos en primer plano, peatones en un paso de cebra, semáforo en rojo a la izquierda, edificios altos, luz de tarde, foto de teléfono a la altura de los ojos. Vertical 4:5.",
+    "rostro.png": "Retrato de frente de una mujer joven pelirroja con gorro de lana gris, fondo de lago desenfocado al atardecer. Vertical 4:5.",
+    "hombre.png": "Retrato de frente de un hombre de unos 35 años, piel morena, camisa azul, fondo liso gris oscuro. 1:1.",
+    "videollamada.png": "Una persona joven frente a la cámara de su laptop en una videollamada, cuarto con estantes de colores, plantas y luces cálidas. 4:3.",
+    "gato.png": "Primer plano de la cara de un gato bengalí con ojos verdes. 1:1.",
+    "husky.png": "Primer plano de la cara de un husky siberiano blanco y negro, fondo claro. 1:1.",
+    "perro-blanco.png": "Perrito blanco y peludo tipo bichón sentado sobre una alfombra beige. 1:1.",
+    "golden.png": "Golden retriever sentado en el pasto de un parque con luz de tarde. 1:1.",
+    "resonancia.png": "Resonancia magnética cerebral en corte axial, con una masa redondeada más brillante en el lóbulo derecho. 1:1.",
+    "futbol.png": "Toma aérea de transmisión de un partido de fútbol, dos equipos (rojo y blanco) y la pelota cerca del centro. 4:3.",
+    "gato-dormido.png": "Gato atigrado durmiendo hecho una bola sobre una manta. 1:1.",
+    "gato-gorro.png": "Gato gris con un gorro de lana rojo, mirando de costado. 1:1.",
+    "rana.png": "Rana verde sobre una hoja, como foto de dataset. 1:1.",
+    "barco.png": "Barco de carga rojo en el mar. 1:1.",
+    "camion.png": "Camión de bomberos rojo en una calle. 1:1.",
+    "caballo.png": "Caballo marrón en un campo. 1:1.",
+    "pajaro.png": "Pájaro azul posado en una rama. 1:1.",
+    "ciervo.png": "Ciervo en un bosque. 1:1.",
+    "avion.png": "Avión comercial blanco en el cielo azul. 1:1.",
+    "auto.png": "Auto sedán azul estacionado en una calle. 1:1."
+  }
+}
