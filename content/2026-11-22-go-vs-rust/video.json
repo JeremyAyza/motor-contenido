@@ -1,0 +1,253 @@
+{
+  "$schema": "../../schemas/video.schema.json",
+  "format": "largo",
+  "topic": "Go contra Rust: goroutines y recolector frente a ownership, el mito de la velocidad y cuándo elegir cada uno",
+  "world": "Una pizarra de carbón partida en dos carriles, turquesa para Go y óxido para Rust, cruzada por una cinta de compilación, con una terminal fija abajo que mide cada idea.",
+  "meter": {
+    "label": "Criterios",
+    "from": "1/3",
+    "to": "3/3"
+  },
+  "cover": {
+    "scene": "mito",
+    "at": 3.2
+  },
+  "target": 137,
+  "hooks": [
+    {
+      "said": "Go contra Rust.",
+      "onScreen": "Go vs Rust",
+      "formula": 17
+    },
+    {
+      "said": "Rust no siempre es más rápido que Go.",
+      "onScreen": "Rust no siempre es más rápido",
+      "formula": 22
+    },
+    {
+      "said": "¿Por qué Docker está escrito en Go y Discord usa Rust?",
+      "onScreen": "Docker en Go, Discord en Rust",
+      "formula": 16
+    }
+  ],
+  "scenes": [
+    {
+      "id": "gancho",
+      "say": "Go contra Rust. Docker, Kubernetes, Cloudflare, Discord: algunos de los nombres más grandes de la tecnología confían en estos dos lenguajes. ¿Por qué son tan populares para construir sistemas de alto rendimiento?",
+      "see": "Desde el cuadro 1, la pantalla partida en dos carriles sobre la pizarra de carbón: arriba turquesa oscuro con el logo de Go entrando con su estela; abajo óxido con el engranaje de Rust que cae en su círculo punteado. Encima, el rótulo 'Go vs Rust'. En 'Docker' y 'Kubernetes' los logos de Go se achican a la esquina y caen dos fichas cuadradas con borde dorado con sus logos y 'escrito en Go' debajo. En 'Cloudflare' y 'Discord' pasa lo mismo en el carril óxido, con 'Pingora: Rust' y 'Read States: Rust'. En '¿Por qué' las fichas se atenúan y un sello '¿POR QUÉ?' blanco sobre negro, ladeado, golpea en la línea que divide los carriles.",
+      "resource": "comparacion",
+      "intent": "Que Go y Rust sostienen infraestructura que todos usan, y que la pregunta es por qué.",
+      "metaphor": "Dos carriles de color, cada uno con las empresas que corren sobre su lenguaje.",
+      "alternatives": [
+        "Un ring con un lenguaje en cada esquina",
+        "Un mapa de empresas conectadas a dos núcleos"
+      ],
+      "motion": "El logo de Go entra deslizándose con estela y el de Rust cae girando y se asienta con resorte; las fichas caen una por una con la voz; el sello golpea con un rebote y se queda ladeado."
+    },
+    {
+      "id": "go-compilado",
+      "say": "Empecemos con Go. Google lo creó para que el software grande fuera más simple. Es compilado: tu código se traduce a instrucciones de máquina antes de correr.",
+      "see": "El carril de arriba se queda turquesa y ocupa el escenario; el avatar aparece abajo a la izquierda y la terminal fija a su derecha, con 'go: el lenguaje'. Cruza el escenario una cinta transportadora con una estación 'go build'. En 'Google' la terminal muestra el logo de Go, 'creado en Google' y 'software grande, más simple'. En 'compilado' el título 'COMPILADO' arriba; hojas de código entran por la izquierda de la cinta, pasan por 'go build' y salen como una tira de instrucciones; la terminal muestra 'add.go' con una función 'total' y, debajo, sus líneas de ensamblador (rotulado 'Ejemplo ilustrativo').",
+      "resource": "proceso",
+      "intent": "Que Go nació en Google para simplificar y que se compila a código de máquina antes de correr.",
+      "metaphor": "Una cinta que convierte hojas de código en instrucciones de máquina.",
+      "alternatives": [
+        "Un traductor que entrega el libro ya traducido",
+        "Una fábrica que hornea el programa antes de venderlo"
+      ],
+      "motion": "La cinta avanza en loop; las hojas viajan por la cinta y se transforman al pasar la estación con un destello; el título se sella; la terminal cambia de contenido con un corte suave."
+    },
+    {
+      "id": "hilos",
+      "say": "Su gran fuerte es hacer muchas cosas a la vez. Normalmente, un programa usa hilos: trabajadores que maneja el sistema operativo. Pero cada trabajador cuesta caro, y contratar uno por petición no escala.",
+      "see": "Peticiones como tarjetitas 'GET /orders' llueven sobre el escenario y la terminal dice '6 peticiones a la vez'. En 'hilos' el título 'HILOS' grande a la izquierda y, a la derecha, una fila de casilleros punteados vacíos. En 'trabajadores' un trabajador (un muñequito en un bloque) entra al primer casillero con '8 MB' encima; la terminal: '8 MB' enorme, '1 trabajador × 8 MB' y una barra que se llena. En 'contratar uno por petición' entra otro trabajador al segundo casillero y la cifra sube a '16 MB'; los casilleros vacíos esperan en fila mientras las peticiones se amontonan.",
+      "resource": "cifra",
+      "intent": "Que un hilo por petición sale caro: cada trabajador del sistema reserva memoria.",
+      "metaphor": "Trabajadores contratados uno por petición, cada uno con su bloque de 8 MB.",
+      "alternatives": [
+        "Una caja registradora por cliente",
+        "Un auto por pasajero"
+      ],
+      "motion": "Las tarjetas caen en cascada; cada trabajador entra al casillero con un golpe; la cifra cuenta de 8 a 16 con resorte y la barra crece."
+    },
+    {
+      "id": "goroutines",
+      "say": "Go usa goroutines: tareas diminutas y livianas. Puedes correr miles, y Go las reparte entre un equipo chico de trabajadores reales. Por eso brilla en servidores, APIs y sistemas distribuidos.",
+      "see": "El trabajador de 8 MB se queda a la izquierda con '1 hilo'. En 'goroutines' el título 'GOROUTINES' en turquesa y la terminal muestra 'for i := 0; i < 10000; i++ { go func() }' con 'una palabra: go' enorme. En 'miles' un cuadrado turquesa de partículas crece al lado del trabajador mientras un contador sube de 1.488 a 10.000 goroutines y debajo '20,6 MB'. En 'equipo chico' aparece abajo una fila de 10 trabajadores reales y las partículas fluyen hacia ellos. En 'servidores', 'APIs' y 'distribuidos' se encienden tres etiquetas a la derecha.",
+      "resource": "escala",
+      "intent": "Que las goroutines son tan livianas que caben miles en pocos trabajadores reales.",
+      "metaphor": "Un enjambre de miles de tareas que reparte un equipo de diez.",
+      "alternatives": [
+        "Un mesero que atiende cien mesas",
+        "Un hormiguero contra un solo elefante"
+      ],
+      "motion": "El cuadrado de partículas crece desde un punto mientras el contador corre; las partículas bajan en flujo hacia los diez trabajadores; las etiquetas se encienden una por una."
+    },
+    {
+      "id": "recolector",
+      "say": "Mientras tu programa corre, deja memoria que ya no necesita. Go la limpia con un recolector de basura: un equipo que barre cada tanto y tira lo que ya no se usa. Te hace la vida más fácil, pero ese equipo ocupa memoria extra y puede causar pausas cortas.",
+      "see": "El escenario se vuelve un depósito: una grilla de cajas de memoria, unas llenas y otras tachadas. La terminal muestra 'memoria en uso, MB' con una gráfica. En 'ya no necesita' una caja se marca 'pedido #42: ya no sirve'. En 'recolector de basura' entran tres barrenderos que recorren la grilla y las cajas tachadas desaparecen; el rótulo 'el equipo: recolector de basura'; la gráfica dibuja dientes de sierra y un contador de barridos sube hasta 3.611. En 'memoria extra' una franja rayada amarilla 'memoria extra' ocupa el borde derecho del depósito; en 'pausas' la gráfica se congela un instante y aparece una marca 'pausa'.",
+      "resource": "metafora",
+      "intent": "Que el recolector de basura limpia la memoria por ti, a cambio de memoria extra y pausas cortas.",
+      "metaphor": "Un depósito de cajas que un equipo de barrenderos limpia cada tanto.",
+      "alternatives": [
+        "Un camión de basura que pasa cada cierto tiempo",
+        "Un mozo que levanta los platos vacíos"
+      ],
+      "motion": "Las cajas se llenan en cadena; los barrenderos recorren la grilla en diagonal y las cajas tachadas se desvanecen a su paso; la gráfica sube y cae en sierra; la franja amarilla se desliza; la pausa congela todo medio segundo."
+    },
+    {
+      "id": "rust-compilado",
+      "say": "Ahora, Rust. Igual que Go, compila a código de máquina, pero no necesita equipo de limpieza. Usa un sistema llamado ownership.",
+      "see": "El escenario se tiñe de óxido y vuelve la misma cinta transportadora, ahora con la estación 'rustc' y el engranaje de Rust arriba a la izquierda. Las hojas pasan y salen como instrucciones. La terminal compara: 'misma función, dos compiladores', con una línea de ensamblador de Go y una de Rust, y 'los dos son código de máquina'. En 'equipo de limpieza' los barrenderos aparecen y se tachan; la terminal pone 'barridos: Go 3.611 · Rust 0'. En 'ownership' el título 'OWNERSHIP' grande en naranja.",
+      "resource": "comparacion",
+      "intent": "Que Rust también compila a código de máquina pero sin recolector de basura.",
+      "metaphor": "La misma cinta, otra estación, y sin barrenderos.",
+      "alternatives": [
+        "Dos fábricas iguales, una sin equipo de limpieza",
+        "Una cocina donde cada cocinero lava su plato"
+      ],
+      "motion": "El color del carril pasa de turquesa a óxido con un barrido; la estación cambia de cartel con un giro; los barrenderos se tachan con un trazo rojo; el título cae con un sello."
+    },
+    {
+      "id": "ownership",
+      "say": "Cada pedazo de memoria tiene un solo dueño. Cuando el dueño termina, esa memoria se libera al instante. Otras partes del programa pueden pedirla prestada con reglas estrictas, y el compilador las revisa antes de que corra. Así atrapa muchos errores de memoria temprano.",
+      "see": "Debajo de 'OWNERSHIP', un muñequito con la etiqueta 'dueño' sostiene una caja de madera 'pedido #42'. La terminal muestra 'orders.rs': 'let order = Order { id: 42 };' resaltado. En 'termina' la línea '} // el dueño termina: se libera aquí' se resalta y la caja se desarma en el acto; la gráfica de memoria de Rust queda plana: 'Rust: 8,4 MB, plano'. En 'prestada' vuelve la caja y salen tres líneas punteadas a tres muñequitos con '&order'. En 'reglas estrictas' la terminal muestra 'muchos lectores, o un escritor, nunca los dos a la vez'. En 'el compilador' un escudo 'rustc' aparece sobre las líneas.",
+      "resource": "metafora",
+      "intent": "Que en Rust cada dato tiene un dueño que lo libera, y que prestarlo sigue reglas que el compilador revisa.",
+      "metaphor": "Un dueño con su caja que la presta bajo reglas.",
+      "alternatives": [
+        "Un libro de biblioteca con un solo carnet",
+        "Una llave que solo una persona tiene a la vez"
+      ],
+      "motion": "La caja entra con el dueño; se desarma en piezas que se desvanecen; las líneas de préstamo se dibujan hacia afuera una por una; el escudo baja con un golpe seco."
+    },
+    {
+      "id": "precio",
+      "say": "Pero tiene un costo: esas reglas hacen que Rust cueste más aprender.",
+      "see": "Pantalla completa, sin avatar: una barrera de paso rojiblanca baja en el centro con el cartel 'rustc: la aduana' y 'el programa no arrancó'. A la izquierda, la hoja 'orders.rs'; cuando intenta pasar, un sello rojo 'RECHAZADO' golpea. A la derecha se apilan notas 'intento 3', 'E0106'. Abajo, la terminal muestra errores en rojo: 'error[E0382]: borrow of moved value: order' y 'error[E0502]', rotulado 'Ejemplo ilustrativo'.",
+      "resource": "captura-anotada",
+      "intent": "Que las reglas de Rust se pagan en curva de aprendizaje: el compilador te frena mucho al principio.",
+      "metaphor": "Una aduana que rechaza el programa hasta que cumple las reglas.",
+      "alternatives": [
+        "Un profesor que devuelve la tarea corregida",
+        "Un portero estricto en la puerta"
+      ],
+      "motion": "La barrera baja de golpe; el sello RECHAZADO golpea y tiembla; las notas se apilan con rebote; los errores se tipean en rojo."
+    },
+    {
+      "id": "prioridades",
+      "say": "Go prioriza la simplicidad y la productividad. Rust prioriza el control, la seguridad de memoria y un rendimiento predecible.",
+      "see": "Vuelven los dos carriles a pantalla completa. Arriba, turquesa: logo de Go, 'prioriza', y las píldoras 'simplicidad' y 'productividad' que se encienden con la voz; al lado, la sierra del heap; debajo, 'go handle(req)' y 'una palabra y corre a la vez'. Abajo, óxido: logo de Rust, 'prioriza', y las píldoras 'control', 'seguridad de memoria' y 'rendimiento predecible'; al lado, una línea plana; debajo, 'fn longest<'a>(...)' y 'le dices quién es dueño de qué; el compilador te obliga'.",
+      "resource": "comparacion",
+      "intent": "Que Go elige simplicidad y Rust elige control: son prioridades distintas.",
+      "metaphor": "Dos carriles con sus prioridades encendidas.",
+      "alternatives": [
+        "Una balanza con simplicidad en un plato y control en el otro",
+        "Dos llaves distintas para dos cerraduras"
+      ],
+      "motion": "Los carriles se abren desde la línea del medio; las píldoras se encienden una por una con un pulso; las líneas de memoria se dibujan de izquierda a derecha."
+    },
+    {
+      "id": "python-js",
+      "say": "¿Y por qué no Python o JavaScript? Son excelentes para muchas apps, pero hacen más trabajo detrás de escena mientras tu código corre, y en ciertas cargas eso se acumula.",
+      "see": "Vuelve la pizarra neutra con el avatar. Arriba, los logos de Python y JavaScript en fichas; en 'excelentes' la línea 'excelentes para muchas apps: rápidos de escribir, ecosistemas enormes'. En 'detrás de escena' dos tiras: 'compilado: directo a la CPU' con tres instrucciones, y 'interpretado: más trabajo detrás' con una fila de pasos que se alarga. En 'se acumula' un gráfico de barras: 'mismo trabajo: primos hasta 5.000.000'; Rust 13,5 ms, Go 13,9 ms, JavaScript 41,5 ms, Python 81 ms, con el rótulo 'Medición de ejemplo'.",
+      "resource": "datos",
+      "intent": "Que los lenguajes interpretados hacen más trabajo por debajo y en ciertas cargas se nota.",
+      "metaphor": "Dos tiras de pasos: una corta directa a la CPU y una larga con trabajo extra.",
+      "alternatives": [
+        "Un vuelo directo contra uno con escalas",
+        "Un traductor simultáneo contra un texto ya traducido"
+      ],
+      "motion": "Las fichas caen; la tira interpretada se alarga paso por paso; las barras crecen una tras otra con resorte y sus cifras cuentan hasta el valor."
+    },
+    {
+      "id": "mito",
+      "say": "Y ojo con este mito: Rust no siempre es más rápido que Go. Si tu servidor pasa el tiempo esperando a la base de datos o a la red, un mejor caché o un mejor diseño de la base importa mucho más que cambiar de lenguaje.",
+      "see": "Arriba, 'un mito común'. Las barras de Python y JavaScript salen y la cámara hace zoom a las de Rust y Go: 13,5 contra 13,9 ms, casi iguales. En 'no siempre' el titular 'RUST NO SIEMPRE ES MÁS RÁPIDO' en dos líneas. En 'base de datos' el escenario cambia a un camino: una ficha 'tu servidor' abajo a la izquierda y un cilindro violeta 'base de datos' arriba a la derecha; una petición viaja por el camino; la terminal: 'esperando a la base: 20 ms; tu código: 17 µs en Go, 10,2 µs en Rust'; arriba 'Rust: código 1,7x más rápido' y '0,03 % más rápida la petición'. En 'mejor caché' aparece una ficha violeta 'caché' junto al servidor y la petición vuelve al instante: 'caché: 1 ms, 20 veces más rápido, en cualquier lenguaje'. Todo rotulado 'Medición de ejemplo'.",
+      "resource": "cifra",
+      "intent": "Que si el servidor espera a la base de datos, el lenguaje casi no cambia nada y el caché sí.",
+      "metaphor": "Un camino largo a la base de datos donde el lenguaje solo acorta el primer metro.",
+      "alternatives": [
+        "Un auto deportivo atrapado en el tráfico",
+        "Un corredor rápido que espera el ascensor"
+      ],
+      "motion": "Las barras sobrantes se van; zoom a las dos que quedan; el titular cae con peso; la petición viaja despacio por el camino; con el caché el viaje se corta y vuelve con un destello."
+    },
+    {
+      "id": "eleccion",
+      "say": "Entonces, ¿cuál eliges? Para APIs, microservicios y sistemas distribuidos, Go suele ser una gran opción. Para componentes críticos, donde el control de la memoria y la seguridad son esenciales, Rust brilla.",
+      "see": "Vuelven los dos carriles. Arriba, turquesa: el logo de Go y las etiquetas 'APIs', 'microservicios' y 'sistemas distribuidos' que se encienden con la voz; las partículas de goroutines fluyen a la fila de trabajadores; en 'gran opción' vuelven las fichas de Docker y Kubernetes. Abajo, óxido: el logo de Rust, 'componentes críticos', 'control de memoria' y 'seguridad'; los dueños con sus cajas en fila; en 'brilla' vuelven las fichas de Cloudflare y Discord.",
+      "resource": "matriz",
+      "intent": "Que Go va para servicios de red y Rust para lo crítico en memoria y seguridad.",
+      "metaphor": "Los mismos dos carriles del gancho, ahora con su uso escrito.",
+      "alternatives": [
+        "Un mapa con dos caminos y sus destinos",
+        "Dos herramientas colgadas con su etiqueta"
+      ],
+      "motion": "Las etiquetas se encienden una por una; las partículas fluyen; las fichas de las empresas caen en su carril con un golpe, como en el gancho."
+    },
+    {
+      "id": "cierre",
+      "say": "Los dos son herramientas poderosas: resuelven problemas distintos. Porque un sistema rápido no es solo velocidad: también es confiabilidad y qué tan fácil es mantenerlo. Comenta tu bando y defiéndelo en una línea: ¿Team Go o Team Rust?",
+      "see": "Pizarra neutra con el avatar. Arriba, tres medidores redondos: 'velocidad', 'confiabilidad' y 'mantenimiento'. En 'velocidad' sube solo el primero; en 'confiabilidad' sube el segundo; en 'mantenerlo' el tercero. Debajo, una fila de muñequitos turquesa y óxido mezclados. La terminal 'la elección': Go 'simple, productivo: un equipo barre por ti'; Rust 'en control, predecible: una aduana revisa primero'; y 'rápido nunca es solo velocidad'. En 'Comenta' aparece una tarjeta del acento con el ícono de comentar y dos botones grandes 'TEAM GO' y 'TEAM RUST' con un globo de comentario entre ellos.",
+      "resource": "artefacto",
+      "intent": "Que elegir no es cuestión de velocidad sino de qué problema resuelves, y que cada uno defienda su bando.",
+      "metaphor": "Tres medidores que suben hasta que rápido significa más que velocidad.",
+      "alternatives": [
+        "Una balanza que se equilibra",
+        "Un podio con tres escalones"
+      ],
+      "motion": "Las agujas de los medidores suben una por una con resorte; la tabla se arma línea por línea; la tarjeta del CTA entra con resorte y los dos botones laten alternados."
+    }
+  ],
+  "caption": "Docker está escrito en Go. Discord usa Rust. ¿Por qué justo estos dos?\n\nGo apuesta por la simplicidad: 10.000 goroutines en unos 20 MB y un recolector de basura que limpia la memoria por ti.\n\nRust apuesta por el control. Cada dato tiene un dueño. El compilador revisa las reglas antes de correr, y no hay recolector.\n\nY el mito: Rust no siempre es más rápido. En la medición de ejemplo, 13,5 ms contra 13,9 ms. Si tu servidor espera 20 ms a la base de datos, un caché te da más que cambiar de lenguaje.\n\nLas cifras de los gráficos son mediciones de ejemplo.\n\nComenta GO o RUST y defiende tu bando en una línea.\n\n#golang #rust #backend #programacion #desarrolladores",
+  "art": {
+    "direction": "elige-tu-camino",
+    "dealt": [
+      "elige-tu-camino"
+    ],
+    "reason": "Réplica parecida: no corre la baraja y se toma la dirección más cercana a Rick. Su video es una pantalla partida entre dos lenguajes, con una terminal fija que mide cada idea, sobre una pizarra de carbón con ilustración plana.",
+    "borrowed": [
+      "terminal",
+      "titular-gigante"
+    ],
+    "palette": {
+      "bg": "#26292E",
+      "ink": "#F2F0EA",
+      "accent": "#8B85FF",
+      "accentInk": "#26292E",
+      "surface": "#16181B",
+      "muted": "#8E939B"
+    },
+    "fonts": {
+      "display": "archivo",
+      "text": "geist"
+    },
+    "anchor": {
+      "kind": "logo",
+      "ref": "go",
+      "source": "Simple Icons (CC0): Go y Rust; Docker, Kubernetes, Cloudflare, Discord, Python y JavaScript"
+    },
+    "tab": "go-vs-rust.md",
+    "cierre": {
+      "tratamiento": "fila-de-gestos",
+      "gesto": "comentar",
+      "porque": "El cierre pide elegir bando: dos botones, TEAM GO y TEAM RUST, con el gesto de comentar entre ellos, en los colores de cada carril."
+    }
+  },
+  "gateA": {
+    "approved": true,
+    "date": "2026-11-22",
+    "notes": "Ronda de preguntas con AskUserQuestion. Pedido inicial: \"Quiero copiar ese video con nuestro branding y avatar. Espero poder alcanzar el mismo arte visual sin complicarnos tantos. Espero no perder la claridad. Dame una sugerencia de CTA para disparar más el reel: debe generar debate, polémica o más comentarios.\" Si hace falta una imagen con IA, con su suscripción de Antigravity (agy -p). CTA: \"Team Go o Team Rust (Recommended)\". Detalle visual: \"Mismo mundo, menos piezas (Recommended)\". Cifras de benchmark: \"Se quedan, rotuladas (Recommended)\". Postura: \"Neutral, el CTA provoca (Recommended)\"."
+  },
+  "gateB": {
+    "approved": false,
+    "date": "2026-11-22",
+    "notes": "Jeremy: \"todavía no, commit y guarda\". No se publica hasta que lo pida. Video revisado: sha256 9e16511b8b569c11867c3d48177bcd8e21692a3188d9fe4841de11a990999865."
+  },
+  "visualFrozen": {
+    "hash": "8324b48dfda521d9",
+    "date": "2026-11-22"
+  }
+}

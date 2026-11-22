@@ -1,0 +1,71 @@
+{
+  "hash": "8324b48dfda521d9",
+  "date": "2026-11-22",
+  "escenas": [
+    {
+      "escena": "gancho",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "go-compilado",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "hilos",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "goroutines",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "recolector",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "rust-compilado",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "ownership",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "precio",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "prioridades",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "python-js",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "mito",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "eleccion",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "cierre",
+      "veredicto": "nueva",
+      "candidatas": []
+    }
+  ]
+}
