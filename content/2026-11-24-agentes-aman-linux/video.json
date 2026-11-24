@@ -1,0 +1,238 @@
+{
+  "$schema": "../../schemas/video.schema.json",
+  "format": "largo",
+  "topic": "Por qué los agentes de IA trabajan mejor con texto, y por qué Linux se lo da",
+  "world": "Consola de holograma verde sobre una grilla: el modelo es un invasor de píxeles naranja dentro del harness, y cada capítulo le suma una herramienta de Linux.",
+  "meter": {
+    "label": "Razones",
+    "from": "0/7",
+    "to": "7/7"
+  },
+  "cover": {
+    "scene": "gancho",
+    "at": 2.5
+  },
+  "target": 137,
+  "hooks": [
+    {
+      "said": "Tu agente de IA no usa el mouse.",
+      "onScreen": "Tu agente no usa el mouse",
+      "formula": 30
+    },
+    {
+      "said": "¿Por qué los agentes de IA se sienten en casa en Linux?",
+      "onScreen": "¿Por qué los agentes eligen Linux?",
+      "formula": 16
+    },
+    {
+      "said": "Claude Code, Codex y Gemini CLI tienen algo en común, y no es el modelo.",
+      "onScreen": "Lo que comparten tres agentes",
+      "formula": 3
+    }
+  ],
+  "scenes": [
+    {
+      "id": "gancho",
+      "say": "Tu agente de IA no usa el mouse. Claude Code, Codex y Gemini CLI corren comandos en tu computadora y terminan tareas largas solos. Pero ¿en qué sistema se sienten en casa? Muy seguido, en Linux. Y no es casualidad.",
+      "see": "Un cursor de mouse gigante cae y se tacha; arriba, las fichas de Claude Code, Codex y Gemini CLI con sus logos; debajo, tres terminales que tipean a la vez; al final, una terminal escribe uname -s y responde Linux, y aparece Tux.",
+      "resource": "comparacion",
+      "intent": "Los agentes que el público ya usa no trabajan con clics: trabajan en la terminal, y su casa suele ser Linux.",
+      "metaphor": "El mouse tachado frente a tres terminales vivas: lo que el agente no usa contra lo que sí usa.",
+      "alternatives": [
+        "Una web de compra donde un cursor de agente hace clic, como el referente (pierde el contraste con el texto)",
+        "Tres robots frente a un teclado"
+      ],
+      "motion": "El cursor entra con un resorte y un sello lo tacha; las fichas caen una por una con cada nombre; las terminales tipean al ritmo de la voz; uname -s responde Linux con un destello y Tux sube desde abajo."
+    },
+    {
+      "id": "humanos",
+      "say": "Piensa en cómo usamos una computadora: movemos el mouse, hacemos clic y saltamos entre ventanas. Un agente trabaja mejor de otra forma. Con texto.",
+      "see": "Panel HUMANOS · GUI con carpetas y un botón Guardar; un cursor lo recorre y hace clic; el panel se apaga y a su lado se enciende AGENTES · TEXTO, una terminal que escribe echo \"texto\".",
+      "resource": "comparacion",
+      "intent": "Los humanos usamos interfaces gráficas; los agentes, texto.",
+      "metaphor": "Dos paneles: la ventana gráfica que se apaga y la terminal que se enciende.",
+      "alternatives": [
+        "Una mano con un mouse frente a un teclado solo",
+        "Un mapa de clics contra una línea de texto"
+      ],
+      "motion": "El cursor viaja por la ventana y hace clic en Guardar; con 'otra forma' la ventana baja su brillo; con 'texto' la terminal se enciende y tipea."
+    },
+    {
+      "id": "modelo",
+      "say": "Por dentro, un modelo como Claude solo lee texto y escribe texto. No puede tocar un teclado. Por eso vive dentro de un programa, el harness, que le da herramientas: bash, leer, escribir y editar.",
+      "see": "El modelo, un invasor de píxeles naranja con el rótulo MODELO; a su alrededor se arma el marco HARNESS con cuatro botones: bash, read, write y edit.",
+      "resource": "anatomia",
+      "intent": "El modelo solo maneja texto; el harness es lo que le da manos.",
+      "metaphor": "Un invasor de píxeles encerrado en una consola que le pone herramientas a los costados.",
+      "alternatives": [
+        "Un cerebro en un frasco con brazos robóticos",
+        "Un chip conectado a cables"
+      ],
+      "motion": "El invasor aparece con un pop; con 'teclado' una tecla cae y rebota lejos de él; con 'harness' el marco se dibuja alrededor y los cuatro botones entran uno por uno."
+    },
+    {
+      "id": "harness",
+      "say": "Cuando quiere actuar, escribe un pedido con formato: corre este comando. El harness lo ejecuta en una computadora real, toma el resultado y se lo devuelve como texto. El modelo lo lee y decide el siguiente paso. Una y otra vez.",
+      "see": "Del marco HARNESS baja una tarjeta JSON con tool bash y command ls /var/log; entra en una terminal real que lista los logs; la salida sube por otra flecha al modelo; el contador de pasos va de 01 a 05.",
+      "resource": "proceso",
+      "intent": "El ciclo del harness: pedido en texto, ejecución real, resultado en texto, siguiente paso.",
+      "metaphor": "Un circuito de ida y vuelta entre la consola del modelo y una terminal real.",
+      "alternatives": [
+        "Un mesero que lleva pedidos a la cocina",
+        "Una cinta transportadora de tarjetas"
+      ],
+      "motion": "La tarjeta JSON se tipea y baja por la flecha verde; la terminal responde con la lista de logs; un pulso sube por la flecha de vuelta; con 'una y otra vez' el contador de pasos corre rápido de 01 a 05."
+    },
+    {
+      "id": "pixeles",
+      "say": "Algunos agentes también miran capturas y hacen clic, pero es más lento y falla más. Su idioma es el texto. Y Linux se maneja entero con texto.",
+      "see": "Una ventana de administración con un botón Reiniciar; una mira de captura apunta y el clic cae fuera, con una X roja; al lado, un marcador de dos filas: CAPTURA + CLIC, 4,2 s y 2/5 aciertos, contra COMANDO DE TEXTO, 0,04 s y 5/5; abajo, LINUX ⇄ TEXTO.",
+      "resource": "comparacion",
+      "intent": "Mirar pantallas y hacer clic es lento y falla; el texto es rápido y exacto, y Linux habla texto.",
+      "metaphor": "Un marcador de carrera entre el clic por captura y el comando.",
+      "alternatives": [
+        "Un francotirador que falla contra una flecha recta",
+        "Una tortuga contra una liebre"
+      ],
+      "motion": "La mira baja, hace clic y falla con una X roja; las casillas del marcador se llenan: la fila de captura con X y la de texto con checks; LINUX ⇄ TEXTO entra con un sello."
+    },
+    {
+      "id": "falla",
+      "say": "Imagina que una app se cae una y otra vez. En vez de abrir carpetas, el agente abre la terminal. Con grep busca en los logs, con find ubica archivos, con cat los lee y con git revisa los últimos cambios.",
+      "see": "El piso de la grilla se vuelve rojo; una tarjeta checkout-api.service FAILURE con el contador de reinicios que sube de 2 a 3; tres carpetas se tachan; una terminal corre grep, find, cat y git, y una lista de cuatro herramientas se marca una por una.",
+      "resource": "proceso",
+      "intent": "Frente a una falla, el agente investiga con cuatro comandos de texto, no con clics.",
+      "metaphor": "Una alarma roja que se apaga con una lista de herramientas marcadas.",
+      "alternatives": [
+        "Un detective con una lupa sobre los logs",
+        "Una caja negra de avión"
+      ],
+      "motion": "El piso pasa de verde a rojo con la caída; el contador de reinicios salta; las carpetas se tachan con 'en vez de abrir carpetas'; cada herramienta se marca con su nombre en la voz y su comando se tipea en la terminal."
+    },
+    {
+      "id": "tuberias",
+      "say": "Y puede encadenarlos con tuberías: la salida de un comando entra directo en el siguiente. En una sola línea, cat lee el log, grep filtra los errores y tail muestra los últimos.",
+      "see": "Título TUBERÍAS; tres cajas en fila, cat app.log, grep ERROR y tail -5, unidas por tubos; un flujo de líneas pasa por ellas y cae en una caja STDOUT; abajo la línea completa cat app.log | grep ERROR | tail -5.",
+      "resource": "proceso",
+      "intent": "Una tubería convierte tres comandos en una sola línea que responde la pregunta.",
+      "metaphor": "Tubos que conectan cajas y por donde corre el texto.",
+      "alternatives": [
+        "Una cadena de montaje",
+        "Fichas de dominó que caen"
+      ],
+      "motion": "Las cajas entran una por una con cada comando; los tubos se llenan de izquierda a derecha; las líneas caen en STDOUT y quedan las cinco últimas fallas resaltadas."
+    },
+    {
+      "id": "arbol",
+      "say": "Otra ventaja: el sistema de archivos. Todo cuelga de una sola raíz. La configuración suele estar en etc, los logs en var log y tus archivos en home. Ese orden lo ayuda a moverse en máquinas que nunca vio.",
+      "see": "Título EL SISTEMA DE ARCHIVOS; un árbol con la raíz / y tres ramas: /etc (configuración), /var/log (logs) y /home (tus archivos), cada una con dos archivos; al final, tres máquinas, laptop, servidor y nube, con el mismo árbol chico.",
+      "resource": "anatomia",
+      "intent": "Linux tiene un solo árbol con lugares fijos, y es el mismo en cualquier máquina.",
+      "metaphor": "Un árbol de carpetas que se repite igual en tres máquinas.",
+      "alternatives": [
+        "Un mapa de metro con estaciones fijas",
+        "Una cómoda con cajones rotulados"
+      ],
+      "motion": "La raíz cae al centro; cada rama se enciende cuando la voz la nombra; con 'máquinas que nunca vio' el árbol se achica y se copia en tres máquinas."
+    },
+    {
+      "id": "archivos",
+      "say": "En Linux, hasta los recursos del sistema son archivos: el procesador, la memoria, los procesos que corren. Son ventanas en vivo al sistema, y se leen con las mismas herramientas.",
+      "see": "Título TODO ES UN ARCHIVO; tres tarjetas de archivo, /proc/cpuinfo, /proc/meminfo y /proc/1234/status, con valores que cambian en vivo; una terminal hace cat de cada una.",
+      "resource": "datos",
+      "intent": "En Linux, la CPU, la memoria y los procesos se leen como archivos de texto.",
+      "metaphor": "Tres archivos con un punto EN VIVO que late.",
+      "alternatives": [
+        "Un tablero de autos con agujas",
+        "Ventanas abiertas a un cuarto de máquinas"
+      ],
+      "motion": "Las tarjetas entran una por una con cada recurso; sus valores parpadean y cambian; el cat de la terminal se tipea al decir 'las mismas herramientas'."
+    },
+    {
+      "id": "salida",
+      "say": "Y si un comando falla, devuelve un código de salida y casi siempre un mensaje de error. El agente lo lee, corrige y lo intenta de nuevo. Así trabaja un agente: actúa, observa, corrige y repite.",
+      "see": "Un rótulo EXIT ? que se vuelve EXIT 1 rojo; la terminal muestra un error de módulo faltante, corre pip install flask y echo $? devuelve 0; al final, un ciclo ACTÚA, OBSERVA, CORRIGE, REPITE gira alrededor del invasor.",
+      "resource": "proceso",
+      "intent": "Los errores en Linux son texto que el agente puede leer y corregir; de ahí su ciclo.",
+      "metaphor": "Un semáforo de código de salida que pasa de 1 a 0, y un ciclo que gira.",
+      "alternatives": [
+        "Un GPS que recalcula la ruta",
+        "Un dardo que corrige el tiro"
+      ],
+      "motion": "EXIT ? da vueltas como ruleta y cae en 1 rojo con un golpe; la terminal tipea el arreglo; el 0 verde aparece; las cuatro palabras del ciclo se encienden en orden alrededor del invasor."
+    },
+    {
+      "id": "aislar",
+      "say": "Falta la seguridad. No quieres un agente corriendo comandos sueltos en tu propia computadora. Para eso están los contenedores y las máquinas virtuales: Linux tiene herramientas maduras para aislar programas y limitar permisos. El agente trabaja en un entorno sellado, y al terminar, se tira entero.",
+      "see": "Título SEGURIDAD con un candado; la tarjeta TU LAPTOP con ~/fotos, ~/.ssh y ~/trabajo en ámbar con ACCESO TOTAL y un rm -rf a punto de correr; al lado, CONTENEDOR (comparte el kernel) y VM (su propio kernel); el invasor entra en una caja sellada con namespaces, cgroups y seccomp; al final docker rm -f sandbox borra la caja.",
+      "resource": "comparacion",
+      "intent": "Un agente no debería tocar tu máquina real: Linux lo encierra en un entorno que se descarta.",
+      "metaphor": "La laptop expuesta en ámbar contra una caja sellada que se tira.",
+      "alternatives": [
+        "Un arenero de juegos para niños",
+        "Un traje de astronauta"
+      ],
+      "motion": "El piso pasa a ámbar con la laptop; el rm -rf se tipea y se congela; contenedor y VM entran; la caja se cierra con un candado que hace clic; con 'se tira entero' la caja se desarma y el piso vuelve a verde."
+    },
+    {
+      "id": "cierre",
+      "say": "Claro, los agentes no aman Linux, y Linux no se hizo para la IA. Pero les da justo lo que necesitan: cada acción es un comando, cada resultado es texto y cada error se puede atrapar y corregir. Comenta sí o no: ¿los agentes van a jubilar al mouse?",
+      "see": "El invasor, un corazón de píxeles y Tux; una línea LINUX · 1991 contra AGENTES · 2020s; TEXTO ENTRA, TEXTO SALE enorme; una terminal hace cat necesita.txt y completa tres líneas con un check; al final, el prompt ¿Jubilamos al mouse? [s/n] con el cursor que parpadea.",
+      "resource": "artefacto",
+      "intent": "Linux no se pensó para agentes, pero cada acción, resultado y error ya era texto; la pregunta final abre el debate.",
+      "metaphor": "La terminal como respuesta: un archivo de necesidades que se completa y un prompt de sí o no.",
+      "alternatives": [
+        "Un apretón de manos entre Tux y el invasor",
+        "Una pieza de rompecabezas que encaja"
+      ],
+      "motion": "El corazón late entre el invasor y Tux y se apaga con 'no aman'; la línea de 30 años se tiende; TEXTO ENTRA, TEXTO SALE se enciende letra por letra; las tres líneas se completan con la voz y el check final; el prompt [s/n] queda con el cursor parpadeando."
+    }
+  ],
+  "caption": "Tu agente de IA no usa el mouse. Usa texto.\n\nClaude Code, Codex y Gemini CLI corren un comando, leen lo que devuelve y deciden el siguiente paso. Y Linux se maneja entero así. Siete razones:\n\n1. Texto: mirar capturas y hacer clic es más lento y falla más.\n2. La terminal: grep, find, cat y git para investigar una falla.\n3. Tuberías: varios comandos encadenados en una sola línea.\n4. Un solo árbol: /etc, /var/log y /home están en el mismo lugar en cualquier máquina.\n5. Todo es un archivo. Hasta la CPU.\n6. Códigos de salida: si algo falla, el agente lee el error, corrige y vuelve a intentar.\n7. Aislamiento: contenedores y máquinas virtuales, para que nunca toque tu laptop.\n\nLinux no se hizo para la IA. Le quedó perfecto igual.\n\nComenta sí o no: ¿los agentes van a jubilar al mouse?\n\n#linux #agentesia #claudecode #terminal #programacion",
+  "art": {
+    "direction": "terminal",
+    "dealt": [
+      "terminal"
+    ],
+    "reason": "Réplica parecida: no corre la baraja y se toma la dirección más cercana a Rick. Su video entero es una consola de holograma verde sobre una grilla, con terminales que se tipean y paneles de borde verde. Jeremy eligió reusar el mundo de 2026-11-17-que-es-linux.",
+    "borrowed": [
+      "titular-gigante",
+      "antes-despues"
+    ],
+    "palette": {
+      "bg": "#030806",
+      "ink": "#E9FFF1",
+      "accent": "#8B85FF",
+      "accentInk": "#030806",
+      "surface": "#0A1A12",
+      "muted": "#5FA77E"
+    },
+    "fonts": {
+      "display": "geist",
+      "text": "geist"
+    },
+    "anchor": {
+      "kind": "icono",
+      "ref": "terminal",
+      "source": "Lucide (ISC); el invasor de píxeles, el cursor y la grilla dibujados en código"
+    },
+    "tab": "agentes-y-linux.md",
+    "cierre": {
+      "tratamiento": "gesto-en-el-recurso",
+      "gesto": "comentar",
+      "porque": "El CTA es el último prompt de la terminal, '¿Jubilamos al mouse? [s/n]', con el cursor parpadeando: la pregunta se responde como se responde un comando, y el gesto de comentar sale junto al prompt."
+    }
+  },
+  "gateA": {
+    "approved": true,
+    "date": "2026-11-24",
+    "notes": "Ronda de preguntas con AskUserQuestion. Pedido inicial: \"Quiero copiar ese video con nuestro branding y avatar. Espero poder alcanzar el mismo arte visual sin complicarnos tantos. Espero no perder la claridad. Dame una sugerencia de CTA para disparar más el reel; debe generar debate, polémica o más comentarios.\" Si hace falta una imagen con IA, con su suscripción de Antigravity (agy -p). CTA: \"¿Adiós al mouse? (Recomendada)\" (\"¿Los agentes van a jubilar al mouse? Comenta SÍ o NO\"). Tema: \"Gancho en los agentes (Recomendada)\" (el gancho y la portada hablan de agentes; Linux es la respuesta, para no parecer otro Reel de Linux). Agentes del gancho: \"Claude Code, Codex, Gemini CLI (Recomendada)\", en lugar de Muse, Grok Bot y dots. Simplificar: \"Mundo de 'Qué es Linux' (Recomendada)\" (reusar el mundo verde de terminal ya aprobado; cada capítulo con una terminal más una tarjeta o un diagrama; 137 s como Rick)."
+  },
+  "gateB": {
+    "approved": false
+  },
+  "visualFrozen": {
+    "hash": "adc5d6f5400a9fd8",
+    "date": "2026-11-24"
+  }
+}

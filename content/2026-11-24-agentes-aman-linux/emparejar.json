@@ -1,0 +1,66 @@
+{
+  "hash": "adc5d6f5400a9fd8",
+  "date": "2026-11-24",
+  "escenas": [
+    {
+      "escena": "gancho",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "humanos",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "modelo",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "harness",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "pixeles",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "falla",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "tuberias",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "arbol",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "archivos",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "salida",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "aislar",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "cierre",
+      "veredicto": "nueva",
+      "candidatas": []
+    }
+  ]
+}
