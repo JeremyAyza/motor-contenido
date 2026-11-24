@@ -1,0 +1,241 @@
+{
+  "$schema": "../../schemas/video.schema.json",
+  "format": "largo",
+  "topic": "Diseño de sistemas: cómo está hecho Spotify por dentro (almacenamiento, CDN, buffer, búsqueda, recomendaciones y estado)",
+  "world": "Consola oscura con brillo verde: arriba, un riel de 6 sistemas que se encienden; a la derecha, el escenario donde se arma Spotify pieza por pieza; el avatar presenta a la izquierda.",
+  "meter": {
+    "label": "Sistemas",
+    "from": "0/6",
+    "to": "6/6"
+  },
+  "cover": {
+    "scene": "mapa",
+    "at": 9
+  },
+  "target": 174,
+  "hooks": [
+    {
+      "said": "Vamos a diseñar Spotify.",
+      "onScreen": "Vamos a diseñar Spotify",
+      "formula": 27
+    },
+    {
+      "said": "Un toque en play y Spotify resuelve seis problemas a la vez.",
+      "onScreen": "Un play, seis sistemas",
+      "formula": 28
+    },
+    {
+      "said": "Lo difícil de Spotify no es reproducir un MP3.",
+      "onScreen": "No es reproducir un MP3",
+      "formula": 22
+    }
+  ],
+  "scenes": [
+    {
+      "id": "gancho",
+      "say": "Vamos a diseñar Spotify. Para ti es simple: abres la app, buscas una canción, tocas play y suena. Pero detrás de ese toque, Spotify resuelve problemas muy distintos, a una escala enorme.",
+      "see": "Desde el cuadro 1, el logo de Spotify grande y verde que late a la derecha del avatar, con el rótulo 'VAMOS A DISEÑAR' encima. En 'buscas' el logo se encoge a una esquina y entra un buscador con una grilla de portadas; en 'play' una tarjeta de canción con su botón verde y una barra que avanza. En 'detrás' la tarjeta se va al fondo y aparecen recuadros vacíos atrás; título 'PROBLEMAS DISTINTOS, A ESCALA ENORME'.",
+      "resource": "metafora",
+      "intent": "Que un gesto simple del usuario esconde varios sistemas.",
+      "metaphor": "La tarjeta de la canción al frente y, detrás, una pared de recuadros vacíos que la sostienen.",
+      "alternatives": [
+        "Un iceberg con el botón de play en la punta",
+        "Un telón que se corre detrás del celular"
+      ],
+      "motion": "El logo entra con resorte y late; buscador y tarjeta suben uno tras otro con la voz; la tarjeta retrocede y los recuadros aparecen en cascada."
+    },
+    {
+      "id": "almacenamiento",
+      "say": "Primero, guardar la música. Spotify tiene millones de canciones, y cada una existe en varios formatos y calidades. Cuando se sube una canción, no guarda un solo archivo. La codifica en varias versiones: un bitrate bajo para los datos del celular, uno alto para Premium, y códecs distintos para cada aparato. Todos esos archivos van a un almacenamiento distribuido gigante.",
+      "see": "El riel de arriba enciende 'ALMACÉN'. Una grilla de 4×6 portadas; una se agranda al centro con los chips 'CALIDADES' y 'FORMATOS'. Título 'SE SUBE UNA CANCIÓN' con la portada y una barra verde 'MASTER'. La barra se parte en cuatro barras de bitrate (320, 160, 96 y 24 kbps); la de 24 se ilumina en 'celular' y la de 320 en 'Premium'. Fila de aparatos (celular, compu, parlante, consola, auto) con los chips 'OGG VORBIS' y 'HE-AAC v2'. Al final, las barras caen en tres cilindros 'ALMACENAMIENTO DE OBJETOS'.",
+      "resource": "proceso",
+      "intent": "Que una canción no es un archivo sino muchas versiones guardadas en un almacén distribuido.",
+      "metaphor": "Una barra maestra que se parte en barras de bitrate y cae en cilindros.",
+      "alternatives": [
+        "Una canción que pasa por una prensa y sale en varios tamaños",
+        "Un árbol de versiones"
+      ],
+      "motion": "La portada elegida se agranda con resorte; la barra master se parte en cuatro que crecen una por una; los aparatos entran en fila; las barras se encogen y viajan a los cilindros."
+    },
+    {
+      "id": "play",
+      "say": "Ahora, el play. Cuando tocas play, el back end pregunta primero: ¿quién eres? ¿Tienes Premium? ¿Qué canción pediste? ¿Se puede escuchar en tu país? ¿Dónde te quedaste? Pero el back end no debería transmitir cada audio. Sería un cuello de botella enorme.",
+      "see": "El riel sigue en 'ALMACÉN' con el kicker 'REPRODUCCIÓN'. Botón de play verde 'TOCAS PLAY' y una tarjeta 'BACK END' que suma las cinco preguntas en viñetas, una por frase. En 'no debería' una barra verde de audio choca contra la tarjeta, que se vuelve un cuadro con una X; la barra se amontona detrás. Título 'CUELLO DE BOTELLA'.",
+      "resource": "proceso",
+      "intent": "Que el back end decide quién puede escuchar, pero no puede mandar el audio de todos.",
+      "metaphor": "Una tarjeta de control que hace preguntas y una barra de audio que se atasca contra ella.",
+      "alternatives": [
+        "Un portero con una lista",
+        "Un embudo que se tapa"
+      ],
+      "motion": "Las preguntas se tipean una por una; la barra avanza, choca con un golpe y se apila hacia arriba mientras la X aparece con un sello."
+    },
+    {
+      "id": "cdn",
+      "say": "Entonces el audio sale de servidores cerca de ti, casi siempre un CDN. Así quedan dos caminos separados: el back end decide qué pasa, y el CDN entrega el audio, sin trabas.",
+      "see": "El riel enciende 'CDN'. Una línea de nodos: un cilindro 'ORIGEN' a la izquierda y un celular 'TÚ' a la derecha; aparecen cuatro nodos verdes en el medio y un pulso viaja hasta el celular. Después, dos carriles: arriba una línea fina 'DECISIONES', abajo una barra verde gruesa 'ENTREGA DEL AUDIO' que se vuelve onda. Título 'DOS CAMINOS SEPARADOS'.",
+      "resource": "comparacion",
+      "intent": "Que el control y el audio viajan por caminos distintos, y el audio llega desde cerca.",
+      "metaphor": "Dos carriles: uno fino para las decisiones y uno grueso para el audio.",
+      "alternatives": [
+        "Una torre de control y una pista",
+        "Un cerebro y una tubería"
+      ],
+      "motion": "Los nodos se encienden en cadena hacia el celular; los carriles se dibujan de izquierda a derecha y la barra gruesa empieza a ondular con la voz."
+    },
+    {
+      "id": "buffer",
+      "say": "Y hay otro problema: la música tiene que empezar ya. Nadie quiere tocar play y esperar cinco segundos. Por eso la app descarga audio por adelantado: mientras escuchas el segundo 10, ya tiene el 20 o el 30. Ese buffer te protege. Si tu conexión falla un momento, Spotify baja a una versión de menor bitrate, y la música sigue sonando.",
+      "see": "Título grande a la izquierda 'OTRO PROBLEMA', con el kicker 'AL INSTANTE'. Una barra de reproducción con marcas 0 a 60: el cabezal en 'SEGUNDO 10' y, adelante, un tramo verde más claro 'YA DESCARGADO: 30'. Título 'EL BUFFER TE PROTEGE'. Ícono de señal que pierde rayas; las barras de bitrate vuelven y una flecha baja de 320 a 96. El cabezal sigue avanzando: 'SIGUE SONANDO'.",
+      "resource": "proceso",
+      "intent": "Que la app va adelantada y baja la calidad antes que cortar la música.",
+      "metaphor": "Una barra de reproducción con un tramo ya descargado delante del cabezal.",
+      "alternatives": [
+        "Un tanque de agua que se llena antes de abrir la llave",
+        "Un colchón entre el celular y la red"
+      ],
+      "motion": "El tramo descargado se adelanta al cabezal; la señal parpadea y pierde rayas; la flecha baja de barra en barra; el cabezal nunca se detiene."
+    },
+    {
+      "id": "busqueda",
+      "say": "Ahora, la búsqueda. Cuando escribes Goteo, de Duki, Spotify no puede revisar millones de canciones en una base de datos normal, cada vez. Necesita un índice de búsqueda: nombres de canciones, artistas, álbumes y palabras clave, ordenados para encontrarlos al instante.",
+      "see": "El riel enciende 'BÚSQUEDA'. Una tarjeta de búsqueda que tipea 'goteo' y muestra un resultado 'Goteo · Duki' con una portada generada. La grilla de portadas aparece con una línea que la barre fila por fila, 'REVISANDO CADA FILA', y una X grande la tacha. Caja 'LO QUE GUARDA EL ÍNDICE' con cuatro filas: CANCIONES, ARTISTAS, ÁLBUMES, PALABRAS CLAVE.",
+      "resource": "comparacion",
+      "intent": "Que buscar no es recorrer todo: es mirar un índice preparado.",
+      "metaphor": "Una grilla que se barre fila por fila frente a una caja con cuatro cajones ordenados.",
+      "alternatives": [
+        "El índice al final de un libro",
+        "Un bibliotecario contra una pila de libros"
+      ],
+      "motion": "El texto se tipea; la línea barre lenta y la X cae con golpe; las cuatro filas del índice entran una por una con la voz."
+    },
+    {
+      "id": "recomendaciones",
+      "say": "Después vienen las recomendaciones. ¿Qué escucha este usuario después? ¿Qué entra en su Descubrimiento semanal? ¿Qué suena cuando termina esta canción? Eso es otro sistema completo.",
+      "see": "Título grande a la izquierda 'RECOMENDACIONES'; el riel enciende 'RECOS'. Una portada 'SONANDO' unida a un recuadro punteado con '?'. Tres portadas en mosaico 'DESCUBRIMIENTO SEMANAL'. Una barra 'CAMINO DEL AUDIO' arriba y, colgada de ella, una caja aparte 'RECOMENDADOR'. Título 'OTRO SISTEMA COMPLETO'.",
+      "resource": "anatomia",
+      "intent": "Que recomendar no es parte del play: es un sistema aparte.",
+      "metaphor": "Una caja que cuelga de la línea del audio, sin estar en ella.",
+      "alternatives": [
+        "Un DJ al costado del escenario",
+        "Una bola de cristal"
+      ],
+      "motion": "El '?' parpadea; las portadas caen en mosaico; la caja del recomendador baja colgando de un hilo y se balancea con resorte."
+    },
+    {
+      "id": "lotes",
+      "say": "Usa tu historial, lo que saltas, tus me gusta, tus playlists y a la gente que escucha parecido a ti. Y casi todo se calcula antes, en lote, porque hacerlo cada vez que abres la app costaría demasiado.",
+      "see": "El kicker cambia a 'PROCESOS EN LOTE'. Tres chips 'HISTORIAL', 'SALTOS', 'ME GUSTA'. Tres siluetas de usuarios unidas con líneas a tres portadas: 'USUARIOS PARECIDOS'. Una tarjeta 'TRABAJO EN LOTE · DE NOCHE, NO EN CADA TOQUE' con una barra que se llena. Dos chips 'EN CADA APERTURA' (tachado con X) y 'UNA VEZ, EN LOTE' (con barra verde). Título 'CARÍSIMO'.",
+      "resource": "comparacion",
+      "intent": "Que las recomendaciones se cocinan antes, no cuando abres la app.",
+      "metaphor": "Una tarjeta de trabajo nocturno que llena su barra mientras nadie mira.",
+      "alternatives": [
+        "Una cocina que prepara todo antes de abrir",
+        "Un horno con temporizador"
+      ],
+      "motion": "Los chips caen uno por uno; las líneas de usuarios a portadas se dibujan; la barra del lote se llena; la X tacha la opción cara con un sello."
+    },
+    {
+      "id": "medianoche",
+      "say": "Ahora imagina que sale una nueva sesión de Bizarrap a medianoche. Millones de personas piden la misma canción al mismo tiempo. Ahí brillan el caché y el CDN: las canciones más escuchadas se copian cerca de cada región, y no todas salen del almacenamiento central.",
+      "see": "El riel enciende 'LOTES' y el kicker dice 'ESCALA'. Un reloj que marca 00:00 junto a una portada generada nueva. Una grilla de muñequitos que se llena y un contador que sube con 'AL MISMO TIEMPO' y 'Ejemplo ilustrativo'. Título grande 'CACHÉ Y CDN'. Vuelve la línea de nodos: el cilindro 'ORIGEN' a la izquierda, cinco nodos verdes con una copia cada uno, 'UNA COPIA POR REGIÓN'; una X cae sobre la línea que va al origen: 'NO DESDE EL CENTRO'.",
+      "resource": "escala",
+      "intent": "Que el pico de un estreno se aguanta con copias cerca de la gente.",
+      "metaphor": "Una multitud que no va al almacén central sino a la copia de su barrio.",
+      "alternatives": [
+        "Una fila infinita frente a una sola tienda",
+        "Una represa que se reparte en canales"
+      ],
+      "motion": "El reloj marca las 00:00 con un tic; los muñequitos aparecen en ola y el contador gira; los nodos reciben su copia en cadena; la X corta la línea al origen con un golpe."
+    },
+    {
+      "id": "estado",
+      "say": "Y por último, tu estado en todos tus aparatos. Pausas una canción en la laptop, abres Spotify en el celular, y ya sabe qué escuchabas y dónde te quedaste. Para eso hacen falta bases de datos distribuidas y rápidas: para el estado de reproducción, las playlists, los me gusta y el historial.",
+      "see": "El kicker dice 'TU ESTADO'. Una laptop y un celular de línea, unidos por una línea punteada. La laptop muestra pausa 'PAUSADO EN 1:42'; el celular se enciende con el mismo minuto: 'YA LO SABE'. Tres cilindros con íconos de play, lista y corazón: 'BASES DE DATOS DISTRIBUIDAS'. Chips 'ESTADO', 'PLAYLISTS', 'ME GUSTA', 'HISTORIAL'.",
+      "resource": "proceso",
+      "intent": "Que tu lugar en la canción viaja entre aparatos gracias a bases de datos rápidas.",
+      "metaphor": "Una laptop y un celular que comparten el mismo minuto por un hilo.",
+      "alternatives": [
+        "Un marcador de libro que salta de un libro a otro",
+        "Una nube que sigue al usuario"
+      ],
+      "motion": "La laptop pausa con un clic; un pulso viaja por la línea punteada y el celular se prende con el minuto; los cilindros suben uno por uno."
+    },
+    {
+      "id": "mapa",
+      "say": "Si lo simplificas, Spotify son varios sistemas trabajando juntos. El almacenamiento de objetos guarda el audio. El CDN lo entrega. El índice encuentra canciones. El recomendador decide qué te podría gustar. Las bases de datos guardan tu cuenta y tus playlists. Y los procesos en lote mastican montañas de datos de escucha.",
+      "see": "El kicker dice 'TODO JUNTO' y el riel completa sus 6 puntos. Un mapa de seis cajas en el escenario que se encienden en verde una por una con la voz: ALMACENAMIENTO, CDN, ÍNDICE, RECOMENDADOR, BASES DE DATOS y PROCESOS EN LOTE, cada una con su rótulo chico ('guarda el audio', 'lo entrega'...). Debajo, una franja de cuadritos verdes que se llena: datos de escucha.",
+      "resource": "anatomia",
+      "intent": "Que Spotify es un mapa de seis sistemas, no una app.",
+      "metaphor": "Un tablero de seis cajas que se encienden y se conectan.",
+      "alternatives": [
+        "Una banda con seis músicos",
+        "Un plano de una ciudad"
+      ],
+      "motion": "Cada caja se enciende con un pulso verde y una línea la une a la anterior; la franja de datos se llena de izquierda a derecha."
+    },
+    {
+      "id": "cierre",
+      "say": "Lo difícil de construir Spotify no es reproducir un MP3. Es lograr que millones sientan que todas las canciones del mundo están en su celular, listas para sonar al instante. ¿Un solo desarrollador podría diseñar Spotify? Comenta sí o no, y por qué.",
+      "see": "El kicker dice 'LO DIFÍCIL'. Un ícono de archivo 'MP3' solo, y el título 'NO ES REPRODUCIR UN ARCHIVO'. Una grilla de muñequitos 'MILLONES DE PERSONAS'. El logo de Spotify vuelve grande con 'LISTO PARA SONAR'. Al final, una tarjeta del acento con '¿UN SOLO DEV PODRÍA?' y dos botones 'SÍ' y 'NO' con el gesto de comentar.",
+      "resource": "comparacion",
+      "intent": "Que lo difícil es la sensación de inmediatez para millones, y que vale la pena discutirlo.",
+      "metaphor": "Un MP3 solitario frente a una multitud que lo espera a la vez.",
+      "alternatives": [
+        "Un parlante en un estadio",
+        "Una sola persona cargando una montaña"
+      ],
+      "motion": "El MP3 entra y se queda quieto; los muñequitos aparecen en ola; el logo vuelve con resorte; la tarjeta del CTA sube y los botones laten."
+    }
+  ],
+  "caption": "Tocas play y suena. Fácil, ¿no?\n\nDetrás hay seis sistemas. Cada canción existe en varias versiones, de 24 a 320 kbps, repartidas en un almacenamiento distribuido. Un CDN te entrega el audio desde cerca, y la app ya bajó 20 o 30 segundos antes de que los escuches. Cuando escribes Goteo, un índice la encuentra sin revisar millones de filas. Las recomendaciones se calculan de noche. Y tu minuto exacto salta de la laptop al celular.\n\nLo difícil no es reproducir un MP3.\n\n¿Un solo desarrollador podría diseñar Spotify? Comenta SÍ o NO y por qué.\n\n#disenodesistemas #systemdesign #backend #programacion #spotify",
+  "art": {
+    "direction": "ficha-tecnica",
+    "dealt": [
+      "ficha-tecnica"
+    ],
+    "reason": "Réplica parecida: no corre la baraja y se toma la dirección más cercana a Rick. Su video es un tablero técnico oscuro con un riel de etapas, rótulos mono diminutos bajo cada objeto y un escenario donde se arma el sistema pieza por pieza.",
+    "borrowed": [
+      "titular-gigante",
+      "capa-por-capa"
+    ],
+    "palette": {
+      "bg": "#070B09",
+      "ink": "#EEF5F0",
+      "accent": "#8B85FF",
+      "accentInk": "#070B09",
+      "surface": "#0F1713",
+      "muted": "#7C8A82"
+    },
+    "fonts": {
+      "display": "archivo",
+      "text": "geist"
+    },
+    "anchor": {
+      "kind": "logo",
+      "ref": "spotify",
+      "source": "Simple Icons (CC0): Spotify; portadas generadas con IA (Antigravity) sin artistas reales; lo demás dibujado en código"
+    },
+    "tab": "disenar-spotify.md",
+    "cierre": {
+      "tratamiento": "gesto-en-el-recurso",
+      "gesto": "comentar",
+      "porque": "El cierre deja el logo de Spotify sonando y sube una tarjeta del acento con la pregunta y dos botones, SÍ y NO, con el gesto de comentar: el debate cabe en una palabra."
+    }
+  },
+  "gateA": {
+    "approved": true,
+    "date": "2026-11-24",
+    "notes": "Ronda de preguntas con AskUserQuestion. Pedido inicial: \"Quiero copiar ese video con nuestro branding y avatar. Espero poder alcanzar el mismo arte visual sin complicarnos tantos. Espero no perder la claridad. Dame una sugerencia de CTA para disparar más el reel: debe generar debate, polémica o más comentarios.\" Si hace falta una imagen con IA, con su suscripción de Antigravity (agy -p). Ejemplos: \"Al duki u otros referentes del trapa argetino\" (búsqueda de Goteo de Duki; sesión de Bizarrap a medianoche). Portadas: \"Generadas con IA (Recomendado)\". CTA: \"¿Un solo dev podría?\"."
+  },
+  "gateB": {
+    "approved": false,
+    "date": "2026-11-24",
+    "video": "6852c4761b2feeb30cc74d13711390b4c64fbb23181314ffdefbb25b38626306",
+    "notes": "Jeremy: \"no publicar, commit y push\"."
+  },
+  "visualFrozen": {
+    "hash": "d252c93928bd44a6",
+    "date": "2026-11-24"
+  }
+}

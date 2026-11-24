@@ -1,0 +1,66 @@
+{
+  "hash": "d252c93928bd44a6",
+  "date": "2026-11-24",
+  "escenas": [
+    {
+      "escena": "gancho",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "almacenamiento",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "play",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "cdn",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "buffer",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "busqueda",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "recomendaciones",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "lotes",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "medianoche",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "estado",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "mapa",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "cierre",
+      "veredicto": "nueva",
+      "candidatas": []
+    }
+  ]
+}
