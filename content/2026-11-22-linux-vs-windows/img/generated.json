@@ -1,0 +1,10 @@
+{
+  "note": "Photos generated on 2026-11-22 by agy (Antigravity, Gemini image model) with Jeremy's Google AI Pro subscription, in one batch, for the replica of a Linux vs Windows Reel. Every prompt ended with: 'Fotografía realista de producto, natural, sin texto legible, sin logos, sin marcas de agua.'",
+  "images": {
+    "impresora.png": "Impresora multifunción de oficina blanca y gris sobre un escritorio, luz suave de ventana, fondo neutro desenfocado. Vertical 3:4.",
+    "mouse.png": "Mouse gamer negro mate de perfil tres cuartos, sobre un mousepad oscuro, iluminación de estudio con reflejos suaves, fondo blanco grisáceo. Vertical 3:4.",
+    "wifi.png": "Adaptador Wi-Fi USB pequeño con antena negra, enchufado en el puerto lateral de una laptop gris, primer plano macro, luz cálida, profundidad de campo corta. 1:1.",
+    "datacenter.png": "Pasillo largo de un centro de datos con filas de racks de servidores a ambos lados, piso blanco, luces frías, perspectiva central con punto de fuga. Horizontal 16:9.",
+    "rack.png": "Rack de servidores abierto de frente, con servidores apilados, cables azules y luces LED verdes, en una sala de servidores. Vertical 3:4."
+  }
+}

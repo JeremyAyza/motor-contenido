@@ -1,0 +1,81 @@
+{
+  "hash": "64016d4adc14cc78",
+  "date": "2026-11-22",
+  "escenas": [
+    {
+      "escena": "gancho",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "windows-defecto",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "funciona",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "compatibilidad",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "costo-windows",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "linux-opuesto",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "control",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "limites-apps",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "limites-hardware",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "developers",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "wsl",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "seguridad",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "cual-mejor",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "principiantes",
+      "veredicto": "nueva",
+      "candidatas": []
+    },
+    {
+      "escena": "cierre",
+      "veredicto": "nueva",
+      "candidatas": []
+    }
+  ]
+}

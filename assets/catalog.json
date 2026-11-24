@@ -343,6 +343,75 @@
       "attribution": "Icono de selfh.st/icons (CC BY 4.0)",
       "sha256": "1b5ea33f07b1e94ef1557de07e718d691137bce93b8176330a6a39c729b63c6a",
       "checkedAt": "2026-11-16"
+    },
+    {
+      "id": "aws",
+      "type": "logo",
+      "title": "Amazon Web Services",
+      "tags": [],
+      "url": "https://cdn.jsdelivr.net/gh/selfhst/icons/svg/amazon-web-services.svg",
+      "source": "https://aws.amazon.com/trademark-guidelines/",
+      "author": "Amazon.com, Inc.",
+      "license": "CC BY 4.0 (selfh.st/icons); marca registrada de Amazon, uso nominativo",
+      "attribution": "Icono de selfh.st/icons (CC BY 4.0)",
+      "sha256": "5ee6a8063976958fe14220c890cccecec3da828fbb2c482ac247c980ec49a539",
+      "checkedAt": "2026-11-17"
+    },
+    {
+      "id": "azure",
+      "type": "logo",
+      "title": "Microsoft Azure",
+      "tags": [],
+      "url": "https://cdn.jsdelivr.net/gh/selfhst/icons/svg/microsoft-azure.svg",
+      "source": "https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks",
+      "author": "Microsoft Corporation",
+      "license": "CC BY 4.0 (selfh.st/icons); marca registrada de Microsoft, uso nominativo",
+      "attribution": "Icono de selfh.st/icons (CC BY 4.0)",
+      "sha256": "6e95847e5493ddee3c649f5b11412b2cc3f1a74b90b0c778538172f214be68b6",
+      "checkedAt": "2026-11-17"
+    },
+    {
+      "id": "linus-torvalds",
+      "type": "image",
+      "tags": [
+        "foto",
+        "linux",
+        "persona"
+      ],
+      "url": "https://upload.wikimedia.org/wikipedia/commons/0/01/LinuxCon_Europe_Linus_Torvalds_03_%28cropped%29.jpg",
+      "source": "https://commons.wikimedia.org/wiki/File:LinuxCon_Europe_Linus_Torvalds_03_(cropped).jpg",
+      "author": "Krd (foto); Von Sprat (recorte)",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Foto de Linus Torvalds: Krd, CC BY-SA 4.0, vía Wikimedia Commons",
+      "sha256": "371c4559f0262743a9c3f0e69e7a693501cc9ab8c3d80598a4b4110d59107657",
+      "checkedAt": "2026-11-17",
+      "notes": "LinuxCon Europe, 15 de octubre de 2014. 975×1357. Se usa en content/2026-11-17-que-es-linux (img/linus.jpg, ignorado por git)."
+    },
+    {
+      "id": "tux",
+      "type": "logo",
+      "title": "Tux (Linux)",
+      "tags": [],
+      "url": "https://cdn.jsdelivr.net/gh/selfhst/icons/svg/linux.svg",
+      "source": "https://isc.tamu.edu/~lewing/linux/",
+      "author": "Larry Ewing (Tux), Linux Foundation (marca Linux)",
+      "license": "CC BY 4.0 (selfh.st/icons); Tux de Larry Ewing, uso libre con crédito; Linux, marca registrada de Linus Torvalds, uso nominativo",
+      "attribution": "Icono de selfh.st/icons (CC BY 4.0)",
+      "sha256": "498ab4470db166c8aa7541aee415cbc1d8edbfb626d2161b3e81d4ab182198f4",
+      "checkedAt": "2026-11-23"
+    },
+    {
+      "id": "adobe",
+      "type": "logo",
+      "title": "Adobe",
+      "tags": [],
+      "url": "https://cdn.jsdelivr.net/gh/selfhst/icons/svg/adobe.svg",
+      "source": "https://www.adobe.com/legal/permissions/trademarks.html",
+      "author": "Adobe Inc.",
+      "license": "CC BY 4.0 (selfh.st/icons); marca registrada de Adobe, uso nominativo",
+      "attribution": "Icono de selfh.st/icons (CC BY 4.0)",
+      "sha256": "57146d90519379c369b2fc57a27f58cd52ede9d5b631862f9b0fafa45f08b4c1",
+      "checkedAt": "2026-11-23"
     }
   ]
 }

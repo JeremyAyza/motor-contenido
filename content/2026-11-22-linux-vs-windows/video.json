@@ -1,0 +1,270 @@
+{
+  "$schema": "../../schemas/video.schema.json",
+  "format": "largo",
+  "topic": "Linux contra Windows: cada uno optimiza para un usuario distinto",
+  "world": "Un dial fijo arriba, ¿QUIÉN DECIDE?, de POR DEFECTO (Windows, azul) a CONTROL (Linux, naranja), con un punto que viaja según el lado del que habla la voz",
+  "meter": {
+    "label": "Quién decide",
+    "from": "El sistema",
+    "to": "Tú eliges"
+  },
+  "cover": {
+    "scene": "gancho",
+    "at": 1
+  },
+  "target": 166,
+  "hooks": [
+    {
+      "said": "¿Linux es mejor que Windows, de verdad?",
+      "onScreen": "¿Linux es mejor que Windows?",
+      "formula": 16
+    }
+  ],
+  "scenes": [
+    {
+      "id": "gancho",
+      "say": "¿Linux es mejor que Windows, de verdad? Si usas Linux, vas a decir que sí. Si usas Windows, que es puro trabajo extra. Pero la respuesta real es otra: cada uno está hecho para un usuario distinto.",
+      "see": "Desde el cuadro 1, un monitor partido en dos llena el centro: a la izquierda el logo de Windows sobre azul, a la derecha Tux sobre naranja, y el rótulo '¿Linux es mejor que Windows?' a la derecha del avatar, con 'mejor' en el acento. En 'Linux' se enciende la mitad naranja con un chip 'SÍ'; en 'Windows' la azul con un chip 'TRABAJO EXTRA'. En 'distinto' bajan dos tarjetas: 'QUIERE que funcione y ya' bajo Windows y 'QUIERE decidir todo' bajo Linux.",
+      "resource": "comparacion",
+      "intent": "Que la pelea Linux contra Windows tiene dos bandos y que la respuesta no es un ganador sino dos tipos de usuario.",
+      "metaphor": "Un solo monitor partido en dos mitades que se encienden por turno, como dos hinchadas.",
+      "alternatives": [
+        "Una balanza con un logo en cada plato que no se inclina",
+        "Dos esquinas de un ring con cada logo"
+      ],
+      "motion": "El monitor ya está desde el cuadro 1 y respira con un leve zoom; cada mitad se enciende y la otra se atenúa con la voz; los chips entran con resorte y las dos tarjetas caen desde el monitor. El punto del dial oscila entre los dos extremos."
+    },
+    {
+      "id": "windows-defecto",
+      "say": "Empecemos por Windows. Está pensado para ser el escritorio por defecto: siete de cada diez computadoras lo usan.",
+      "see": "El capítulo 'CAPÍTULO 1' y el monitor muestra 'Windows 11' en azul; la cámara entra a la pantalla y aparece un menú Inicio recreado en español (buscador, 'Anclado' con seis apps, 'Recomendado'). Debajo, una fila de 14 cuadritos de computadoras que se pintan de azul uno por uno mientras un contador sube de 36 % a 71 %, con 'de las computadoras de escritorio usan Windows'.",
+      "resource": "cifra",
+      "intent": "Que Windows es el sistema por defecto: siete de cada diez escritorios.",
+      "metaphor": "Una fila de computadoras que se van pintando del color de Windows.",
+      "alternatives": [
+        "Un mapa del mundo que se pinta de azul",
+        "Una caja de computadora nueva con Windows ya adentro"
+      ],
+      "motion": "Zoom de cámara al monitor; el menú Inicio sube desde abajo como en el sistema; los cuadritos se pintan en cascada y la cifra cuenta hacia arriba hasta 71 % con un sello. El punto del dial se va al lado POR DEFECTO."
+    },
+    {
+      "id": "funciona",
+      "say": "Lo instalas, conectas tu hardware, bajas tus apps, abres tus juegos… y casi siempre, todo funciona.",
+      "see": "Una lista de cuatro pasos a pantalla completa: 'Instalarlo · INSTALACIÓN', 'Conectar tu hardware · DRIVER', 'Bajar tus apps · .EXE', 'Abrir tus juegos · STEAM'; cada fila se enciende en verde al nombrarla. Luego el avatar entra a la izquierda y a su derecha 'TODO FUNCIONA' enorme en verde con cuatro checks.",
+      "resource": "proceso",
+      "intent": "Que en Windows el camino es corto: cuatro pasos y no decides nada.",
+      "metaphor": "Una lista de instalación que se marca sola.",
+      "alternatives": [
+        "Un enchufe que encaja a la primera",
+        "Una barra de progreso que llega al 100 %"
+      ],
+      "motion": "Las filas se encienden una por una con la voz; luego la lista se encoge y sale, entra el avatar y el titular cae con peso; los checks hacen pop en fila."
+    },
+    {
+      "id": "compatibilidad",
+      "say": "Esa es su gran ventaja: la compatibilidad. Juegos, programas de oficina, drivers, periféricos, herramientas de empresa. Compras una impresora, un mouse gamer o un programa de contabilidad, y el fabricante pensó primero en Windows.",
+      "see": "'COMPATIBILIDAD' enorme junto al avatar, con 'La gran ventaja de Windows' en azul y cinco chips (Juegos, Oficina, Drivers, Periféricos, Empresa). Después una lista 'DESDE EL DÍA 1' con esas cinco filas en verde. Luego tres fotos en tarjetas, una impresora, un mouse gamer y una factura de contabilidad, que se voltean a tres tarjetas 'Funciona con Windows' en verde.",
+      "resource": "datos",
+      "intent": "Que casi todo el hardware y el software se hace primero para Windows.",
+      "metaphor": "Productos de una tienda que llevan todos el mismo sello 'Funciona con Windows'.",
+      "alternatives": [
+        "Un enchufe universal donde todo encaja",
+        "Una estantería donde todas las cajas dicen Windows"
+      ],
+      "motion": "El titular entra con resorte; los chips caen uno por uno con la voz; la lista se enciende fila por fila; las tres fotos entran deslizándose y en 'Windows' giran como cartas a su sello verde."
+    },
+    {
+      "id": "costo-windows",
+      "say": "Pero esa comodidad se paga. Windows es cerrado: no controlas todo el sistema y Microsoft decide muchas cosas por ti. Actualizaciones que se imponen, procesos de fondo que no pediste, apps que ya vienen instaladas, telemetría y, según la edición y el país, hasta publicidad dentro del sistema.",
+      "see": "Dos chips 'Cómodo · tú no decides nada' y 'El costo · tú no decides nada' con el segundo en ámbar. Luego un panel de ajustes recreado, '¿QUIÉN PONE LOS VALORES?': Apps de inicio, Telemetría, Contenido recomendado, Actualizaciones automáticas, cada uno con 'Lo administra Microsoft'. Después una ventana de Windows Update 'Reiniciando en 14:56', un Administrador de tareas con procesos de fondo, una fila de chips de apps preinstaladas y un menú Inicio con 'Recomendado: prueba Game Pass'. Abajo una barra 'WINDOWS · FRICCIÓN' que se llena en ámbar.",
+      "resource": "captura-anotada",
+      "intent": "Que la comodidad de Windows tiene costo: Microsoft decide por ti y mete cosas que no pediste.",
+      "metaphor": "El mismo escritorio que se va llenando de cosas que nadie pidió.",
+      "alternatives": [
+        "Una casa amueblada donde no puedes mover los muebles",
+        "Un contrato con letra chica que se despliega"
+      ],
+      "motion": "Cada interfaz entra al nombrarla y la anterior se corre a un lado sin desaparecer; los valores 'Lo administra Microsoft' se marcan en ámbar uno por uno; la cuenta regresiva corre; la barra de fricción crece a saltos con cada cosa nombrada."
+    },
+    {
+      "id": "linux-opuesto",
+      "say": "Linux va casi al revés. Es de código abierto, y en vez de un solo escritorio tienes distribuciones: Ubuntu, Fedora, Linux Mint, Arch y muchas más. Cada una junta el kernel de Linux con su gestor de paquetes, su escritorio, sus valores por defecto y su software.",
+      "see": "'CAPÍTULO 2': el monitor muestra Tux sobre naranja y junto al avatar 'Casi al revés.' con 'al revés' en naranja. Luego un editor con código del kernel legible y la nota 'puedes leer cada línea'. Después una grilla de cuatro escritorios recreados en código con el logo y el color de Ubuntu, Fedora, Linux Mint y Arch, y una fila de chips de más distros. Al final, una pila de capas 'QUÉ ES UNA DISTRO': Software y valores por defecto, Escritorio, Gestor de paquetes y abajo, en verde, 'Kernel de Linux · lo comparten todas'.",
+      "resource": "capas",
+      "intent": "Que Linux no es un escritorio sino muchas distribuciones sobre un mismo kernel.",
+      "metaphor": "Una torre de capas donde solo la base es la misma para todas.",
+      "alternatives": [
+        "Un mismo motor dentro de cuatro carrocerías distintas",
+        "Un árbol con un tronco y cuatro ramas"
+      ],
+      "motion": "El punto del dial viaja al lado CONTROL; el código se escribe solo; los cuatro escritorios entran en cascada; las capas se apilan desde abajo, con el kernel primero."
+    },
+    {
+      "id": "control",
+      "say": "Eso te da un control absurdo. ¿No te gusta el escritorio? Cambias GNOME por KDE. ¿El explorador de archivos? También. ¿Quieres que casi nada corra de fondo, o personalizar cada detalle? Se puede. Y casi siempre, es gratis.",
+      "see": "'CONTROL' enorme en naranja junto al avatar, con las capas de la distro debajo y un chip 'CAMBIAR' que salta en Escritorio. Luego un escritorio violeta que se reemplaza por uno de atardecer, con '¿No te gusta el escritorio? Cámbialo.', y un explorador de archivos que se reemplaza por otro. Después un contador 'PROCESOS AL ARRANCAR' que baja de 148 a 31 junto a una terminal, con dos chips 'Casi nada corriendo' y 'Todo a tu medida'. Al final '$0' enorme en verde con 'normalmente gratis'.",
+      "resource": "comparacion",
+      "intent": "Que en Linux puedes cambiar cada pieza, y que suele ser gratis.",
+      "metaphor": "Piezas intercambiables: sacas una y pones otra.",
+      "alternatives": [
+        "Un auto tuneado pieza por pieza",
+        "Un set de Lego con el manual tachado"
+      ],
+      "motion": "Cada pieza reemplazada sale hacia un lado y entra la nueva desde el otro; el contador baja con peso; el '$0' cae como sello."
+    },
+    {
+      "id": "limites-apps",
+      "say": "Pero tanta libertad tiene un costo. A veces la app que necesitas no existe para Linux: Adobe es el ejemplo clásico, y varias herramientas profesionales son solo para Windows o Mac. Los juegos mejoraron muchísimo gracias a Proton, pero algunos con antitrampas a nivel de kernel no corren bien.",
+      "see": "'$0' se queda arriba y abajo 'la libertad cuesta' en ámbar. Luego 'TU EQUIPO LINUX', una grilla de apps (Navegador, Editor, Terminal, Oficina, Multimedia, ?) donde la última dice 'SIN VERSIÓN PARA LINUX'. Después una tabla Windows / macOS / Linux con el logo de Adobe Creative Cloud, Adobe Creative Cloud, Microsoft Office, Final Cut Pro y DaVinci Resolve, con la columna Linux vacía en las primeras. Luego dos columnas de Steam: Windows 'corre nativo' y Linux 'corre con Proton'; y un juego con antitrampas de kernel que en Linux dice 'puede que no corra'.",
+      "resource": "matriz",
+      "intent": "Que en Linux faltan algunas apps profesionales y algunos juegos.",
+      "metaphor": "Una grilla de apps con huecos donde Linux no llega.",
+      "alternatives": [
+        "Una llave que no entra en una cerradura",
+        "Un estante con espacios vacíos"
+      ],
+      "motion": "La grilla se arma celda por celda y la última se marca en ámbar; la tabla llena sus checks fila por fila y deja huecos; las dos columnas de Steam se comparan lado a lado y la fila del antitrampas se enciende en ámbar."
+    },
+    {
+      "id": "limites-hardware",
+      "say": "Con el hardware pasa algo parecido. Lo común funciona bien, pero compra un adaptador Wi-Fi raro o un periférico RGB con drivers solo para Windows, y Linux se vuelve un proyecto de investigación.",
+      "see": "Una grilla 'HARDWARE' de seis tarjetas (Teclado, Mouse, Monitor, Impresora, GPU, Adaptador Wi-Fi) que se marcan 'DETECTADO' en verde, salvo el Wi-Fi, que queda 'SIN DRIVER' en ámbar. Al lado, la foto de un adaptador Wi-Fi USB. Luego una terminal que busca el driver con comandos comentados como 'Ejemplo ilustrativo', una ficha 'driver del fabricante: ninguno' y una barra 'LINUX · FRICCIÓN' igual a la de Windows.",
+      "resource": "proceso",
+      "intent": "Que el hardware común anda, pero lo raro te obliga a investigar.",
+      "metaphor": "Una lista de chequeo con un solo casillero en rojo que se come la tarde.",
+      "alternatives": [
+        "Una pieza de rompecabezas que no encaja",
+        "Un cable con el enchufe equivocado"
+      ],
+      "motion": "Las tarjetas se marcan en cascada; el Wi-Fi parpadea en ámbar; la terminal se escribe sola; la barra de fricción crece hasta el mismo largo que la de Windows."
+    },
+    {
+      "id": "developers",
+      "say": "Para developers, la historia cambia. Casi toda la infraestructura donde termina corriendo tu código ya es Linux: servidores en la nube, contenedores Docker, clústeres de Kubernetes, servidores web. Por eso SSH, los gestores de paquetes, las shells y los compiladores se sienten en casa.",
+      "see": "'CAPÍTULO 3' con una terminal '$ whoami · developer' y junto al avatar 'Para developers, la historia cambia.'. Luego la foto de un pasillo de centro de datos con un camino de chips 'tu laptop → CI → contenedor → servidor' y 'YA ES LINUX' enorme en naranja. Después la foto de un rack con cuatro filas que se marcan LINUX: Servidores en la nube, Contenedores Docker, Clústeres de Kubernetes, Servidores web. Al final una terminal con ssh a un servidor Ubuntu y cuatro chips: SSH, Gestores de paquetes, Shells, Compiladores.",
+      "resource": "proceso",
+      "intent": "Que tu código termina corriendo en Linux, y por eso las herramientas de dev viven ahí.",
+      "metaphor": "Un viaje del código desde tu laptop hasta un servidor que ya es Linux.",
+      "alternatives": [
+        "Una tubería que termina en un pingüino",
+        "Un mapa de metro con la última estación Linux"
+      ],
+      "motion": "Un punto viaja por la fila de chips hasta 'servidor' y ahí cae el titular; las filas del rack se marcan una por una; la terminal se escribe y los chips se encienden con la voz."
+    },
+    {
+      "id": "wsl",
+      "say": "Tanto, que Windows agregó WSL, el Subsistema de Windows para Linux: un entorno Linux dentro de Windows. Así de importantes se volvieron sus herramientas.",
+      "see": "Una tarjeta 'Windows 11' en azul y debajo 'WSL' enorme con 'Subsistema de Windows para Linux' y la nota 'Microsoft metió Linux dentro de Windows'. Luego una ventana de Terminal de Windows con una pestaña Ubuntu y uname -a que responde una línea de Linux en WSL, rotulada 'Ejemplo ilustrativo'. Al final, junto al avatar, 'Las herramientas de Linux se volvieron TAN IMPORTANTES' con la nota 'el sistema que perdió en el escritorio es el que Windows tuvo que traer'.",
+      "resource": "captura-anotada",
+      "intent": "Que hasta Microsoft tuvo que meter Linux en Windows.",
+      "metaphor": "Una ventana de Windows con un pingüino viviendo adentro.",
+      "alternatives": [
+        "Una muñeca rusa: Linux dentro de Windows",
+        "Un caballo de Troya al revés"
+      ],
+      "motion": "WSL cae como sello; la terminal se abre desde el centro y se escribe; el titular final entra con peso en 'importantes'."
+    },
+    {
+      "id": "seguridad",
+      "say": "Ahora, la seguridad. Seguro escuchaste que Linux no tiene virus. Falso: a Linux también lo pueden comprometer. Pero sus permisos, sus repositorios, su menor cuota en escritorio y su desarrollo abierto crean otro entorno. Y Windows recibe más malware común, en parte porque hay muchísimas más máquinas con Windows.",
+      "see": "'SEGURIDAD' sola, centrada. Luego junto al avatar una cita '\"Linux no tiene virus\" · lo que se repite en internet' que se tacha, y 'FALSO' enorme en el acento con 'A Linux también lo pueden comprometer'. Después una lista '¿QUÉ CAMBIA?': Modelo de permisos, Repositorios de software, Cuota en escritorio (MENOR), Desarrollo abierto, cada uno con 'DISTINTO' en verde, y 'No más seguro: distinto'. Al final una grilla de cuadritos: muchos azules de Windows y pocos naranjas de Linux, con 'Más atacado: hay muchísimas más máquinas'.",
+      "resource": "comparacion",
+      "intent": "Que Linux no es inmune, solo distinto, y que Windows es más atacado por ser mayoría.",
+      "metaphor": "Un blanco de tiro: el que tiene más casas en el barrio recibe más visitas.",
+      "alternatives": [
+        "Un escudo partido en dos mitades distintas",
+        "Una cerradura distinta, no una puerta blindada"
+      ],
+      "motion": "La cita se tacha con una línea que la cruza; 'FALSO' cae con sello y sacude el cuadro; la lista se enciende fila por fila; los cuadritos se llenan en cascada, muchos azules primero y pocos naranjas al final."
+    },
+    {
+      "id": "cual-mejor",
+      "say": "Entonces, ¿cuál es mejor? Si quieres compatibilidad, juegos, software comercial y algo familiar desde el primer día, Windows es la opción segura. Si quieres control, personalización, herramientas estilo Unix o un sistema liviano a tu medida, Linux es muy tentador.",
+      "see": "'¿ENTONCES CUÁL ES MEJOR?' junto al avatar. Luego dos columnas: 'ELIGE WINDOWS SI' en azul (Máxima compatibilidad, Juegos, Software comercial, Familiar desde el día 1) y 'ELIGE LINUX SI' en naranja (Control, Personalización, Herramientas estilo Unix, Un sistema a tu medida). La columna Windows se enciende fila por fila y cierra con el sello 'la opción segura'; después se atenúa y se enciende la de Linux con el sello 'muy tentador'.",
+      "resource": "comparacion",
+      "intent": "Que cada uno gana para un tipo de usuario distinto.",
+      "metaphor": "Dos columnas de un test: según lo que marques, te toca uno.",
+      "alternatives": [
+        "Una bifurcación en el camino con dos carteles",
+        "Dos menús de restaurante"
+      ],
+      "motion": "Las filas se encienden con la voz, primero en azul y después en naranja; la columna que no habla se atenúa; los sellos caen al final de cada lado. El punto del dial va a POR DEFECTO y luego a CONTROL."
+    },
+    {
+      "id": "principiantes",
+      "say": "Y si recién empiezas, no tienes que lanzarte directo a Arch. Linux Mint o Ubuntu se sienten sorprendentemente normales.",
+      "see": "Una terminal del instalador de Arch con el logo de Arch y opciones de particiones, y junto al avatar 'No tienes que empezar aquí.' con 'aquí' en naranja. Luego dos escritorios recreados de Linux Mint y Ubuntu con un navegador abierto, y 'Sorprendentemente normal.'.",
+      "resource": "comparacion",
+      "intent": "Que para empezar hay distros fáciles.",
+      "metaphor": "La puerta de servicio contra la puerta principal.",
+      "alternatives": [
+        "Una piscina con la parte honda y la parte baja",
+        "Una escalera con el primer escalón marcado"
+      ],
+      "motion": "La terminal de Arch se escribe rápido y se encoge a un lado; los dos escritorios entran en cascada y su navegador se abre."
+    },
+    {
+      "id": "cierre",
+      "say": "Así que Linux contra Windows no es bueno contra malo. Es esto: ¿quieres que el sistema decida por ti, o decidir tú? Comenta cuál eliges: Windows o Linux.",
+      "see": "Una tarjeta 'Windows · BUENO' contra 'Linux · MALO' cuyas palabras se tachan, con 'Dos respuestas a dos preguntas distintas.'. Luego, junto al avatar, 'Es esto.' y la pregunta '¿Quieres que el sistema…' con dos tarjetas: 'decida por ti' en azul y 'te deje decidir' en naranja, que se encienden por turno mientras el punto del dial viaja entre las dos. Al final, las dos tarjetas se vuelven botones 'Comenta WINDOWS' y 'Comenta LINUX', y un dedo toca la del medio, entre las dos.",
+      "resource": "comparacion",
+      "intent": "Que la pregunta real es quién decide, y que el público tome partido en comentarios.",
+      "metaphor": "El dial del video entero, ahora en tus manos.",
+      "alternatives": [
+        "Una moneda en el aire con un logo por cara",
+        "Una urna con dos papeletas"
+      ],
+      "motion": "Las palabras BUENO y MALO se tachan con una línea; las dos tarjetas se encienden por turno con la voz; el punto del dial va de un extremo al otro y se queda en el medio; los botones aparecen con resorte y el dedo hace un toque."
+    }
+  ],
+  "caption": "¿Linux es mejor que Windows? Ninguno gana en todo.\n\nWindows te da compatibilidad, juegos y software comercial desde el primer día, a cambio de que Microsoft decida muchas cosas por ti. Linux te da el control de cada pieza, y casi siempre gratis. El precio: a veces falta una app. O un driver.\n\nPara developers la balanza se inclina, porque casi toda la infraestructura donde corre tu código ya es Linux. Tanto, que Windows trae WSL.\n\nLa pregunta real es otra: ¿quieres que el sistema decida por ti, o decidir tú?\n\nComenta WINDOWS o LINUX y defiende tu bando.\n\n#linux #windows #programacion #developers #wsl",
+  "art": {
+    "direction": "captura-anotada",
+    "dealt": [
+      "captura-anotada"
+    ],
+    "reason": "Réplica parecida: no corre la baraja y se toma la dirección más cercana al referente. Su video es una sucesión de interfaces recreadas (menú Inicio, Windows Update, Administrador de tareas, terminales, Steam) con rótulos y chips encima, sobre un fondo azul noche plano.",
+    "borrowed": [
+      "titular-gigante",
+      "antes-despues"
+    ],
+    "palette": {
+      "bg": "#0B0F14",
+      "ink": "#EEF2F7",
+      "accent": "#8B85FF",
+      "accentInk": "#0B0F14",
+      "surface": "#141A22",
+      "muted": "#7D8794"
+    },
+    "fonts": {
+      "display": "archivo",
+      "text": "geist"
+    },
+    "anchor": {
+      "kind": "logo",
+      "ref": "windows",
+      "source": "Catálogo de assets (selfh.st/icons, CC BY 4.0) junto a Tux (selfh.st/icons, CC BY 4.0): el monitor partido en dos del gancho"
+    },
+    "tab": "linux-vs-windows.md",
+    "cierre": {
+      "tratamiento": "gesto-tocado",
+      "gesto": "comentar",
+      "porque": "El cierre termina con las dos opciones convertidas en botones 'Comenta WINDOWS' y 'Comenta LINUX'; el gesto de comentar las toca, así el CTA es el mismo dial que recorrió el video."
+    }
+  },
+  "gateA": {
+    "approved": true,
+    "date": "2026-11-22",
+    "notes": "Ronda de preguntas con AskUserQuestion. Pedido inicial: \"Quiero copiar ese video con nuestro branding y avatar. Espero poder alcanzar el mismo arte visual sin complicarnos tantos. Espero no perder la claridad. Dame una sugerencia de CTA para disparar más el reel; debe generar debate, polémica o más comentarios.\" Si hace falta una imagen con IA, con su suscripción de Antigravity (agy -p). CTA: \"Elige bando (Recomendado)\" (\"¿Y tú: que el sistema decida o decidir tú? Comenta WINDOWS o LINUX.\"). Imágenes: \"Fotos con agy (Recomendado)\" (unas 5 fotos con agy; interfaces y escritorios recreados en código). Avatar: \"Como Rick (Recomendado)\" (en el gancho, los capítulos, las frases grandes y el cierre; fuera de cuadro en interfaces y listas). Idioma de las interfaces: \"Español (Recomendado)\"."
+  },
+  "gateB": {
+    "approved": false,
+    "date": "2026-11-24",
+    "video": "16ec0b4f37911c68a1f10596a906198c2cb3ebc4d1e5832207ead259fc20f5cd",
+    "notes": "Puerta B con AskUserQuestion: \"¿Lo publico?\". Jeremy: \"Todavía no\". No se publica."
+  },
+  "visualFrozen": {
+    "hash": "64016d4adc14cc78",
+    "date": "2026-11-22"
+  }
+}
