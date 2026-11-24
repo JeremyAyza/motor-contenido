@@ -1,0 +1,32 @@
+Informe del crítico ciego (Sonnet 5.5, tiras + transcripción, sin audio real). Esta pieza no tiene brief: la tesis se juzgó contra el resumen del paso 1 y el texto del post.
+
+Paso 1 (en frío)
+- De qué trata: de cómo cambió el motor técnico de GTA en 13 años (cuadrícula plana de 1997, ciudad 3D que se carga por partes en GTA 3, física en vivo con Euphoria en GTA 4, mundo abierto de tierra, mar y cielo en GTA 5) y de que GTA 6 apuesta por iluminación global con trazado de rayos, en una PS5 normal.
+- Tesis en una frase: el gran salto de GTA 6 es que la luz ya no se falsea, se simula (trazado de rayos que no se puede apagar), y es el siguiente paso de una saga cuyos saltos son técnicos antes que visuales.
+- Me habría ido en: 0:20 si venía solo por noticias de GTA 6. El tramo de 0:08 a 0:42 es historia de la saga con tres cuadros de metáforas bien hechas, pero el "¿Qué cambia ahora?" llega recién a 0:44. Con interés en GTA lo vería hasta 1:16 y probablemente entero, porque la parte de la luz (0:48 a 1:16) es lo mejor del video.
+- Qué haría al final: guardar o enviar. Comentar LUZ o JUEGO solo si ya tuviera opinión.
+- A quién se lo mandaría: a un amigo que habla de GTA 6 en el chat y repite que "se verá igual que el 5". El interruptor "Trazado de rayos" con candado (1:14 a 1:18) y la prueba escondida en GTA 5 de PC (1:16) le dan algo concreto que discutir.
+
+Paso 2 (con el brief)
+- ¿Coincide la tesis? No hay brief que comparar. Mi resumen coincide con lo que dice el texto del post ("cada salto fue técnico antes que visual", "GTA 6 apuesta por la luz"). Una salvedad: la voz nunca dice la frase de que cada salto fue técnico antes que visual. Eso solo se infiere de la lista de eras, y el cierre se va a "gráficos o jugabilidad", que es otra pregunta. No hace que el video no pase.
+
+| Punto | Peso | Puntaje | Por qué |
+|---|---|---|---|
+| Gancho | 15% | 3 | El primer cuadro funciona: "13" enorme con un atardecer de palmeras, "AÑOS DESDE GTA 5" legible sin sonido, y "GTA 6" aparece a 0:06. Pero es un número sin promesa: ni la luz ni lo que vas a aprender aparecen en los primeros 6 s, y "hay que volver al principio" suena a tarea. La portada de la grilla se lee bien, pero no menciona GTA 6 y el subtítulo se corta abajo. |
+| Tesis | 15% | 4 | La tesis de la luz está clara y bien sostenida entre 0:48 y 1:35. Pierde medio punto porque la historia y la luz no se unen con una frase ("cada salto fue técnico primero") y el cierre cambia el tema a gráficos contra jugabilidad. |
+| Valor | 15% | 4 | Quien lo ve entiende de verdad la diferencia entre luz pintada y luz simulada (lámparas ocultas, rayo que rebota en pavimento, ventana y piel) y se lleva el dato de que el trazado de rayos de GTA 5 en PC vendría de GTA 6. Los puntos de GTA 3 y GTA 4 son historia conocida para este público. |
+| Retención | 10% | 3 | Dura 2:03. Hay 40 s de historia (0:08 a 0:48) antes de llegar a lo nuevo. Las escenas cambian cada 3 a 6 s, pero en 1:36 a 1:42 la imagen es una PS5 quieta con etiquetas que van apareciendo, y de 1:25 a 1:35 hay una lista de reflejos y agua que pasa muy rápido. Los 13 s de 1:47 a 2:00 ya repiten la idea del principio. |
+| Compartible | 10% | 4 | Hay momentos sueltos que se entienden sin el resto: el interruptor "Trazado de rayos" con candado, el dato de Digital Foundry y la comparación 1997 contra hoy (1:47). Ninguno se dice en una sola frase corta que se pueda citar, y el dato de Digital Foundry está en letra diminuta. |
+| Cierre y CTA | 10% | 4 | Vuelve al gancho (1997 y 13 años) y pide una sola acción, "Comenta LUZ o JUEGO", con botones que se ven. Pierde un punto porque "gráficos o jugabilidad" serviría para cualquier juego y "JUEGO" no es una postura clara del tema. |
+| Voz y guion | 5% | 4 | La frase de apertura y las comparaciones suenan dichas. Algunas frases son largas para voz: "En cada cuadro, la consola traza luz, anima multitudes y carga Vice City y Leonida justo antes de que llegues" (1:35) y la de GTA 3 (0:19) llevan 3 o 4 ideas cada una. |
+| Legibilidad en el celular | 10% | 4 | Los subtítulos de abajo y los títulos de año son grandes y claros, sin choques. Se pierde lo pequeño: "SEGÚN DIGITAL FOUNDRY" y "ROCKSTAR · MAYO DE 2025" en mono diminuto (1:18 y 1:40), justo donde se apoyan las afirmaciones más fuertes. En los cruces de escena quedan etiquetas semitransparentes encima de la imagen nueva (0:36 "ANIMACIÓN GRABADA", 1:06 "CALLE TEÑIDA DE ROSA", 1:42 "PS5 ESTÁNDAR" y la tarjeta del tráiler), pero duran menos de 1 s. En 1:04 un rayo cruza la cabeza del avatar. |
+| Recurso visual y composición | 10% | 4 | Las metáforas dibujadas funcionan antes de que lo diga la voz: la cuadrícula plana que se vuelve isométrica, los maniquíes de choque para Euphoria, las lámparas ocultas contra los rayos, el interruptor con candado. Faltan dos cosas: casi todo son imágenes generadas, sin una sola toma de juego, y la misma vista aérea se usa para GTA 5 (0:44), para "?" (0:48), para "GTA V Enhanced" (1:18) y para la lupa "GTA 6" (1:24), con lo que no queda claro qué juego estoy viendo. Los reflejos y el agua (1:25 a 1:35) se ven como fotos bonitas, no como luz que se traza. |
+
+Promedio ponderado: 3.75
+
+Tres arreglos, en orden de impacto (con el segundo del video):
+1. Acortar el repaso de 0:08 a 0:48 y adelantar la luz. Hoy llegan 40 s de historia antes del "¿Qué cambia ahora?" de 0:44. Dejar GTA 3 y GTA 4 en una frase cada una (la carga por partes y Euphoria se explican en 0:19 a 0:42 con frases de 3 ideas) para que la luz empiece cerca de 0:25. Con eso el video baja de 2:03 a cerca de 1:45 y sube Retención y Gancho. Sumar en el gancho de 0:00 a 0:06 una promesa de la luz (por ejemplo, que GTA 6 hace algo que ninguno de los anteriores hizo), no solo el número 13.
+2. Sacar de 1:25 a 1:35 la lista de reflejos y agua, o darle una sola imagen que muestre el trazado (un reflejo real en el parabrisas o en la torre) en vez de las fotos de los lentes y la lancha. Quitar también los 6 s de PS5 quieta de 1:36 a 1:42 con una imagen que cambie mientras la voz dice "traza luz, anima multitudes, carga el mundo".
+3. Hacer legible lo que sostiene la afirmación más fuerte: "SEGÚN DIGITAL FOUNDRY" y "ROCKSTAR · MAYO DE 2025" (1:18, 1:40) a un tamaño que se lea en el celular, y dejar de reutilizar la misma vista aérea para GTA 5, GTA V Enhanced y GTA 6 (0:44, 1:18, 1:24): una imagen distinta por juego, o al menos el nombre del juego grande en cada una.
+
+Error grave: no

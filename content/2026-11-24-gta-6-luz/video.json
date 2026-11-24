@@ -1,0 +1,238 @@
+{
+  "$schema": "../../schemas/video.schema.json",
+  "format": "largo",
+  "topic": "Cómo evolucionó el motor de GTA hasta la luz con trazado de rayos de GTA 6",
+  "world": "Una ciudad costera de estilo Miami que cambia de técnica con los años: plana desde arriba en 1997, por bloques en 2001, maniquíes en 2008 y luz real en GTA 6; el hotel rosa es el hilo.",
+  "meter": {
+    "label": "Eras del motor",
+    "from": "0/5",
+    "to": "5/5"
+  },
+  "cover": {
+    "scene": "truco",
+    "at": 1.2
+  },
+  "target": 129,
+  "hooks": [
+    {
+      "said": "13 años. 13 años desde GTA 5.",
+      "onScreen": "13 años desde GTA 5",
+      "formula": 23
+    },
+    {
+      "said": "GTA 6 no se ve distinto por los gráficos. Se ve distinto por la luz.",
+      "onScreen": "GTA 6 cambió la luz",
+      "formula": 29
+    },
+    {
+      "said": "De una cuadrícula vista desde el cielo a luz que rebota de verdad.",
+      "onScreen": "De baldosas a luz real",
+      "formula": 13
+    }
+  ],
+  "scenes": [
+    {
+      "id": "gancho",
+      "say": "13 años. 13 años desde GTA 5, y tres generaciones de consolas. Para entender qué construyó Rockstar para GTA 6, hay que volver al principio.",
+      "see": "Un 13 gigante, blanco con contorno negro y sombra dura, entra con un glitch sobre una foto de una ciudad costera al atardecer con palmeras; sube y deja entrar 'años desde GTA 5'; tres consolas en silueta caen una al lado de la otra; el avatar entra por la izquierda cuando dice 'para entender'.",
+      "resource": "cifra",
+      "intent": "Llevamos 13 años esperando, y para entender el salto de GTA 6 hay que mirar la historia del motor.",
+      "metaphor": "El número de la espera, enorme y de estilo póster de la saga, sobre el atardecer de la ciudad que vamos a recorrer.",
+      "alternatives": [
+        "Un calendario que pasa 13 hojas",
+        "Una barra de carga que tarda 13 años"
+      ],
+      "motion": "El 13 entra con glitch RGB y se asienta con un resorte; se achica hacia arriba y entra el resto del rótulo palabra por palabra; tres siluetas de consola caen con un golpe seco; la foto de fondo se acerca despacio."
+    },
+    {
+      "id": "d1997",
+      "say": "1997. Un estudio chico de Escocia, DMA Design, saca un juego donde la ciudad es una cuadrícula plana de baldosas vista desde el cielo. La cámara no se inclina. Los edificios son solo techos.",
+      "see": "Un mapa cenital dibujado: calles grises con líneas, manzanas de techos rosa y menta, palmeras, playa abajo y autos chiquitos que circulan; rótulo '1997 Grand Theft Auto' arriba a la izquierda; una grilla de baldosas se marca sobre el mapa; la cámara baja hasta llenar el cuadro con el techo rosa.",
+      "resource": "linea-de-tiempo",
+      "intent": "El primer GTA era un mapa plano visto desde arriba: no había altura, solo techos.",
+      "metaphor": "La ciudad como un tablero de baldosas visto desde el cielo, igual que lo veía el juego.",
+      "alternatives": [
+        "Un plano de papel sobre una mesa",
+        "Una captura del juego en un marco"
+      ],
+      "motion": "El año cae con un sello; los autos circulan sin parar; la grilla se dibuja baldosa por baldosa con la palabra 'cuadrícula'; con 'techos' la cámara hace zoom al techo rosa y una flecha de cámara tachada se balancea sin poder inclinarse."
+    },
+    {
+      "id": "d2001",
+      "say": "Cuatro años después, GTA 3 baja la cámara a la calle. La ciudad se vuelve un mundo 3D que se carga por partes mientras manejas, para que la consola nunca guarde toda Liberty City en memoria.",
+      "see": "El mismo mapa se inclina a vista isométrica y los techos crecen hasta ser edificios pastel; rótulo '2001 Grand Theft Auto III'; la manzana queda sobre una grilla de neón y solo las piezas cerca del auto menta aparecen, mientras las de atrás se apagan; una barra 'memoria' que nunca se llena.",
+      "resource": "proceso",
+      "intent": "Desde GTA 3 la ciudad tiene altura, pero la consola solo carga el pedazo que tienes cerca.",
+      "metaphor": "La ciudad que se arma bloque por bloque delante del auto y se desarma detrás.",
+      "alternatives": [
+        "Un rompecabezas que se completa solo donde miras",
+        "Una alfombra que se desenrolla delante del auto"
+      ],
+      "motion": "El mapa rota a isométrico con un resorte y los edificios suben desde el piso; el auto avanza por la grilla; los bloques caen con un pop delante y se desvanecen atrás; la barra de memoria se mantiene baja."
+    },
+    {
+      "id": "d2008",
+      "say": "En 2008, GTA 4 estrena RAGE, el motor propio de Rockstar, con un sistema llamado Euphoria. Se acabaron las animaciones grabadas. Si un auto atropella a alguien, el juego simula su cuerpo en vivo, con músculos virtuales que luchan por no caerse. Ningún tropiezo sale igual.",
+      "see": "Una calle gris de arcilla; rótulo '2008 Grand Theft Auto IV'; tres maniquíes de choque amarillos de pie; 'RAGE' y 'Euphoria' como chips; tres autos menta con tres maniquíes tirados en la misma pose, rotulados 'grabado'; después un maniquí que tropieza contra el capó, rotulado 'simulado en vivo' en el acento.",
+      "resource": "comparacion",
+      "intent": "Antes, cada atropello repetía la misma animación; desde GTA 4, el cuerpo se simula y cada caída es distinta.",
+      "metaphor": "Maniquíes de prueba de choque: tres caídas calcadas contra una que pelea por mantener el equilibrio.",
+      "alternatives": [
+        "Una tira de película que se repite contra un muñeco con resortes",
+        "Un esqueleto con hilos de marioneta que se cortan"
+      ],
+      "motion": "Los chips caen con 'RAGE' y 'Euphoria'; los tres maniquíes caen a la vez en la misma pose con un golpe sincronizado; con 'simula' entra el cuarto, se balancea con un resorte amortiguado y se inclina distinto cada vez."
+    },
+    {
+      "id": "d2013",
+      "say": "GTA 5 lleva ese motor a tierra, mar y cielo, y se vuelve uno de los juegos más vendidos de la historia. ¿Qué cambia ahora?",
+      "see": "Una isla costera vista desde el aire, con rascacielos, montañas verdes y mar turquesa; rótulo '2013 Grand Theft Auto V'; tres chips 'tierra', 'mar' y 'cielo'; una tarjeta 'uno de los más vendidos de la historia'.",
+      "resource": "escala",
+      "intent": "GTA 5 llevó el mismo motor a un mundo enorme y se volvió un éxito histórico; el siguiente salto no es de tamaño.",
+      "metaphor": "La isla entera vista desde el cielo: el mundo ya es grande, falta otra cosa.",
+      "alternatives": [
+        "Un mapa que se agranda tres veces",
+        "Una pila de cajas de juego"
+      ],
+      "motion": "La cámara se aleja desde la isla hasta verla entera; los chips entran con la voz; con '¿qué cambia?' la imagen se oscurece y queda solo un signo de pregunta que late."
+    },
+    {
+      "id": "truco",
+      "say": "La luz. En casi todos los juegos, la luz es en parte un truco: los artistas pintan sombras y brillos de antemano, o esconden lámparas invisibles para imitar el sol que rebota en una pared.",
+      "see": "'LUZ' gigante sobre una calle con una pared rosa al sol y un auto blanco; sobre la pared aparecen trazos de pincel que pintan sombras ('pintado'); después tres focos invisibles marcados con líneas punteadas detrás del auto ('lámparas ocultas'), con flechas finas que fingen el rebote.",
+      "resource": "anatomia",
+      "intent": "La luz de un juego normal es una ilusión armada a mano: sombras pintadas y lámparas escondidas.",
+      "metaphor": "El set de cine detrás de la calle: sombras pintadas con pincel y focos escondidos fuera de cuadro.",
+      "alternatives": [
+        "Una calcomanía de sombra que se despega",
+        "Un decorado de cartón visto de costado"
+      ],
+      "motion": "'LUZ' entra con un destello y se queda arriba; con 'pintan' un pincel recorre la pared y deja una sombra que se ve plana; con 'lámparas' se encienden tres focos punteados con un clic y sus flechas apuntan a la pared."
+    },
+    {
+      "id": "trazado",
+      "say": "GTA 6 se construye sobre iluminación global con trazado de rayos. En vez de fingirla, el motor sigue la luz: rebota en el pavimento, cruza una ventana y llega a la piel de un personaje.",
+      "see": "La misma calle, ahora con la luz real (la foto completa); los focos ocultos se apagan y desaparecen; un rayo de luz sale del sol, rebota en el pavimento con un punto brillante, entra por una ventana y termina en un círculo sobre una mano; tarjeta 'trazado de rayos'.",
+      "resource": "proceso",
+      "intent": "El trazado de rayos no finge la luz: calcula su camino rebote por rebote.",
+      "metaphor": "Un solo rayo que la cámara sigue como si fuera un auto, de rebote en rebote.",
+      "alternatives": [
+        "Una bola de billar que rebota por la escena",
+        "Un mapa de rutas de luz con estaciones"
+      ],
+      "motion": "Los focos punteados se apagan uno por uno; el rayo se dibuja segmento por segmento con cada palabra (pavimento, ventana, piel) y deja un destello en cada rebote; la cámara lo sigue."
+    },
+    {
+      "id": "rebote",
+      "say": "El sol en una pared rosa tiñe de rosa la calle. Entras a un local, y lo ilumina la luz que se cuela por la puerta. No es una opción que se apague: todo el aspecto del juego depende de eso.",
+      "see": "La calle de la pared rosa: el piso se tiñe de rosa con un degradado que crece desde la pared; corte a un café en penumbra con un rectángulo de sol que entra por la puerta y se estira en el piso; un interruptor 'Trazado de rayos' encendido con un candado que se cierra.",
+      "resource": "metafora",
+      "intent": "La luz rebotada cambia el color de todo lo que toca, y en GTA 6 no se puede apagar.",
+      "metaphor": "El color que se contagia de la pared a la calle, y un interruptor con candado.",
+      "alternatives": [
+        "Un balde de pintura que se derrama de la pared al piso",
+        "Un menú de opciones gráficas con la opción gris"
+      ],
+      "motion": "El tinte rosa se extiende por el piso desde la pared; la cámara entra por la puerta del café; el rectángulo de sol se alarga; el interruptor intenta apagarse, rebota y el candado cae con un golpe."
+    },
+    {
+      "id": "prueba",
+      "say": "Según Digital Foundry, el trazado de rayos que recibió GTA 5 en PC en 2025 probablemente venía de GTA 6. Una prueba escondida en el juego viejo.",
+      "see": "La isla de GTA 5 otra vez, con la tarjeta 'GTA V Enhanced, PC, 2025' y la fuente 'Según Digital Foundry'; una lupa recorre la isla y revela debajo un rayo de luz con la etiqueta 'GTA 6'.",
+      "resource": "captura-anotada",
+      "intent": "La técnica de GTA 6 ya se probó, en silencio, dentro de GTA 5.",
+      "metaphor": "Una lupa que encuentra la pieza nueva escondida dentro del juego viejo.",
+      "alternatives": [
+        "Una caja dentro de otra caja",
+        "Un sello de 'prueba' sobre la portada vieja"
+      ],
+      "motion": "La tarjeta cae con un sello; la lupa entra con 'probablemente' y recorre la isla; con 'prueba escondida' aparece el rayo bajo la lupa y una etiqueta salta."
+    },
+    {
+      "id": "reflejos",
+      "say": "Los reflejos también se trazan: parabrisas, torres de vidrio, hasta unos lentes de sol, con trucos más baratos donde ahorran rendimiento. Y el agua se abre alrededor de las lanchas y cambia de claridad con la profundidad.",
+      "see": "Unos lentes de sol sobre una mesa que reflejan una calle con palmeras; la lista 'parabrisas, torres de vidrio, lentes' se arma arriba; después una lancha cruza agua turquesa vista desde arriba, con su estela, y el agua pasa de clara a profunda.",
+      "resource": "artefacto",
+      "intent": "Los reflejos y el agua también se calculan, pero mezclados con atajos para que rinda.",
+      "metaphor": "Los lentes de sol como espejo de la ciudad, y el agua como un vidrio de colores según la profundidad.",
+      "alternatives": [
+        "Un charco que refleja la calle",
+        "Una torre de vidrio que refleja el cielo"
+      ],
+      "motion": "Los ítems de la lista entran uno por uno con cada palabra; en los lentes, un brillo cruza el reflejo; la lancha avanza y la estela se abre; una regla de profundidad baja por el agua mientras el color se oscurece."
+    },
+    {
+      "id": "ps5",
+      "say": "Todo eso corre en una PlayStation 5 normal. Rockstar confirmó que su segundo tráiler se grabó dentro del juego, en una. En cada cuadro, la consola traza luz, anima multitudes y carga Vice City y Leonida justo antes de que llegues.",
+      "see": "Una PS5 estándar enorme sobre fondo oscuro con el avatar a su lado; una tarjeta 'Tráiler 2: grabado en el juego en una PS5 · Rockstar, mayo de 2025'; después el hotel rosa con un auto menta, y una lista de tres viñetas de color: 'traza luz', 'anima multitudes', 'carga el mundo'.",
+      "resource": "escala",
+      "intent": "Todo lo anterior tiene que caber en cada cuadro de una consola común.",
+      "metaphor": "La consola sola, enorme, cargando con toda la ciudad, y la lista de tareas que hace en cada cuadro.",
+      "alternatives": [
+        "Una consola que levanta pesas",
+        "Un reloj de cuadros por segundo que se llena"
+      ],
+      "motion": "La consola sube desde abajo con un golpe grave; el avatar entra por la izquierda; la tarjeta cae con un sello; la cámara pasa al hotel; las tres viñetas se marcan con cada verbo."
+    },
+    {
+      "id": "cierre",
+      "say": "En 1997, la ciudad era una cuadrícula plana vista desde arriba. Hoy, 13 años después de GTA 5, se ilumina simulando la luz real. Y tú, ¿qué pesa más en un juego: los gráficos o la jugabilidad? Comenta LUZ o JUEGO.",
+      "see": "Vuelve el mapa cenital de 1997 con su rótulo; corte al hotel rosa iluminado con el rótulo 'Hoy'; al final, dos botones grandes, 'LUZ' y 'JUEGO', con el gesto de comentar entre los dos y el avatar.",
+      "resource": "comparacion",
+      "intent": "Del tablero plano a la luz simulada; y la pregunta abierta para el público.",
+      "metaphor": "La misma esquina en sus dos extremos: techo plano y hotel iluminado, y una votación de dos botones.",
+      "alternatives": [
+        "Una pantalla partida 1997 contra hoy",
+        "Una balanza con 'gráficos' y 'jugabilidad'"
+      ],
+      "motion": "El mapa de 1997 vuelve con un barrido; con 'hoy' corta al hotel con un destello; los dos botones caen con un resorte y el gesto de comentar late entre ellos."
+    }
+  ],
+  "caption": "Trece años desde GTA 5. Me puse a mirar cómo cambió el motor de la saga, y cada salto fue técnico antes que visual.\n\n1997: la ciudad era una cuadrícula plana vista desde arriba. Los edificios eran solo techos.\n2001: GTA 3 baja la cámara a la calle y carga la ciudad por partes, para que quepa en la memoria de la consola.\n2008: GTA 4 estrena RAGE y Euphoria. Los cuerpos se simulan en vivo y ningún tropiezo sale igual.\n2013: GTA 5 lleva ese motor a tierra, mar y cielo.\n\nY GTA 6 apuesta por la luz: iluminación global con trazado de rayos, que no se puede apagar, en una PS5 estándar. Según Digital Foundry, el trazado de rayos que recibió GTA 5 en PC en 2025 probablemente venía de ahí.\n\nYo me quedo con la luz, pero sé que muchos no. ¿Qué pesa más en un juego: los gráficos o la jugabilidad? Comenta LUZ o JUEGO.\n\n#gta6 #raytracing #videojuegos #gamedev #programacion",
+  "art": {
+    "direction": "titular-gigante",
+    "dealt": [
+      "titular-gigante"
+    ],
+    "reason": "Réplica parecida: no corre la baraja y se toma la dirección más cercana a Rick. Su video es una línea de tiempo con años enormes de contorno negro, palabras sueltas gigantes ('LIGHT') e imágenes a pantalla completa de la ciudad.",
+    "borrowed": [
+      "antes-despues",
+      "captura-anotada"
+    ],
+    "palette": {
+      "bg": "#1D1E23",
+      "ink": "#FFF8F2",
+      "accent": "#8B85FF",
+      "accentInk": "#1D1E23",
+      "surface": "#2A2C31",
+      "muted": "#A9A3A8"
+    },
+    "fonts": {
+      "display": "archivo",
+      "text": "geist"
+    },
+    "anchor": {
+      "kind": "imagen",
+      "ref": "img/hotel-rosa.png",
+      "source": "Generada con agy (Antigravity, modelo de imagen de Gemini) con la suscripción de Jeremy; sin logos ni capturas del juego"
+    },
+    "tab": "gta-6-luz.md",
+    "cierre": {
+      "tratamiento": "gesto-en-el-recurso",
+      "gesto": "comentar",
+      "porque": "El CTA es una votación de dos botones, LUZ y JUEGO, como un menú de juego; el gesto de comentar va entre los dos para que la respuesta sea una sola palabra."
+    }
+  },
+  "gateA": {
+    "approved": true,
+    "date": "2026-11-24",
+    "notes": "Ronda de preguntas con AskUserQuestion. Pedido inicial: \"Quiero copiar ese video con nuestro branding y avatar. Espero poder alcanzar el mismo arte visual sin complicarnos tanto. Espero no perder la claridad. Dame una sugerencia de CTA para disparar más el reel; debe generar debate, polémica o más comentarios.\" Si hace falta una imagen con IA, con su suscripción de Antigravity (agy -p). Video: \"Sí, el de GTA 6 (Recomendada)\" (reel (8); el reel (7) ya estaba replicado en 2026-11-24-agentes-aman-linux). Aspecto: \"Híbrido con imágenes IA (Recomendada)\": la ciudad de 1997 y la isométrica de 2001 en código, las escenas realistas de luz con imágenes generadas con agy y rayos animados encima. CTA: \"¿Luz o jugabilidad? (Recomendada)\": \"¿Qué pesa más en un juego: los gráficos o la jugabilidad? Comenta LUZ o JUEGO.\" Lanzamiento: \"Sin fecha (Recomendada)\": el guion habla de cómo está hecho GTA 6, no de si ya salió."
+  },
+  "gateB": {
+    "approved": false
+  },
+  "visualFrozen": {
+    "hash": "0007e85931ff6a29",
+    "date": "2026-11-24"
+  }
+}
